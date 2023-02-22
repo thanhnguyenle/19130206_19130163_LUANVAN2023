@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "NTPOS_MOBILE_TABLET.app"
-               BlueprintName = "NTPOS_MOBILE_TABLET"
-               ReferencedContainer = "container:NTPOS_MOBILE_TABLET.xcodeproj">
+               BuildableName = "ntpos_mobile_tablet.app"
+               BlueprintName = "ntpos_mobile_tablet"
+               ReferencedContainer = "container:ntpos_mobile_tablet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "NTPOS_MOBILE_TABLETTests.xctest"
-               BlueprintName = "NTPOS_MOBILE_TABLETTests"
-               ReferencedContainer = "container:NTPOS_MOBILE_TABLET.xcodeproj">
+               BuildableName = "ntpos_mobile_tabletTests.xctest"
+               BlueprintName = "ntpos_mobile_tabletTests"
+               ReferencedContainer = "container:ntpos_mobile_tablet.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "NTPOS_MOBILE_TABLET.app"
-            BlueprintName = "NTPOS_MOBILE_TABLET"
-            ReferencedContainer = "container:NTPOS_MOBILE_TABLET.xcodeproj">
+            BuildableName = "ntpos_mobile_tablet.app"
+            BlueprintName = "ntpos_mobile_tablet"
+            ReferencedContainer = "container:ntpos_mobile_tablet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "NTPOS_MOBILE_TABLET.app"
-            BlueprintName = "NTPOS_MOBILE_TABLET"
-            ReferencedContainer = "container:NTPOS_MOBILE_TABLET.xcodeproj">
+            BuildableName = "ntpos_mobile_tablet.app"
+            BlueprintName = "ntpos_mobile_tablet"
+            ReferencedContainer = "container:ntpos_mobile_tablet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

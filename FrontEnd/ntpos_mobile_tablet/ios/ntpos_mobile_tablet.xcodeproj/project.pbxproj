@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-NTPOS_MOBILE_TABLET.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-NTPOS_MOBILE_TABLET.a */; };
+		00E356F31AD99517003FC87E /* ntpos_mobile_tabletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ntpos_mobile_tabletTests.m */; };
+		0C80B921A6F3F58F76C31292 /* libPods-ntpos_mobile_tablet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-ntpos_mobile_tablet.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a */; };
+		7699B88040F8A987B510C191 /* libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -22,27 +22,27 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = NTPOS_MOBILE_TABLET;
+			remoteInfo = ntpos_mobile_tablet;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NTPOS_MOBILE_TABLETTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* ntpos_mobile_tabletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ntpos_mobile_tabletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTPOS_MOBILE_TABLETTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* NTPOS_MOBILE_TABLET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NTPOS_MOBILE_TABLET.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NTPOS_MOBILE_TABLET/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NTPOS_MOBILE_TABLET/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NTPOS_MOBILE_TABLET/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NTPOS_MOBILE_TABLET/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NTPOS_MOBILE_TABLET/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B4392A12AC88292D35C810B /* Pods-NTPOS_MOBILE_TABLET.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NTPOS_MOBILE_TABLET.debug.xcconfig"; path = "Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-NTPOS_MOBILE_TABLET.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NTPOS_MOBILE_TABLET.release.xcconfig"; path = "Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.debug.xcconfig"; path = "Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-NTPOS_MOBILE_TABLET.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NTPOS_MOBILE_TABLET.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NTPOS_MOBILE_TABLET/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.release.xcconfig"; path = "Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.release.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* ntpos_mobile_tabletTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ntpos_mobile_tabletTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* ntpos_mobile_tablet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ntpos_mobile_tablet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ntpos_mobile_tablet/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ntpos_mobile_tablet/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ntpos_mobile_tablet/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ntpos_mobile_tablet/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ntpos_mobile_tablet/main.m; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4392A12AC88292D35C810B /* Pods-ntpos_mobile_tablet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ntpos_mobile_tablet.debug.xcconfig"; path = "Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-ntpos_mobile_tablet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ntpos_mobile_tablet.release.xcconfig"; path = "Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.debug.xcconfig"; path = "Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-ntpos_mobile_tablet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ntpos_mobile_tablet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ntpos_mobile_tablet/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.release.xcconfig"; path = "Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,20 +59,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-NTPOS_MOBILE_TABLET.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-ntpos_mobile_tablet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests */ = {
+		00E356EF1AD99517003FC87E /* ntpos_mobile_tabletTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.m */,
+				00E356F21AD99517003FC87E /* ntpos_mobile_tabletTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = NTPOS_MOBILE_TABLETTests;
+			path = ntpos_mobile_tabletTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -83,7 +83,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* NTPOS_MOBILE_TABLET */ = {
+		13B07FAE1A68108700A75B9A /* ntpos_mobile_tablet */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -93,15 +93,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = NTPOS_MOBILE_TABLET;
+			name = ntpos_mobile_tablet;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-NTPOS_MOBILE_TABLET.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-ntpos_mobile_tablet.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,9 +116,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* NTPOS_MOBILE_TABLET */,
+				13B07FAE1A68108700A75B9A /* ntpos_mobile_tablet */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests */,
+				00E356EF1AD99517003FC87E /* ntpos_mobile_tabletTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -131,8 +131,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* NTPOS_MOBILE_TABLET.app */,
-				00E356EE1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.xctest */,
+				13B07F961A680F5B00A75B9A /* ntpos_mobile_tablet.app */,
+				00E356EE1AD99517003FC87E /* ntpos_mobile_tabletTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,10 +140,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-NTPOS_MOBILE_TABLET.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-NTPOS_MOBILE_TABLET.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-ntpos_mobile_tablet.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-ntpos_mobile_tablet.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -151,9 +151,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests */ = {
+		00E356ED1AD99517003FC87E /* ntpos_mobile_tabletTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NTPOS_MOBILE_TABLETTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ntpos_mobile_tabletTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -167,14 +167,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = NTPOS_MOBILE_TABLETTests;
-			productName = NTPOS_MOBILE_TABLETTests;
-			productReference = 00E356EE1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.xctest */;
+			name = ntpos_mobile_tabletTests;
+			productName = ntpos_mobile_tabletTests;
+			productReference = 00E356EE1AD99517003FC87E /* ntpos_mobile_tabletTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* NTPOS_MOBILE_TABLET */ = {
+		13B07F861A680F5B00A75B9A /* ntpos_mobile_tablet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NTPOS_MOBILE_TABLET" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ntpos_mobile_tablet" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -189,9 +189,9 @@
 			);
 			dependencies = (
 			);
-			name = NTPOS_MOBILE_TABLET;
-			productName = NTPOS_MOBILE_TABLET;
-			productReference = 13B07F961A680F5B00A75B9A /* NTPOS_MOBILE_TABLET.app */;
+			name = ntpos_mobile_tablet;
+			productName = ntpos_mobile_tablet;
+			productReference = 13B07F961A680F5B00A75B9A /* ntpos_mobile_tablet.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "NTPOS_MOBILE_TABLET" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ntpos_mobile_tablet" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -224,8 +224,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* NTPOS_MOBILE_TABLET */,
-				00E356ED1AD99517003FC87E /* NTPOS_MOBILE_TABLETTests */,
+				13B07F861A680F5B00A75B9A /* ntpos_mobile_tablet */,
+				00E356ED1AD99517003FC87E /* ntpos_mobile_tabletTests */,
 			);
 		};
 /* End PBXProject section */
@@ -272,15 +272,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -298,7 +298,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -320,7 +320,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NTPOS_MOBILE_TABLET-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ntpos_mobile_tablet-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -333,15 +333,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -350,15 +350,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET/Pods-NTPOS_MOBILE_TABLET-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet/Pods-ntpos_mobile_tablet-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -367,15 +367,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests/Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests/Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -404,7 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* NTPOS_MOBILE_TABLETTests.m in Sources */,
+				00E356F31AD99517003FC87E /* ntpos_mobile_tabletTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +422,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* NTPOS_MOBILE_TABLET */;
+			target = 13B07F861A680F5B00A75B9A /* ntpos_mobile_tablet */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -430,14 +430,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = NTPOS_MOBILE_TABLETTests/Info.plist;
+				INFOPLIST_FILE = ntpos_mobile_tabletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -451,17 +451,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NTPOS_MOBILE_TABLET.app/NTPOS_MOBILE_TABLET";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ntpos_mobile_tablet.app/ntpos_mobile_tablet";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-NTPOS_MOBILE_TABLET-NTPOS_MOBILE_TABLETTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-ntpos_mobile_tablet-ntpos_mobile_tabletTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = NTPOS_MOBILE_TABLETTests/Info.plist;
+				INFOPLIST_FILE = ntpos_mobile_tabletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -475,19 +475,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NTPOS_MOBILE_TABLET.app/NTPOS_MOBILE_TABLET";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ntpos_mobile_tablet.app/ntpos_mobile_tablet";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-NTPOS_MOBILE_TABLET.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-ntpos_mobile_tablet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = NTPOS_MOBILE_TABLET/Info.plist;
+				INFOPLIST_FILE = ntpos_mobile_tablet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -499,7 +499,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = NTPOS_MOBILE_TABLET;
+				PRODUCT_NAME = ntpos_mobile_tablet;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -508,12 +508,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-NTPOS_MOBILE_TABLET.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-ntpos_mobile_tablet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = NTPOS_MOBILE_TABLET/Info.plist;
+				INFOPLIST_FILE = ntpos_mobile_tablet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,7 +525,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = NTPOS_MOBILE_TABLET;
+				PRODUCT_NAME = ntpos_mobile_tablet;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -669,7 +669,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NTPOS_MOBILE_TABLETTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ntpos_mobile_tabletTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -678,7 +678,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NTPOS_MOBILE_TABLET" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ntpos_mobile_tablet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -687,7 +687,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "NTPOS_MOBILE_TABLET" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ntpos_mobile_tablet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

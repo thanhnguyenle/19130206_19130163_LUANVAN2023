@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "NTPOS_MOBILE_TABLET";
+    return "ntpos_mobile_tablet";
   }
 
   /**
