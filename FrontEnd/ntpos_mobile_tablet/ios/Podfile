@@ -21,7 +21,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'NTPOS_MOBILE_TABLET' do
+target 'ntpos_mobile_tablet' do
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -43,7 +43,7 @@ target 'NTPOS_MOBILE_TABLET' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'NTPOS_MOBILE_TABLETTests' do
+  target 'ntpos_mobile_tabletTests' do
     inherit! :complete
     # Pods for testing
   end

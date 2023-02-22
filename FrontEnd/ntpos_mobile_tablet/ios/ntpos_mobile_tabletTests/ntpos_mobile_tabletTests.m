@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface NTPOS_MOBILE_TABLETTests : XCTestCase
+@interface ntpos_mobile_tabletTests : XCTestCase
 
 @end
 
-@implementation NTPOS_MOBILE_TABLETTests
+@implementation ntpos_mobile_tabletTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
