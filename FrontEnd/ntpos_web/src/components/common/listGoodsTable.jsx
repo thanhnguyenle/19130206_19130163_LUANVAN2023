@@ -1,7 +1,7 @@
 import React  from "react";
 import { MDBDatatable } from 'mdb-react-ui-kit';
 import {useTranslation} from "react-i18next";
-export default function ListGoodsTable(){
+export default function ListGoodsTable(props){
     const {t} = useTranslation();
     const basicData = {
         columns: [t('image'),t('goods_name'), t('commodity_codes'),t('type_of_menu'), t('price'), t('capital_value')],
@@ -22,12 +22,22 @@ export default function ListGoodsTable(){
             ['Haley Kennedy', 'Senior Marketing Designer', 'London', '43', '2012/12/18', '$313,500'],
         ],
     };
-    return(
-        <MDBDatatable
-            multi
-           selectable
-            maxHeight='480px'
-            maxWidth='97%'
-           data={basicData} />
-    );
+    if(props.page === 'category'){
+        return(
+            <MDBDatatable
+                multi
+                selectable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }else if(props.page === 'priceSetting'){
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+
 }

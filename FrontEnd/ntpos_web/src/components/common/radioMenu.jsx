@@ -13,7 +13,7 @@ export default function RadioMenu(props) {
             <div className='box radioMenu'>
                 <div className="row">
                     <h6 className='col-10'>{t(props.type)}</h6>
-                    <a className='col-2' href="#" onClick={() => {
+                    <a className='col-2' onClick={() => {
                         setShow(!show);
                     }}>
                         <div className='bg'>
@@ -40,12 +40,13 @@ export default function RadioMenu(props) {
                 </div>
             </div>
         );
-    }else{
+    }
+    else if(props.type === 'display_selection'){
         return(
             <div className='box radioMenu'>
                 <div className="row">
                     <h6 className='col-10'>{t(props.type)}</h6>
-                    <a className='col-2' href="#" onClick={() => {
+                    <a className='col-2' onClick={() => {
                         setShow(!show);
                     }}>
                         <div className='bg'>
