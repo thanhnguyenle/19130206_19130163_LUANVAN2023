@@ -1,0 +1,67 @@
+@media (min-width: 1400px) {
+  main,
+  header,
+  #main-navbar,
+  #message-input {
+    padding-left: 240px;
+  }
+  .collapseSidebar1{
+    padding-left: 80px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .inner-content {
+    padding-left: 240px;
+  }
+}
+
+ul.navbar-nav.w-100 {
+  width: auto !important;
+}
+
+.table > thead > tr > th {
+  border-bottom-width: 2px;
+}
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: inherit;
+}
+input[type="checkbox"]:checked {
+  accent-color: rgba(13, 153, 73, 0.67);
+}
+input[type="radio"]:checked {
+  accent-color: rgba(13, 153, 73, 0.67);
+}
+
+body {
+  background-color: rgba(193, 193, 193, 0.2) !important;
+}
+
+main {
+  margin-top: 58px;
+}
+
+.file-upload-wrapper {
+  max-width: 300px !important;
+}
+
+
+section.inner-sidenav > div {
+  z-index: 999 !important;
+}
+.box{
+  padding: 20px;
+  background:white;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 8%);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.sidenav-collapse .sidenav-link {
+  padding-left: 2rem !important;
+}
+.sidenav-link {
+  padding: 1rem 1rem;
+}
+a{
+  text-decoration: none !important;
+}
