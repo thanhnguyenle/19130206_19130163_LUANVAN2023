@@ -17,7 +17,7 @@ const SplashScreen = ({navigation}) => {
       AsyncStorage.getItem('user_id').then(value =>
         navigation.replace(value === null ? 'Auth' : 'DrawerNavigationRoutes'),
       );
-    }, 5000);
+    }, 3000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

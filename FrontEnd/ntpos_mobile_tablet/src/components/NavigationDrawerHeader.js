@@ -3,7 +3,8 @@
 
 // Import React and Component
 import React from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 const NavigationDrawerHeader = props => {
   const toggleDrawer = () => {
@@ -11,14 +12,9 @@ const NavigationDrawerHeader = props => {
   };
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={toggleDrawer}>
-        <Image
-          source={{
-            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
-          }}
-          style={{width: 25, height: 25, marginLeft: 5}}
-        />
+        <Feather name="menu" size={25} color={props.color} style={{ paddingLeft: 10 }} />
       </TouchableOpacity>
     </View>
   );

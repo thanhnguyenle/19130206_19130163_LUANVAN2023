@@ -3,33 +3,31 @@
 
 // Import React
 import React from 'react';
-
 // Import Navigators from React Navigation
-import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 // Import Screens
-import HomeScreen from '../views/home';
+import OptionType from '../views/OptionType';
 import SettingsScreen from '../views/SettingScreen';
 import CustomSidebarMenu from '../components/CustomSidebarMenu';
 import NavigationDrawerHeader from '../components/NavigationDrawerHeader';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
-const homeScreenStack = ({navigation}) => {
+import { COLORS } from '../constants/common';
+const optionTypeScreenStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="OptionType"
+        component={OptionType}
         options={{
-          title: 'Home', //Set Header Title
+          title: 'Chế độ', //Set Header Title
           headerLeft: () => (
-            <NavigationDrawerHeader navigationProps={navigation} />
+            <NavigationDrawerHeader navigationProps={navigation} color='white' />
           ),
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: COLORS.darkGreen, //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -41,13 +39,13 @@ const homeScreenStack = ({navigation}) => {
   );
 };
 
-const settingScreenStack = ({navigation}) => {
+const settingScreenStack = ({ navigation }) => {
   return (
     <Stack.Navigator
       initialRouteName="SettingsScreen"
       screenOptions={{
         headerLeft: () => (
-          <NavigationDrawerHeader navigationProps={navigation} />
+          <NavigationDrawerHeader navigationProps={navigation} color='white' />
         ),
         headerStyle: {
           backgroundColor: '#307ecc', //Set Header color
@@ -64,35 +62,38 @@ const settingScreenStack = ({navigation}) => {
           title: 'Settings', //Set Header Title
         }}
       />
-    </Stack.Navigator>
+    </Stack.Navigator >
   );
 };
 
 const DrawerNavigatorRoutes = props => {
   return (
     <Drawer.Navigator
-      drawerContentOptions={{
-        activeTintColor: '#cee1f2',
-        color: '#cee1f2',
-        itemStyle: {marginVertical: 5, color: 'white'},
-        labelStyle: {
-          color: '#d8d8d8',
-        },
+      screenOptions={{
+        drawerActiveBackgroundColor: COLORS.color_grey_seconds,
+        headerShown: false,
+        drawerLabelStyle: {
+          color: COLORS.darkGreen,
+          fontFamily: 'Roboto-Medium',
+          fontSize: 15,
+          fontWeight: 400,
+        }
       }}
-      screenOptions={{headerShown: false}}
-      drawerContent={CustomSidebarMenu}>
+      drawerContent={CustomSidebarMenu}
+    >
       <Drawer.Screen
-        name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
-        component={homeScreenStack}
+        name="optionTypeScreenStack"
+        options={{
+          drawerLabel: 'Chế độ',
+        }}
+        component={optionTypeScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{ drawerLabel: 'Cài đặt' }}
         component={settingScreenStack}
       />
     </Drawer.Navigator>
   );
 };
-
 export default DrawerNavigatorRoutes;

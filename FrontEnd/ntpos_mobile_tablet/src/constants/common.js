@@ -9,4 +9,8 @@ export const COLORS = {
   color_yellow: '#FFFF00',
   color_blue: '#0000FF',
   color_purple: '#800080',
+  darkGreen: '#006A42',
+  color_grey_seconds: 'rgb(220,220,220)',
+  color_primary_second: '#FFFFFF',
+  color_star: '#FFE100'
 };

@@ -3,6 +3,11 @@ import { MDBDatatable } from 'mdb-react-ui-kit';
 import {useTranslation} from "react-i18next";
 export default function ListGoodsTable(props){
     const {t} = useTranslation();
+    const listPage=[
+        {page:'category',apiUrl:''},
+        {page:'priceSetting',apiUrl:''},
+        {page:'inventoryControl',apiUrl:''},
+    ]
     const basicData = {
         columns: [t('image'),t('goods_name'), t('commodity_codes'),t('type_of_menu'), t('price'), t('capital_value')],
         rows: [
@@ -32,6 +37,14 @@ export default function ListGoodsTable(props){
                 data={basicData} />
         );
     }else if(props.page === 'priceSetting'){
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if(props.page === 'inventoryControl'){
         return (
             <MDBDatatable
                 maxHeight='480px'

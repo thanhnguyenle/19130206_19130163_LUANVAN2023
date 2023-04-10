@@ -7,6 +7,7 @@ export default function GroupButton(props){
     const listPage=[
         {page:'category',apiUrl:''},
         {page:'priceSetting',apiUrl:''},
+        {page:'inventoryControl',apiUrl:''},
     ]
     const {t} = useTranslation();
     const [showFilter, setShowFilter] = useState(false);
@@ -83,6 +84,12 @@ export default function GroupButton(props){
     else if(props.page === 'inventoryControl'){
         return (
             <div className="groupBtn">
+                <MDBBtn className='btn-inventory'  color='success'>
+                    <>
+                        <MDBIcon fas icon="add" />
+                        <span>{t("inventory_control")}</span>
+                    </>
+                </MDBBtn>
                 <MDBBtn className='btn-export'  color='success'>
                     <>
                         <MDBIcon fas icon="file-export" />
