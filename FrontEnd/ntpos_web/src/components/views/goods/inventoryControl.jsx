@@ -23,7 +23,7 @@ export default function InventoryControlPage(){
                     <GroupButton page= 'inventoryControl'/>
                 </div>
                 <div className="center content">
-                    {/*<ListGoodsTable/>*/}
+                    <ListGoodsTable page={'inventoryControl'}/>
                 </div>
             </div>
         </div>

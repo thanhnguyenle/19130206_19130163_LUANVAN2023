@@ -3,7 +3,7 @@
 
 // Import React and Component
 import React from 'react';
-import {View, Text, Alert, StyleSheet} from 'react-native';
+import { View, Text, Alert, StyleSheet } from 'react-native';
 
 import {
   DrawerContentScrollView,
@@ -12,25 +12,28 @@ import {
 } from '@react-navigation/drawer';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {COLORS} from '../constants/common';
+import { COLORS } from '../constants/common';
 
-const CustomSidebarMenu = props => {
+const CustomSidebarMenu = (props) => {
   return (
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{fontSize: 25, color: COLORS.color_primary}}>
-            {'NGUYEN LE THANH'.charAt(0)}
+          <Text style={{ fontSize: 25, color: COLORS.color_white }}>
+            {(props.user != null) ? props.user.name.charAt(0) : 'K'}
           </Text>
         </View>
-        <Text style={stylesSidebar.profileHeaderText}>NGUYEN LE THANH</Text>
+        <View style={{ justifyContent: 'center' }}>
+          <Text style={stylesSidebar.profileHeaderText}>{(props.user != null) ? props.user.name : 'Tài khoản khách'}</Text>
+          <Text style={{ color: COLORS.darkGreen, paddingHorizontal: 10, }}>Chức vụ: {(props.user != null) ? props.user.position : 'Chưa có'}</Text>
+        </View>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
 
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         <DrawerItem
-          label={({color}) => <Text style={{color: '#d8d8d8'}}>Logout</Text>}
+          label={({ color }) => <Text style={stylesSidebar.drawrItem}>Đăng xuất</Text>}
           onPress={() => {
             props.navigation.toggleDrawer();
             Alert.alert(
@@ -51,12 +54,12 @@ const CustomSidebarMenu = props => {
                   },
                 },
               ],
-              {cancelable: false},
+              { cancelable: false },
             );
           }}
         />
       </DrawerContentScrollView>
-    </View>
+    </View >
   );
 };
 
@@ -64,33 +67,37 @@ export default CustomSidebarMenu;
 
 const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: COLORS.color_primary,
-    paddingTop: 40,
+    flex: 1,
+    backgroundColor: COLORS.color_white,
     color: 'white',
   },
   profileHeader: {
     flexDirection: 'row',
-    backgroundColor: COLORS.color_primary,
-    padding: 15,
+    backgroundColor: COLORS.color_white,
+    paddingTop: 30,
+    paddingBottom: 15,
     textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 1,
+    paddingRight: 15,
   },
   profileHeaderPicCircle: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 60 / 2,
     color: 'white',
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.darkGreen,
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
   profileHeaderText: {
-    color: 'white',
+    color: COLORS.darkGreen,
     alignSelf: 'center',
     paddingHorizontal: 10,
     fontWeight: 'bold',
+    fontSize: 18,
   },
   profileHeaderLine: {
     height: 1,
@@ -98,4 +105,7 @@ const stylesSidebar = StyleSheet.create({
     backgroundColor: '#e2e2e2',
     marginTop: 15,
   },
+  drawrItem: {
+    color: '#737373',
+  }
 });
