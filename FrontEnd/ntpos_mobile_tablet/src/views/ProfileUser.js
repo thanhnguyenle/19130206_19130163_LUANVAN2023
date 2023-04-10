@@ -29,15 +29,15 @@ const ProfileUser = ({ navigation }) => {
             </View>
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name='map-marker-radius' size={20} />
+                    <Icon name='map-marker-radius' size={20} color='grey' />
                     <Text style={{ color: '#777777', marginLeft: 20 }}>11/13 Trần Đại Nghĩa</Text>
                 </View>
                 <View style={styles.row}>
-                    <Icon name='phone' size={20} />
+                    <Icon name='phone' size={20} color='grey' />
                     <Text style={{ color: '#777777', marginLeft: 20 }}>0365448301</Text>
                 </View>
                 <View style={styles.row}>
-                    <Icon name='email' size={20} />
+                    <Icon name='email' size={20} color='grey' />
                     <Text style={{ color: '#777777', marginLeft: 20 }}>19130163@st.hcmuaf.edu.vn</Text>
                 </View>
             </View>
