@@ -91,32 +91,6 @@ const RegisterScreen = ({ navigation }) => {
     }
     formBody = formBody.join('&');
     console.log('register success!');
-    // fetch('http://localhost:3000/api/user/register', {
-    //   method: 'POST',
-    //   body: formBody,
-    //   headers: {
-    //     //Header Defination
-    //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    //   },
-    // })
-    //   .then(response => response.json())
-    //   .then(responseJson => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.log(responseJson);
-    //     // If server response message same as Data Matched
-    //     if (responseJson.status === 'success') {
-    //       setIsRegistraionSuccess(true);
-    //       console.log('Registration Successful. Please Login to proceed');
-    //     } else {
-    //       setErrortext(responseJson.msg);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.error(error);
-    //   });
   };
 
   return (
@@ -125,32 +99,29 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ alignItems: 'center', width: widthScreen }}>
             <Text style={styles.title}>
-              Signup
+              NTPOS
             </Text>
             <View style={styles.bodyMain}>
-              <Text style={{ fontSize: 40, color: COLORS.darkGreen, fontWeight: 'bold', marginBottom: 10 }}>
-                Welcome Back
-              </Text>
-              <Text style={{ fontSize: 19, color: COLORS.color_grey, fontWeight: 'bold', marginBottom: 20 }}>
-                Create your new account
+              <Text style={{ fontSize: 40, color: COLORS.darkGreen, fontWeight: 'bold', marginBottom: 20 }}>
+                Đăng ký
               </Text>
               <Field
                 widthInput={'90%'}
-                placeholder={"UserName"}
+                placeholder={"Tên đăng nhập"}
                 autoCorrect={false}
                 onChangeText={UserName => setUserName(UserName)}
               />
               <Field
                 widthInput={'90%'}
                 autoCorrect={false}
-                placeholder={"Address"}
+                placeholder={"Địa chỉ"}
                 onChangeText={userAddress => setUserAddress(userAddress)} />
               <Field
                 widthInput={'90%'}
                 autoCorrect={false}
                 onShowPassword={handlePasswordVisibility}
                 eye={rightIcon}
-                placeholder={"Password"}
+                placeholder={"Mật khẩu"}
                 secureTextEntry={isPasswordSecure}
                 onChangeText={UserPassword => setUserPassword(UserPassword)
                 }
@@ -160,25 +131,25 @@ const RegisterScreen = ({ navigation }) => {
                 autoCorrect={false}
                 onShowPassword={handleRetyPasswordVisibility}
                 eye={rightIconRety}
-                placeholder={"Rety-password"}
+                placeholder={"Nhập lại mật khẩu"}
                 secureTextEntry={isPasswordRetySecure}
                 onChangeText={UserPassword => setUserPassword(UserPassword)
                 }
               />
               <Field
                 widthInput={'90%'}
-                placeholder={"Email"}
+                placeholder={"Gmail"}
                 keyboardType={"email-address"}
                 onChangeText={UserEmail => setUserEmail(UserEmail)}
                 autoCorrect={false}
               />
-              <Btn marginTop={40} width={250} borderColor={COLORS.darkGreen} bgColor={COLORS.darkGreen} fontSize={20} textColor={COLORS.color_white} title={'Signup'} onPress={() => {
+              <Btn marginTop={40} width={250} borderColor={COLORS.darkGreen} bgColor={COLORS.darkGreen} fontSize={20} textColor={COLORS.color_white} title={'Đăng ký'} onPress={() => {
                 handleSubmitPress(userEmail, userPassword)
               }} />
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Do have an account ? </Text>
+                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Có một tài khoản ? </Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('LoginScreen') }}>
-                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Login</Text>
+                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Đăng nhập</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -204,7 +175,7 @@ const styles = StyleSheet.create({
     height: heightScreen - 74,
     width: widthScreen,
     borderTopLeftRadius: 130,
-    paddingTop: 20,
+    paddingTop: 50,
     alignItems: 'center'
   }
 });

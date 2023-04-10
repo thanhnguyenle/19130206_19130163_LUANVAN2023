@@ -23,7 +23,7 @@ const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
     productContainer: {
         backgroundColor: 'white',
-        width: width / 2.3 - 10,
+        width: width / 2.4 - 10,
         padding: 10,
         height: height / 4,
         margin: 10,

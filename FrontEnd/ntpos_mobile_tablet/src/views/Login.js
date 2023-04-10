@@ -37,11 +37,11 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmitPress = (userEmail1, userPassword1) => {
     setErrortext('');
     if (userEmail1 === '') {
-      alert('Email cannot be empty!');
+      alert('Gmail không được rỗng!');
       return;
     }
     if (userPassword1 === '') {
-      alert('Password cannot be empty!');
+      alert('Mật khẩu không được rỗng!');
       return;
     }
     setLoading(true);
@@ -53,37 +53,8 @@ const LoginScreen = ({ navigation }) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
-
-    // // fetch('http://localhost:3000/api/user/login', {
-    // //   method: 'POST',
-    // //   body: formBody,
-    // //   headers: {
-    // //     //Header Defination
-    // //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    // //   },
-    // // })
-    // //   .then(response => response.json())
-    // //   .then(responseJson => {
-    // //     //Hide Loader
-    // //     setLoading(false);
-    // //     console.log(responseJson);
-    // //     // If server response message same as Data Matched
-    // //     if (responseJson.status === 'success') {
-    // //       AsyncStorage.setItem('user_id', responseJson.data.email);
-    // //       console.log(responseJson.data.email);
-    // //       navigation.replace('DrawerNavigationRoutes');
-    // //     } else {
-    // //       setErrortext(responseJson.msg);
-    // //       console.log('Please check your email id or password');
-    // //     }
-    // //   })
-    // //   .catch(error => {
-    // //     //Hide Loader
-    // //     setLoading(false);
-    // //     console.error(error);
-    // //   });
     AsyncStorage.setItem('user_id', 'thanh@gmail.com');
-    navigation.replace('DrawerNavigationRoutes');
+    navigation.replace('DrawerUserNavigationRoutes');
   };
   onLayout = e => {
     let isPortrait = e.nativeEvent.layout.heightScreen > e.nativeEvent.layout.widthScreen
@@ -98,18 +69,15 @@ const LoginScreen = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.title}>
-              Đăng nhập
+              NTPOS
             </Text>
             <View style={styles.bodyMain}>
-              <Text style={{ fontSize: 40, color: COLORS.darkGreen, fontWeight: 'bold', marginBottom: 10 }}>
-                Welcome Back
-              </Text>
-              <Text style={{ fontSize: 19, color: COLORS.color_grey, fontWeight: 'bold', marginBottom: 20 }}>
-                Login to your account
+              <Text style={{ fontSize: 40, color: COLORS.darkGreen, fontWeight: 'bold', marginBottom: 40 }}>
+                Đăng nhập
               </Text>
               <Field
                 widthInput={'90%'}
-                placeholder={"Email"}
+                placeholder={"Gmail"}
                 keyboardType={"email-address"}
                 onChangeText={UserEmail => setUserEmail(UserEmail)}
                 autoCorrect={false}
@@ -119,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
                 autoCorrect={false}
                 onShowPassword={handlePasswordVisibility}
                 eye={rightIcon}
-                placeholder={"Password"}
+                placeholder={"Mật khẩu"}
                 secureTextEntry={isPasswordSecure}
                 onChangeText={UserPassword => setUserPassword(UserPassword)
                 }
@@ -127,16 +95,16 @@ const LoginScreen = ({ navigation }) => {
 
               <View style={{ alignItems: 'flex-end', width: '78%', padding: 16, marginBottom: 40 }}>
                 <TouchableOpacity>
-                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Forgot Password ?</Text>
+                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Quên mật khẩu ?</Text>
                 </TouchableOpacity>
               </View>
-              <Btn bgColor={COLORS.darkGreen} width={250} fontSize={20} borderColor={COLORS.darkGreen} textColor={COLORS.color_white} title={'Login'} onPress={() => {
+              <Btn bgColor={COLORS.darkGreen} width={250} fontSize={20} borderColor={COLORS.darkGreen} textColor={COLORS.color_white} title={'Đăng nhập'} onPress={() => {
                 handleSubmitPress(userEmail, userPassword)
               }} />
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Don't have an account ? </Text>
+                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Chưa có tài khoản ? </Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('RegisterScreen') }}>
-                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Signup</Text>
+                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Đăng ký</Text>
                 </TouchableOpacity>
               </View>
             </View>
