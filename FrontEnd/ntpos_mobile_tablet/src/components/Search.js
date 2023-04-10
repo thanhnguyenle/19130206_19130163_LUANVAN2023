@@ -9,7 +9,7 @@ const SearchBar = ({ isEnter, updateSearch, style, navigation }) => {
             <TextInput
                 editable={isEnter ? true : false}
                 value={query}
-                style={{ fontSize: 16, marginLeft: 10, width: '80%' }}
+                style={{ fontSize: 16, marginLeft: 10, width: '80%', color: 'grey' }}
                 placeholder="Tìm kiếm"
                 onChangeText={(text) => {
                     setQuery(text)
@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
+        color: 'grey'
     }
 })

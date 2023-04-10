@@ -12,7 +12,7 @@ const ProductItem = ({ navigation, item }) => {
                 <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.star}>
                     <Iconicons name="star" style={styles.iconStar} />
-                    <Text>4.2</Text>
+                    <Text style={{ color: 'grey' }}>4.2</Text>
                 </View>
             </TouchableOpacity>
         </View >
