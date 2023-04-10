@@ -10,7 +10,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './src/views/Splash';
 import LoginScreen from './src/views/Login';
 import RegisterScreen from './src/views/Signup';
-import DrawerNavigationRoutes from './src/routes/index';
 import DrawerUserNavigationRoutes from './src/routes/userRouter';
 
 const Stack = createStackNavigator();
@@ -50,13 +49,6 @@ const App = () => {
         <Stack.Screen
           name="Auth"
           component={Auth}
-          options={{ headerShown: false }}
-        />
-        {/* Navigation Drawer as a landing page */}
-        <Stack.Screen
-          name="DrawerNavigationRoutes"
-          component={DrawerNavigationRoutes}
-          // Hiding header for Navigation Drawer
           options={{ headerShown: false }}
         />
         <Stack.Screen
