@@ -4,8 +4,8 @@
 // Import React
 import React from 'react';
 // Import Navigators from React Navigation
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 // Import Screens
 import OptionType from '../views/OptionType';
 import SettingsScreen from '../views/SettingScreen';
@@ -14,8 +14,8 @@ import NavigationDrawerHeader from '../components/NavigationDrawerHeader';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-import { COLORS } from '../constants/common';
-const optionTypeScreenStack = ({ navigation }) => {
+import {COLORS} from '../constants/common';
+const optionTypeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
@@ -24,7 +24,10 @@ const optionTypeScreenStack = ({ navigation }) => {
         options={{
           title: 'Chế độ', //Set Header Title
           headerLeft: () => (
-            <NavigationDrawerHeader navigationProps={navigation} color='white' />
+            <NavigationDrawerHeader
+              navigationProps={navigation}
+              color="white"
+            />
           ),
           headerStyle: {
             backgroundColor: COLORS.darkGreen, //Set Header color
@@ -39,13 +42,13 @@ const optionTypeScreenStack = ({ navigation }) => {
   );
 };
 
-const settingScreenStack = ({ navigation }) => {
+const settingScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="SettingsScreen"
       screenOptions={{
         headerLeft: () => (
-          <NavigationDrawerHeader navigationProps={navigation} color='white' />
+          <NavigationDrawerHeader navigationProps={navigation} color="white" />
         ),
         headerStyle: {
           backgroundColor: '#307ecc', //Set Header color
@@ -62,7 +65,7 @@ const settingScreenStack = ({ navigation }) => {
           title: 'Settings', //Set Header Title
         }}
       />
-    </Stack.Navigator >
+    </Stack.Navigator>
   );
 };
 
@@ -77,10 +80,9 @@ const DrawerNavigatorRoutes = props => {
           fontFamily: 'Roboto-Medium',
           fontSize: 15,
           fontWeight: 400,
-        }
+        },
       }}
-      drawerContent={CustomSidebarMenu}
-    >
+      drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="optionTypeScreenStack"
         options={{
@@ -90,7 +92,7 @@ const DrawerNavigatorRoutes = props => {
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{ drawerLabel: 'Cài đặt' }}
+        options={{drawerLabel: 'Cài đặt'}}
         component={settingScreenStack}
       />
     </Drawer.Navigator>

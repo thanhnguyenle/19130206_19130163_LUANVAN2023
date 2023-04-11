@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, {useState, createRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,16 +6,16 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import Background from './Background';
 import Loader from '../components/Loader';
-import Field from '../components/Field'
-import Btn from '../components/Btn'
-import { COLORS } from '../constants/common';
-import { ScrollView } from 'react-native-gesture-handler';
+import Field from '../components/Field';
+import Btn from '../components/Btn';
+import {COLORS} from '../constants/common';
+import {ScrollView} from 'react-native-gesture-handler';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAge, setUserAge] = useState('');
@@ -97,59 +97,89 @@ const RegisterScreen = ({ navigation }) => {
     <Background>
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ alignItems: 'center', width: widthScreen }}>
-            <Text style={styles.title}>
-              NTPOS
-            </Text>
+          <View style={{alignItems: 'center', width: widthScreen}}>
+            <Text style={styles.title}>NTPOS</Text>
             <View style={styles.bodyMain}>
-              <Text style={{ fontSize: 40, color: COLORS.darkGreen, fontWeight: 'bold', marginBottom: 20 }}>
+              <Text
+                style={{
+                  fontSize: 40,
+                  color: COLORS.darkGreen,
+                  fontWeight: 'bold',
+                  marginBottom: 20,
+                }}>
                 Đăng ký
               </Text>
               <Field
                 widthInput={'90%'}
-                placeholder={"Tên đăng nhập"}
+                placeholder={'Tên đăng nhập'}
                 autoCorrect={false}
                 onChangeText={UserName => setUserName(UserName)}
               />
               <Field
                 widthInput={'90%'}
                 autoCorrect={false}
-                placeholder={"Địa chỉ"}
-                onChangeText={userAddress => setUserAddress(userAddress)} />
+                placeholder={'Địa chỉ'}
+                onChangeText={userAddress => setUserAddress(userAddress)}
+              />
               <Field
                 widthInput={'90%'}
                 autoCorrect={false}
                 onShowPassword={handlePasswordVisibility}
                 eye={rightIcon}
-                placeholder={"Mật khẩu"}
+                placeholder={'Mật khẩu'}
                 secureTextEntry={isPasswordSecure}
-                onChangeText={UserPassword => setUserPassword(UserPassword)
-                }
+                onChangeText={UserPassword => setUserPassword(UserPassword)}
               />
               <Field
                 widthInput={'90%'}
                 autoCorrect={false}
                 onShowPassword={handleRetyPasswordVisibility}
                 eye={rightIconRety}
-                placeholder={"Nhập lại mật khẩu"}
+                placeholder={'Nhập lại mật khẩu'}
                 secureTextEntry={isPasswordRetySecure}
-                onChangeText={UserPassword => setUserPassword(UserPassword)
-                }
+                onChangeText={UserPassword => setUserPassword(UserPassword)}
               />
               <Field
                 widthInput={'90%'}
-                placeholder={"Gmail"}
-                keyboardType={"email-address"}
+                placeholder={'Gmail'}
+                keyboardType={'email-address'}
                 onChangeText={UserEmail => setUserEmail(UserEmail)}
                 autoCorrect={false}
               />
-              <Btn marginTop={40} width={250} borderColor={COLORS.darkGreen} bgColor={COLORS.darkGreen} fontSize={20} textColor={COLORS.color_white} title={'Đăng ký'} onPress={() => {
-                handleSubmitPress(userEmail, userPassword)
-              }} />
-              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Có một tài khoản ? </Text>
-                <TouchableOpacity onPress={() => { navigation.navigate('LoginScreen') }}>
-                  <Text style={{ color: COLORS.darkGreen, fontWeight: 'bold', fontSize: 16 }}>Đăng nhập</Text>
+              <Btn
+                marginTop={40}
+                width={250}
+                borderColor={COLORS.darkGreen}
+                bgColor={COLORS.darkGreen}
+                fontSize={20}
+                textColor={COLORS.color_white}
+                title={'Đăng ký'}
+                onPress={() => {
+                  handleSubmitPress(userEmail, userPassword);
+                }}
+              />
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginVertical: 20,
+                }}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                  Có một tài khoản ?{' '}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('LoginScreen');
+                  }}>
+                  <Text
+                    style={{
+                      color: COLORS.darkGreen,
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                    }}>
+                    Đăng nhập
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -161,14 +191,14 @@ const RegisterScreen = ({ navigation }) => {
 };
 export default RegisterScreen;
 
-const widthScreen = Dimensions.get('window').width
-const heightScreen = Dimensions.get('window').height
+const widthScreen = Dimensions.get('window').width;
+const heightScreen = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   title: {
     color: COLORS.color_white,
     fontSize: 64,
     fontWeight: 'bold',
-    marginVertical: 10
+    marginVertical: 10,
   },
   bodyMain: {
     backgroundColor: 'white',
@@ -176,7 +206,6 @@ const styles = StyleSheet.create({
     width: widthScreen,
     borderTopLeftRadius: 130,
     paddingTop: 50,
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
-

@@ -3,7 +3,7 @@
 
 // Import React and Component
 import React from 'react';
-import { View, Text, Alert, StyleSheet } from 'react-native';
+import {View, Text, Alert, StyleSheet} from 'react-native';
 
 import {
   DrawerContentScrollView,
@@ -12,20 +12,24 @@ import {
 } from '@react-navigation/drawer';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../constants/common';
+import {COLORS} from '../constants/common';
 
-const CustomSidebarMenu = (props) => {
+const CustomSidebarMenu = props => {
   return (
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{ fontSize: 25, color: COLORS.color_white }}>
-            {(props.user != null) ? props.user.name.charAt(0) : 'K'}
+          <Text style={{fontSize: 25, color: COLORS.color_white}}>
+            {props.user != null ? props.user.name.charAt(0) : 'K'}
           </Text>
         </View>
-        <View style={{ justifyContent: 'center' }}>
-          <Text style={stylesSidebar.profileHeaderText}>{(props.user != null) ? props.user.name : 'Tài khoản khách'}</Text>
-          <Text style={{ color: COLORS.darkGreen, paddingHorizontal: 10, }}>Chức vụ: {(props.user != null) ? props.user.position : 'Chưa có'}</Text>
+        <View style={{justifyContent: 'center'}}>
+          <Text style={stylesSidebar.profileHeaderText}>
+            {props.user != null ? props.user.name : 'Tài khoản khách'}
+          </Text>
+          <Text style={{color: COLORS.darkGreen, paddingHorizontal: 10}}>
+            Chức vụ: {props.user != null ? props.user.position : 'Chưa có'}
+          </Text>
         </View>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
@@ -33,7 +37,9 @@ const CustomSidebarMenu = (props) => {
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         <DrawerItem
-          label={({ color }) => <Text style={stylesSidebar.drawrItem}>Đăng xuất</Text>}
+          label={({color}) => (
+            <Text style={stylesSidebar.drawrItem}>Đăng xuất</Text>
+          )}
           onPress={() => {
             props.navigation.toggleDrawer();
             Alert.alert(
@@ -54,12 +60,12 @@ const CustomSidebarMenu = (props) => {
                   },
                 },
               ],
-              { cancelable: false },
+              {cancelable: false},
             );
           }}
         />
       </DrawerContentScrollView>
-    </View >
+    </View>
   );
 };
 
@@ -107,5 +113,5 @@ const stylesSidebar = StyleSheet.create({
   },
   drawrItem: {
     color: '#737373',
-  }
+  },
 });
