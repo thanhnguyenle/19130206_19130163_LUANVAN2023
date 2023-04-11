@@ -12,5 +12,5 @@ export const COLORS = {
   darkGreen: '#006A42',
   color_grey_seconds: 'rgb(220,220,220)',
   color_primary_second: '#FFFFFF',
-  color_star: '#FFE100'
+  color_star: '#FFE100',
 };

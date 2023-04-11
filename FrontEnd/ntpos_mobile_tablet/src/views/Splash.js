@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, View, StyleSheet, Image } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ActivityIndicator, View, StyleSheet, Image} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../constants/common';
+import {COLORS} from '../constants/common';
 
-const SplashScreen = ({ navigation }) => {
+const SplashScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
 
@@ -15,7 +15,9 @@ const SplashScreen = ({ navigation }) => {
       //If not then send for Authentication
       //else send to Home Screen
       AsyncStorage.getItem('user_id').then(value =>
-        navigation.replace(value === null ? 'Auth' : 'DrawerUserNavigationRoutes'),
+        navigation.replace(
+          value === null ? 'Auth' : 'DrawerUserNavigationRoutes',
+        ),
       );
     }, 3000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -25,7 +27,7 @@ const SplashScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Image
         source={require('../assets/images/logo.jpg')}
-        style={{ width: '90%', resizeMode: 'contain', margin: 30 }}
+        style={{width: '90%', resizeMode: 'contain', margin: 30}}
       />
       <ActivityIndicator
         animating={animating}
