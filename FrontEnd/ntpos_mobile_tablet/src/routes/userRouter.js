@@ -7,6 +7,7 @@ import OrderDetail from '../views/OrderDetail';
 import {createStackNavigator} from '@react-navigation/stack';
 import ProductDetail from '../views/ProductDetail';
 import {COLORS} from '../constants/common';
+import ChatBox from '../views/ChatBox';
 const Stack = createStackNavigator();
 const DrawerUserNavigationRoutes = props => {
   return (
@@ -65,6 +66,17 @@ const DrawerUserNavigationRoutes = props => {
         component={ProductDetail}
         options={{
           title: 'Chi tiết món ăn',
+          headerStyle: {
+            backgroundColor: COLORS.darkGreen, //Set Header color
+          }, //Set Header text style
+          headerTintColor: '#fff', //Set Header text style
+        }}
+      />
+      <Stack.Screen
+        name="ChatBox"
+        component={ChatBox}
+        options={{
+          title: 'Chat với người bán',
           headerStyle: {
             backgroundColor: COLORS.darkGreen, //Set Header color
           }, //Set Header text style
