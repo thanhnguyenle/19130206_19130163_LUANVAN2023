@@ -44,9 +44,15 @@ const MailBox = ({navigation}) => {
                 />
               </View>
               <View style={styles.information}>
-                <Text style={{fontSize: 18, color: COLORS.color_black}}>
-                  Chat với người bán
-                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('ChatBox');
+                  }}
+                  style={styles.button}>
+                  <Text style={{fontSize: 18, color: COLORS.color_black}}>
+                    Chat với người bán
+                  </Text>
+                </TouchableOpacity>
               </View>
             </TouchableOpacity>
           </View>
