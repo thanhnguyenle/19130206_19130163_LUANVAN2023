@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleKeycloak {
-    private String userName;
-    private String email;
-    private String phoneNumber;
-    private String password;
-    private String firstname;
-    private String lastName;
+    private String roleName;
+    private String description;
+    private List<String> compositeRoles;
 }

@@ -1,8 +1,9 @@
 package fitnlu.ntpos.authservice.application.usecases;
 
 import fitnlu.ntpos.authservice.domain.model.Role;
+import fitnlu.ntpos.authservice.domain.model.User;
 
 public interface IUpdateUserUseCase {
-    Role updateRole(String name, Role role);
+    User updateUser(String name, User user);
 
 }

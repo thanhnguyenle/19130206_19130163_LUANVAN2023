@@ -1,9 +1,12 @@
 package fitnlu.ntpos.authservice.adapter.output.keycloak.adapter;
 
+import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.RoleMapperOutput;
 import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.UserMapperOutput;
 import fitnlu.ntpos.authservice.adapter.output.keycloak.utils.KeycloakUtils;
+import fitnlu.ntpos.authservice.application.ports.output.IWriteRolePort;
 import fitnlu.ntpos.authservice.application.ports.output.IWriteUserPort;
 import fitnlu.ntpos.authservice.domain.exception.HandlerGraphQLError;
+import fitnlu.ntpos.authservice.domain.model.Role;
 import fitnlu.ntpos.authservice.domain.model.User;
 import fitnlu.ntpos.authservice.infrastructure.annotations.Adapter;
 import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
@@ -12,77 +15,71 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
 
 import javax.ws.rs.core.Response;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Adapter
 @AllArgsConstructor
 @Slf4j
-public class WriteRoleAdapter implements IWriteUserPort {
+public class WriteRoleAdapter implements IWriteRolePort {
     private final KeycloakUtils keycloakUtils;
-    private final UserMapperOutput userMapperOutput;
+    private final RoleMapperOutput roleMapperOutput;
 
     @Override
-    public UnitReactive<User> saveNew(User user) {
-        throw new UnsupportedOperationException("Keycloak not support reactive programming!");
+    public Role createRoleSync(Role role) {
+        Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
+        RoleRepresentation roleRepresentation = new RoleRepresentation();
+        roleRepresentation.setName(role.getRoleName());
+        roleRepresentation.setDescription(role.getDescription());
+        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+                .clients()
+                .get(clientRepresentation.getId())
+                .roles()
+                .create(roleRepresentation);
+        return roleMapperOutput.toDomain(roleRepresentation);
     }
 
     @Override
-    public User saveNewSync(User user) {
-        try {
-            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-            UsersResource userResource = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).users();
-
-            //create password
-            CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
-            credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
-            credentialRepresentation.setValue(user.getPassword());
-            credentialRepresentation.setTemporary(false);
-
-            //create info user
-            UserRepresentation userRepresentation = new UserRepresentation();
-            userRepresentation.setUsername(user.getUsername());
-            userRepresentation.setFirstName(user.getName());
-            userRepresentation.setEmail(user.getEmail());
-            userRepresentation.setCredentials(Collections.singletonList(credentialRepresentation));
-            userRepresentation.setCreatedTimestamp(System.currentTimeMillis());
-            //add attribute
-            Map<String, List<String>> attributes = new HashMap<>();
-            attributes.put("phoneNumber", Collections.singletonList(user.getPhoneNumber()));
-            attributes.put("address", Collections.singletonList(user.getAddress()));
-            attributes.put("avatar", Collections.singletonList(user.getAvatar()));
-            userRepresentation.setAttributes(attributes);
-            userRepresentation.setEnabled(true);
-            //create user
-            try (Response response = userResource.create(userRepresentation)) {
-                if (response.getStatus() == HttpStatus.CREATED.value()) {
-                   String id = CreatedResponseUtil.getCreatedId(response);
-                   userRepresentation.setId(id);
-                    return userMapperOutput.toDomain(userRepresentation);
-                } else {
-                    log.info(response.getStatus()+": "+response.getStatusInfo().getReasonPhrase());
-                    throw new HandlerGraphQLError("Can't create user", String.valueOf(response.getStatus()), response.getStatusInfo().getReasonPhrase());
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public Role deleteRoleSync(String name) {
+        Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
+        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+                .clients()
+                .get(clientRepresentation.getId())
+                .roles()
+                .deleteRole(name);
+        return Role.builder().roleName(name).build();
     }
 
     @Override
-    public User deleteUserSync(String id) {
-        return null;
-    }
+    public Role updateRoleSync(String name, Role role) {
+        Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
+        RoleRepresentation roleRepresentation = new RoleRepresentation();
+        roleRepresentation.setName(role.getRoleName());
+        roleRepresentation.setDescription(role.getDescription());
+//        List<RoleRepresentation> composites = new LinkedList<>();
+//        composites.add(keycloak
+//                .realm(KeycloakUtils.KEYCLOAK_REALM)
+//                .roles()
+//                .get("offline_access")
+//                .toRepresentation()
+//        );
 
-    @Override
-    public User updateUserSync(String id, User user) {
-        return null;
+        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+                .clients()
+                .get(clientRepresentation.getId())
+                .roles()
+                .get(name)
+                .update(roleRepresentation);
+        return Role.builder().roleName(name).build();
+
     }
 }

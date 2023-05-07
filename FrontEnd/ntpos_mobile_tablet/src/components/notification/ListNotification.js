@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import {get, put} from '../../api';
-import Comment from './ChatContent';
+import Comment from './NotificationItem';
 import Input from './ChatInput';
-import ChatContent from './ChatContent';
+import ChatContent from './NotificationItem';
 const ListChat = () => {
   const [refreshing] = useState(false);
   const [contents, setContents] = useState([]);
@@ -104,8 +104,6 @@ const ListChat = () => {
           <ChatContent content={content} index={index} />
         ))}
       </ScrollView>
-      {/* Comment input box */}
-      <Input onSubmit={submitComment} />
     </View>
   );
 };

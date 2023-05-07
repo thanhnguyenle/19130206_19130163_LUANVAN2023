@@ -1,10 +1,10 @@
 package fitnlu.ntpos.authservice.application.ports.input;
 
-import fitnlu.ntpos.authservice.adapter.input.dto.UserOutput;
-import fitnlu.ntpos.authservice.adapter.input.dto.UserInput;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
+import fitnlu.ntpos.authservice.adapter.input.dto.RoleInput;
+import fitnlu.ntpos.authservice.adapter.input.dto.RoleOutput;
 
-public interface IChangeUserEndpointPort {
-    UnitReactive<UserOutput> saveUser(UserInput userInput) ;
-    UserOutput saveUserSync(UserInput userInput)  ;
+public interface IChangeRoleEndpointPort {
+    RoleOutput createRoleSync(RoleInput role) ;
+    RoleOutput deleteRoleSync(String name) ;
+    RoleOutput updateRoleSync(String name, RoleInput role) ;
 }

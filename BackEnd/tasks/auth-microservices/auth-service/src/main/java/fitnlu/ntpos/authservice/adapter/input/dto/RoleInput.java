@@ -1,4 +1,9 @@
 package fitnlu.ntpos.authservice.adapter.input.dto;
 
-public class RoleInput {
-}
+import java.util.List;
+
+public record RoleInput (
+     String roleName,
+     String description,
+     List<String> compositeRoles
+){}

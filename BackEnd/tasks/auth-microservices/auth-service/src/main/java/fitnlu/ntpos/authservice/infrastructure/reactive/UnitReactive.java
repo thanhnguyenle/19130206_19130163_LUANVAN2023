@@ -1,4 +1,4 @@
-package com.demo.productservice.infrastructure.reactive;
+package fitnlu.ntpos.authservice.infrastructure.reactive;
 
 import lombok.AccessLevel;
 import lombok.Getter;

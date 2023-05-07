@@ -1,0 +1,4 @@
+rootProject.name = 'auth-microservices'
+include 'auth-service'
+include 'api-gateway'
+include 'discovery-server'

@@ -1,19 +1,24 @@
 package fitnlu.ntpos.authservice.application.services;
 
-import com.demo.productservice.application.ports.output.IWriteProductPort;
-import com.demo.productservice.application.usecases.ISubmitNewProductUseCase;
-import com.demo.productservice.domain.model.Product;
-import com.demo.productservice.infrastructure.reactive.UnitReactive;
+import fitnlu.ntpos.authservice.application.ports.output.IWriteUserPort;
+import fitnlu.ntpos.authservice.application.usecases.ISubmitNewUserUseCase;
+import fitnlu.ntpos.authservice.domain.model.User;
+import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class SubmitNewProductService implements ISubmitNewProductUseCase {
-    private final IWriteProductPort iWriteProductPort;
+public class SubmitNewUserService implements ISubmitNewUserUseCase {
+    private final IWriteUserPort iWriteUserPort;
 
     @Override
-    public UnitReactive<Product> submit(Product product) {
-        return iWriteProductPort.saveNew(product);
+    public UnitReactive<User> saveNew(User user) {
+      return iWriteUserPort.saveNew(user);
+    }
+
+    @Override
+    public User saveNewSync(User user)  {
+        return iWriteUserPort.saveNewSync(user);
     }
 }

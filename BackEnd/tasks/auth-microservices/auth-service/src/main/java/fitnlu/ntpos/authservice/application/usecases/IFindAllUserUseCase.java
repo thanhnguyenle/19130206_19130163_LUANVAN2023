@@ -7,9 +7,7 @@ import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
 import java.util.List;
 import java.util.UUID;
 
-public interface IFindAllProductsUseCase {
+public interface IFindAllUserUseCase {
     CollectionReactive<User> findAll();
     List<User> findAllSync();
-    UnitReactive<User> findById(UUID id);
-    User findByIdSync(UUID id);
 }

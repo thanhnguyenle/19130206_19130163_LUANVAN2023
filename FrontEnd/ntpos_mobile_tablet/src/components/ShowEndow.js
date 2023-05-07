@@ -12,7 +12,11 @@ import TitleButton from './TitleButton';
 const ShowEndow = props => {
   return (
     <View>
-      <TitleButton title={props.title} onPress={props.onPressDeteil} />
+      {props.title === '' ? (
+        <></>
+      ) : (
+        <TitleButton title={props.title} onPress={props.onPressDeteil} />
+      )}
       <View style={styles.container}>
         <FlatList
           nestedScrollEnabled={true}

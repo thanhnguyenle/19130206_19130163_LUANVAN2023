@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'application'
+
+}
+apply plugin: 'eclipse'
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+mainClassName = 'fitnlu.ntpos.authservice.AuthServiceApplication'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  //  implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //keycloak
+    implementation 'org.keycloak:keycloak-spring-boot-starter:16.1.1'
+    implementation 'org.keycloak:keycloak-admin-client:16.1.1'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
+    implementation 'org.jboss.resteasy:resteasy-multipart-provider:3.15.1.Final'
+    implementation 'org.jboss.resteasy:resteasy-jaxb-provider:6.2.3.Final'
+    implementation 'org.jboss.resteasy:resteasy-jackson2-provider:3.15.1.Final'
+    implementation 'org.jboss.resteasy:resteasy-client:3.15.1.Final'
+    implementation 'org.keycloak.bom:keycloak-adapter-bom:16.1.1'
+
+    //reactive programming with mysql
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    //graphQL
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
+    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+    implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //Graphql kickstart
+    implementation 'com.graphql-java-kickstart:graphql-spring-boot-starter:13.0.0'
+    testImplementation 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:13.0.0'
+
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
+bootJar {
+    mainClassName = 'fitnlu.ntpos.authservice.AuthServiceApplication'
+}

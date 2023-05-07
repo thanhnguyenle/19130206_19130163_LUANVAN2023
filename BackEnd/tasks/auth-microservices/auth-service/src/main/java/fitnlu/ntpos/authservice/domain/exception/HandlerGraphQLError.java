@@ -13,23 +13,14 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 @Setter
-public class HandlerOtherError extends RuntimeException implements GraphQLError {
+public class HandlerGraphQLError extends RuntimeException implements GraphQLError {
     private String message;
     private String statusCode;
     private String status;
 
     @Override
-    public String getLocalizedMessage() {
-        return message;
-    }
-
-    @Override
-    public Map<String, Object> getExtensions() {
-        Map<String, Object> extensions = GraphQLError.super.getExtensions();
-        extensions.put("status", status);
-        extensions.put("statusCode", statusCode);
-        extensions.put("message", message);
-        return extensions;
+    public String getMessage() {
+        return "["+statusCode+":"+status+"] -> "+message;
     }
 
     @Override
