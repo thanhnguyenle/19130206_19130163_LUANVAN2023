@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.domain.model;
+package fitnlu.ntpos.userservice.domain.model;
 
 import lombok.Builder;
 import lombok.Data;

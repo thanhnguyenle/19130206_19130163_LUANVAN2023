@@ -6,21 +6,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 @ToString
-public class User {
+public class Group {
     private String id;
     private String name;
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
-    private String address;
-    private String avatar;
+    private String description;
+    private List<User> users;
     private List<Role> roles;
-    private long registeredAt;
 }

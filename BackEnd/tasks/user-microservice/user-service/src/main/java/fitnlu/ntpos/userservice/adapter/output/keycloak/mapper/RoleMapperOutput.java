@@ -1,15 +1,17 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.mapper;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.mapper;
 
-import fitnlu.ntpos.authservice.adapter.output.keycloak.entities.RoleKeycloak;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.entities.UserKeycloak;
-import fitnlu.ntpos.authservice.domain.model.Role;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.annotations.Mapper;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.entities.RoleKeycloak;
+import fitnlu.ntpos.userservice.domain.model.Role;
+import fitnlu.ntpos.userservice.infrastructure.annotations.Mapper;
 import org.keycloak.representations.idm.RoleRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
 
 @Mapper
 public class RoleMapperOutput {
+    public Role toDomainFromName(String roleName){
+        return Role.builder()
+                .roleName(roleName)
+                .build();
+    }
     public RoleKeycloak toEntity(Role role){
         return RoleKeycloak.builder()
                 .roleName(role.getRoleName())
@@ -26,11 +28,13 @@ public class RoleMapperOutput {
                 .build();
     }
     public Role toDomain(RoleRepresentation roleRepresentation){
-        return Role.builder()
+        Role role= Role.builder()
                 .roleName(roleRepresentation.getName())
                 .description(roleRepresentation.getDescription())
                 //.compositeRoles(roleRepresentation.getComposites().getRealm().stream().toList())
                 .build();
+        System.out.println(role.getRoleName()+" "+role.getDescription());
+        return role;
     }
 
 }

@@ -1,16 +1,22 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.mapper;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.mapper;
 
-import fitnlu.ntpos.authservice.adapter.output.keycloak.entities.DateTimeKeycloak;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.entities.UserKeycloak;
-import fitnlu.ntpos.authservice.domain.model.DateTime;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.annotations.Mapper;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.utils.KeycloakUtils;
+import lombok.RequiredArgsConstructor;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
+import fitnlu.ntpos.userservice.adapter.output.keycloak.entities.UserKeycloak;
+import fitnlu.ntpos.userservice.domain.model.User;
+import fitnlu.ntpos.userservice.infrastructure.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @Mapper
+@RequiredArgsConstructor
 public class UserMapperOutput {
     public UserKeycloak toEntity(User user){
         return UserKeycloak.builder()
@@ -34,6 +40,7 @@ public class UserMapperOutput {
     public User toDomain(UserRepresentation userRepresentation){
         if(userRepresentation == null) return null;
         String phoneNumber = "", address = "", avatar = "";
+        long registeredAt = 0L;
         if(userRepresentation.getAttributes()!=null) {
             List<String> listPN = userRepresentation.getAttributes().get("phoneNumber");
              phoneNumber = listPN == null ? "" : listPN.get(0);
@@ -42,9 +49,13 @@ public class UserMapperOutput {
             List<String> listAvatar = userRepresentation.getAttributes().get("avatar");
              avatar = listAvatar == null ? "" : listAvatar.get(0);
         }
+        if(userRepresentation.getCreatedTimestamp() != null){
+            registeredAt = userRepresentation.getCreatedTimestamp();
+        }
+
         return User.builder()
                 .id(userRepresentation.getId())
-                .registeredAt(userRepresentation.getCreatedTimestamp())
+                .registeredAt(registeredAt)
                 .email(userRepresentation.getEmail())
                 .name(userRepresentation.getFirstName())
                 .username(userRepresentation.getUsername())

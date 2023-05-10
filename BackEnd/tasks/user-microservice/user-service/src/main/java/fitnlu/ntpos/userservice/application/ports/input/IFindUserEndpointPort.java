@@ -1,8 +1,9 @@
-package fitnlu.ntpos.authservice.application.ports.input;
+package fitnlu.ntpos.userservice.application.ports.input;
 
-import fitnlu.ntpos.authservice.adapter.input.dto.UserOutput;
-import fitnlu.ntpos.authservice.infrastructure.reactive.CollectionReactive;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
+
+import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
+import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
+import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface IFindUserEndpointPort {
 
     UnitReactive<UserOutput> findById(String id);
     UserOutput findByIdSync(String id);
+
+    List<UserOutput> findUserByGroupName(String groupName);
+    List<UserOutput> findUserByGroupID(String groupID);
 }

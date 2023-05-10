@@ -1,14 +1,14 @@
-package fitnlu.ntpos.authservice.application.ports.output;
+package fitnlu.ntpos.userservice.application.ports.output;
 
-import fitnlu.ntpos.authservice.domain.model.Role;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.reactive.CollectionReactive;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
+import fitnlu.ntpos.userservice.domain.model.Role;
 
 import java.util.List;
 
 public interface IReadRolePort {
    List<Role> findAllSync();
     Role findByNameSync(String name);
+    List<Role> findByUserID(String id);
 
+    List<Role> findRoleOfGroupName(String name);
+    List<Role> findRoleOfGroupID(String id);
 }

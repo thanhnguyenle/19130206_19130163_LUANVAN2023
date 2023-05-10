@@ -1,7 +1,8 @@
-package fitnlu.ntpos.authservice.adapter.input.dto;
+package fitnlu.ntpos.userservice.adapter.input.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class UserOutput {
     private String phoneNumber;
     private String address;
     private String avatar;
-    private List<String> roles;
+    @Setter
+    private List<GroupOutput> groups;
+    @Setter
+    private List<RoleOutput> roles;
     private long registeredAt;
 }

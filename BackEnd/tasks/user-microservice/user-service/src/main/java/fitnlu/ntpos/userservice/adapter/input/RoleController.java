@@ -1,15 +1,11 @@
-package fitnlu.ntpos.authservice.adapter.input;
+package fitnlu.ntpos.userservice.adapter.input;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import fitnlu.ntpos.authservice.adapter.input.adapter.ChangeRoleEndpointAdapter;
-import fitnlu.ntpos.authservice.adapter.input.adapter.ChangeUserEndpointAdapter;
-import fitnlu.ntpos.authservice.adapter.input.adapter.FindRoleEndpointAdapter;
-import fitnlu.ntpos.authservice.adapter.input.adapter.FindUserEndpointAdapter;
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleInput;
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleOutput;
-import fitnlu.ntpos.authservice.adapter.input.dto.UserInput;
-import fitnlu.ntpos.authservice.adapter.input.dto.UserOutput;
+import fitnlu.ntpos.userservice.adapter.input.adapter.ChangeRoleEndpointAdapter;
+import fitnlu.ntpos.userservice.adapter.input.adapter.FindRoleEndpointAdapter;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleInput;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleOutput;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -30,12 +26,12 @@ public class RoleController implements GraphQLQueryResolver, GraphQLMutationReso
     }
 
     @SchemaMapping(typeName = "Mutation", field = "updateRole")
-    public RoleOutput updateRole(@Argument  String id, @Argument("roleInput") @Valid RoleInput roleInput){
-        return changeRoleEndpointAdapter.updateRoleSync(id,roleInput);
+    public RoleOutput updateRole(@Argument  String name, @Argument("roleInput") @Valid RoleInput roleInput){
+        return changeRoleEndpointAdapter.updateRoleSync(name,roleInput);
     }
     @SchemaMapping(typeName = "Mutation", field = "deleteRole")
-    public RoleOutput deleteRole(@Argument  String id){
-        return changeRoleEndpointAdapter.deleteRoleSync(id);
+    public RoleOutput deleteRole(@Argument  String name){
+        return changeRoleEndpointAdapter.deleteRoleSync(name);
     }
 
     //Query
@@ -49,5 +45,8 @@ public class RoleController implements GraphQLQueryResolver, GraphQLMutationReso
         return findRoleEndpointAdapter.findByNameSync(name);
     }
 
-
+//    @SchemaMapping(typeName = "Query", field = "role")
+//    public List<RoleOutput> getRoleByUserID(@Argument  String id){
+//        return findRoleEndpointAdapter.findByUserID(id);
+//    }
 }

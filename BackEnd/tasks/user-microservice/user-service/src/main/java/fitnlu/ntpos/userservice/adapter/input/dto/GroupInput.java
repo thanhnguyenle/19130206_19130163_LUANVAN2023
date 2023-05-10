@@ -3,7 +3,8 @@ package fitnlu.ntpos.userservice.adapter.input.dto;
 import java.util.List;
 
 public record GroupInput(
-     String roleName,
+     String name,
      String description,
-     List<String> compositeRoles
+     List<String> users,
+     List<String> roles
 ){}

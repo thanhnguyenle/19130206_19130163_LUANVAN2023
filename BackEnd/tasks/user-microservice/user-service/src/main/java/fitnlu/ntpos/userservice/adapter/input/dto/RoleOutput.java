@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.adapter.input.dto;
+package fitnlu.ntpos.userservice.adapter.input.dto;
 
 import lombok.Builder;
 import lombok.Getter;

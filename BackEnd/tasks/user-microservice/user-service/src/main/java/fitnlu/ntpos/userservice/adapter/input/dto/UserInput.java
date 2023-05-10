@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.adapter.input.dto;
+package fitnlu.ntpos.userservice.adapter.input.dto;
 
 import java.util.List;
 
@@ -10,5 +10,6 @@ public record UserInput(
         String phoneNumber,
         String address,
         String avatar,
-        List<String> roles) {
+        List<String> roles,
+        List<String> groups){
 }

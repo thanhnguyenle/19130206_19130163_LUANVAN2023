@@ -12,7 +12,7 @@ import javax.ws.rs.client.WebTarget;
 public class KeycloakUtils {
 //    private final Environment environment;
     private Keycloak keycloakInstance = null;
-    public static final  String KEYCLOAK_AUTH_SERVER_URL = "http://localhost:8181/auth";
+    public static final  String KEYCLOAK_AUTH_SERVER_URL = "http://keycloak:8080/auth";
     public static final String KEYCLOAK_REALM = "spring-test";
     //set role for client-id in Service Account Role => Client Role => realm-management => all row
     public static final String KEYCLOAK_CLIENT_ID = "user-test";

@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.domain.exception;
+package fitnlu.ntpos.userservice.domain.exception;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;

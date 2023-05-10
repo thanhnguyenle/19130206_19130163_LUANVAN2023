@@ -1,5 +1,7 @@
-package fitnlu.ntpos.userservice.application.usecases.role;
+package fitnlu.ntpos.userservice.application.usecases.user;
 
-public interface IRemoveRoleToUserUseCase {
-    boolean removeRoleToUser(String username, String roleName);
+import java.util.List;
+
+public interface IRemoveRoleFromUserUseCase {
+    boolean removeRoleToUser(String username,  List<String> roleName);
 }

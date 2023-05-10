@@ -1,35 +1,36 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.adapter;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.adapter;
 
-import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.RoleMapperOutput;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.UserMapperOutput;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.utils.KeycloakUtils;
-import fitnlu.ntpos.authservice.application.ports.output.IReadRolePort;
-import fitnlu.ntpos.authservice.application.ports.output.IReadUserPort;
-import fitnlu.ntpos.authservice.domain.model.Role;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.annotations.Adapter;
-import fitnlu.ntpos.authservice.infrastructure.reactive.CollectionReactive;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
-import lombok.AllArgsConstructor;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.mapper.RoleMapperOutput;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.utils.KeycloakUtils;
+import fitnlu.ntpos.userservice.application.ports.output.IReadRolePort;
+import fitnlu.ntpos.userservice.domain.model.Role;
+import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
+import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupsResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.util.List;
+import java.util.Optional;
 
 @Adapter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReadRoleAdapter implements IReadRolePort {
+    @Value("${keycloak.realm}")
+    private String KEYCLOAK_REALM;
+    @Value("${keycloak.resource}")
+    private String KEYCLOAK_CLIENT_ID;
     private final KeycloakUtils keycloakUtils;
     private final RoleMapperOutput roleMapperOutput;
 
     @Override
     public List<Role> findAllSync() {
         Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
-        return keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+        return keycloak.realm(KEYCLOAK_REALM)
                 .clients()
                 .get(clientRepresentation.getId())
                 .roles()
@@ -42,15 +43,60 @@ public class ReadRoleAdapter implements IReadRolePort {
     @Override
     public Role findByNameSync(String name) {
         Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
-        RoleRepresentation roleRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+        RoleRepresentation roleRepresentation = keycloak.realm(KEYCLOAK_REALM)
                 .clients()
                 .get(clientRepresentation.getId())
                 .roles()
                 .get(name)
                 .toRepresentation();
-        System.out.println(clientRepresentation.getId());
-        System.out.println(KeycloakUtils.KEYCLOAK_CLIENT_ID);
         return roleMapperOutput.toDomain(roleRepresentation);
     }
+
+    @Override
+    public List<Role> findByUserID(String id) {
+        Keycloak keycloak = keycloakUtils.getKeycloakInstance() ;
+        UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
+        //getting client
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+        //assigning to user
+        List<RoleRepresentation> list =  usersResource.get(id).roles().clientLevel(clientRepresentation.getId()).listEffective();
+        return list.stream().map(roleMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public List<Role> findRoleOfGroupName(String name) {
+        try {
+            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+            GroupsResource groupsResource = keycloak.realm(KEYCLOAK_REALM).groups();
+            ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+            Optional<GroupRepresentation> groupRepresentation = keycloak.realm(KEYCLOAK_REALM)
+                    .groups()
+                    .groups().stream().filter(group -> group.getName().equals(name)).findFirst();
+            if (groupRepresentation.isPresent()) {
+                List<RoleRepresentation> groupRep = groupsResource.group(groupRepresentation.get().getId()).roles().clientLevel(clientRepresentation.getId()).listAll();
+                return groupRep.stream().map(roleMapperOutput::toDomain).toList();
+            }else {
+                return List.of();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Role> findRoleOfGroupID(String id) {
+        try {
+            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+            GroupsResource groupsResource = keycloak.realm(KEYCLOAK_REALM).groups();
+            ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+            List<RoleRepresentation> groupRep = groupsResource.group(id).roles().clientLevel(clientRepresentation.getId()).listAll();
+            return groupRep.stream().map(roleMapperOutput::toDomain).toList();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

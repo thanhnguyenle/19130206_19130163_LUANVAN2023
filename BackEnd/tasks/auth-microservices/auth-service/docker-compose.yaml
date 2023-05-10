@@ -1,0 +1,10 @@
+version: '3'
+services:
+  auth-service:
+    container_name: auth-service
+    image: auth-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8081:8081"
+

@@ -8,6 +8,7 @@ type User{
     address: String
     avatar: String
     roles: [Role]
+    groups: [Group]
     registeredAt: String
 }
 
@@ -20,6 +21,7 @@ input UserInput{
     address: String
     avatar: String
     roles: [String]
+    groups: [String]
 }
 
 type UserOutput{
@@ -42,30 +44,27 @@ type RoleOut{
     roleName: String
 }
 
-input LoginInput{
-    email: String
-    password: String
-}
-
-type LoginOutput{
-    accessToken: String
-    refreshToken: String
-    accessTokenExpiration: Float
-    refreshTokenExpiration: Float
-}
-
-input registerInput{
-    username: String
-    name: String
-    email: String
-    password: String
-    phoneNumber: String
-    address: String
-    avatar: String
-}
-
-type registerOutput{
+type Group{
     id: String
+    name: String
+    description: String
+    users: [User]
+    roles: [Role]
+}
+
+input GroupInput{
+    name: String
+    description: String
+    users: [String]
+    roles: [String]
+}
+
+type GroupOut{
+    id: String
+}
+
+type GroupScalarOut{
+    success: Boolean
 }
 
 type Query {
@@ -75,9 +74,11 @@ type Query {
     #role
     roles: [Role]
     role(name: String): Role
-    #login
-    login(loginInput: LoginInput): LoginOutput
-
+    #group
+    groups: [Group]
+    group(id: String): Group
+    groupByName(name: String): Group
+    groupOfUser(userID: String): [Group]
 }
 
 type Mutation{
@@ -85,10 +86,18 @@ type Mutation{
     createUser(userInput: UserInput): UserOutput
     updateUser(id: String, userInput: UserInput): UserOutput
     deleteUser(id: String): UserOutput
+    addRoleToUser(roleNames: [String], userID: String): GroupScalarOut
+    removeRoleFromUser(roleNames: [String], userID: String): GroupScalarOut
     #role
     createRole(roleInput: RoleInput): RoleOut
     updateRole(name: String, roleInput: RoleInput): RoleOut
     deleteRole(name: String): RoleOut
-    #register
-    register(registerInput: registerInput): registerOutput
+    #group
+    createGroup(groupInput: GroupInput): GroupOut
+    updateGroup(id: String, groupInput: GroupInput): GroupOut
+    deleteGroup(id: String): GroupOut
+    addUserToGroup(userIDs: [String], groupID: String): GroupScalarOut
+    removeUserFromGroup(userIDs: [String], groupID: String): GroupScalarOut
+    addRoleToGroup(roleNames: [String], groupID: String): GroupScalarOut
+    removeRoleFromGroup(roleNames: [String], groupID: String): GroupScalarOut
 }

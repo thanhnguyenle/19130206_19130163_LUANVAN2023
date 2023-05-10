@@ -1,44 +1,36 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.adapter;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.adapter;
 
-import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.RoleMapperOutput;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.mapper.UserMapperOutput;
-import fitnlu.ntpos.authservice.adapter.output.keycloak.utils.KeycloakUtils;
-import fitnlu.ntpos.authservice.application.ports.output.IWriteRolePort;
-import fitnlu.ntpos.authservice.application.ports.output.IWriteUserPort;
-import fitnlu.ntpos.authservice.domain.exception.HandlerGraphQLError;
-import fitnlu.ntpos.authservice.domain.model.Role;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.annotations.Adapter;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
-import lombok.AllArgsConstructor;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.mapper.RoleMapperOutput;
+import fitnlu.ntpos.userservice.adapter.output.keycloak.utils.KeycloakUtils;
+import fitnlu.ntpos.userservice.application.ports.output.IWriteRolePort;
+import fitnlu.ntpos.userservice.domain.model.Role;
+import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
-import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.http.HttpStatus;
-
-import javax.ws.rs.core.Response;
-import java.util.*;
+import org.springframework.beans.factory.annotation.Value;
 
 @Adapter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class WriteRoleAdapter implements IWriteRolePort {
+    @Value("${keycloak.realm}")
+    private String KEYCLOAK_REALM;
+    @Value("${keycloak.resource}")
+    private String KEYCLOAK_CLIENT_ID;
     private final KeycloakUtils keycloakUtils;
     private final RoleMapperOutput roleMapperOutput;
 
     @Override
     public Role createRoleSync(Role role) {
         Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
         RoleRepresentation roleRepresentation = new RoleRepresentation();
         roleRepresentation.setName(role.getRoleName());
         roleRepresentation.setDescription(role.getDescription());
-        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+        keycloak.realm(KEYCLOAK_REALM)
                 .clients()
                 .get(clientRepresentation.getId())
                 .roles()
@@ -49,8 +41,8 @@ public class WriteRoleAdapter implements IWriteRolePort {
     @Override
     public Role deleteRoleSync(String name) {
         Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
-        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+        keycloak.realm(KEYCLOAK_REALM)
                 .clients()
                 .get(clientRepresentation.getId())
                 .roles()
@@ -61,7 +53,7 @@ public class WriteRoleAdapter implements IWriteRolePort {
     @Override
     public Role updateRoleSync(String name, Role role) {
         Keycloak keycloak = keycloakUtils.getKeycloakInstance();
-        ClientRepresentation clientRepresentation = keycloak.realm(KeycloakUtils.KEYCLOAK_REALM).clients().findByClientId(KeycloakUtils.KEYCLOAK_CLIENT_ID).get(0);
+        ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
         RoleRepresentation roleRepresentation = new RoleRepresentation();
         roleRepresentation.setName(role.getRoleName());
         roleRepresentation.setDescription(role.getDescription());
@@ -73,7 +65,7 @@ public class WriteRoleAdapter implements IWriteRolePort {
 //                .toRepresentation()
 //        );
 
-        keycloak.realm(KeycloakUtils.KEYCLOAK_REALM)
+        keycloak.realm(KEYCLOAK_REALM)
                 .clients()
                 .get(clientRepresentation.getId())
                 .roles()

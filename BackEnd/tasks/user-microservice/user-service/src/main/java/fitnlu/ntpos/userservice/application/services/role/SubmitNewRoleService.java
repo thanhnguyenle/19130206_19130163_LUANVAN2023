@@ -1,7 +1,7 @@
-package fitnlu.ntpos.userservice.application.services;
+package fitnlu.ntpos.userservice.application.services.role;
 
 import fitnlu.ntpos.userservice.application.ports.output.IWriteRolePort;
-import fitnlu.ntpos.userservice.application.usecases.ISubmitNewRoleUseCase;
+import fitnlu.ntpos.userservice.application.usecases.role.ISubmitNewRoleUseCase;
 import fitnlu.ntpos.userservice.domain.model.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -5,5 +5,5 @@ import fitnlu.ntpos.userservice.domain.model.User;
 import java.util.List;
 
 public interface IFindAllUserByGroupIDUseCase {
-    List<User> findAllUserByGroupName(String groupName);
+    List<User> findAllUserByGroupID(String groupID);
 }

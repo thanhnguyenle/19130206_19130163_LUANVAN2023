@@ -1,7 +1,7 @@
-package fitnlu.ntpos.authservice.application.ports.input;
+package fitnlu.ntpos.userservice.application.ports.input;
 
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleInput;
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleOutput;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleInput;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleOutput;
 
 public interface IChangeRoleEndpointPort {
     RoleOutput createRoleSync(RoleInput role) ;

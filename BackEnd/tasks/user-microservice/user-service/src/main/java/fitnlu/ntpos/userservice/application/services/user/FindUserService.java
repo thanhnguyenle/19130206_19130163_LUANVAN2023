@@ -1,8 +1,10 @@
-package fitnlu.ntpos.userservice.application.services;
+package fitnlu.ntpos.userservice.application.services.user;
 
 import fitnlu.ntpos.userservice.application.ports.output.IReadUserPort;
-import fitnlu.ntpos.userservice.application.usecases.IFindAllUserUseCase;
-import fitnlu.ntpos.userservice.application.usecases.IFindUserUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupIDUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupNameUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.IFindUserUseCase;
 import fitnlu.ntpos.userservice.domain.model.User;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class FindUserService implements IFindAllUserUseCase, IFindUserUseCase {
+public class FindUserService implements IFindAllUserUseCase, IFindUserUseCase, IFindAllUserByGroupNameUseCase, IFindAllUserByGroupIDUseCase {
     private final IReadUserPort iReadProductPort;
 
     @Override
@@ -34,5 +36,15 @@ public class FindUserService implements IFindAllUserUseCase, IFindUserUseCase {
     @Override
     public User findByIdSync(String id) {
         return iReadProductPort.findByIdSync(id);
+    }
+
+    @Override
+    public List<User> findAllUserByGroupName(String groupName) {
+        return iReadProductPort.findAllUserByGroupName(groupName);
+    }
+
+    @Override
+    public List<User> findAllUserByGroupID(String groupID) {
+        return iReadProductPort.findAllUserByGroupID(groupID);
     }
 }

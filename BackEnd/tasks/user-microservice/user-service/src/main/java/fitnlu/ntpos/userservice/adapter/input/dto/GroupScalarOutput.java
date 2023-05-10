@@ -8,12 +8,6 @@ import java.util.List;
 
 @Getter
 @Builder
-public class GroupOutput {
-    private String id;
-    private String name;
-    private String description;
-    @Setter
-    private List<UserOutput> users;
-    @Setter
-    private List<RoleOutput> roles;
+public class GroupScalarOutput {
+    private boolean success;
 }

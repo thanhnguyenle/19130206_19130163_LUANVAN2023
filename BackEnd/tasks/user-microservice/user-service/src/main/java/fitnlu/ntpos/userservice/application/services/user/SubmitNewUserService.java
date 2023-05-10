@@ -1,7 +1,7 @@
-package fitnlu.ntpos.userservice.application.services;
+package fitnlu.ntpos.userservice.application.services.user;
 
 import fitnlu.ntpos.userservice.application.ports.output.IWriteUserPort;
-import fitnlu.ntpos.userservice.application.usecases.ISubmitNewUserUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.ISubmitNewUserUseCase;
 import fitnlu.ntpos.userservice.domain.model.User;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 import lombok.AllArgsConstructor;

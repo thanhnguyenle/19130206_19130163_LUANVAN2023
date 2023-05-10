@@ -1,5 +1,6 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.utils;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.utils;
 
+import lombok.experimental.FieldNameConstants;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +13,16 @@ import javax.ws.rs.client.WebTarget;
 public class KeycloakUtils {
 //    private final Environment environment;
     private Keycloak keycloakInstance = null;
-    public static final  String KEYCLOAK_AUTH_SERVER_URL = "http://keycloak:8080/auth";
-    public static final String KEYCLOAK_REALM = "spring-test";
+
+    @Value("${keycloak.auth-server-url}")
+    private String KEYCLOAK_AUTH_SERVER_URL;
+    @Value("${keycloak.realm}")
+    private String KEYCLOAK_REALM ;
     //set role for client-id in Service Account Role => Client Role => realm-management => all row
-    public static final String KEYCLOAK_CLIENT_ID = "user-test";
-    public static final String KEYCLOAK_CLIENT_SECRET = "G5Z8Q5g91JWhRTKj71j2o8M7d1qSNWDY";
+    @Value("${keycloak.resource}")
+    private String KEYCLOAK_CLIENT_ID ;
+    @Value("${keycloak.credentials.secret}")
+    private String KEYCLOAK_CLIENT_SECRET ;
 
     public Keycloak getKeycloakInstance(){
         if(keycloakInstance==null){

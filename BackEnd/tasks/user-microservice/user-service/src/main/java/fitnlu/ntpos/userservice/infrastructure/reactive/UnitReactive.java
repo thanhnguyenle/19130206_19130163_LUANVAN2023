@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.infrastructure.reactive;
+package fitnlu.ntpos.userservice.infrastructure.reactive;
 
 import lombok.AccessLevel;
 import lombok.Getter;

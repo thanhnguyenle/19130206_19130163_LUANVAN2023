@@ -1,15 +1,17 @@
-package fitnlu.ntpos.authservice.application.ports.output;
+package fitnlu.ntpos.userservice.application.ports.output;
 
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.reactive.CollectionReactive;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
+import fitnlu.ntpos.userservice.domain.model.User;
+import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
+import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IReadUserPort {
     CollectionReactive<User> findAll();
    List<User> findAllSync();
     UnitReactive<User> findById(String id);
     User findByIdSync(String id);
+
+    List<User> findAllUserByGroupName(String groupName);
+    List<User> findAllUserByGroupID(String groupID);
 }

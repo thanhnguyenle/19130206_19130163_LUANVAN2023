@@ -1,5 +1,7 @@
-package fitnlu.ntpos.userservice.application.usecases.role;
+package fitnlu.ntpos.userservice.application.usecases.user;
+
+import java.util.List;
 
 public interface IAddRoleToUserUseCase {
-    boolean addRoleToUser(String username, String roleName);
+    boolean addRoleToUser(String username, List<String> roleName);
 }

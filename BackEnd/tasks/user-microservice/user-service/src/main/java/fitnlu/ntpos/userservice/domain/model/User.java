@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.domain.model;
+package fitnlu.ntpos.userservice.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +21,7 @@ public class User {
     private String phoneNumber;
     private String address;
     private String avatar;
-    private List<String> roles;
+    private List<Role> roles;
+    private List<Group> groups;
     private long registeredAt;
 }

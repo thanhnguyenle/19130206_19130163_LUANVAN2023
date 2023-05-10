@@ -1,6 +1,6 @@
-package fitnlu.ntpos.authservice.application.ports.output;
+package fitnlu.ntpos.userservice.application.ports.output;
 
-import fitnlu.ntpos.authservice.domain.model.Role;
+import fitnlu.ntpos.userservice.domain.model.Role;
 
 public interface IWriteRolePort {
     Role createRoleSync(Role role) ;

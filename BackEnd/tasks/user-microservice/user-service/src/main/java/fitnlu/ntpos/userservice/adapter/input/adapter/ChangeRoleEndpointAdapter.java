@@ -1,21 +1,14 @@
-package fitnlu.ntpos.authservice.adapter.input.adapter;
+package fitnlu.ntpos.userservice.adapter.input.adapter;
 
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleInput;
-import fitnlu.ntpos.authservice.adapter.input.dto.RoleOutput;
-import fitnlu.ntpos.authservice.adapter.input.dto.UserInput;
-import fitnlu.ntpos.authservice.adapter.input.dto.UserOutput;
-import fitnlu.ntpos.authservice.adapter.input.mapper.RoleMapperInput;
-import fitnlu.ntpos.authservice.adapter.input.mapper.UserMapperInput;
-import fitnlu.ntpos.authservice.application.ports.input.IChangeRoleEndpointPort;
-import fitnlu.ntpos.authservice.application.ports.input.IChangeUserEndpointPort;
-import fitnlu.ntpos.authservice.application.usecases.IRemoveRoleUseCase;
-import fitnlu.ntpos.authservice.application.usecases.ISubmitNewRoleUseCase;
-import fitnlu.ntpos.authservice.application.usecases.ISubmitNewUserUseCase;
-import fitnlu.ntpos.authservice.application.usecases.IUpdateRoleUseCase;
-import fitnlu.ntpos.authservice.domain.model.Role;
-import fitnlu.ntpos.authservice.domain.model.User;
-import fitnlu.ntpos.authservice.infrastructure.annotations.Adapter;
-import fitnlu.ntpos.authservice.infrastructure.reactive.UnitReactive;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleInput;
+import fitnlu.ntpos.userservice.adapter.input.dto.RoleOutput;
+import fitnlu.ntpos.userservice.adapter.input.mapper.RoleMapperInput;
+import fitnlu.ntpos.userservice.application.ports.input.IChangeRoleEndpointPort;
+import fitnlu.ntpos.userservice.application.usecases.role.IRemoveRoleUseCase;
+import fitnlu.ntpos.userservice.application.usecases.role.ISubmitNewRoleUseCase;
+import fitnlu.ntpos.userservice.application.usecases.role.IUpdateRoleUseCase;
+import fitnlu.ntpos.userservice.domain.model.Role;
+import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
 import lombok.AllArgsConstructor;
 
 @Adapter

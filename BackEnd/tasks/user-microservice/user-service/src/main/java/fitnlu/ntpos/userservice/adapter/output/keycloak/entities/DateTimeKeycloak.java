@@ -1,4 +1,4 @@
-package fitnlu.ntpos.authservice.adapter.output.keycloak.entities;
+package fitnlu.ntpos.userservice.adapter.output.keycloak.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
