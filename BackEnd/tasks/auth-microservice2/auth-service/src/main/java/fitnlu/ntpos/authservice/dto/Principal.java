@@ -1,2 +1,8 @@
-package fitnlu.ntpos.authservice.dto;public class Principal {
+package fitnlu.ntpos.authservice.dto;
+
+import lombok.Data;
+
+@Data
+public class Principal {
+
 }

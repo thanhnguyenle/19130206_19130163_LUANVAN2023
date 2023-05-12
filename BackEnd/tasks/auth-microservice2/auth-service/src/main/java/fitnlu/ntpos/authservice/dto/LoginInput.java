@@ -1,8 +1,16 @@
 package fitnlu.ntpos.authservice.dto;
 
-public record LoginInput(
-        String email,
-        String password
-) {
+import lombok.*;
 
+import java.io.Serializable;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginInput implements Serializable {
+    private String email;
+    private String password;
 }

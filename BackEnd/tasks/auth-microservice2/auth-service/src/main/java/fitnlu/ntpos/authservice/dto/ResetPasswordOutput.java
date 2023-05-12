@@ -9,8 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResetPasswordOutput {
-    String id;
-    String email;
-    String oldPassword;
-    String password;
+    private boolean success;
 }

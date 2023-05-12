@@ -1,8 +1,12 @@
 package fitnlu.ntpos.authservice.jwt.gsonDTO;
 
-import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class JWTObjectDTO {
+import java.util.List;
+@Data
+@NoArgsConstructor
+public class JWTPayLoadDTO {
     private long exp;
     private long iat;
     private String jti;
@@ -23,5 +27,8 @@ public class JWTObjectDTO {
     private String preferred_username;
     private String given_name;
     private String email;
+    private String avatar;
+    private String phoneNumber;
+    private String address;
 
 }

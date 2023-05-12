@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //keycloak
+    implementation 'org.keycloak:keycloak-spring-boot-starter:16.1.1'
+    implementation 'org.keycloak:keycloak-admin-client:16.1.1'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
+    implementation 'org.jboss.resteasy:resteasy-multipart-provider:3.15.1.Final'
+    implementation 'org.jboss.resteasy:resteasy-jaxb-provider:6.2.3.Final'
+    implementation 'org.jboss.resteasy:resteasy-jackson2-provider:3.15.1.Final'
+    implementation 'org.jboss.resteasy:resteasy-client:3.15.1.Final'
+    implementation 'org.keycloak.bom:keycloak-adapter-bom:16.1.1'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    //graphQL
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
+    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+    implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
+
+    //web service rest api
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+    //authorization
+    implementation 'org.springframework.security:spring-security-config:6.0.3'
+
+}
+tasks.register('copyProperties', Copy) {
+    from('src/main/resources/application-docker.properties')
+    into('src/main/resources/')
+    rename('application-docker.properties', 'application.properties')
+}
+//processResources.dependsOn copyProperties
+tasks.named('test') {
+    useJUnitPlatform()
+}

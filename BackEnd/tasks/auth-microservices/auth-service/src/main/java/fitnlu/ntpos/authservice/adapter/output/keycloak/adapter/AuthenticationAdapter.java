@@ -6,15 +6,18 @@ import fitnlu.ntpos.authservice.adapter.output.keycloak.utils.KeycloakUtils;
 import fitnlu.ntpos.authservice.application.ports.output.ILoginPort;
 import fitnlu.ntpos.authservice.infrastructure.annotations.Adapter;
 import lombok.AllArgsConstructor;
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.idm.CredentialRepresentation;
 
 import java.util.HashMap;
 import java.util.Map;
 @Adapter
 @AllArgsConstructor
 public class AuthenticationAdapter implements ILoginPort {
+    private final KeycloakUtils keycloakUtils;
     @Override
     public LoginOutput login(LoginInput loginInput) {
         Map<String, Object> clientCredentials = new HashMap<>();
@@ -34,4 +37,5 @@ public class AuthenticationAdapter implements ILoginPort {
                 .refreshTokenExpiration(response.getRefreshExpiresIn())
                 .build();
     }
+
 }

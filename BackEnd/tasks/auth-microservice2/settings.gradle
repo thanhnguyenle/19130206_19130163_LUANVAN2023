@@ -1,1 +1,5 @@
 rootProject.name = 'auth-microservice2'
+include 'auth-service'
+include 'api-gateway'
+include 'discovery-server'
+include 'user-service'

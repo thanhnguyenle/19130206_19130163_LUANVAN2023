@@ -8,9 +8,6 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePasswordInput {
+public class ResetPasswordInput {
     String id;
-    String email;
-    String oldPassword;
-    String password;
 }

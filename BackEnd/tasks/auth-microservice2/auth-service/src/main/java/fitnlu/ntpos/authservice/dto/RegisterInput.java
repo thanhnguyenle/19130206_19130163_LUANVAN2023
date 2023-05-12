@@ -1,12 +1,22 @@
-package fitnlu.ntpos.authservice.adapter.input.dto;
+package fitnlu.ntpos.authservice.dto;
 
-public record RegisterInput(
-        String username,
-        String name,
-        String password,
-        String email,
-        String phoneNumber,
-        String address,
-        String avatar
-) {
+import lombok.*;
+
+import java.io.Serializable;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterInput implements Serializable {
+    private String name;
+    private String username;
+    private String password;
+    private String email;
+    private String phoneNumber;
+    private String address;
+    private String avatar;
+
 }
