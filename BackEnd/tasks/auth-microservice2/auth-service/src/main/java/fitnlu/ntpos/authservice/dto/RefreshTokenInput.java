@@ -1,0 +1,2 @@
+package fitnlu.ntpos.authservice.dto;public class RefreshTokenInput {
+}
