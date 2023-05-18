@@ -5,8 +5,7 @@ import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
 
 import java.util.List;
 
-public interface IFindAllProductUseCase {
-    List<Product> findAllProduct();
+public interface IFilterProductsUseCase {
      List<Product> filterProduct(IPaging paging, String categoryID, String searchType, String searchValue, String sortType, String sortValue);
-
+     List<Product> filterProduct(String categoryID, String searchType, String searchValue, String sortType, String sortValue);
 }

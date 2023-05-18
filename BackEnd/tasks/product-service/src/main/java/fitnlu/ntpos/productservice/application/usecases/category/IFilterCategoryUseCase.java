@@ -6,5 +6,6 @@ import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
 import java.util.List;
 
 public interface IFilterCategoryUseCase {
-    List<Category> filterCategory(IPaging paging);
+    List<Category> filterCategory(IPaging paging, String searchType, String searchValue, String sortType, String sortValue);
+    List<Category> filterCategory( String searchType, String searchValue, String sortType, String sortValue);
 }

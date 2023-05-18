@@ -1,10 +1,10 @@
-package fitnlu.ntpos.userservice.infrastructure.jwt;
+package fitnlu.ntpos.productservice.infrastructure.jwt;
 
 import com.google.gson.Gson;
-import fitnlu.ntpos.userservice.infrastructure.jwt.dto.UserJwtDTO;
-import fitnlu.ntpos.userservice.infrastructure.jwt.gsonDTO.JWTPayLoadDTO;
+
+import fitnlu.ntpos.productservice.infrastructure.jwt.dto.UserJwtDTO;
+import fitnlu.ntpos.productservice.infrastructure.jwt.gsonDTO.JWTPayLoadDTO;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 
 @Data
@@ -22,6 +22,9 @@ public class JwtHandler {
     }
 
     public UserJwtDTO getUser(){
+        if(jwt == null){
+            return null;
+        }
         String jwtToken = jwt.substring(7);
         String[] split_string = jwtToken.split("\\.");
         String base64EncodedHeader = split_string[0];

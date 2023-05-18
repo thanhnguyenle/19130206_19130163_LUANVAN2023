@@ -1,4 +1,4 @@
-package fitnlu.ntpos.userservice.domain.exception;
+package fitnlu.ntpos.productservice.domain.exception;
 
 import graphql.ErrorClassification;
 import graphql.GraphQLError;
@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @Getter

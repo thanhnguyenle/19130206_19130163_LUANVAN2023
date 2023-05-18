@@ -1,13 +1,16 @@
 package fitnlu.ntpos.userservice.adapter.input.adapter;
 
+import fitnlu.ntpos.userservice.adapter.input.dto.ListUserOutput;
+import fitnlu.ntpos.userservice.adapter.input.dto.PagingInput;
 import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
 import fitnlu.ntpos.userservice.adapter.input.mapper.UserMapperInput;
 import fitnlu.ntpos.userservice.application.ports.input.IFindUserEndpointPort;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupIDUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupNameUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindUserUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.*;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
+import fitnlu.ntpos.userservice.domain.model.User;
 import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
+import fitnlu.ntpos.userservice.infrastructure.paging.IPaging;
+import fitnlu.ntpos.userservice.infrastructure.paging.PageRequest;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 import lombok.AllArgsConstructor;
@@ -23,6 +26,8 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
     private final UserMapperInput userMapperInput;
     private final IFindAllUserByGroupNameUseCase iFindAllUserByGroupNameUseCase;
     private final IFindAllUserByGroupIDUseCase iFindAllUserByGroupIDUseCase;
+    private final IFilterUserByTimeUseCase iFilterUserByTimeUseCase;
+    private final IFilterUserUseCase iFilterUserUseCase;
     @Override
     public CollectionReactive<UserOutput> findALL() {
         return iFindAllUserUseCase.findAll().map(UserMapperInput::toDTO);
@@ -52,4 +57,33 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
     public List<UserOutput> findUserByGroupID(String groupID) {
         return iFindAllUserByGroupIDUseCase.findAllUserByGroupID(groupID).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public List<UserOutput> filterUserByTime(TimeSearch timeSearch) {
+        return iFilterUserByTimeUseCase.filterUserByTime(timeSearch).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public ListUserOutput filterUser(PagingInput pagingInput, String groupID, String searchType, String searchValue, String sortType, String sortValue) {
+        List<User> userOutputs = iFilterUserUseCase.filterUser(groupID,searchType,searchValue,sortType,sortValue);
+        IPaging paging = pagingInput!=null?new PageRequest(pagingInput.page(),pagingInput.limit()):null;
+        if(paging==null){
+            return ListUserOutput.builder()
+                    .users(userOutputs.stream().map(UserMapperInput::toDTO).collect(Collectors.toList()))
+                    .currentPage(1)
+                    .totalItem(userOutputs.size())
+                    .totalPage(1)
+                    .build();
+        }
+        int totalItem = userOutputs.size();
+        userOutputs = userOutputs.stream().skip(paging.getOffset()).limit(paging.getLimit()).collect(Collectors.toList());
+        int totalPage = totalItem%paging.getLimit()==0?totalItem/paging.getLimit():totalItem/paging.getLimit()+1;
+        return ListUserOutput.builder()
+                .users(userOutputs.stream().map(UserMapperInput::toDTO).collect(Collectors.toList()))
+                .totalItem(totalItem)
+                .totalPage(totalPage)
+                .currentPage(pagingInput.page())
+                .build();
+    }
+
 }

@@ -32,9 +32,13 @@ dependencies {
 }
 
 tasks.register('copyProperties', Copy) {
+    from('src/main/resources/application.properties')
+    into('src/main/resources/')
+    rename('application.properties', 'application-docker-1.properties')
     from('src/main/resources/application-docker.properties')
     into('src/main/resources/')
     rename('application-docker.properties', 'application.properties')
+
 }
 processResources.dependsOn copyProperties
 

@@ -55,11 +55,18 @@ dependencies {
     //security
     implementation 'org.springframework.security:spring-security-config:6.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 tasks.register('copyProperties', Copy) {
-    from('src/main/resources/application-docker.properties')
+    from('src/main/resources/application.properties')
     into('src/main/resources/')
-    rename('application-docker.properties', 'application.properties')
+    rename('application.properties', 'application-docker-1.properties')
+      from('src/main/resources/application-docker.properties')
+      into('src/main/resources/')
+      rename('application-docker.properties', 'application.properties')
+
 }
 //processResources.dependsOn copyProperties
 

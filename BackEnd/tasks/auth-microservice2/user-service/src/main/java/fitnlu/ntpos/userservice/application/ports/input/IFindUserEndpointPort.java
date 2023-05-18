@@ -1,7 +1,12 @@
 package fitnlu.ntpos.userservice.application.ports.input;
 
 
+import fitnlu.ntpos.userservice.adapter.input.dto.ListUserOutput;
+import fitnlu.ntpos.userservice.adapter.input.dto.PagingInput;
 import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
+import fitnlu.ntpos.userservice.infrastructure.paging.IPaging;
+import fitnlu.ntpos.userservice.infrastructure.paging.PageRequest;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 
@@ -16,4 +21,6 @@ public interface IFindUserEndpointPort {
 
     List<UserOutput> findUserByGroupName(String groupName);
     List<UserOutput> findUserByGroupID(String groupID);
+    List<UserOutput> filterUserByTime(TimeSearch timeSearch);
+    ListUserOutput filterUser(PagingInput pagingInput, String groupID, String searchType, String searchValue, String sortType, String sortValue);
 }

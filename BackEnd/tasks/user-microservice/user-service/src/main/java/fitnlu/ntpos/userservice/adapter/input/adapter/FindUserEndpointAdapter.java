@@ -3,10 +3,8 @@ package fitnlu.ntpos.userservice.adapter.input.adapter;
 import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
 import fitnlu.ntpos.userservice.adapter.input.mapper.UserMapperInput;
 import fitnlu.ntpos.userservice.application.ports.input.IFindUserEndpointPort;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupIDUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserByGroupNameUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindAllUserUseCase;
-import fitnlu.ntpos.userservice.application.usecases.user.IFindUserUseCase;
+import fitnlu.ntpos.userservice.application.usecases.user.*;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
 import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
@@ -23,6 +21,7 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
     private final UserMapperInput userMapperInput;
     private final IFindAllUserByGroupNameUseCase iFindAllUserByGroupNameUseCase;
     private final IFindAllUserByGroupIDUseCase iFindAllUserByGroupIDUseCase;
+    private final IFilterUserByTimeUseCase iFilterUserByTimeUseCase;
     @Override
     public CollectionReactive<UserOutput> findALL() {
         return iFindAllUserUseCase.findAll().map(UserMapperInput::toDTO);
@@ -51,5 +50,10 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
     @Override
     public List<UserOutput> findUserByGroupID(String groupID) {
         return iFindAllUserByGroupIDUseCase.findAllUserByGroupID(groupID).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserOutput> filterUserByTime(TimeSearch timeSearch) {
+        return iFilterUserByTimeUseCase.filterUserByTime(timeSearch).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
-package fitnlu.ntpos.userservice.infrastructure.jwt.dto;
+package fitnlu.ntpos.productservice.infrastructure.jwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +33,9 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(UserJwtDTO user) {
+        if(user == null) {
+            return null;
+        }
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

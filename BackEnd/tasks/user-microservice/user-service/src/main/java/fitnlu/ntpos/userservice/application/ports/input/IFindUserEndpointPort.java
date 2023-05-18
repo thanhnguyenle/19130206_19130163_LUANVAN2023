@@ -2,6 +2,7 @@ package fitnlu.ntpos.userservice.application.ports.input;
 
 
 import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
 import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 
@@ -16,4 +17,5 @@ public interface IFindUserEndpointPort {
 
     List<UserOutput> findUserByGroupName(String groupName);
     List<UserOutput> findUserByGroupID(String groupID);
+    List<UserOutput> filterUserByTime(TimeSearch timeSearch);
 }

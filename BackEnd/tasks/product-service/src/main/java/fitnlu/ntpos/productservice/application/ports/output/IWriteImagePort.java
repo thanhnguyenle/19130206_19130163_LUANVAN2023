@@ -5,5 +5,6 @@ import fitnlu.ntpos.productservice.domain.model.ProductImage;
 import java.util.List;
 
 public interface IWriteImagePort {
-    List<ProductImage> getAllImages();
+    boolean addImageToProduct(String productID, List<ProductImage> images);
+    boolean deleteImageFromProduct(List<Integer> imageIDs);
 }

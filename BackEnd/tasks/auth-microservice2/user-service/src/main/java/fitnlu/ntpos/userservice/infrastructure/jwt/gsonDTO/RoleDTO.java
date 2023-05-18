@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class AccountDTO {
+public class RoleDTO {
     private List<String> roles;
 }

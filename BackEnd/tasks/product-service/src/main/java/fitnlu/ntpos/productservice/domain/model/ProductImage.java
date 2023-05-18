@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
 @Getter
 @Setter
 @Builder
 @ToString
-public class Category {
-    private String id;
-    private String name;
+public class ProductImage {
+    private int id;
+    private String url;
     private String description;
-    private List<Product> products;
-    private long createdAt;
+
 }

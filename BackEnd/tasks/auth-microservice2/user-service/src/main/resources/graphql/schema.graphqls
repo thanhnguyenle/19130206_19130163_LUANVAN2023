@@ -94,12 +94,44 @@ type GroupScalarOut{
     success: Boolean
 }
 
+enum TimeSearch{
+    TODAY
+    YESTERDAY
+    THIS_WEEK
+    LAST_WEEK
+    THIS_MONTH
+    LAST_MONTH
+    THIS_YEAR
+    LAST_YEAR
+    ALL_TIME
+}
+
+type PageUserInfo{
+    users: [User],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+type PageGroupInfo{
+    groups: [Group],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
 
 type Query {
     #user
     usersPaging(first:Int, after:String, last:Int, before:String): UserConnection
     users: [User]
     user(id: String): User
+    usersFilterByTime(timeSearch: TimeSearch): [User]
+    usersFilter(paging: Paging, groupID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageUserInfo
     #role
     roles: [Role]
     role(name: String): Role

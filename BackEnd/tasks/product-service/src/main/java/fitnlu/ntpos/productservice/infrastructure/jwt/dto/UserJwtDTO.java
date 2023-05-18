@@ -1,7 +1,5 @@
-package fitnlu.ntpos.userservice.infrastructure.jwt.dto;
+package fitnlu.ntpos.productservice.infrastructure.jwt.dto;
 
-import fitnlu.ntpos.userservice.domain.model.Group;
-import fitnlu.ntpos.userservice.domain.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

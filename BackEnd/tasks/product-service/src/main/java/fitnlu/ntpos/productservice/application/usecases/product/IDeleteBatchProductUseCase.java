@@ -5,6 +5,5 @@ import fitnlu.ntpos.productservice.domain.model.Product;
 import java.util.List;
 
 public interface IDeleteBatchProductUseCase {
-    List<Product> addBatchProduct(List<Product> product);
-
+    boolean deleteBatchProduct(List<String> productIDs);
 }

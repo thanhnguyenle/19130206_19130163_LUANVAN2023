@@ -1,10 +1,8 @@
 package fitnlu.ntpos.productservice.application.usecases.product;
 
-import fitnlu.ntpos.productservice.domain.model.Product;
-
 import java.util.List;
 
-public interface IDeleteProductBatchFromCategoryUseCase {
+public interface IDeleteBatchProductFromCategoryUseCase {
     boolean deleteProductBatchFromCategory(String categoryID,List<String> productIDs);
 
 }

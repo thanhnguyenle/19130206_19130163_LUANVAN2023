@@ -1,4 +1,4 @@
-package fitnlu.ntpos.userservice.infrastructure.config;
+package fitnlu.ntpos.productservice.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

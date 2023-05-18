@@ -1,6 +1,7 @@
-package fitnlu.ntpos.userservice.infrastructure.reactive;
+package fitnlu.ntpos.productservice.infrastructure.reactive;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Function;

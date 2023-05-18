@@ -1,4 +1,5 @@
 package fitnlu.ntpos.productservice.application.usecases.category;
 
-public interface IUpdateCategoryUseCase {
+public interface IDeleteCategoryUseCase {
+    boolean deleteCategory(String id);
 }

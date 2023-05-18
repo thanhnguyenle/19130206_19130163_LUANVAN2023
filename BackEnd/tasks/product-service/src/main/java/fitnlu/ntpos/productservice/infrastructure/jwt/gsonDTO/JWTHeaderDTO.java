@@ -1,4 +1,4 @@
-package fitnlu.ntpos.userservice.infrastructure.jwt.gsonDTO;
+package fitnlu.ntpos.productservice.infrastructure.jwt.gsonDTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -5,6 +5,8 @@ import fitnlu.ntpos.userservice.adapter.output.keycloak.mapper.RoleMapperOutput;
 import fitnlu.ntpos.userservice.adapter.output.keycloak.mapper.UserMapperOutput;
 import fitnlu.ntpos.userservice.adapter.output.keycloak.utils.KeycloakUtils;
 import fitnlu.ntpos.userservice.application.ports.output.IReadUserPort;
+import fitnlu.ntpos.userservice.domain.model.DateTime;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
 import fitnlu.ntpos.userservice.domain.model.User;
 import fitnlu.ntpos.userservice.infrastructure.annotations.Adapter;
 import fitnlu.ntpos.userservice.infrastructure.reactive.CollectionReactive;
@@ -143,5 +145,28 @@ public class ReadUserAdapter implements IReadUserPort {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<User> filterUserByTime(TimeSearch timeSearch) {
+        try{
+            //not closed keycloak instance because keycloak will auto close after .. minutes (config)
+            Keycloak keycloak = keycloakUtils.getKeycloakInstance() ;
+            ClientRepresentation clientRepresentation = keycloak.realm(KEYCLOAK_REALM).clients().findByClientId(KEYCLOAK_CLIENT_ID).get(0);
+            UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
+            List<UserRepresentation> userRepresentation = usersResource.list();
+            assert userRepresentation != null;
+            return userRepresentation.stream().filter(userSearch -> DateTime.getTimeSearch(userSearch.getCreatedTimestamp())==timeSearch).map(user -> {
+                List<RoleRepresentation> list =  usersResource.get(user.getId()).roles().clientLevel(clientRepresentation.getId()).listEffective();
+                User userDomain = userMapperOutput.toDomain(user);
+                userDomain.setRoles(list.stream().map(roleMapperOutput::toDomain).toList());
+                List<GroupRepresentation> groupRepresentationList = usersResource.get(user.getId()).groups();
+                userDomain.setGroups(groupRepresentationList.stream().map(groupMapperOutput::toDomain).toList());
+                return userDomain;
+            }).toList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List.of();
     }
 }

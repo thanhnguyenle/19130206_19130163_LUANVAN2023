@@ -1,4 +1,4 @@
-package fitnlu.ntpos.userservice.domain.model;
+package fitnlu.ntpos.productservice.domain.model;
 
 public enum TimeSearch {
     TODAY,

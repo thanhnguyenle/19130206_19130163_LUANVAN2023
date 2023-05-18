@@ -10,6 +10,7 @@ import fitnlu.ntpos.userservice.adapter.input.dto.UserInput;
 import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
 import fitnlu.ntpos.userservice.adapter.input.dto.UserScalarOutput;
 import fitnlu.ntpos.userservice.adapter.input.until.CursorUntil;
+import fitnlu.ntpos.userservice.domain.model.TimeSearch;
 import graphql.relay.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -84,5 +85,8 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
         return userOutput;
     }
 
-
+    @SchemaMapping(typeName = "Query", field = "usersFilterByTime")
+    public List<UserOutput> usersFilterByTime(@Argument TimeSearch timeSearch){
+        return findUserEndpointAdapter.filterUserByTime(timeSearch);
+    }
 }

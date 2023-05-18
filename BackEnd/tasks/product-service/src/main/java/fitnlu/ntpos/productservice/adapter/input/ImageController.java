@@ -1,8 +1,12 @@
 package fitnlu.ntpos.productservice.adapter.input;
 
 import fitnlu.ntpos.productservice.adapter.input.adapter.ChangeCategoryEndpointAdapter;
+import fitnlu.ntpos.productservice.adapter.input.adapter.ChangeImageEndpointAdapter;
 import fitnlu.ntpos.productservice.adapter.input.adapter.FindCategoryEndpointAdapter;
+import fitnlu.ntpos.productservice.adapter.input.adapter.FindImageEndpointAdapter;
 import fitnlu.ntpos.productservice.adapter.input.dto.CategoryInput;
+import fitnlu.ntpos.productservice.adapter.input.dto.ProductImageInput;
+import fitnlu.ntpos.productservice.adapter.input.dto.ProductImageOutput;
 import fitnlu.ntpos.productservice.adapter.input.dto.ResultOutput;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -13,33 +17,23 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class CategoryController {
-    private final ChangeCategoryEndpointAdapter changeCategoryEndpointAdapter;
-    private final FindCategoryEndpointAdapter findCategoryEndpointAdapter;
+public class ImageController {
+    private final ChangeImageEndpointAdapter changeImageEndpointAdapter;
+    private final FindImageEndpointAdapter findImageEndpointAdapter;
 
-    //Mutation
-    @SchemaMapping(typeName = "Mutation", field = "createCategory")
-    public ResultOutput createCategory(@Argument CategoryInput categoryInput){
-        return changeCategoryEndpointAdapter.addCategory(categoryInput);
+    //Query
+    @SchemaMapping(typeName = "Query", field = "findImageByProduct")
+    public List<ProductImageOutput> findImageByProduct(@Argument String productID){
+        return findImageEndpointAdapter.findImageByProductID(productID);
     }
 
-    @SchemaMapping(typeName = "Mutation", field = "updateCategory")
-    public ResultOutput updateCategory(@Argument String id, @Argument CategoryInput categoryInput){
-        return changeCategoryEndpointAdapter.updateCategory(id, categoryInput);
+    @SchemaMapping(typeName = "Mutation", field = "batchAddImageToProduct")
+    public ResultOutput batchAddImageToProduct(@Argument("productID") String id, @Argument("imageInputs") List<ProductImageInput> productImageInputs){
+        return changeImageEndpointAdapter.batchAddImage(id, productImageInputs);
     }
 
-    @SchemaMapping(typeName = "Mutation", field = "deleteCategory")
-    public ResultOutput deleteCategory(@Argument String id){
-        return changeCategoryEndpointAdapter.deleteCategory(id);
-    }
-
-    @SchemaMapping(typeName = "Mutation", field = "batchCreateCategory")
-    public ResultOutput batchCreateCategory(@Argument List<CategoryInput> categoryInputs){
-        return changeCategoryEndpointAdapter.addBatchCategory(categoryInputs);
-    }
-
-    @SchemaMapping(typeName = "Mutation", field = "batchDeleteCategory")
-    public ResultOutput batchDeleteCategory(@Argument List<String> categoryIDs){
-        return changeCategoryEndpointAdapter.deleteBatchCategory(categoryIDs);
+    @SchemaMapping(typeName = "Mutation", field = "batchDeleteImageFromProduct")
+    public ResultOutput batchDeleteImageFromProduct( @Argument("imageIDs") List<Integer> productImageInputs){
+        return changeImageEndpointAdapter.batchDeleteImage(productImageInputs);
     }
 }

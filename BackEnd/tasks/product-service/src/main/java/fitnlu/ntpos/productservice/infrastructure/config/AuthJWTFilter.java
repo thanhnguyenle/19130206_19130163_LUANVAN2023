@@ -1,19 +1,15 @@
-package fitnlu.ntpos.userservice.infrastructure.config;
+package fitnlu.ntpos.productservice.infrastructure.config;
 
-import fitnlu.ntpos.userservice.infrastructure.jwt.JwtHandler;
-import fitnlu.ntpos.userservice.infrastructure.jwt.dto.UserDetailsImpl;
+import fitnlu.ntpos.productservice.infrastructure.jwt.JwtHandler;
+import fitnlu.ntpos.productservice.infrastructure.jwt.dto.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -27,6 +23,10 @@ public class AuthJWTFilter  extends OncePerRequestFilter {
             JwtHandler jwtHandler = JwtHandler.getInstance();
             jwtHandler.setJwt(headerAuth);
             UserDetails userDetails = UserDetailsImpl.build(jwtHandler.getUser());
+            if(userDetails == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                                 userDetails,

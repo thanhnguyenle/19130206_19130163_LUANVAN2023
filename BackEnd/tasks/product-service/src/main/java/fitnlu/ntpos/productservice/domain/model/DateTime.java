@@ -1,11 +1,10 @@
-package fitnlu.ntpos.userservice.domain.model;
+package fitnlu.ntpos.productservice.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.security.Timestamp;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -19,6 +18,13 @@ import java.util.GregorianCalendar;
 @Builder
 public class DateTime {
     private long timestamp;
+    private long startWeek;
+    private long endWeek;
+    private long startMonth;
+    private long endMonth;
+    private long startYear;
+    private long endYear;
+
 
     public String toString() {
         Date date = new Date(timestamp);
@@ -51,8 +57,7 @@ public class DateTime {
          int hour;
          int minute;
          int second;
-        public DateTimeSub(long timestamp) {
-            updateDateTime(timestamp);
+        public DateTimeSub() {
         }
         public void updateDateTime(long timestamp){
             try {
@@ -92,7 +97,7 @@ public class DateTime {
             long numberOfWeek = todayTimeStamp / (60*60*24*7*1000);
             long startWeek = numberOfWeek * (60*60*24*7*1000);
             updateDateTime(startWeek);
-            this.day += 4; // first day is 01/01/1970 (thursday)
+            this.day -= 3; // first day is 01/01/1970 (thursday)
              return getTimestamp();
         }
         public long getStartTimeStampThisMonth(long todayTimeStamp){
@@ -108,33 +113,18 @@ public class DateTime {
         }
     }
 
-    public static boolean checkTimeSearch(TimeSearch timeSearch, long timestamp) {
-        long currentTimeStamp = System.currentTimeMillis();
-        long todayTimeStamp =(currentTimeStamp / 86400) * 86400;
-        DateTimeSub dateTimeSub = new DateTimeSub(timestamp);
+    public void updateTime(long currentTime) {
+        long todayTimeStamp =(currentTime / 86400000) * 86400000;
+        DateTimeSub dateTimeSub = new DateTimeSub();
         // start week
-        long startWeek = dateTimeSub.getStartTimeStampThisWeek(todayTimeStamp);
+        this.startWeek = dateTimeSub.getStartTimeStampThisWeek(todayTimeStamp);
+        this.endWeek = this.startWeek - 60*60*24*7*1000;
         // start month
-        long startMonth = dateTimeSub.getStartTimeStampThisMonth(todayTimeStamp);
+        this.startMonth = dateTimeSub.getStartTimeStampThisMonth(todayTimeStamp);
+        this.endMonth = this.startMonth - 60L *60*24*30*1000;
         // start year
-        long startYear = dateTimeSub.getStartTimeStampThisYear(todayTimeStamp);
-        if (timeSearch == TimeSearch.ALL_TIME) {
-            return true;
-        }else if (timeSearch == TimeSearch.TODAY && timestamp >= todayTimeStamp) {
-            return true;
-        }else if (timeSearch == TimeSearch.YESTERDAY && timestamp >= todayTimeStamp - 86400000L && timestamp< todayTimeStamp) {
-            return true;
-        }else if (timeSearch == TimeSearch.THIS_WEEK && timestamp >= startWeek) {
-            return true;
-        }else if (timeSearch == TimeSearch.LAST_WEEK && timestamp >= startWeek - 86400000L * 7 && timestamp < startWeek){
-            return true;
-        }else if (timeSearch == TimeSearch.THIS_MONTH && timestamp >= startMonth) {
-            return true;
-        }else if (timeSearch == TimeSearch.LAST_MONTH && timestamp >= startMonth - 86400000L * 30 && timestamp < startMonth){
-            return true;
-        }else if (timeSearch == TimeSearch.THIS_YEAR && timestamp >= startYear) {
-            return true;
-        }else return timeSearch == TimeSearch.LAST_YEAR && timestamp >= startYear - 86400000L * 365 && timestamp < startYear;
+        this.startYear = dateTimeSub.getStartTimeStampThisYear(todayTimeStamp);
+        this.endYear = this.startYear - 60L *60*24*365*1000;
     }
 
     }

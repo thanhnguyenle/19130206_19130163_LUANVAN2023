@@ -1,2 +1,5 @@
-package fitnlu.ntpos.productservice.application.usecases.category;public class ITotalCategoryUseCase {
+package fitnlu.ntpos.productservice.application.usecases.category;
+
+public interface ITotalCategoryUseCase {
+    int totalCategory();
 }

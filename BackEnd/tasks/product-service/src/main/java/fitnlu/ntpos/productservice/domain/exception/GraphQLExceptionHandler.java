@@ -1,13 +1,12 @@
-package fitnlu.ntpos.userservice.domain.exception;
+package fitnlu.ntpos.productservice.domain.exception;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
-import org.springframework.graphql.execution.ErrorType;
 import org.springframework.stereotype.Component;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
 

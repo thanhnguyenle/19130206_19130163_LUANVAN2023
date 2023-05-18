@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface IFindProductUseCase {
     Product findProductById(String id);
-    Product findProductByName(String name);
 
 }

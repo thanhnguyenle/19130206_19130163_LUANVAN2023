@@ -1,6 +1,5 @@
-package fitnlu.ntpos.userservice.infrastructure.jwt.gsonDTO;
+package fitnlu.ntpos.productservice.infrastructure.jwt.gsonDTO;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
