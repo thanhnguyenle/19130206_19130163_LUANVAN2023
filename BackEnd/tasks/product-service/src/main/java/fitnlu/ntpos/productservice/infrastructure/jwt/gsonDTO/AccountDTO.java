@@ -1,12 +1,12 @@
-package fitnlu.ntpos.authservice.jwt.gsonDTO;
+package fitnlu.ntpos.userservice.infrastructure.jwt.gsonDTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Data
 @NoArgsConstructor
-public class RealmAccessDTO {
+public class AccountDTO {
     private List<String> roles;
-    private List<String> groups;
 }
