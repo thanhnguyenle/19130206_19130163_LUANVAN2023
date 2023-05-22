@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View, Text} from 'react-native';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+} from 'react-native';
 import {get, put} from '../../api';
 import Comment from './Comment';
 import Input from './InputComment';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const ListCommand = () => {
   const [refreshing] = useState(false);
   const [comments, setComments] = useState([]);
@@ -84,25 +92,26 @@ const ListCommand = () => {
     let current = comments.slice();
     current.push({user_id: 4, content: 'hello'});
     setComments(current);
-    _scrollView.scrollTo({y: 0});
+    // _scrollView.scrollTo({y: 0});
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.titleComment}>COMMENT</Text>
-      {/* Scrollable list */}
-      <ScrollView
-        ref={scrollView => {
-          setScrollView(scrollView);
-        }}
-        // onRefresh={onRefresh}
-        // refreshControl={<RefreshControl refreshing={refreshing} />
-        // }
-      >
-        {/* Render each comment with Comment component */}
-        {comments.map((comment, index) => (
-          <Comment comment={comment} key={index} />
-        ))}
-      </ScrollView>
+      <Text style={styles.titleComment}>COMMENT ({comments.length})</Text>
+      <SafeAreaView style={styles.list}>
+        <ScrollView
+          nestedScrollEnabled
+          ref={scrollView => {
+            setScrollView(scrollView);
+          }}
+          // onRefresh={onRefresh}
+          // refreshControl={<RefreshControl refreshing={refreshing} />
+          // }
+        >
+          {comments.map((comment, index) => (
+            <Comment comment={comment} key={index} />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
       {/* Comment input box */}
       <Input onSubmit={submitComment} />
     </View>
@@ -110,6 +119,9 @@ const ListCommand = () => {
 };
 
 const styles = StyleSheet.create({
+  list: {
+    height: 200,
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFF',
@@ -117,6 +129,9 @@ const styles = StyleSheet.create({
   },
   titleComment: {
     fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    color: '#000',
   },
   // scrollView: {
   //   flex: 1,

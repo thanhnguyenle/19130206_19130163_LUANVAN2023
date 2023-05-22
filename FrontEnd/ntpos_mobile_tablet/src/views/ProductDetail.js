@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import Btn from '../components/Btn';
 import {COLORS} from '../constants/common';
-import {carousels} from './data';
+import {carousels, products} from './data';
 import CustomImageItem from '../components/CustomImageItem';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ListCommand from '../components/comment/ListCommand';
+import ShowEndow from '../components/ShowEndow';
 const ProductDetail = ({navigation, route}) => {
   const {product} = route.params;
   const [counter, setCounter] = useState(1);
@@ -64,7 +65,30 @@ const ProductDetail = ({navigation, route}) => {
         <View style={styles.titlePanel}>
           <Text style={styles.titlePrice}>đ{product.price}</Text>
         </View>
-        <ListCommand />
+        {/* DISCOUNT */}
+        <View style={styles.titlePanel}>
+          <Text style={styles.title}>Ưu đãi</Text>
+        </View>
+        <ShowEndow
+          title={''}
+          onPressDeteil={() => {
+            alert('demo');
+          }}
+          data={products}
+          navigation={navigation}
+        />
+
+        {/* DESCRIPTION */}
+        <View style={styles.titlePanel}>
+          <Text style={styles.title}>Mô tả</Text>
+        </View>
+        <View style={styles.description}>
+          <Text style={styles.descriptionText}>{product.description}</Text>
+        </View>
+        {/* COMMENT */}
+        <View>
+          <ListCommand />
+        </View>
       </ScrollView>
       <View style={styles.groupBottom}>
         <Btn
@@ -132,6 +156,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#FFF',
   },
   groupBottom: {
     flexDirection: 'row',

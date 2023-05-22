@@ -41,7 +41,6 @@ const InputComponent = props => {
           placeholder="Add a comment..."
           placeholderTextColor={COLORS.color_grey}
           keyboardType="twitter" // keyboard with no return button
-          autoFocus={true} // focus and show the keyboard
           style={styles.input}
           value={text}
           onChangeText={onChangeText} // handle input changes

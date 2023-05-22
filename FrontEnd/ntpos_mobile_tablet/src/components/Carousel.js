@@ -11,21 +11,24 @@ import {COLORS} from '../constants/common';
 import CarouselCardItem from './CarouselItem';
 
 const {width, heigth} = Dimensions.get('window');
-let flatList;
+let flatList = null;
 function infiniteScroll(dataList) {
   const numberOfData = dataList.length;
   let scrollValue = 0,
     scrolled = 0;
-  setInterval(function () {
-    scrolled++;
-    if (scrolled < numberOfData) {
+  const intervalId = setInterval(() => {
+    if (scrolled++ < numberOfData) {
       scrollValue = scrollValue + width;
     } else {
       scrollValue = 0;
       scrolled = 0;
     }
-    this.flatList.scrollToOffset({animated: true, offset: scrollValue});
+    if (this.flatListRef) {
+      this.flatListRef.scrollToOffset({animated: true, offset: scrollValue});
+    }
   }, 4000);
+
+  return intervalId;
 }
 const Carousel = ({data}) => {
   const scrollX = new Animated.Value(0);
@@ -50,7 +53,7 @@ const Carousel = ({data}) => {
           scrollEnabled
           snapToAlignment="center"
           scrollEventThrottle={16}
-          decelerationRate={'fast'}
+          decelerationRate={'normal'}
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => {
             return <CarouselCardItem item={item} />;

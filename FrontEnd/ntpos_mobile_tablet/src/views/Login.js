@@ -7,23 +7,27 @@ import {
   Dimensions,
   ScrollView,
   Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector, useDispatch} from 'react-redux';
+import {loginRequest} from '../redux/auth/loginSlice';
 import {COLORS} from '../constants/common';
 import Btn from '../components/Btn';
 import Background from './Background';
-import {color_primary, color_white, darkGreen} from '../constants/common';
 import Field from '../components/Field';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+
 const LoginScreen = ({navigation}) => {
+  const loading = useSelector(state => state.auth.loading);
+  const loadingResponse = useSelector(state => state.auth.loadingResponse);
+  const error = useSelector(state => state.auth.error);
+  const dispatch = useDispatch();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
-  const [error, setError] = useState(null);
-
   const [rightIcon, setRightIcon] = useState('eye');
+
   const handlePasswordVisibility = () => {
     if (rightIcon === 'eye') {
       setIsPasswordSecure(!isPasswordSecure);
@@ -34,36 +38,20 @@ const LoginScreen = ({navigation}) => {
     }
   };
 
-  const handleSubmitPress = (userEmail1, userPassword1) => {
+  const handleSubmitPress = (userEmail, userPassword) => {
     setErrortext('');
-    if (userEmail1 === '') {
+    if (userEmail === '') {
       alert('Gmail không được rỗng!');
       return;
     }
-    if (userPassword1 === '') {
+    if (userPassword === '') {
       alert('Mật khẩu không được rỗng!');
       return;
     }
-    setLoading(true);
-    let dataToSend = {email: userEmail1, password: userPassword1};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-    AsyncStorage.setItem('user_id', 'thanh@gmail.com');
-    navigation.replace('DrawerUserNavigationRoutes');
+    console.log('hello');
+    dispatch(loginRequest({userEmail, userPassword}));
+    console.log('hello 2');
   };
-  onLayout = e => {
-    let isPortrait =
-      e.nativeEvent.layout.heightScreen > e.nativeEvent.layout.widthScreen;
-    if (isPortrait == isPortrait) {
-      this.setState({isPortrait});
-    }
-  };
-
   return (
     <Background>
       <ScrollView>
