@@ -24,5 +24,11 @@ export default function SearchContent(props) {
                 <input type="text" name="search" placeholder={t('by_code_name')}/>
             </div>);
         }
+        else if(props.page === 'tableRoom'){
+            return ( <div className='box search'>
+                <h6>{t('search')}</h6>
+                <input type="text" name="search" placeholder={t('by_code_room_table')}/>
+            </div>);
+        }
 
 }

@@ -1,20 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {MDBIcon} from "mdb-react-ui-kit";
 import '../../assets/style/common.scss'
+const listFood = [
+    {i18n:'food',name:'monan'},
+    {i18n:'drinks',name:'nuoc'},
+    {i18n:'others',name:'khac'},
+]
+const listStatus = [
+    {i18n:'temporary_ticket',name:'phieutam'},
+    {i18n:'balanced_stock',name:'phieucanbang'},
+    {i18n:'cancelled',name:'dahuy'},
+]
 export default function TypeMenu(props) {
-    const listFood = [
-        {i18n:'food',value:false},
-        {i18n:'drinks',value:false},
-        {i18n:'others',value:false},
-    ]
-    const listStatus = [
-        {i18n:'temporary_ticket',value:false},
-        {i18n:'balanced_stock',value:false},
-        {i18n:'cancelled',value:false},
-    ]
     const {t} = useTranslation();
     const [show, setShow] = useState(false);
+    const [status, setStatus] = useState([]);
+    useEffect(()=>{
+        setStatus(listStatus);
+    });
+    const handleChange =(e)=> {
+     const {name,checked} = e.target;
+     let tempStatus = status.map(item => item.name === name ? {...item,isChecked:checked} :item);
+     setStatus(tempStatus);
+    }
+
     if(props.type === 'type_of_menu'){
         return(
             <div className='box typeMenu'>
@@ -32,7 +42,7 @@ export default function TypeMenu(props) {
                     {listFood.map((item) => {
                         return (
                             <>
-                                <input type="checkbox" name={t(props.type)} value={item.value}/>
+                                <input type="checkbox" name={t(props.type)} />
                                 <label htmlFor="food"> {t(item.i18n)}</label><br/>
                             </>
                         );
@@ -55,10 +65,15 @@ export default function TypeMenu(props) {
                     </a>
                 </div>
                 <div className= {show ? 'hideGroup':'listGroup'}>
-                    {listStatus.map((item) => {
+                    {status.map((item) => {
                         return (
                             <>
-                                <input type="checkbox" name={t(props.type)} value={item.value}/>
+                                <input
+                                    type="checkbox"
+                                    name={item.name}
+                                    checked={item?.isChecked || false }
+                                    onChange={handleChange}
+                                />
                                 <label htmlFor="food"> {t(item.i18n)}</label><br/>
                             </>
                         );

@@ -129,7 +129,7 @@ export default function SideNav({ basicOpen, setBasicOpen,collapseSidebar,setCol
             </MDBSideNavCollapse>
           </MDBSideNavItem>
           <MDBSideNavItem>
-            <Link to="/e-commerce2" className="sidenav-link" title= {t('rom_table')}>
+            <Link to="/table-room" className="sidenav-link" title= {t('rom_table')}>
               {collapseSidebar ? <MDBIcon fas icon="table" className="fa-fw me-1"  /> : <><MDBIcon fas icon="table" className="fa-fw me-3"  /> {t('rom_table')}</>}
             </Link>
           </MDBSideNavItem>
