@@ -45,23 +45,30 @@ dependencies {
     implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-}
-// Define a task to update the classpath to include the desired properties file
-tasks.register('updateClasspath') {
-    doLast {
-        bootJar {
-            classpath = files(classpath.asPath.replace('application.properties', 'application-docker.properties'))
-        }
-    }
-}
+    //eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
 
-// Define a task to perform the build using the updated classpath
-tasks.register('buildWithDockerProps') { task ->
-    dependsOn 'updateClasspath'
-    dependsOn 'build' }
+    //security
+    implementation 'org.springframework.security:spring-security-config:6.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-// Set the default build task to the custom build task
-defaultTasks 'buildWithDockerProps'
+    //gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+}
+tasks.register('copyProperties', Copy) {
+    from('src/main/resources/application.properties')
+    into('src/main/resources/')
+    rename('application.properties', 'application-docker-1.properties')
+      from('src/main/resources/application-docker.properties')
+      into('src/main/resources/')
+      rename('application-docker.properties', 'application.properties')
+
+}
+//processResources.dependsOn copyProperties
 
 tasks.named('test') {
     useJUnitPlatform()

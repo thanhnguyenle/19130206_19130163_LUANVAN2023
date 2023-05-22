@@ -1,4 +1,7 @@
 package fitnlu.ntpos.orderservice.application.usecases.orderLineItem;
 
-public class IDeleteOrderLineItemUseCase {
+import fitnlu.ntpos.orderservice.domain.model.OrderLineItem;
+
+public interface IDeleteOrderLineItemUseCase {
+    OrderLineItem deleteOrderLineItem(String id);
 }

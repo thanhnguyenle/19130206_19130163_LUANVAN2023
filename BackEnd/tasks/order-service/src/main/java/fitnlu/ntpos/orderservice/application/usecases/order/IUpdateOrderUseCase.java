@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.application.usecases;
+package fitnlu.ntpos.orderservice.application.usecases.order;
 
 import fitnlu.ntpos.orderservice.domain.model.Order;
 

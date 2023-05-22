@@ -1,4 +1,4 @@
-package fitnlu.ntpos.productservice.infrastructure.paging;
+package fitnlu.ntpos.orderservice.infracstructure.paging;
 
 public class PageRequest implements IPaging{
     private Integer page;

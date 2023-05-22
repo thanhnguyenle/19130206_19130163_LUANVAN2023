@@ -5,10 +5,7 @@ import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import fitnlu.ntpos.userservice.adapter.input.adapter.ChangeUserEndpointAdapter;
 import fitnlu.ntpos.userservice.adapter.input.adapter.FindRoleEndpointAdapter;
 import fitnlu.ntpos.userservice.adapter.input.adapter.FindUserEndpointAdapter;
-import fitnlu.ntpos.userservice.adapter.input.dto.RoleOutput;
-import fitnlu.ntpos.userservice.adapter.input.dto.UserInput;
-import fitnlu.ntpos.userservice.adapter.input.dto.UserOutput;
-import fitnlu.ntpos.userservice.adapter.input.dto.UserScalarOutput;
+import fitnlu.ntpos.userservice.adapter.input.dto.*;
 import fitnlu.ntpos.userservice.adapter.input.until.CursorUntil;
 import fitnlu.ntpos.userservice.domain.model.TimeSearch;
 import graphql.relay.*;
@@ -17,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,18 +46,20 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
     public UserScalarOutput addRoleToUser(@Argument("roleNames")  List<String>  roleName, @Argument("userID") String userID){
         return changeUserEndpointAdapter.addRoleToUser(userID,roleName);
     }
-
+//    @PreAuthorize("hasAuthority('remove_role_user')")
     @SchemaMapping(typeName = "Mutation", field = "removeRoleFromUser")
     public UserScalarOutput removeRoleFromUser(@Argument("roleNames")  List<String>  roleName, @Argument("userID") String userID){
         return changeUserEndpointAdapter.removeRoleToUser(userID,roleName);
     }
 
     //Query
+//    @PreAuthorize("hasAuthority('view_all_user')")
     @SchemaMapping(typeName = "Query", field = "users")
     public List<UserOutput> getAllUser(){
         return findUserEndpointAdapter.findAllSync();
     }
 
+//    @PreAuthorize("hasAuthority('view_all_user')")
     @SchemaMapping(typeName = "Query", field = "usersPaging")
     public Connection<UserOutput> getAllUserPaging(@Argument int first,@Argument @Nullable String cursor) {
         List<Edge<UserOutput>> edges = findUserEndpointAdapter.findAllSync()
@@ -77,7 +77,7 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
 
         return new DefaultConnection<>(edges, pageInfo);
     }
-
+//    @PreAuthorize("hasAuthority('view_user_by_id')")
     @SchemaMapping(typeName = "Query", field = "user")
     public UserOutput getUserById(@Argument  String id){
         UserOutput userOutput = findUserEndpointAdapter.findByIdSync(id);
@@ -85,8 +85,13 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
         return userOutput;
     }
 
+//    @PreAuthorize("hasAuthority('view_users_by_time')")
     @SchemaMapping(typeName = "Query", field = "usersFilterByTime")
     public List<UserOutput> usersFilterByTime(@Argument TimeSearch timeSearch){
         return findUserEndpointAdapter.filterUserByTime(timeSearch);
+    }
+    @SchemaMapping(typeName = "Query", field = "usersFilter")
+    public ListUserOutput usersFilter(@Argument PagingInput paging, @Argument String groupID, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue){
+        return findUserEndpointAdapter.filterUser(paging,groupID,searchType,searchValue,sortType,sortValue);
     }
 }

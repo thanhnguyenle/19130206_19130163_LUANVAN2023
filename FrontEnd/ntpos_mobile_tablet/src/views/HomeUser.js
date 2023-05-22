@@ -1,12 +1,12 @@
 import React, {useState, useRef} from 'react';
 import {
   View,
-  Text,
+  TouchableOpacity,
   ScrollView,
   Image,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
+import Iconicons from 'react-native-vector-icons/Ionicons';
 import SearchBar from '../components/Search';
 import {blogs, carousels, categorys, products} from './data';
 import Carousel from '../components/Carousel';
@@ -14,7 +14,14 @@ import CarouseCategory from '../components/CarouseCategory';
 import ShowEndow from '../components/ShowEndow';
 import ListBlog from '../components/ListBlog';
 import ListProductGrid from '../components/ListProductGrid';
+import {COLORS} from '../constants/common';
+import HeaderRight from '../components/HeaderRight';
 const HomeUser = ({navigation}) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderRight navigation={navigation} />,
+    });
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <ScrollView>

@@ -1,4 +1,7 @@
 package fitnlu.ntpos.orderservice.application.usecases.orderLineItem;
 
-public class IUpdateOrderLineItemUseCase {
+import fitnlu.ntpos.orderservice.domain.model.OrderLineItem;
+
+public interface IUpdateOrderLineItemUseCase {
+    OrderLineItem updateOrderLineItem(String orderLineItemID, OrderLineItem orderLineItem);
 }

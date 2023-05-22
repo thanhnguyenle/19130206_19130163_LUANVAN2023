@@ -2,12 +2,19 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Iconicons from 'react-native-vector-icons/Ionicons';
-
+import {
+  View,
+  Icon,
+  Platform,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 // screens
 import HomeUser from './HomeUser';
 import ListTableStore from './ListTableStore';
 import MangerOrder from './MangerOrder';
-import MailBox from './MailBox';
+import BlogView from './BlogView';
 import ProfileUser from './ProfileUser';
 import {COLORS} from '../constants/common';
 
@@ -15,10 +22,11 @@ import {COLORS} from '../constants/common';
 const homeUser = 'Trang chủ';
 const listTableStore = 'Danh sách bàn';
 const mangerOrder = 'Đơn hàng';
-const mailBox = 'Hộp thư';
+const blogView = 'Tin tức/Sự kiện';
 const profileUser = 'Cá nhân';
 
 const Tab = createBottomTabNavigator();
+
 const MainContent = () => {
   return (
     <Tab.Navigator
@@ -33,8 +41,8 @@ const MainContent = () => {
             iconName = focused ? 'ios-apps-sharp' : 'ios-apps-outline';
           } else if (rn == mangerOrder) {
             iconName = focused ? 'receipt-sharp' : 'receipt-outline';
-          } else if (rn == mailBox) {
-            iconName = focused ? 'mail' : 'mail-outline';
+          } else if (rn == blogView) {
+            iconName = focused ? 'md-newspaper' : 'md-newspaper-outline';
           } else if (rn == profileUser) {
             iconName = focused
               ? 'ios-person-circle'
@@ -92,10 +100,10 @@ const MainContent = () => {
         }}
       />
       <Tab.Screen
-        name={mailBox}
-        component={MailBox}
-        options={{
-          title: 'Hộp thư',
+        name={blogView}
+        component={BlogView}
+        options={({navigation, route}) => ({
+          title: 'Bài viết',
           headerStyle: {
             backgroundColor: COLORS.darkGreen, //Set Header color
           },
@@ -103,7 +111,7 @@ const MainContent = () => {
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },
-        }}
+        })}
       />
       <Tab.Screen
         name={profileUser}
@@ -122,4 +130,5 @@ const MainContent = () => {
     </Tab.Navigator>
   );
 };
+
 export default MainContent;

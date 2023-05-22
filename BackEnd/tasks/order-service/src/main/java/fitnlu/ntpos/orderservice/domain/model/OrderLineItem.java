@@ -2,8 +2,10 @@ package fitnlu.ntpos.orderservice.domain.model;
 
 public class OrderLineItem {
     private String id;
-    private String customerID;
-    private String employeeID;
-    private String orderDate;
-    private String List<OrderLineItem> orderLineItems;
+    private String productID;
+    private String productName;
+    private String productPrice;
+    private String quantity;
+    private String discount;
+    private String total;
 }

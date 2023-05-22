@@ -1,4 +1,7 @@
 package fitnlu.ntpos.orderservice.application.usecases.table;
 
-public interface IFindTableByID {
+import fitnlu.ntpos.orderservice.domain.model.Table;
+
+public interface IFindTableByIDUseCase {
+    Table findTableByID(String tableID);
 }
