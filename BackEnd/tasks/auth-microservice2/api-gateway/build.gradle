@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Spring boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+
+    //api gateway
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway:4.0.3'
+
+    //keycloak
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //zipkin
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.3'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
+    implementation 'io.micrometer:micrometer-observation:1.10.6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
+}
+tasks.register('copyProperties', Copy) {
+    from('src/main/resources/application.properties')
+    into('src/main/resources/')
+    rename('application.properties', 'application-docker-1.properties')
+    from('src/main/resources/application-docker.properties')
+    into('src/main/resources/')
+    rename('application-docker.properties', 'application.properties')
+
+}
+//processResources.dependsOn copyProperties
+tasks.named('test') {
+    useJUnitPlatform()
+}

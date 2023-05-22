@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Spring boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //spring eureka-server
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:11.0.0-M5'
+    implementation 'org.springframework:spring-webmvc:6.0.8'
+
+    //security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
