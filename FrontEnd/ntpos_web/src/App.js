@@ -21,7 +21,7 @@ import '../src/i18n/i18n';
 import HomePage from "./components/views/home/homePage";
 import NavBottom from "./components/layout/navBottom";
 import CategoryPage from "./components/views/goods/category";
-import PriceSetting from "./components/views/goods/priceSetting";
+import TableRoomPage from "./components/views/tableRoom/tableRoom";
 import PriceSettingPage from "./components/views/goods/priceSetting";
 import InventoryControlPage from "./components/views/goods/inventoryControl";
 function App() {
@@ -40,7 +40,7 @@ function App() {
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/price-setting" element={<PriceSettingPage />} />
           <Route path="/inventory-control" element={<InventoryControlPage />} />
-          <Route path="/order-dashboard" element={<OrderDashboard />} />
+          <Route path="/table-room" element={<TableRoomPage />} />
           <Route path="/traffic-dashboard" element={<TrafficDashboard />} />
           <Route path="/mailbox-app" element={<MailboxApp />} />
           <Route path="/chat-app" element={<ChatApp />} />

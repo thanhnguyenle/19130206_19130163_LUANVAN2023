@@ -1,0 +1,21 @@
+$color-primary : rgb(0, 128, 55);
+$color-seconds:#0D9949;
+$color-black:#000;
+$color-grey :rgba(215, 215, 215, 0.43);
+$color-red:red;
+$color-green: green;
+.table-room-page{
+  margin-top: 80px;
+  margin-left: 10px;
+  margin-right: 10px;
+  .left{
+    width: 20%;
+  }
+  .right {
+    width: 80%;
+
+    .content {
+      margin-top: 15px;
+    }
+  }
+}
