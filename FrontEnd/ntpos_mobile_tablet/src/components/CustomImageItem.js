@@ -1,13 +1,13 @@
-import {background} from 'native-base/lib/typescript/theme/styled-system';
+import { background } from 'native-base/lib/typescript/theme/styled-system';
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
-import {COLORS} from '../constants/common';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-const {width, height} = Dimensions.get('window');
-const CustomImageItem = ({item, index, total}) => {
+import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { COLORS } from '../constants/common';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+const { width, height } = Dimensions.get('window');
+const CustomImageItem = ({ item, index, total }) => {
   return (
     <View style={styles.cardView}>
-      <Image style={styles.image} source={{uri: item.imgUrl}} />
+      <Image style={styles.image} source={{ uri: item.imgUrl }} />
     </View>
   );
 };
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 0,
     shadowColor: COLORS.color_black,
-    shadowOffset: {width: 0.5, height: 0.5},
+    shadowOffset: { width: 0.5, height: 0.5 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
     elevation: 5,
