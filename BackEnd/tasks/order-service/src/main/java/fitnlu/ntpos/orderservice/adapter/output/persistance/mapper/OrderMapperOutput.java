@@ -1,53 +1,45 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.mapper;
 
-import fitnlu.ntpos.productservice.adapter.output.persistance.entities.CategoryEntities;
-import fitnlu.ntpos.productservice.adapter.output.persistance.entities.ProductEntities;
-import fitnlu.ntpos.productservice.adapter.output.persistance.entities.ProductImageEntities;
-import fitnlu.ntpos.productservice.domain.model.Category;
-import fitnlu.ntpos.productservice.domain.model.Product;
-import fitnlu.ntpos.productservice.domain.model.ProductImage;
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderLineItemEntities;
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.TableEntities;
+import fitnlu.ntpos.orderservice.domain.model.Order;
+import fitnlu.ntpos.orderservice.domain.model.OrderLineItem;
+import fitnlu.ntpos.orderservice.domain.model.Table;
 
 import java.util.List;
 
-public class ProductMapperOutput {
-    public static ProductEntities toEntity(Product product) {
-        List< CategoryEntities> categories = product.getCategories()!=null?product.getCategories().stream().map(CategoryMapperOutput::toEntity).toList():List.of();
-        List<ProductImageEntities> images = product.getImages()!=null?product.getImages().stream()
-                        .map(image -> ProductImageEntities.builder()
-                            .id(image.getId())
-                            .url(image.getUrl())
-                            .description(image.getDescription())
-                            .build()).toList():List.of();
-        return ProductEntities.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .images(images)
-                .categories(categories)
-                .price(product.getPrice())
-                .unit(product.getUnit())
-                .status(product.getStatus())
-                .createdAt(product.getCreatedAt())
+public class OrderMapperOutput {
+    public static OrderEntities toEntity(Order order) {
+        List<TableEntities> categories = order.getTable()!=null?order.getTable().stream().map(TableMapperOutput::toEntities).toList():List.of();
+        List<OrderLineItemEntities> images = order.getOrderLineItems()!=null?order.getOrderLineItems().stream()
+                        .map(OrderLineItemMapperOutput::toEntities).toList():List.of();
+        return OrderEntities.builder()
+                .id(order.getId())
+                .orderLineItems(images)
+                .table(categories)
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .numberOfPeople(order.getNumberOfPeople())
+                .group(order.getGroup())
+                .note(order.getNote())
+                .userID(order.getUserID())
                 .build();
     }
-    public static Product toDomain(ProductEntities productEntities) {
-        List<Category> categories = productEntities.getCategories()!=null?productEntities.getCategories().stream().map(CategoryMapperOutput::toDomain).toList():List.of();
-        List<ProductImage> images = productEntities.getImages()!=null?productEntities.getImages().stream()
-                .map(image -> ProductImage.builder()
-                        .id(image.getId())
-                        .url(image.getUrl())
-                        .description(image.getDescription())
-                        .build()).toList():List.of();
-        return Product.builder()
-                .id(productEntities.getId())
-                .name(productEntities.getName())
-                .description(productEntities.getDescription())
-                .images(images)
-                .categories(categories)
-                .price(productEntities.getPrice())
-                .unit(productEntities.getUnit())
-                .status(productEntities.getStatus())
-                .createdAt(productEntities.getCreatedAt())
+    public static Order toDomain(OrderEntities orderEntities) {
+        List<Table> categories = orderEntities.getTable()!=null?orderEntities.getTable().stream().map(TableMapperOutput::toDomain).toList():List.of();
+        List<OrderLineItem> images = orderEntities.getOrderLineItems()!=null?orderEntities.getOrderLineItems().stream()
+                .map(OrderLineItemMapperOutput::toDomain).toList():List.of();
+        return Order.builder()
+                .id(orderEntities.getId())
+                .orderLineItems(images)
+                .table(categories)
+                .orderDate(orderEntities.getOrderDate())
+                .status(orderEntities.getStatus())
+                .numberOfPeople(orderEntities.getNumberOfPeople())
+                .group(orderEntities.getGroup())
+                .note(orderEntities.getNote())
+                .userID(orderEntities.getUserID())
                 .build();
     }
 }

@@ -1,4 +1,4 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.adapter;
 
-public class ReadTableAdapter {
+public class WriteTableAdapter {
 }

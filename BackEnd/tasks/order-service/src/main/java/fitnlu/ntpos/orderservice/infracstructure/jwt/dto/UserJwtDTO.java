@@ -1,4 +1,4 @@
-package fitnlu.ntpos.productservice.infrastructure.jwt.dto;
+package fitnlu.ntpos.orderservice.infracstructure.jwt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package fitnlu.ntpos.productservice.infrastructure.jwt.dto;
+package fitnlu.ntpos.orderservice.infracstructure.jwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,9 +1,14 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.repository;
 
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
+import fitnlu.ntpos.orderservice.domain.model.DateTime;
+import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
+import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import fitnlu.ntpos.productservice.adapter.output.persistance.entities.ProductEntities;
 import fitnlu.ntpos.productservice.domain.model.DateTime;
 import fitnlu.ntpos.productservice.domain.model.TimeSearch;
 import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
+import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.jdbi.v3.core.Jdbi;
@@ -18,18 +23,18 @@ import java.util.UUID;
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class ProductRepository implements IProductDBIRepository {
-    private static final String GET_LIST = "select * from `product`";
-
-    private static final String CREATE = "INSERT INTO `product` VALUES (:id, :name,:price,:description,:quantity,:unit, :status)";
-    private static final String DELETE = "DELETE FROM `product` WHERE id = :id";
-    private static final String GET_ITEM_BYID = "SELECT * FROM `product` WHERE id = :id";
-    private static final String UPDATE = "UPDATE `product` SET name =:name, description =:description, price =:price, unit =:unit, status =:status WHERE id =:id";
-    private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `product`";
-    private static final String SEARCH_BY_NAME = "SELECT * FROM `product` WHERE name LIKE '%:name%'";
-    private static final String ADD_PRODUCT_TO_CATEGORY = "INSERT INTO `product_category` VALUES (:productID,:categoryID)";
-    private static final String REMOVE_PRODUCT_FROM_CATEGORY = "DELETE FROM `product_category` WHERE productID =:productID AND categoryID =:categoryID";
-    private static final String GET_LIST_PRODUCT_BY_TIME = "SELECT * FROM `product` WHERE createdAt BETWEEN :startTime AND :endTime";
+public class OrderRepository implements IOrderDBIRepository {
+//    private static final String GET_LIST = "select * from `product`";
+//    private static final String CREATE = "INSERT INTO `product` VALUES (:id, :name,:price,:description,:quantity,:unit, :status)";
+//    private static final String DELETE = "DELETE FROM `product` WHERE id = :id";
+//    private static final String GET_ITEM_BYID = "SELECT * FROM `product` WHERE id = :id";
+//    private static final String UPDATE = "UPDATE `product` SET name =:name, description =:description, price =:price, unit =:unit, status =:status WHERE id =:id";
+//    private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `product`";
+//    private static final String SEARCH_BY_NAME = "SELECT * FROM `product` WHERE name LIKE '%:name%'";
+//    private static final String ADD_PRODUCT_TO_CATEGORY = "INSERT INTO `product_category` VALUES (:productID,:categoryID)";
+//    private static final String REMOVE_PRODUCT_FROM_CATEGORY = "DELETE FROM `product_category` WHERE productID =:productID AND categoryID =:categoryID";
+//    private static final String GET_LIST_PRODUCT_BY_TIME = "SELECT * FROM `product` WHERE createdAt BETWEEN :startTime AND :endTime";
+    private static final String GET_LIST_ORDER_BY_TIME = "SELECT * FROM `product` WHERE createdAt BETWEEN :startTime AND :endTime";
     @NonNull
     private final Jdbi jdbi;
 
@@ -196,16 +201,20 @@ public class ProductRepository implements IProductDBIRepository {
         }
         return list;
     }
-
-    @Override
-    public List<ProductEntities> filterProductByTime(TimeSearch timeSearch) {
+    @Builder
+    static
+    class TimeSearchCompute {
+         long startTime;
+         long endTime;
+    }
+    public TimeSearchCompute filterProductByTime(TimeSearch timeSearch) {
         DateTime dateTime = DateTime.builder().build();
         long currentTime = System.currentTimeMillis();
         dateTime.updateTime(currentTime);
         long startTime = currentTime;
         long endTime = currentTime;
         if(timeSearch == TimeSearch.ALL_TIME) {
-            return findAll();
+            startTime = 0;
         }else if(timeSearch == TimeSearch.TODAY){
             startTime = (currentTime / 86400000) * 86400000;
         }else if(timeSearch == TimeSearch.YESTERDAY){
@@ -229,12 +238,75 @@ public class ProductRepository implements IProductDBIRepository {
         }
         long finalStartTime = startTime/1000;
         long finalEndTime = endTime/1000;
-        System.out.println(finalStartTime+ " - " + finalEndTime);
-        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_PRODUCT_BY_TIME)
-                    .bind("startTime", finalStartTime)
-                    .bind("endTime", finalEndTime)
-                    .mapToBean(ProductEntities.class)
-                    .list());
+//        System.out.println(finalStartTime+ " - " + finalEndTime);
+//        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_PRODUCT_BY_TIME)
+//                    .bind("startTime", finalStartTime)
+//                    .bind("endTime", finalEndTime)
+//                    .mapToBean(ProductEntities.class)
+//                    .list());
+        return TimeSearchCompute.builder()
+                .startTime(finalStartTime)
+                .endTime(finalEndTime)
+                .build();
     }
 
+    @Override
+    public List<OrderEntities> findAllOrderByUserID(String userID) {
+        return null;
+    }
+
+    @Override
+    public List<OrderEntities> filterOrder(IPaging paging, String userID, TimeSearch timeSearch, String sortType, String sortValue, String searchType, String searchValue) {
+        return null;
+    }
+
+    @Override
+    public List<OrderEntities> filterOrder(String userID, TimeSearch timeSearch, String sortType, String sortValue, String searchType, String searchValue) {
+        return null;
+    }
+
+    @Override
+    public List<OrderEntities> findAllOrder() {
+        return null;
+    }
+
+    @Override
+    public OrderEntities findOrderByID(String orderID) {
+        return null;
+    }
+
+    @Override
+    public OrderEntities createOrder(OrderEntities orderEntities) {
+        return null;
+    }
+
+    @Override
+    public OrderEntities deleteOrder(String orderID) {
+        return null;
+    }
+
+    @Override
+    public OrderEntities updateOrder(String orderID, OrderEntities orderEntities) {
+        return null;
+    }
+
+    @Override
+    public boolean addOrderLineItemFromOrder(String orderID, List<String> orderLineItemIDs) {
+        return false;
+    }
+
+    @Override
+    public boolean addTableToOrder(String orderID, List<String> tableIDs) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteOrderLineItemFromOrder(String orderID, List<String> orderLineItemIDs) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteTableToOrder(String orderID, List<String> tableIDs) {
+        return false;
+    }
 }

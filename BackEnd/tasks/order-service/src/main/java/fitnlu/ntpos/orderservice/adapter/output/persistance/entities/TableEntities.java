@@ -15,12 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class TableEntities {
     private String id;
-    private String userID;
+    private String name;
     private int numberOfPeople;
-    private String group;
-    private String orderDate;
-    private List<OrderLineItem> orderLineItems;
     private String status;
     private String note;
-    private List<Table> table;
+    private String startTime;
+    private String endTime;
 }

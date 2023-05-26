@@ -6,11 +6,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @ToString
-public class Order {
+public class OrderReturn {
     private String id;
     private String userID;
     private int numberOfPeople;

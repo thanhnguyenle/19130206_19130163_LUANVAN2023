@@ -1,2 +1,4 @@
-package fitnlu.ntpos.orderservice.adapter.output.persistance.adapter;public class ReadOrderAdapter {
+package fitnlu.ntpos.orderservice.adapter.output.persistance.adapter;
+
+public class ReadOrderAdapter {
 }
