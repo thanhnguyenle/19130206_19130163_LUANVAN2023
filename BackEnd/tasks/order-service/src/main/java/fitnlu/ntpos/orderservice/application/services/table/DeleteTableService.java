@@ -9,7 +9,7 @@ import java.util.List;
 public class DeleteTableService implements IDeleteTableUseCase {
 
     @Override
-    public List<Table> deleteTable(String id) {
+    public Table deleteTable(String id) {
         return null;
     }
 }

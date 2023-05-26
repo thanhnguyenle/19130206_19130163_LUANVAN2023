@@ -32,6 +32,7 @@ function* loginSaga(action) {
     const user = yield call(loginAPI, username, password);
     yield put(loginSuccess(user));
   } catch (error) {
+    console.log(error);
     yield put(loginFailure(error.message));
   }
 }
