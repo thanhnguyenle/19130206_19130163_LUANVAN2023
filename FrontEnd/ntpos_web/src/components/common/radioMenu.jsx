@@ -65,5 +65,4 @@ export default function RadioMenu(props) {
             </div>
         );
     }
-
 }

@@ -143,6 +143,7 @@ const resources = {
             'btnOk':'OK',
             'btnCancel':'Cancel',
             'btnClear':'Clear',
+            'area':'Area'
         }
     },
     vi:{
@@ -284,6 +285,7 @@ const resources = {
             'btnOk':'Chọn',
             'btnCancel':'Hủy',
             'btnClear':'Xóa',
+            'by_code_room_table':'Tên phòng/bàn'
         }
     }
 }
