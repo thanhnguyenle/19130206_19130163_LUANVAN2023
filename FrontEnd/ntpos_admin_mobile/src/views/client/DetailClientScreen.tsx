@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableOpacity, ImageBackground } from 'react-native';
 import { fetchClientRequest } from '../../redux_store/client/detailClientSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
+import IconIocns from 'react-native-vector-icons/Ionicons'
 import { COLORS } from '../../constants/common';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { BottomSheet } from '../../components';
@@ -19,8 +20,16 @@ const DetailClientScreen = ({ route, navigation }: any) => {
     }, []);
 
     return (
-
         <View style={styles.container}>
+            <View style={styles.box}>
+                <ImageBackground source={{ uri: user?.avatar }}
+                    style={{ width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white, alignItems: 'flex-end', justifyContent: 'flex-start' }}
+                >
+                    <TouchableOpacity style={{ backgroundColor: '#00000030', borderRadius: 20 }} onPress={() => { }}>
+                        <IconIocns name='close' size={40} color={COLORS.color_white} />
+                    </TouchableOpacity>
+                </ImageBackground>
+            </View>
             <View style={styles.box}>
                 <View style={styles.left}>
                     <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tên đăng nhập</Text>
@@ -55,7 +64,11 @@ const DetailClientScreen = ({ route, navigation }: any) => {
                 <View style={styles.left}>
                     <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Nhóm</Text>
                 </View>
-                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{user?.groups}</Text>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>
+                    {user?.groups.map((group, index) => (
+                        <Text key={index}>{group.name + ' '}</Text>
+                    ))}
+                </Text>
             </View>
 
             <View style={styles.button}>
