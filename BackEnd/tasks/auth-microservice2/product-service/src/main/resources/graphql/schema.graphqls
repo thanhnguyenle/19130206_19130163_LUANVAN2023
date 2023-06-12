@@ -1,0 +1,118 @@
+type Product{
+    id: String,
+    name: String,
+    description: String,
+    images: [ProductImage],
+    categories: [Category],
+    quantity: Int,
+    price: Float,
+    unit: String,
+    status: String
+}
+
+type Category {
+    id: String,
+    name: String,
+    description: String,
+    products: [Product]
+}
+
+type ProductImage {
+    id: Int,
+    url: String
+    description: String
+}
+
+input ProductInput {
+    name: String,
+    description: String,
+    images: [String],
+    categories: [String],
+    quantity: Int,
+    price: Float,
+    unit: String,
+    status: String
+}
+
+type ResultOutput{
+    success: Boolean,
+}
+
+input CategoryInput {
+    name: String,
+    description: String,
+    products: [String]
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
+
+input ImageInput{
+    url: String,
+    description: String
+}
+
+type PageProductInfo{
+    products: [Product],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+type PageCategoryInfo{
+    categories: [Category],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+enum TimeSearch{
+    TODAY
+    YESTERDAY
+    THIS_WEEK
+    LAST_WEEK
+    THIS_MONTH
+    LAST_MONTH
+    THIS_YEAR
+    LAST_YEAR
+    ALL_TIME
+}
+type Query {
+    #product
+    products: [Product],
+    product(id: String): Product,
+    productsFilter(paging: Paging, categoryID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageProductInfo,
+    productsFilterByTime(paging: Paging, timeSearch: TimeSearch): PageProductInfo,
+
+    #category
+    categories: [Category],
+    category(id: String): Category
+    categoriesFilter(paging: Paging, searchType: String, searchValue: String, sortType:String, sortValue: String): PageCategoryInfo,
+    categoriesFilterByTime(paging: Paging, timeSearch: TimeSearch): PageCategoryInfo,
+    #product image
+    findImageByProduct(productID: String): [ProductImage]
+}
+
+type Mutation {
+    #product
+    createProduct(productInput: ProductInput): ResultOutput,
+    updateProduct(id: String, productInput: ProductInput): ResultOutput,
+    deleteProduct(id: String): ResultOutput,
+    batchCreateProduct(productInputs: [ProductInput]): ResultOutput,
+    batchDeleteProduct(productIDs: [String]): ResultOutput,
+    batchAddProductToCategory(categoryID: String, productIDs: [String]): ResultOutput,
+    batchDeleteProductFromCategory(categoryID: String, productIDs: [String]): ResultOutput,
+
+    #category
+    createCategory(categoryInput: CategoryInput): ResultOutput,
+    updateCategory(id: String, categoryInput: CategoryInput): ResultOutput,
+    deleteCategory(id: String): ResultOutput,
+    batchCreateCategory(categoryInputs: [CategoryInput]): ResultOutput,
+    batchDeleteCategory(categoryIDs: [String]): ResultOutput,
+
+    #product image
+#    addProductImage(productID: String, imageInput: ImageInput): ResultOutput,
+    batchAddImageToProduct(productID: String, imageInputs: [ImageInput]): ResultOutput,
+#    deleteProductImage(imageID: Int): ResultOutput,
+    batchDeleteImageFromProduct( imageIDs: [Int]): ResultOutput,
+}

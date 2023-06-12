@@ -1,34 +1,25 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.mapper;
 
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderLineItemEntities;
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.TableEntities;
-import fitnlu.ntpos.orderservice.domain.model.Order;
-import fitnlu.ntpos.orderservice.domain.model.OrderLineItem;
-
-import java.util.List;
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
+import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
 
 public class OrderLineItemMapperOutput {
-    public static OrderLineItemEntities toEntities(OrderLineItem orderLineItem){
-        return OrderLineItemEntities.builder()
-                .id(orderLineItem.getId())
-                .productID(orderLineItem.getProductID())
-                .productName(orderLineItem.getProductName())
-                .productPrice(orderLineItem.getProductPrice())
-                .quantity(orderLineItem.getQuantity())
-                .discount(orderLineItem.getDiscount())
-                .total(orderLineItem.getTotal())
+    public static OrderProductEntities toEntities(OrderProduct orderProduct){
+        return OrderProductEntities.builder()
+                .orderID(orderProduct.getOrderID())
+                .productID(orderProduct.getProductID())
+                .price(orderProduct.getPrice())
+                .discount(orderProduct.getDiscount())
+                .quantity(orderProduct.getQuantity())
                 .build();
     }
-    public static OrderLineItem toDomain(OrderLineItemEntities orderLineItemEntities) {
-        return OrderLineItem.builder()
-                .id(orderLineItemEntities.getId())
-                .productID(orderLineItemEntities.getProductID())
-                .productName(orderLineItemEntities.getProductName())
-                .productPrice(orderLineItemEntities.getProductPrice())
-                .quantity(orderLineItemEntities.getQuantity())
-                .discount(orderLineItemEntities.getDiscount())
-                .total(orderLineItemEntities.getTotal())
+    public static OrderProduct toDomain(OrderProductEntities orderProductEntities) {
+        return OrderProduct.builder()
+                .orderID(orderProductEntities.getOrderID())
+                .productID(orderProductEntities.getProductID())
+                .price(orderProductEntities.getPrice())
+                .discount(orderProductEntities.getDiscount())
+                .quantity(orderProductEntities.getQuantity())
                 .build();
     }
 }

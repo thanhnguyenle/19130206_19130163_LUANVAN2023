@@ -15,8 +15,8 @@ public class OrderEntities {
     private String userID;
     private int numberOfPeople;
     private String group;
-    private String orderDate;
-    private List<OrderLineItemEntities> orderLineItems;
+    private long orderDate;
+    private List<OrderProductEntities> orderLineItems;
     private String status;
     private String note;
     private List<TableEntities> table;

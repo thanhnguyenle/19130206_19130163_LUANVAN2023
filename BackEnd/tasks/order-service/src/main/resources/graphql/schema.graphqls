@@ -1,47 +1,54 @@
-type Product{
+type Order{
     id: String,
-    name: String,
-    description: String,
-    images: [ProductImage],
-    categories: [Category],
+    userID: String,
+    numberOfPeople: Int,
+    group: String,
+    orderDate: String,
+    status: String,
+    note: String,
+    orderProducts: [OrderProduct],
+    tables: [Table]
+}
+
+type OrderReturn {
+    id: String,
+    userID: String,
+    group: String,
+    orderID: String,
+    orderReturnDate: String,
+    orderProductReturns: [OrderProduct]
+    tableReturns: [Table],
+    status: String,
+    note: String,
+}
+
+type OrderProduct {
+    orderID: String,
+    productID: String,
     quantity: Int,
     price: Float,
-    unit: String,
-    status: String
+    discount: Float
 }
 
-type Category {
+type Table {
     id: String,
     name: String,
-    description: String,
-    products: [Product]
+    numberOfPeople: Int,
+    status: String,
+    note: String,
+    groups: [GroupTable]
 }
 
-type ProductImage {
-    id: Int,
-    url: String
-    description: String
-}
-
-input ProductInput {
+type GroupTable {
+    id: String,
     name: String,
-    description: String,
-    images: [String],
-    categories: [String],
-    quantity: Int,
-    price: Float,
-    unit: String,
-    status: String
+    status: String,
+    note: String,
+    tables: [Table]
 }
 
 type ResultOutput{
     success: Boolean,
-}
-
-input CategoryInput {
-    name: String,
-    description: String,
-    products: [String]
 }
 
 input Paging{
@@ -54,18 +61,26 @@ input ImageInput{
     description: String
 }
 
-type PageProductInfo{
-    products: [Product],
+type PageOrderInfo{
+    orders: [Order],
     currentPage: Int,
     totalPage: Int,
     totalItem: Int
 }
-type PageCategoryInfo{
-    categories: [Category],
+
+type PageTableInfo{
+    tables: [Table],
     currentPage: Int,
     totalPage: Int,
     totalItem: Int
 }
+type PageOrderProductInfo{
+    orderProducts: [OrderProduct],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
 enum TimeSearch{
     TODAY
     YESTERDAY
@@ -77,42 +92,75 @@ enum TimeSearch{
     LAST_YEAR
     ALL_TIME
 }
-type Query {
-    #product
-    products: [Product],
-    product(id: String): Product,
-    productsFilter(paging: Paging, categoryID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageProductInfo,
-    productsFilterByTime(paging: Paging, timeSearch: TimeSearch): PageProductInfo,
 
-    #category
-    categories: [Category],
-    category(id: String): Category
-    categoriesFilter(paging: Paging, searchType: String, searchValue: String, sortType:String, sortValue: String): PageCategoryInfo,
-    categoriesFilterByTime(paging: Paging, timeSearch: TimeSearch): PageCategoryInfo,
-    #product image
-    findImageByProduct(productID: String): [ProductImage]
+input OrderInput{
+    userID: String,
+    numberOfPeople: Int,
+    group: String,
+    orderDate: String,
+    status: String,
+    note: String,
+    orderProducts: [OrderProductInput],
+    tables: [TableInput]
+}
+input OrderProductInput{
+    orderID: String,
+    productID: String,
+    quantity: Int,
+    price: Float,
+    discount: Float
+}
+input TableInput{
+    id: String,
+    name: String,
+    numberOfPeople: Int,
+    status: String,
+    note: String,
+    groups: [GroupTableInput]
+}
+input GroupTableInput{
+    id: String,
+    name: String,
+    status: String,
+    note: String,
+    tables: [TableInput]
+}
+type Query {
+   #Order
+    findOrderByID(id: String): Order
+    findOrdersByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
+    findAllOrderByUserID(userID: String): [Order]
+    #OrderProduct
+    findOrderLineItemsByOrderID(orderID: String): [OrderProduct]
+    filterOrderLineItemsByOrderID(pagingInput: Paging, orderID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderProductInfo
+    #Table
+    findTableByID(id: String): Table
+    filterTables(pagingInput: Paging, searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    findAllTables: [Table]
+    #GroupTable
+    findGroupTableByID(id: String): GroupTable
+    findAllGroupTables: [GroupTable]
+    #OrderReturn
+    findOrderReturnByOrderID(orderID: String): OrderReturn
+    findOrderReturnByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
+
+
+
 }
 
 type Mutation {
-    #product
-    createProduct(productInput: ProductInput): ResultOutput,
-    updateProduct(id: String, productInput: ProductInput): ResultOutput,
-    deleteProduct(id: String): ResultOutput,
-    batchCreateProduct(productInputs: [ProductInput]): ResultOutput,
-    batchDeleteProduct(productIDs: [String]): ResultOutput,
-    batchAddProductToCategory(categoryID: String, productIDs: [String]): ResultOutput,
-    batchDeleteProductFromCategory(categoryID: String, productIDs: [String]): ResultOutput,
-
-    #category
-    createCategory(categoryInput: CategoryInput): ResultOutput,
-    updateCategory(id: String, categoryInput: CategoryInput): ResultOutput,
-    deleteCategory(id: String): ResultOutput,
-    batchCreateCategory(categoryInputs: [CategoryInput]): ResultOutput,
-    batchDeleteCategory(categoryIDs: [String]): ResultOutput,
-
-    #product image
-#    addProductImage(productID: String, imageInput: ImageInput): ResultOutput,
-    batchAddImageToProduct(productID: String, imageInputs: [ImageInput]): ResultOutput,
-#    deleteProductImage(imageID: Int): ResultOutput,
-    batchDeleteImageFromProduct( imageIDs: [Int]): ResultOutput,
+    #Order
+    createOrder(order: OrderInput): Order
+    updateOrder(id: String, order: OrderInput): Order
+    deleteOrder(id: String): ResultOutput
+    #OrderProduct
+    updateOrderLineItem(orderID: String, orderLineItemInput: OrderProductInput): OrderProduct
+    #Table
+    createTable(table: TableInput): Table
+    updateTable(id: String, table: TableInput): Table
+    deleteTable(id: String): ResultOutput
+    #GroupTable
+    createGroupTable(groupTable: GroupTableInput): GroupTable
+    updateGroupTable(id: String, groupTable: GroupTableInput): GroupTable
+    deleteGroupTable(id: String): ResultOutput
 }
