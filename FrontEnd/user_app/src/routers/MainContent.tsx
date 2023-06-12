@@ -2,16 +2,18 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Iconicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from './HomeScreen';
-import ListTableStore from './ListTableStoreScreen';
-import MangerOrder from './MangerOrderScreen';
-import BlogScreen from './BlogScreen';
-import ProfileUser from './ProfileUser';
+import BlogScreen from '../views/BlogScreen';
+import ProfileUser from '../views/ProfileUser';
 import { COLORS } from '../constants/common';
+import HomeScreenStack from './HomeRouteStack';
+import ListTableStoreScreenStack from './ListTableStoreRouteStack';
+import MangerOrderScreenStack from './MangerOrderRouteStack';
+import BlogScreenStack from './BlogRouteStack';
+import ProfileUserScreenStack from './ProfileUserRouteStack';
 // screens
 
 // screen names
-const homeUser = 'Trang chủ';
+const homeUser = 'NTPOS';
 const listTableStore = 'Danh sách bàn';
 const mangerOrder = 'Đơn hàng';
 const blogView = 'Tin tức/Sự kiện';
@@ -43,47 +45,35 @@ const MainContent = () => {
                         }
                         return <Iconicons name={iconName + ''} size={size} color={color} />;
                     },
+                    tabBarActiveTintColor: COLORS.darkGreen,
+                    tabBarInactiveTintColor: 'grey',
+                    tabBarLabelStyle: { paddingBottom: 10, fontSize: 10 },
                 })}
-                tabBarOptions={{
-                    activeTintColor: COLORS.darkGreen,
-                    inactiveTintColor: 'grey',
-                    labelStyle: { paddingBottom: 10, fontSize: 10 },
-                }}
             >
                 <Tab.Screen
                     name={homeUser}
-                    component={HomeScreen}
-                    options={{
-                        title: 'Cửa hàng',
-                    }}
+                    component={HomeScreenStack}
+                    options={{ headerShown: false }}
                 />
                 <Tab.Screen
                     name={listTableStore}
-                    component={ListTableStore}
-                    options={{
-                        title: 'Danh sách bàn',
-                    }}
+                    component={ListTableStoreScreenStack}
+                    options={{ headerShown: false }}
                 />
                 <Tab.Screen
                     name={mangerOrder}
-                    component={MangerOrder}
-                    options={{
-                        title: 'Đơn hàng',
-                    }}
+                    component={MangerOrderScreenStack}
+                    options={{ headerShown: false }}
                 />
                 <Tab.Screen
                     name={blogView}
-                    component={BlogScreen}
-                    options={({ navigation, route }) => ({
-                        title: 'Bài viết',
-                    })}
+                    component={BlogScreenStack}
+                    options={{ headerShown: false }}
                 />
                 <Tab.Screen
                     name={profileUser}
-                    component={ProfileUser}
-                    options={{
-                        title: 'Cá nhân',
-                    }}
+                    component={ProfileUserScreenStack}
+                    options={{ headerShown: false }}
                 />
             </Tab.Navigator>
         </NavigationContainer>

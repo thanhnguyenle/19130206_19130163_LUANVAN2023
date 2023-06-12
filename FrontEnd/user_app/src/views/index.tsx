@@ -5,8 +5,7 @@ import { RootState } from "../app/store";
 import SplashScreen from "./auth/SplashScreen";
 import LoginScreen from "./auth/LoginScreen";
 import RegisterScreen from "./auth/RegisterScreen";
-import HomeScreen from "./HomeScreen";
-import DrawerUserNavigationRoutes from "../routers/UserRoute";
+import MainContent from "../routers/MainContent";
 const Stack = createStackNavigator();
 const RootComponent = () => {
     const currentScreen = useSelector((state: RootState) => state.navigation.currentScreen);
@@ -23,7 +22,7 @@ const RootComponent = () => {
                     <Stack.Screen name="Register" component={RegisterScreen} />
                 )}
                 {currentScreen === 'DrawerUser' && (
-                    <Stack.Screen name="DrawerUser" component={DrawerUserNavigationRoutes} />
+                    <Stack.Screen name="DrawerUser" component={MainContent} />
                 )}
             </Stack.Navigator>
         </NavigationContainer >

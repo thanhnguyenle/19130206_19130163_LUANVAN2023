@@ -3,48 +3,99 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, } from 'react-nati
 import { CheckBox } from 'react-native-elements';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { COLORS } from '../../constants/common';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ButtonComponent, CheckSheetComponent, RadioButtonCom } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { fetchListRolesRequest } from '../../redux_store/client/listRoleSlice';
+import { Role, deselectRole, dispatchRolesNull, fetchListRolesRequest, selectRole } from '../../redux_store/client/listRoleSlice';
+import { FlatList } from 'react-native-gesture-handler';
 const SelectRoleScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
-    const [checkboxes, setCheckboxes] = useState<{ roleName: string; checked: boolean }[]>([]);
     const roles = useSelector((state: RootState) => state.client.roles.roles);
+    const loading = useSelector((state: RootState) => state.client.roles.loading);
+    const error = useSelector((state: RootState) => state.client.roles.error);
+    const selectedRoles = useSelector((state: RootState) => state.client.roles.selectedRoles);
+    function getNameTitle(value: string): string {
+        let valueNew = '';
+        switch (value) {
+            case 'edit_user':
+                valueNew = 'Chỉnh sửa người dùng'
+                break;
+            case 'update_product':
+                valueNew = 'Câp nhật sản phẩm'
+                break;
+            case 'delete_user':
+                valueNew = 'Xóa người dùng'
+                break;
+            case 'edit_product':
+                valueNew = 'Chỉnh sửa sản phẩm'
+                break;
+            case 'view_product':
+                valueNew = 'Xem chi tiết sản phẩm'
+                break;
+            case 'view_inventory':
+                valueNew = 'Xem hàng tồn kho'
+                break;
+            case 'update_user':
+                valueNew = 'Cập nhâp người dùng'
+                break;
+            case 'delete_product':
+                valueNew = 'Xóa hàng hóa'
+                break;
+            case 'view_user':
+                valueNew = 'Xem chi tiết người dùng'
+                break;
+            case 'delete_inventory':
+                valueNew = 'Xóa hàng trong tồn kho'
+                break;
+            default:
+                break;
+        }
+        return valueNew;
+    }
     useEffect(() => {
+        dispatch(dispatchRolesNull());
         dispatch(fetchListRolesRequest());
     }, []);
-    useEffect(() => {
-        if (roles.length > 0) {
-            const updatedCheckboxes = roles.map((role) => ({ roleName: role, checked: false }));
-            setCheckboxes(updatedCheckboxes);
+    const handleToggleRole = (role: Role) => {
+        if (selectedRoles.includes(role)) {
+            console.log('xóa');
+            dispatch(deselectRole(role));
+        } else {
+            console.log(selectedRoles);
+            console.log('Thêm');
+            dispatch(selectRole(role));
         }
-    }, [roles]);
-    // const handleCheckboxChange = (checkboxId: any) => {
-    //     setCheckboxes((prevCheckboxes) =>
-    //         prevCheckboxes.map((checkbox) =>
-    //             checkbox.id === checkboxId
-    //                 ? { ...checkbox, checked: !checkbox.checked }
-    //                 : checkbox
-    //         )
-    //     );
-    // };
+    };
+    const checkValue = (role: Role) => {
+        if (selectedRoles.includes(role)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    if (loading) {
+        return <Text>Loading...</Text>;
+    }
+    if (error) {
+        return <Text>Lỗi: {error}</Text>;
+    }
     return (
         <View style={styles.container}>
             <View style={styles.listCategory}>
-                {checkboxes.map((checkbox) => (
-                    <View key={checkbox.roleName} style={styles.checkboxContainer}>
-                        <CheckBox
-                            containerStyle={styles.checkbox}
-                            textStyle={styles.checkboxLabel}
-                            checkedColor="green"
-                            checked={checkbox.checked}
-                            onPress={() => { }}
-                        />
-                        <Text style={styles.checkboxLabel}>{checkbox.roleName}</Text>
-                    </View>
-                ))}
+                <FlatList
+                    data={roles}
+                    keyExtractor={(item) => item.roleName}
+                    renderItem={({ item }) => (
+                        <View style={styles.checkboxContainer}>
+                            <CheckBox
+                                containerStyle={styles.checkbox}
+                                textStyle={styles.checkboxLabel}
+                                checkedColor="green"
+                                checked={checkValue(item)}
+                                onPress={() => handleToggleRole(item)}
+                            />
+                            <Text style={styles.checkboxLabel}>{getNameTitle(item.roleName)}</Text>
+                        </View>
+                    )} />
             </View>
         </View>
     );

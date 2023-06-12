@@ -10,7 +10,6 @@ const RootComponent = () => {
     const currentScreen = useSelector((state: RootState) => state.navigation.currentScreen);
     return (
         <NavigationContainer >
-
             <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
                 {currentScreen === 'Splash' && (
                     <Stack.Screen name="Splash" component={SplashScreen} />
