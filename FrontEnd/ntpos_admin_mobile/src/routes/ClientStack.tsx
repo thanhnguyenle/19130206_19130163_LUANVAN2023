@@ -4,18 +4,22 @@ import { COLORS } from '../constants/common'
 import { View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
-import { AddClientScreen, AddGroupScreen, AddRoleScreen, ClientScreen, DetailClientScreen, SearchClientScreen, SelectGroupScreen, SelectRoleScreen } from '../views/ImportFile';
+import { AddClientScreen, AddGroupScreen, ClientScreen, DetailClientScreen, SearchClientScreen, SelectGroupScreen, SelectRoleScreen } from '../views/ImportFile';
 import NotificationScreenStack from '../routes/NotificationStack'
 const ClientStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import { BottomSheet, ButtonComponent, ButtonSheetCom, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteClientRequest } from '../redux_store/client/deleteClientSlice';
+import { RootState } from '../app/store';
+import { setSearch } from '../redux_store/client/filterSlice';
 
 const ClientScreenStack = ({ navigation }: any) => {
     const [locDs, setLocDS] = useState('moinhat');
     const dispatch = useDispatch();
+    const searchType = useSelector((state: RootState) => state.client.searchFifter.searchType);
+    const searchValue = useSelector((state: RootState) => state.client.searchFifter.searchValue);
     return (
         <ClientStack.Navigator
             initialRouteName='Client'
@@ -51,13 +55,13 @@ const ClientScreenStack = ({ navigation }: any) => {
                             </TouchableOpacity>
                             <BottomSheet title='' fontSize={12}
                                 icon={<Ionicons name='md-filter-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
-                                height={280}
+                                height={300}
                                 content={
                                     <RadioButton.Group onValueChange={newLocDs => setLocDS(newLocDs)} value={locDs}>
                                         <RadioButtonCom title='Mới nhất' value='moinhat' />
                                         <RadioButtonCom title='Cũ nhất' value='cunhat' />
-                                        <RadioButtonCom title='Giá trị tăng' value='giatritang' />
-                                        <RadioButtonCom title='Giá trị giảm' value='giatrigiam' />
+                                        <RadioButtonCom title='A->Z' value='ASC' />
+                                        <RadioButtonCom title='Z-A' value='DESC' />
                                     </RadioButton.Group>
                                 } />
                             <TouchableOpacity onPress={() => {
@@ -89,6 +93,13 @@ const ClientScreenStack = ({ navigation }: any) => {
                     ),
                     headerRight: () => (
                         <TouchableOpacity onPress={() => {
+                            if (searchType != '' && searchValue != '') {
+                                dispatch(setSearch({ searchType, searchValue }));
+                                navigation.pop();
+                            }
+                            else {
+                                navigation.pop();
+                            }
                         }}>
                             <Text style={{ color: COLORS.darkGreen, fontSize: 18, fontWeight: '500' }}>Áp dụng</Text>
                         </TouchableOpacity>
@@ -116,14 +127,9 @@ const ClientScreenStack = ({ navigation }: any) => {
                     title: 'Thêm khách hàng',
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
-                            navigation.pop();
+                            navigation.replace('Client');
                         }}>
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
-                        </TouchableOpacity>
-                    ),
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ color: COLORS.darkGreen, fontSize: 18, fontWeight: '500' }}>Lưu</Text>
                         </TouchableOpacity>
                     ),
                 }}
@@ -140,11 +146,6 @@ const ClientScreenStack = ({ navigation }: any) => {
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>
                     ),
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ color: COLORS.darkGreen, fontSize: 18, fontWeight: '500' }}>Lưu</Text>
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <ClientStack.Screen
@@ -152,20 +153,6 @@ const ClientScreenStack = ({ navigation }: any) => {
                 component={AddGroupScreen}
                 options={{
                     title: 'Thêm nhóm người dùng',
-                    headerLeft: () => (
-                        <TouchableOpacity onPress={() => {
-                            navigation.pop();
-                        }}>
-                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
-                        </TouchableOpacity>
-                    ),
-                }}
-            />
-            <ClientStack.Screen
-                name="AddRole"
-                component={AddRoleScreen}
-                options={{
-                    title: 'Thêm quyền',
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
                             navigation.pop();

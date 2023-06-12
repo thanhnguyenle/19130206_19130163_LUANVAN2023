@@ -1,82 +1,106 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, ImageBackground, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, ScrollView, ImageBackground, StyleSheet, TouchableOpacity, PermissionsAndroid, ToastAndroid, Alert, Platform } from 'react-native';
 import { COLORS } from '../../constants/common';
 import IconIocns from 'react-native-vector-icons/Ionicons'
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
-import { launchImageLibrary } from 'react-native-image-picker'
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import ImageCropPicker, { Image } from 'react-native-image-crop-picker';
+import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker';
+import { ButtonComponent, InputComponent } from '../../components';
+import { RootState } from '../../app/store';
+import { addClientRequest } from '../../redux_store/client/clientSlice';
+import { dispatchGroupsNull } from '../../redux_store/client/group/groupSlice';
 const AddClientScreen = ({ navigation }: any) => {
-    const [urlPic, setUrlPic] = useState('');
-    const [groupRoles, setRroupRoles] = useState([
-        { id: 1, label: 'Checkbox 1', checked: false },
-        { id: 2, label: 'Checkbox 2', checked: false },
-        { id: 3, label: 'Checkbox 3', checked: false },
-    ]);
-    const setToastMsg = (msg: any) => {
-        ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
-    }
-    function uploadImage() {
-        launchImageLibrary({
-            mediaType: 'photo',
-        }, response => {
-            if (response.didCancel) {
-                setToastMsg('Thoát');
-            } else if (response.errorCode = 'permission') {
-                setToastMsg('permission')
-            } else if (response.errorCode = 'others') {
-                setToastMsg(response.errorMessage)
-            } else {
-                const selectedAssets = response.assets ?? [];
-                if (selectedAssets.length > 0) {
-                    const selectedImageUri = selectedAssets[0].uri;
-                    console.log('Selected image URI: ', selectedImageUri);
-                    setUrlPic(selectedImageUri + '');
-                }
+    const [name, setName] = useState('nhu');
+    const [username, setUserName] = useState('nhu');
+    const [email, setEmail] = useState('mi');
+    const [password, setPassword] = useState('mju');
+    const [retyPassword, setRetyPassword] = useState('mju');
+    const [phoneNumber, setPhoneNumber] = useState('mju');
+    const [address, setAddress] = useState('mu');
+    const dispatch = useDispatch();
+    const [selectedImage, setSelectedImage] = useState<ImagePickerResponse | null>(null);
+    const [avatar, setAvatar] = useState<string>('');
+    const selectedGroups = useSelector((state: RootState) => state.client.groups.selectedGroups);
+    const selectedGroupsText = selectedGroups.map((group) => group.name).join(',');
+    const selectedGroupsId = selectedGroups.map((group) => group.id).join(',');
+    const groups = selectedGroupsId.split(',');
+    const handleChoosePhoto = () => {
+        launchImageLibrary({ mediaType: 'photo' }, (response: ImagePickerResponse) => {
+            if (response) {
+                setSelectedImage(response);
             }
-        })
-    }
-    const openImageLibrary = () => {
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                quality: 1,
-                includeBase64: true,// specify the media type to limit the selection to photos only
-            },
-            (response) => {
-                const fileSize = response.assets?.[0]?.fileSize ?? 0;
-                const base64: string | number = response?.assets?.[0]?.base64 ?? 0;
-                if (response.didCancel) {
-                    setToastMsg('Cancelled image selection');
-                } else if (response.errorCode = 'permission') {
-                    setToastMsg('Demo');
-                } else if (response.errorCode = 'others') {
-                    setToastMsg(response.errorMessage);
-                } else if (fileSize > 2097152) {
-                    alert('Demo');
-                } else {
-                    setUrlPic(base64 + '');
-                }
-            }
-        );
+        });
     };
+    function handleImageUpload() {
+        if (!selectedImage) {
+            return;
+        }
 
-    function removeImage() {
-        alert('remove')
+        const formData = new FormData();
+        if (selectedImage && selectedImage.assets) {
+            formData.append('image', {
+                name: selectedImage.assets[0].fileName,
+                type: selectedImage.assets[0].type,
+                uri: Platform.OS === 'ios' ? selectedImage.assets[0].uri!.replace('file://', '') : selectedImage.assets[0].uri,
+            });
+        }
+
+        const clientId = '28dbc5a4ac6a7b3'; // Replace with your Imgur client ID
+        axios.post('https://api.imgur.com/3/image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Client-ID ${clientId}`,
+            },
+        })
+            .then(response => {
+                if (response.data.success) {
+                    let uploadedUrl = response.data.data.link;
+                    setAvatar(uploadedUrl);
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+                Alert.alert('Upload Failed', 'Failed to upload the image. Please try again.');
+            });
     }
+
+    function handleAddClient() {
+        handleImageUpload();
+        dispatch(
+            addClientRequest({
+                name,
+                username,
+                password,
+                email,
+                phoneNumber,
+                address,
+                avatar,
+                groups,
+            })
+        );
+    }
+    useEffect(() => {
+        dispatch(dispatchGroupsNull());
+    }, [dispatch]);
     return (
         <View style={styles.container}>
             <View style={styles.boxImage}>
                 <View style={{ flexDirection: 'row' }}>
-                    <ImageBackground source={{
-                        uri: 'data:image/png;base64' + urlPic
-                    }}
-                        style={{ width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white, alignItems: 'flex-end', justifyContent: 'flex-start' }}
-                    >
-                        <TouchableOpacity style={{ backgroundColor: '#00000030', borderRadius: 20 }} onPress={() => { removeImage() }}>
-                            <IconIocns name='close' size={40} color={COLORS.color_white} />
-                        </TouchableOpacity>
-                    </ImageBackground>
+                    {selectedImage && selectedImage.assets && (
+                        <ImageBackground source={{ uri: selectedImage.assets[0].uri }}
+                            style={{ width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white, alignItems: 'flex-end', justifyContent: 'flex-start' }}
+                        >
+                            <TouchableOpacity style={{ backgroundColor: '#00000030', borderRadius: 20 }} onPress={() => { setSelectedImage(null) }}>
+                                <IconIocns name='close' size={40} color={COLORS.color_white} />
+                            </TouchableOpacity>
+                        </ImageBackground>
+                    )}
                     <View style={{ alignItems: 'center', width: 150, height: 150, backgroundColor: COLORS.color_grey_seconds, justifyContent: 'center', marginLeft: 10, }}>
-                        <TouchableOpacity onPress={() => { openImageLibrary() }}>
+                        <TouchableOpacity onPress={() => {
+                            handleChoosePhoto();
+                        }}>
                             <IconIocns name='camera' size={40} color={COLORS.color_grey} />
                         </TouchableOpacity>
                     </View>
@@ -86,40 +110,84 @@ const AddClientScreen = ({ navigation }: any) => {
                 <View style={styles.boxContent}>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Tên đăng nhập</Text>
-                        <TextInput style={styles.textContent} placeholder=''></TextInput>
+                        <InputComponent
+                            value={username}
+                            onChangeText={setUserName}
+                            placeholder=''
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Họ tên</Text>
-                        <TextInput style={styles.textContent} placeholder=''></TextInput>
+                        <InputComponent
+                            value={name}
+                            onChangeText={setName}
+                            placeholder=''
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Email</Text>
-                        <TextInput style={[styles.textContent,]} placeholder='@gmail.com'></TextInput>
+                        <InputComponent
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder='@gmail.com'
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Mật khẩu</Text>
-                        <TextInput style={styles.textContent} placeholder='' secureTextEntry={true}></TextInput>
+                        <InputComponent
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholder=''
+                            secureTextEntry={true}
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Nhập lại mật khẩu</Text>
-                        <TextInput style={styles.textContent} placeholder='' secureTextEntry={true}></TextInput>
+                        <InputComponent
+                            value={retyPassword}
+                            onChangeText={setRetyPassword}
+                            placeholder=''
+                            secureTextEntry={true}
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Số điện thoại</Text>
-                        <TextInput style={styles.textContent} placeholder=''></TextInput>
+                        <InputComponent
+                            value={phoneNumber}
+                            onChangeText={setPhoneNumber}
+                            placeholder=''
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Địa chỉ</Text>
-                        <TextInput style={styles.textContent} placeholder=''></TextInput>
+                        <InputComponent
+                            value={address}
+                            onChangeText={setAddress}
+                            placeholder=''
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
-                        <Text style={styles.textTitle}>Nhóm hàng</Text>
-                        <TextInput style={[styles.textContent, { width: '60%', }]} editable={false} placeholder='' aria-disabled></TextInput>
+                        <Text style={styles.textTitle}>Nhóm người dùng</Text>
+                        <TextInput style={[styles.textContent, { width: '60%', }]} editable={false} placeholder='' aria-disabled>{selectedGroupsText}</TextInput>
                         <TouchableOpacity onPress={() => { navigation.push('SelectGroup') }} style={{ width: '10%', }}>
                             <IconIocns name='chevron-forward-sharp' size={20} color={COLORS.color_grey} />
                         </TouchableOpacity>
                     </View>
                 </View>
+                <Text></Text>
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <ButtonComponent title='Thêm' onPress={() => {
+                        handleAddClient();
+                    }} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen }} />
+                </View>
+                <Text></Text>
             </ScrollView>
         </View >
     );

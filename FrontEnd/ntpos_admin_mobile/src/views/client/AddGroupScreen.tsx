@@ -3,30 +3,51 @@ import { View, Text, TextInput, ScrollView, ImageBackground, StyleSheet, Touchab
 import { COLORS } from '../../constants/common';
 import IconIocns from 'react-native-vector-icons/Ionicons'
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
-import { ButtonComponent } from '../../components';
+import { ButtonComponent, InputComponent } from '../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { addRequsetGroup } from '../../redux_store/client/group/groupSlice';
 const AddGroupScreen = ({ navigation }: any) => {
-
+    const dispatch = useDispatch();
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const selectedRoles = useSelector((state: RootState) => state.client.roles.selectedRoles);
+    const selectedRolesText = selectedRoles.map((role) => role.roleName).join(', ');
+    const roles = selectedRolesText.split(',')
+    const handleAddGroup = () => {
+        dispatch(addRequsetGroup({ name, description, roles }));
+    };
     return (
         <View style={styles.container}>
             <View style={styles.boxContent}>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Tên nhóm</Text>
-                    <TextInput style={styles.textContent} placeholder=''></TextInput>
+                    <InputComponent
+                        value={name}
+                        onChangeText={setName}
+                        placeholder=''
+                        style={styles.textContent}
+                    />
                 </View>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Mô tả</Text>
-                    <TextInput style={styles.textContent} placeholder=''></TextInput>
+                    <InputComponent
+                        value={description}
+                        onChangeText={setDescription}
+                        placeholder=''
+                        style={styles.textContent}
+                    />
                 </View>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Cấp quyền</Text>
-                    <TextInput style={[styles.textContent, { width: '60%', }]} editable={false} placeholder='' aria-disabled></TextInput>
+                    <TextInput style={[styles.textContent, { width: '60%', }]} editable={false} placeholder='' aria-disabled>{selectedRolesText}</TextInput>
                     <TouchableOpacity onPress={() => { navigation.push('SelectRole') }} style={{ width: '10%', }}>
                         <IconIocns name='chevron-forward-sharp' size={20} color={COLORS.color_grey} />
                     </TouchableOpacity>
                 </View>
             </View>
             <Text></Text>
-            <ButtonComponent title='Thêm' onPress={() => { }} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen }} />
+            <ButtonComponent title='Thêm' onPress={handleAddGroup} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen }} />
         </View >
     );
 };

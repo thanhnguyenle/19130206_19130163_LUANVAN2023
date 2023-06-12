@@ -21,7 +21,7 @@ import SearchBillScreen from "./search/bill/SearchBillScreen";
 import SearchExportProductScreen from "./search/SearchExportProductScreen"
 import SearchImportProductScreen from "./search/SearchImportProductScreen"
 import SearchCancellationScreen from "./search/SearchCancellationScreen"
-import SearchClientScreen from "./search/SearchClientScreen";
+import SearchClientScreen from "./client/SearchClientScreen";
 import SearchSupplierScreen from "./search/SearchSupplierScreen"
 import SearchCaskbookScreen from "./search/SearchCaskbookScreen"
 import SearchReportScreen from "./search/SearchReportScreen";
@@ -47,11 +47,9 @@ import DetailClientScreen from './client/DetailClientScreen';
 import AddClientScreen from './client/AddClientScreen';
 import SelectGroupScreen from './client/SelectGroupScreen';
 import AddGroupScreen from './client/AddGroupScreen';
-import AddRoleScreen from './client/AddRoleScreen';
 import SelectRoleScreen from "./client/SelectRoleScreen";
 export {
     SelectRoleScreen,
-    AddRoleScreen,
     AddGroupScreen,
     SelectGroupScreen,
     AddClientScreen,

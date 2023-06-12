@@ -13,17 +13,16 @@ export const fetchListRolesQuery = gql`
   }
 `;
 function* fetchListRolesSaga() {
-    try {
-        const { data } = yield call(client.query, {
-            query: fetchListRolesQuery, // Truy vấn GraphQL của bạn
-        });
-        console.log(data.roles)
-        yield put(fetchListRolesSuccess(data.roles));
-    } catch (error: any) {
-        yield put(fetchListRolesFailure(error.message));
-    }
+  try {
+    const { data } = yield call(client.query, {
+      query: fetchListRolesQuery, // Truy vấn GraphQL của bạn
+    });
+    yield put(fetchListRolesSuccess(data.roles));
+  } catch (error: any) {
+    yield put(fetchListRolesFailure(error.message));
+  }
 }
 
 export function* listRolesSaga() {
-    yield takeEvery(fetchListRolesRequest.type, fetchListRolesSaga);
+  yield takeEvery(fetchListRolesRequest.type, fetchListRolesSaga);
 }
