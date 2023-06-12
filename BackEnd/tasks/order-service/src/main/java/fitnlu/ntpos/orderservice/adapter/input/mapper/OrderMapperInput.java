@@ -1,5 +1,9 @@
 package fitnlu.ntpos.orderservice.adapter.input.mapper;
 
+import fitnlu.ntpos.orderservice.adapter.input.dto.OrderInput;
+import fitnlu.ntpos.orderservice.adapter.input.dto.OrderLineItemOutput;
+import fitnlu.ntpos.orderservice.adapter.input.dto.OrderOutput;
+import fitnlu.ntpos.orderservice.adapter.input.dto.TableOutput;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.TableEntities;
@@ -9,14 +13,14 @@ import fitnlu.ntpos.orderservice.domain.model.Table;
 
 import java.util.List;
 
-public class OrderMapperOutput {
-    public static OrderEntities toEntity(Order order) {
-        List<TableEntities> categories = order.getTable()!=null?order.getTable().stream().map(TableMapperOutput::toEntities).toList():List.of();
-        List<OrderProductEntities> images = order.getOrderLineItems()!=null?order.getOrderLineItems().stream()
-                        .map(OrderLineItemMapperOutput::toEntities).toList():List.of();
-        return OrderEntities.builder()
+public class OrderMapperInput {
+    public static OrderOutput toDTO(Order order) {
+        List<TableOutput> categories = order.getTable()!=null?order.getTable().stream().map(TableMapperInput::toDTO).toList():List.of();
+        List<OrderLineItemOutput> orderLineItemOutputs = order.getOrderLineItems()!=null?order.getOrderLineItems().stream()
+                        .map(OrderLineItemMapperInput::toDTO).toList():List.of();
+        return OrderOutput.builder()
                 .id(order.getId())
-                .orderLineItems(images)
+                .orderLineItems(orderLineItemOutputs)
                 .table(categories)
                 .orderDate(order.getOrderDate())
                 .status(order.getStatus())
@@ -26,20 +30,18 @@ public class OrderMapperOutput {
                 .userID(order.getUserID())
                 .build();
     }
-    public static Order toDomain(OrderEntities orderEntities) {
-        List<Table> categories = orderEntities.getTable()!=null?orderEntities.getTable().stream().map(TableMapperOutput::toDomain).toList():List.of();
-        List<OrderProduct> images = orderEntities.getOrderLineItems()!=null?orderEntities.getOrderLineItems().stream()
-                .map(OrderLineItemMapperOutput::toDomain).toList():List.of();
+    public static Order toDomain(OrderInput orderInput) {
+        List<Table> categories = orderInput.tables()!=null?orderInput.tables().stream().map(TableMapperInput::toDomain).toList():List.of();
+        List<OrderProduct> images = orderInput.orderLineItems()!=null?orderInput.orderLineItems().stream()
+                .map(OrderLineItemMapperInput::toDomain).toList():List.of();
         return Order.builder()
-                .id(orderEntities.getId())
+                .userID(orderInput.userID())
+                .group(orderInput.group())
+                .orderDate(orderInput.orderDate())
                 .orderLineItems(images)
+                .status(orderInput.status())
+                .note(orderInput.note())
                 .table(categories)
-                .orderDate(orderEntities.getOrderDate())
-                .status(orderEntities.getStatus())
-                .numberOfPeople(orderEntities.getNumberOfPeople())
-                .group(orderEntities.getGroup())
-                .note(orderEntities.getNote())
-                .userID(orderEntities.getUserID())
                 .build();
     }
 }

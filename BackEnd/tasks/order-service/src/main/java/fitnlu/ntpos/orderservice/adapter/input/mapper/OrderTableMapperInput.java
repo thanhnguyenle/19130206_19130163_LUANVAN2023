@@ -1,11 +1,13 @@
 package fitnlu.ntpos.orderservice.adapter.input.mapper;
 
+import fitnlu.ntpos.orderservice.adapter.input.dto.OrderTableInput;
+import fitnlu.ntpos.orderservice.adapter.input.dto.OrderTableOutput;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderTableEntities;
 import fitnlu.ntpos.orderservice.domain.model.OrderTable;
 
-public class OrderTableMapperOutput {
-    public static OrderTableEntities toEntities(OrderTable orderTable){
-        return OrderTableEntities.builder()
+public class OrderTableMapperInput {
+    public static OrderTableOutput toDTO(OrderTable orderTable){
+        return OrderTableOutput.builder()
                 .orderID(orderTable.getOrderID())
                 .tableID(orderTable.getTableID())
                 .note(orderTable.getNote())
@@ -14,14 +16,13 @@ public class OrderTableMapperOutput {
                 .endTime(orderTable.getEndTime())
                 .build();
     }
-    public static OrderTable toDomain(OrderTableEntities orderTableEntities) {
+    public static OrderTable toDomain(OrderTableInput orderTableInput) {
         return OrderTable.builder()
-                .orderID(orderTableEntities.getOrderID())
-                .tableID(orderTableEntities.getTableID())
-                .note(orderTableEntities.getNote())
-                .status(orderTableEntities.getStatus())
-                .startTime(orderTableEntities.getStartTime())
-                .endTime(orderTableEntities.getEndTime())
+                .tableID(orderTableInput.tableID())
+                .note(orderTableInput.note())
+                .status(orderTableInput.status())
+                .startTime(orderTableInput.startTime())
+                .endTime(orderTableInput.endTime())
                 .build();
     }
 }

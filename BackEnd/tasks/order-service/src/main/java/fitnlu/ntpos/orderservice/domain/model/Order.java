@@ -15,8 +15,8 @@ public class Order {
     private String userID;
     private int numberOfPeople;
     private String group;
-    private String orderDate;
-    private List<OrderLineItem> orderLineItems;
+    private long orderDate;
+    private List<OrderProduct> orderLineItems;
     private String status;
     private String note;
     private List<Table> table;

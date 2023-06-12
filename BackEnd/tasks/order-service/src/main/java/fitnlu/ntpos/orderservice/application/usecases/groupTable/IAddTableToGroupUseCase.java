@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.application.usecases.table;
+package fitnlu.ntpos.orderservice.application.usecases.groupTable;
 
 import fitnlu.ntpos.orderservice.domain.model.Table;
 

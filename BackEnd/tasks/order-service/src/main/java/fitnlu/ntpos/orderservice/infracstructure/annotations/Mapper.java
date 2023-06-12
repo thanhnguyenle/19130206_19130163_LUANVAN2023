@@ -1,4 +1,4 @@
-package fitnlu.ntpos.productservice.infrastructure.annotations;
+package fitnlu.ntpos.orderservice.infracstructure.annotations;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

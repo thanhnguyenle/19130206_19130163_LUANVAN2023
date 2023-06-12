@@ -10,23 +10,30 @@ import {
 import ProductItem from './ProductItem';
 import TitleButton from './TitleButton';
 
-const ShowEndow = (props: {
+interface ShowEndowProps {
   title: string;
   onPressDeteil: () => void;
   data: any[];
   navigation: any;
+}
+
+const ShowEndow: React.FC<ShowEndowProps> = ({
+  title,
+  onPressDeteil,
+  data,
+  navigation,
 }) => {
   return (
     <View>
-      {props.title === '' ? (
+      {title === '' ? (
         <></>
       ) : (
-        <TitleButton title={props.title} onPress={props.onPressDeteil} />
+        <TitleButton title={title} onPress={onPressDeteil} />
       )}
       <View style={styles.container}>
         <FlatList
           nestedScrollEnabled={true}
-          data={props.data}
+          data={data}
           keyExtractor={(item, index) => 'key' + index}
           pagingEnabled
           scrollEnabled
@@ -37,7 +44,7 @@ const ShowEndow = (props: {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
-              <ProductItem navigation={props.navigation} item={item} />
+              <ProductItem navigation={navigation} item={item} />
             );
           }}
         />

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,7 +17,5 @@ public class Table {
     private int numberOfPeople;
     private String status;
     private String note;
-    private String startTime;
-    private String endTime;
-
+    private List<GroupTable> groups;
 }

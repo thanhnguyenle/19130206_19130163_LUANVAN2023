@@ -1,20 +1,21 @@
-import React, {PureComponent, PropTypes} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
 
-const NotificationItem = props => {
-  // Pull data needed to display a comment out of comment object
-  const {user_id, content} = props.comment;
+interface Comment {
+  user_id: string;
+  content: string;
+}
+
+interface NotificationItemProps {
+  comment: Comment;
+}
+
+const NotificationItem: React.FC<NotificationItemProps> = ({ comment }) => {
+  const { user_id, content } = comment;
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        {/* {avatar && (
-          <Image
-            resizeMode="contain"
-            style={styles.avatar}
-            source={{uri: avatar}}
-          />
-        )} */}
         <Image
           resizeMode="contain"
           style={styles.avatar}
@@ -71,4 +72,5 @@ const styles = StyleSheet.create({
     color: '#BBB',
   },
 });
+
 export default NotificationItem;

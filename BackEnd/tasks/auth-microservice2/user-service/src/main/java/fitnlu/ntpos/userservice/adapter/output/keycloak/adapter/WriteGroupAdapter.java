@@ -37,7 +37,7 @@ public class WriteGroupAdapter implements IWriteGroupPort {
         try {
             Keycloak keycloak = keycloakUtils.getKeycloakInstance();
             GroupRepresentation groupRepresentation = groupMapperOutput.toRepresentation(group);
-            groupRepresentation.setAttributes(Collections.singletonMap("description", List.of("")));
+            groupRepresentation.setAttributes(Collections.singletonMap("description", Collections.singletonList(group.getDescription())));
             response = keycloak.realm(KEYCLOAK_REALM).groups().add(groupRepresentation);
                 if (response.getStatus() == 201) {
                     //group created

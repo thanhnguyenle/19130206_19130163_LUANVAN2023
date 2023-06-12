@@ -1,4 +1,12 @@
 package fitnlu.ntpos.orderservice.adapter.input.dto;
 
-public class TableInput {
+import java.util.List;
+
+public record TableInput(
+        String name,
+        int numberOfPeople,
+        String status,
+        String note,
+         List<GroupInput> groups
+) {
 }

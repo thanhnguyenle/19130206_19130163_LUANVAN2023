@@ -1,7 +1,4 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.entities;
-
-import fitnlu.ntpos.orderservice.domain.model.OrderLineItem;
-import fitnlu.ntpos.orderservice.domain.model.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +16,5 @@ public class TableEntities {
     private int numberOfPeople;
     private String status;
     private String note;
-    private String startTime;
-    private String endTime;
+    private List<GroupTableEntities> groups;
 }

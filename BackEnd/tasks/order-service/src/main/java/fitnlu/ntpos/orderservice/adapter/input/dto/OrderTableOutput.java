@@ -10,11 +10,10 @@ import java.util.List;
 @Builder
 
 public class OrderTableOutput {
-    private String id;
-    private String name;
-    private int numberOfPeople;
+    private String orderID;
+    private String tableID;
     private String status;
     private String note;
-    @Setter
-    private List<GroupOutput> groups;
+    private long startTime;
+    private long endTime;
 }

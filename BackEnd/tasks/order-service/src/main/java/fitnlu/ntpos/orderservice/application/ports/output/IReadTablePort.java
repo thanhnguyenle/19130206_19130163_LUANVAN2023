@@ -12,5 +12,11 @@ public interface IReadTablePort {
      List<Table> findEmptyTableAtTime(String startTime, String endTime) ;
      List<Table> findEmptyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
      List<Table> findEmptyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
+     List<Table> findBusyTableAtTime(String startTime, String endTime) ;
+     List<Table> findBusyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
+     List<Table> findBusyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
      Table findTableByID(String tableID) ;
+     List<Table> findAllTableByOrderID(String orderID);
+     List<Table> findAllTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
+     List<Table> findAllTableByOrderID(String startTime, String orderID, String sortValue, String searchType, String searchValue);
 }

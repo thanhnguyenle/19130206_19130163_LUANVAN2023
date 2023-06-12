@@ -1,10 +1,14 @@
 package fitnlu.ntpos.orderservice.application.ports.output;
 
+import fitnlu.ntpos.orderservice.domain.model.GroupTable;
 import fitnlu.ntpos.orderservice.domain.model.Table;
 
-public interface IWriteGroupTablePort {
-    Table createTable(Table table);
-    Table deleteTable(String id);
-    Table updateTable(Table table);
+import java.util.List;
 
+public interface IWriteGroupTablePort {
+    GroupTable createGroupTable(GroupTable groupTable);
+    GroupTable deleteGroupTable(String groupTableID);
+    GroupTable updateGroupTable(String groupTableID, GroupTable groupTable);
+    boolean addTableToGroup(String groupID, List<String> tableIDs);
+    boolean removeTableFromGroup(String groupID, List<String> tablesIDs);
 }

@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderTable {
-    private String id;
-    private String name;
-    private int numberOfPeople;
+    private String orderID;
+    private String tableID;
     private String status;
     private String note;
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
 
 }

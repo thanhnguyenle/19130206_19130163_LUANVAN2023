@@ -1,4 +1,10 @@
 package fitnlu.ntpos.orderservice.adapter.input.dto;
 
-public class OrderLineItemInput {
+public record OrderLineItemInput(
+         String productID,
+         int quantity,
+         double price,
+         double discount
+) {
+
 }

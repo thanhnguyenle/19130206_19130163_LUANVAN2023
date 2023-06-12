@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductTableEntities {
-    private String id;
-    private String name;
-    private int numberOfPeople;
+public class OrderTableEntities {
+    private String orderID;
+    private String tableID;
     private String status;
     private String note;
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
 }

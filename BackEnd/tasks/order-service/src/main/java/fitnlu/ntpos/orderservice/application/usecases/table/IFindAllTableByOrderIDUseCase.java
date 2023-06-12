@@ -6,8 +6,8 @@ import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import java.util.List;
 
 public interface IFindAllTableByOrderIDUseCase {
-    List<Table> findBusyTableAtTime(String startTime, String endTime);
-    List<Table> findBusyTableAtTime(IPaging paging, String startTime, String endTime,String sortType, String sortValue, String searchType, String searchValue);
-    List<Table> findBusyTableAtTime(String startTime, String endTime,String sortType, String sortValue, String searchType, String searchValue);
+    List<Table> findAllTableByOrderID(String orderID);
+    List<Table> findAllTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
+    List<Table> findAllTableByOrderID(String startTime, String orderID, String sortValue, String searchType, String searchValue);
 
 }

@@ -3,10 +3,10 @@ package fitnlu.ntpos.orderservice.adapter.input.dto;
 import java.util.List;
 
 public record OrderTableInput(
-        String name,
-        int numberOfPeople,
-        String status,
+        String tableID,
         String note,
-         List<GroupInput> groups
+        String status,
+        long startTime,
+         long endTime
 ) {
 }

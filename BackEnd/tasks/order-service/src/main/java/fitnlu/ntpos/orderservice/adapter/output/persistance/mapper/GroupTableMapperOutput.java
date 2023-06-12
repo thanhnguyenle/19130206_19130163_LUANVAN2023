@@ -1,29 +1,32 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.mapper;
 
+import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.GroupTableEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.TableEntities;
+import fitnlu.ntpos.orderservice.domain.model.GroupTable;
 import fitnlu.ntpos.orderservice.domain.model.Table;
 
+import java.util.List;
+
 public class GroupTableMapperOutput {
-    public static TableEntities toEntities(Table table){
-        return TableEntities.builder()
-                .id(table.getId())
-                .name(table.getName())
-                .numberOfPeople(table.getNumberOfPeople())
-                .status(table.getStatus())
-                .note(table.getNote())
-                .startTime(table.getStartTime())
-                .endTime(table.getEndTime())
+    public static GroupTableEntities toEntities(GroupTable groupTable){
+        List<TableEntities> tables = groupTable.getTables()!=null?groupTable.getTables().stream().map(TableMapperOutput::toEntities).toList():List.of();
+        return GroupTableEntities.builder()
+                .id(groupTable.getId())
+                .name(groupTable.getName())
+                .note(groupTable.getNote())
+                .status(groupTable.getStatus())
+                .tables(tables)
                 .build();
+
     }
-    public static Table toDomain(TableEntities tableEntities) {
-        return Table.builder()
+    public static GroupTable toDomain(GroupTableEntities tableEntities) {
+        List<Table> tables = tableEntities.getTables()!=null?tableEntities.getTables().stream().map(TableMapperOutput::toDomain).toList():List.of();
+        return GroupTable.builder()
                 .id(tableEntities.getId())
                 .name(tableEntities.getName())
-                .numberOfPeople(tableEntities.getNumberOfPeople())
-                .status(tableEntities.getStatus())
                 .note(tableEntities.getNote())
-                .startTime(tableEntities.getStartTime())
-                .endTime(tableEntities.getEndTime())
+                .status(tableEntities.getStatus())
+                .tables(tables)
                 .build();
     }
 }
