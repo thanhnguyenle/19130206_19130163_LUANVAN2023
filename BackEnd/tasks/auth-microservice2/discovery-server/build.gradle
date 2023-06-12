@@ -26,6 +26,12 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-core:11.0.0-M5'
     implementation 'org.springframework:spring-webmvc:6.0.8'
 
+    //zipkin
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.3'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
+    implementation 'io.micrometer:micrometer-observation:1.10.6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
+
     //security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
@@ -40,7 +46,7 @@ tasks.register('copyProperties', Copy) {
     rename('application-docker.properties', 'application.properties')
 
 }
-processResources.dependsOn copyProperties
+//processResources.dependsOn copyProperties
 
 tasks.named('test') {
     useJUnitPlatform()

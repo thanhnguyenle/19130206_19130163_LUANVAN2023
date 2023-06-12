@@ -44,6 +44,7 @@
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
+    "react-stomp": "^5.1.0",
     "redux": "^4.2.1",
     "redux-saga": "^1.2.3",
     "redux-thunk": "^2.4.2"

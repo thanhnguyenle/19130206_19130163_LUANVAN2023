@@ -1,4 +1,7 @@
 package fitnlu.ntpos.orderservice.application.ports.output;
 
-public class IWriteOrderLineItemPort {
+import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
+
+public interface IWriteOrderLineItemPort {
+    OrderProduct updateOrderLineItem(String orderLineItemID, OrderProduct orderLineItem);
 }
