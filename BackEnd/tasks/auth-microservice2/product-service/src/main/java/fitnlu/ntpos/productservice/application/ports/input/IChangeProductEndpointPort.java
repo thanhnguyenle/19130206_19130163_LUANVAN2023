@@ -15,4 +15,6 @@ public interface IChangeProductEndpointPort {
     ResultOutput deleteProductBatchFromCategory(String categoryID, List<String> productIDs);
     ResultOutput deleteProductFromCategory(String categoryID, String productID);
     ResultOutput deleteBatchProduct(List<String> productIDs);
+    ResultOutput deleteAllImageOfProduct(String productID) ;
+    ResultOutput deleteAllCategoryOfProduct(String productID) ;
 }

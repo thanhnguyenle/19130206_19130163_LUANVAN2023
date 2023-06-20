@@ -20,25 +20,28 @@ public class TableRepository implements ITableDBIRepository {
     private static final String CREATE = "INSERT INTO `table` VALUES (:id, :name,:numberOfPeople,:status,:note)";
     private static final String DELETE = "DELETE FROM `table` WHERE id = :id";
     private static final String GET_TABLE_BY_ID = "SELECT * FROM `table` WHERE id = :id";
-    private static final String GET_TABLE_BY_GROUPID = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE groupID = :groupID)";
+    private static final String GET_TABLE_BY_GROUPID = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `group_table` WHERE groupID = :groupID)";
     private static final String UPDATE = "UPDATE `table` SET name =:name, numberOfPeople =:numberOfPeople, status =:status, note =:note WHERE id =:id";
     private static final String GET_LIST_TABLE_FREE ="SELECT * FROM `table` WHERE id NOT IN (SELECT tableID FROM `order_table` WHERE :startTime BETWEEN startTime AND endTime OR :endTime BETWEEN startTime AND endTime)";
     private static final String GET_LIST_TABLE_BUSY = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE :startTime BETWEEN startTime AND endTime OR :endTime BETWEEN startTime AND endTime)";
-
+    private static final String DELETE_ALL_TABLE_BY_GROUPID = "DELETE FROM `group_table` WHERE groupID = :groupID";
+    private static final String DELETE_ALL_TABLE_BY_ORDERID = "DELETE FROM `order_table` WHERE orderID = :orderID";
     private static final String GET_LIST_TABLE_BY_ORDERID = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE orderID = :orderID)";
     @NonNull
     private final Jdbi jdbi;
 
     @Override
     public TableEntities createTable(TableEntities table) {
+       String id = UUID.randomUUID().toString();
         return jdbi.withHandle(handle -> {
             handle.createUpdate(CREATE)
-                    .bind("id", UUID.randomUUID().toString())
+                    .bind("id", id)
                     .bind("name", table.getName())
                     .bind("numberOfPeople", table.getNumberOfPeople())
                     .bind("status", table.getStatus())
                     .bind("note", table.getNote())
                     .execute();
+            table.setId(id);
             return table;
         });
     }
@@ -54,17 +57,25 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public TableEntities updateTable(TableEntities table) {
+    public TableEntities updateTable(String id, TableEntities table) {
         return jdbi.withHandle(handle -> {
             handle.createUpdate(UPDATE)
-                    .bind("id", table.getId())
+                    .bind("id", id)
                     .bind("name", table.getName())
                     .bind("numberOfPeople", table.getNumberOfPeople())
                     .bind("status", table.getStatus())
                     .bind("note", table.getNote())
                     .execute();
+            table.setId(id);
             return table;
         });
+    }
+
+    @Override
+    public boolean deleteAllTableByGroupID(String groupID) {
+        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL_TABLE_BY_GROUPID)
+                 .bind("groupID", groupID)
+                 .execute()>0);
     }
 
     @Override
@@ -97,7 +108,7 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findEmptyTableAtTime(String startTime, String endTime) {
+    public List<TableEntities> findEmptyTableAtTime(long startTime, long endTime) {
         return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_TABLE_FREE)
                 .bind("startTime", startTime)
                 .bind("endTime", endTime)
@@ -106,7 +117,7 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findEmptyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<TableEntities> findEmptyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         List<TableEntities> list = findEmptyTableAtTime(startTime,endTime,sortType, sortValue, searchType, searchValue);
         if(paging!=null && paging.getOffset()!=null && paging.getLimit()!=null){
             return list.stream().limit(paging.getLimit()).skip(paging.getOffset()).toList();
@@ -115,10 +126,10 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findEmptyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<TableEntities> findEmptyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         StringBuilder sql = new StringBuilder(GET_LIST);
         boolean haveSearch = false;
-        if((searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()) || (startTime!=null && endTime!=null)){
+        if((searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()) || (startTime>0 && endTime>0)){
             sql.append(" WHERE ");
         }
         if(searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()){
@@ -126,7 +137,7 @@ public class TableRepository implements ITableDBIRepository {
                     .append(" LIKE '%").append(searchValue).append("%'");
             haveSearch = true;
         }
-        if(startTime!=null && endTime!=null){
+        if(startTime>0 && endTime>0){
             if(haveSearch){
                 sql.append(" AND ");
             }
@@ -142,7 +153,7 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findBusyTableAtTime(String startTime, String endTime) {
+    public List<TableEntities> findBusyTableAtTime(long startTime, long endTime) {
         return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_TABLE_BUSY)
                 .bind("startTime", startTime)
                 .bind("endTime", endTime)
@@ -151,7 +162,7 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findBusyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<TableEntities> findBusyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         List<TableEntities> list = findBusyTableAtTime(startTime,endTime,sortType, sortValue, searchType, searchValue);
         if(paging!=null && paging.getOffset()!=null && paging.getLimit()!=null){
             return list.stream().limit(paging.getLimit()).skip(paging.getOffset()).toList();
@@ -160,10 +171,10 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findBusyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<TableEntities> findBusyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         StringBuilder sql = new StringBuilder(GET_LIST);
         boolean haveSearch = false;
-        if((searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()) || (startTime!=null && endTime!=null)){
+        if((searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()) || (startTime>0 && endTime>0)){
             sql.append(" WHERE ");
         }
         if(searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()){
@@ -171,7 +182,7 @@ public class TableRepository implements ITableDBIRepository {
                     .append(" LIKE '%").append(searchValue).append("%'");
             haveSearch = true;
         }
-        if(startTime!=null && endTime!=null){
+        if(startTime>0 && endTime>0){
             if(haveSearch){
                 sql.append(" AND ");
             }
@@ -193,10 +204,10 @@ public class TableRepository implements ITableDBIRepository {
     }
 
     @Override
-    public List<TableEntities> findTableByGroupID(String groupID) {
-        return jdbi.withHandle(handle -> handle.createQuery(GET_TABLE_BY_GROUPID)
-                .bind("groupID", groupID)
-                .mapToBean(TableEntities.class).list());
+    public boolean deleteAllTableFromOrder(String orderID) {
+        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL_TABLE_BY_ORDERID)
+                .bind("orderID", orderID)
+                .execute() > 0);
     }
 
     @Override
@@ -241,6 +252,13 @@ public class TableRepository implements ITableDBIRepository {
         return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
                 .mapToBean(TableEntities.class)
                 .list());
+    }
+
+    @Override
+    public List<TableEntities> findTableByGroupID(String groupID) {
+        return jdbi.withHandle(handle -> handle.createQuery(GET_TABLE_BY_GROUPID)
+                .bind("groupID", groupID)
+                .mapToBean(TableEntities.class).list());
     }
 
 }

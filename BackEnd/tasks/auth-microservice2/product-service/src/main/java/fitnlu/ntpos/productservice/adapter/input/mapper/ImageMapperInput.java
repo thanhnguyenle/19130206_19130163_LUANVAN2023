@@ -20,6 +20,11 @@ public class ImageMapperInput {
                 .description(productImage.getDescription())
                 .build();
     }
+    public static ProductImage toDomain(String url){
+        return ProductImage.builder()
+                .url(url)
+                .build();
+    }
     public static ProductImage toEntity(ProductImageInput productImageInput){
         return ProductImage.builder()
                 .id(productImageInput.getId())

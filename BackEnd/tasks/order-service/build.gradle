@@ -52,6 +52,9 @@ dependencies {
 	//mysql
 	testImplementation "org.testcontainers:mysql:1.17.6"
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation 'commons-codec:commons-codec:1.15'
+
 }
 
 tasks.named('test') {

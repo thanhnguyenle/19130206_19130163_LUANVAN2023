@@ -15,10 +15,13 @@ import java.util.List;
 @Adapter
 @RequiredArgsConstructor
 public class WriteOrderAdapter implements IWriteOrderPort {
-    private static IOrderDBIRepository orderDBIRepository;
+    private final IOrderDBIRepository orderDBIRepository;
     @Override
     public Order createOrder(Order order) {
-        return OrderMapperOutput.toDomain(orderDBIRepository.createOrder(OrderMapperOutput.toEntity(order)));
+        Order orderOrigin = OrderMapperOutput.toDomain(orderDBIRepository.createOrder(OrderMapperOutput.toEntity(order)));
+        addOrderLineItemFromOrder(orderOrigin.getId(), orderOrigin.getOrderLineItems());
+        addTableToOrder(orderOrigin.getId(), orderOrigin.getTable());
+        return orderOrigin;
     }
 
     @Override

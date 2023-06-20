@@ -24,11 +24,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderRepository implements IOrderDBIRepository {
     private static final String GET_LIST = "select * from `order`";
-    private static final String CREATE = "INSERT INTO `order` VALUES (:id, :userID,:group,:status,:unit)";
+    private static final String CREATE = "INSERT INTO `order` VALUES (:id, :userID, :group, :orderDate,:note,:status)";
     private static final String DELETE = "DELETE FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BY_USERID = "SELECT * FROM `order` WHERE userID = :userID";
-    private static final String UPDATE = "UPDATE `order` SET userID =:userID, group =:group, status =:status, unit =:unit WHERE id =:id";
+    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, orderDate=:orderDate, note=:note WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `order`";
 
     private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount)";
@@ -154,27 +154,31 @@ public class OrderRepository implements IOrderDBIRepository {
 
     @Override
     public OrderEntities createOrder(OrderEntities orderEntities) {
-        return jdbi.withHandle(handle -> {
+        String orderID = UUID.randomUUID().toString();
+       return  jdbi.withHandle(handle -> {
             handle.createUpdate(CREATE)
-                    .bind("id", UUID.randomUUID().toString())
+                    .bind("id", orderID)
                     .bind("userID", orderEntities.getUserID())
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
-                    .bind("numberOfPeople", orderEntities.getNumberOfPeople())
                     .bind("note", orderEntities.getNote())
                     .bind("orderDate", orderEntities.getOrderDate())
                     .execute();
+            orderEntities.setId(orderID);
             return orderEntities;
         });
     }
 
     @Override
     public OrderEntities deleteOrder(String orderID) {
-        return jdbi.withHandle(handle -> handle.createQuery(DELETE)
-                .bind("id", orderID)
-                .mapToBean(OrderEntities.class)
-                .findFirst()
-                .orElse(null));
+        return jdbi.withHandle(handle -> {
+            handle.createUpdate(DELETE)
+                    .bind("id", orderID)
+                    .execute();
+            return OrderEntities.builder()
+                    .id(orderID)
+                    .build();
+        });
     }
 
     @Override
@@ -185,10 +189,10 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("userID", orderEntities.getUserID())
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
-                    .bind("numberOfPeople", orderEntities.getNumberOfPeople())
                     .bind("note", orderEntities.getNote())
                     .bind("orderDate", orderEntities.getOrderDate())
                     .execute();
+            orderEntities.setId(orderID);
             return orderEntities;
         });
     }
@@ -198,7 +202,7 @@ public class OrderRepository implements IOrderDBIRepository {
         return jdbi.withHandle(handle -> {
             PreparedBatch preparedBatch = handle.prepareBatch(ADD_ORDERITEM_TO_ORDER);
             orderProductEntities.forEach(orderProducts -> preparedBatch
-                    .bind("orderID",orderProducts.getOrderID())
+                    .bind("orderID",orderID)
                     .bind("productID",orderProducts.getProductID())
                     .bind("quantity",orderProducts.getQuantity())
                     .bind("price",orderProducts.getPrice())
@@ -213,7 +217,7 @@ public class OrderRepository implements IOrderDBIRepository {
         return jdbi.withHandle(handle -> {
             PreparedBatch preparedBatch = handle.prepareBatch(ADD_TABLE_TO_ORDER);
             tableIDs.forEach(orderTable -> preparedBatch
-                    .bind("orderID",orderTable.getOrderID())
+                    .bind("orderID",orderID)
                     .bind("tableID",orderTable.getTableID())
                     .bind("note",orderTable.getNote())
                     .bind("status",orderTable.getStatus())

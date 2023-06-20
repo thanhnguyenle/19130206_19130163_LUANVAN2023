@@ -1,8 +1,4 @@
 package fitnlu.ntpos.orderservice.adapter.input.dto;
-
-import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
-import fitnlu.ntpos.orderservice.domain.model.Table;
-
 import java.util.List;
 
 public record OrderInput(
@@ -12,6 +8,6 @@ public record OrderInput(
          List<OrderLineItemInput> orderLineItems,
          String status,
          String note,
-         List<TableInput> tables
+         List<OrderTableInput> tables
 ) {
 }

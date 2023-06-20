@@ -13,7 +13,12 @@ public class WriteOrderLineItemAdapter implements IWriteOrderLineItemPort {
     private final IOrderLineItemDBIRepository orderLineItemDBIRepository;
 
     @Override
-    public OrderProduct updateOrderLineItem(String orderLineItemID, OrderProduct orderLineItem) {
-        return OrderLineItemMapperOutput.toDomain(orderLineItemDBIRepository.updateOrderLineItem(orderLineItemID, OrderLineItemMapperOutput.toEntities(orderLineItem)));
+    public OrderProduct updateOrderLineItem(String orderID, String productID,  OrderProduct orderLineItem) {
+        return OrderLineItemMapperOutput.toDomain(orderLineItemDBIRepository.updateOrderLineItem(orderID, productID, OrderLineItemMapperOutput.toEntities(orderLineItem)));
+    }
+
+    @Override
+    public boolean deleteAllOrderLineItemsFromOrder(String orderID) {
+        return orderLineItemDBIRepository.deleteAllOrderLineItemsFromOrder(orderID);
     }
 }

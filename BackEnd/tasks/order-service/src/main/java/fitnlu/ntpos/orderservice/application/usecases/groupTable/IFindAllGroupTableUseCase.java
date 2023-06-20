@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface IFindAllGroupTableUseCase {
     List<GroupTable> findAllGroupTable();
+
+    List<GroupTable> findAllGroupTableByTableID(String tableID);
+
 }

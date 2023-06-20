@@ -2,6 +2,7 @@ package fitnlu.ntpos.productservice.adapter.output.persistance.repository;
 
 import fitnlu.ntpos.productservice.adapter.output.persistance.entities.ProductEntities;
 import fitnlu.ntpos.productservice.domain.model.DateTime;
+import fitnlu.ntpos.productservice.domain.model.Product;
 import fitnlu.ntpos.productservice.domain.model.TimeSearch;
 import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
 import lombok.NonNull;
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class ProductRepository implements IProductDBIRepository {
     private static final String GET_LIST = "select * from `product`";
 
-    private static final String CREATE = "INSERT INTO `product` VALUES (:id, :name,:price,:description,:quantity,:unit, :status)";
+    private static final String CREATE = "INSERT INTO `product` VALUES (:id, :name,:price,:description,:quantity,:unit, :status,:createdAt)";
     private static final String DELETE = "DELETE FROM `product` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `product` WHERE id = :id";
     private static final String UPDATE = "UPDATE `product` SET name =:name, description =:description, price =:price, unit =:unit, status =:status WHERE id =:id";
@@ -30,6 +31,8 @@ public class ProductRepository implements IProductDBIRepository {
     private static final String ADD_PRODUCT_TO_CATEGORY = "INSERT INTO `product_category` VALUES (:productID,:categoryID)";
     private static final String REMOVE_PRODUCT_FROM_CATEGORY = "DELETE FROM `product_category` WHERE productID =:productID AND categoryID =:categoryID";
     private static final String GET_LIST_PRODUCT_BY_TIME = "SELECT * FROM `product` WHERE createdAt BETWEEN :startTime AND :endTime";
+    private static final String DELETE_ALL_IMAGE_BY_PRODUCTID = "DELETE FROM `image` WHERE productID =:productID";
+    private static final String DELETE_ALL_CATEGORY_BY_PRODUCTID = "DELETE FROM `product_category` WHERE productID =:productID";
     @NonNull
     private final Jdbi jdbi;
 
@@ -42,11 +45,18 @@ public class ProductRepository implements IProductDBIRepository {
     }
     public List<ProductEntities> filterProduct( String categoryID, String searchType, String searchValue, String sortType, String sortValue) {
         StringBuilder sql = new StringBuilder(GET_LIST);
+        boolean haveCategoryID = false;
         if(categoryID!=null && !categoryID.isEmpty()){
             sql.append(" WHERE id IN (SELECT productID FROM `product_category` WHERE categoryID = '").append(categoryID).append("')");
+            haveCategoryID = true;
+        }
+        if(haveCategoryID && searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()){
+            sql.append(" AND");
+        }else if(searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()) {
+            sql.append(" WHERE");
         }
         if(searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()){
-            sql.append(" WHERE LOWER(").append(searchType).append(")")
+            sql.append(" LOWER(").append(searchType).append(")")
                     .append(" LIKE '%").append(searchValue).append("%'");
         }
         if(sortType!=null && !sortType.isEmpty() && sortValue!=null && !sortValue.isEmpty()){
@@ -74,16 +84,20 @@ public class ProductRepository implements IProductDBIRepository {
     }
 
     @Override
-    public boolean save(ProductEntities product) {
-      return jdbi.withHandle(handle -> handle.createUpdate(CREATE)
-                .bind("id",UUID.randomUUID().toString())
+    public ProductEntities save(ProductEntities product) {
+        String id = UUID.randomUUID().toString();
+        jdbi.withHandle(handle -> handle.createUpdate(CREATE)
+                .bind("id",id)
                 .bind("name", product.getName())
                 .bind("description", product.getDescription())
                 .bind("price", product.getPrice())
                 .bind("quantity", product.getQuantity())
                 .bind("unit", product.getUnit())
                 .bind("status", product.getStatus())
-                .execute()) > 0;
+                .bind("createdAt", DateTime.now().getTimestamp()/1000)
+                .execute());
+        product.setId(id);
+        return product;
     }
 
     @Override
@@ -235,6 +249,20 @@ public class ProductRepository implements IProductDBIRepository {
                     .bind("endTime", finalEndTime)
                     .mapToBean(ProductEntities.class)
                     .list());
+    }
+
+    @Override
+    public boolean deleteAllImageOfProduct(String productID) {
+        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL_IMAGE_BY_PRODUCTID)
+                .bind("productID", productID)
+                .execute()) > 0;
+    }
+
+    @Override
+    public boolean deleteAllCategoryOfProduct(String productID) {
+        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL_CATEGORY_BY_PRODUCTID)
+                .bind("productID", productID)
+                .execute()) > 0;
     }
 
 }

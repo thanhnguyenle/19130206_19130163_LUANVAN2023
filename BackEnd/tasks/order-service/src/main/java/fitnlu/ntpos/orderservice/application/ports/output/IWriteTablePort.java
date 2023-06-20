@@ -7,6 +7,7 @@ import java.util.List;
 public interface IWriteTablePort {
     Table createTable(Table table);
     Table deleteTable(String id);
-    Table updateTable(Table table);
-
+    Table updateTable(String id, Table table);
+     boolean deleteAllTableByGroupID(String groupID);
+    boolean deleteAllTableFromOrder(String orderID);
 }

@@ -7,6 +7,6 @@ public record TableInput(
         int numberOfPeople,
         String status,
         String note,
-         List<GroupInput> groups
+         List<String> groups
 ) {
 }

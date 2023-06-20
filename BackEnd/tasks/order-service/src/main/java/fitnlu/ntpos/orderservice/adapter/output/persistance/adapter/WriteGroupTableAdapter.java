@@ -37,4 +37,9 @@ public class WriteGroupTableAdapter implements IWriteGroupTablePort {
     public boolean removeTableFromGroup(String groupID, List<String> tablesIDs) {
         return groupTableDBIRepository.removeTableFromGroup(groupID,tablesIDs);
     }
+
+    @Override
+    public boolean deleteAllGroupByTableID(String tableID) {
+        return groupTableDBIRepository.deleteAllGroupByTableID(tableID);
+    }
 }

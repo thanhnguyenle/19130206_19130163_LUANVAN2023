@@ -7,9 +7,12 @@ public interface IGroupTableDBIRepository {
     GroupTableEntities findGroupTable(String groupTableID);
 
     List<GroupTableEntities> findAllGroupTable();
+    List<GroupTableEntities> findAllGroupTableByTableID(String tableID);
     GroupTableEntities createGroupTable(GroupTableEntities groupTable);
     GroupTableEntities deleteGroupTable(String groupTableID);
     GroupTableEntities updateGroupTable(String groupTableID, GroupTableEntities groupTable);
     boolean addTableToGroup(String groupID, List<String> tableIDs);
     boolean removeTableFromGroup(String groupID, List<String> tablesIDs);
+    boolean deleteAllGroupByTableID(String tableID);
+
 }

@@ -42,11 +42,18 @@ public class ProductRepository implements IProductDBIRepository {
     }
     public List<ProductEntities> filterProduct( String categoryID, String searchType, String searchValue, String sortType, String sortValue) {
         StringBuilder sql = new StringBuilder(GET_LIST);
+        boolean haveCategoryID = false;
         if(categoryID!=null && !categoryID.isEmpty()){
             sql.append(" WHERE id IN (SELECT productID FROM `product_category` WHERE categoryID = '").append(categoryID).append("')");
+            haveCategoryID = true;
+        }
+        if(haveCategoryID){
+            sql.append(" AND");
+        }else {
+            sql.append(" WHERE");
         }
         if(searchType!=null && !searchType.isEmpty() && searchValue!=null && !searchValue.isEmpty()){
-            sql.append(" WHERE LOWER(").append(searchType).append(")")
+            sql.append(" LOWER(").append(searchType).append(")")
                     .append(" LIKE '%").append(searchValue).append("%'");
         }
         if(sortType!=null && !sortType.isEmpty() && sortValue!=null && !sortValue.isEmpty()){

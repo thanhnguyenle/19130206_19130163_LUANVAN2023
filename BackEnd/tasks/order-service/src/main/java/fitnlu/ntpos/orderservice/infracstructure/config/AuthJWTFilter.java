@@ -1,7 +1,7 @@
 package fitnlu.ntpos.orderservice.infracstructure.config;
 
-import fitnlu.ntpos.productservice.infrastructure.jwt.JwtHandler;
-import fitnlu.ntpos.productservice.infrastructure.jwt.dto.UserDetailsImpl;
+import fitnlu.ntpos.orderservice.infracstructure.jwt.JwtHandler;
+import fitnlu.ntpos.orderservice.infracstructure.jwt.dto.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

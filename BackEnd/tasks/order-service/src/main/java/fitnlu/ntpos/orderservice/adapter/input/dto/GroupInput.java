@@ -8,7 +8,7 @@ public record GroupInput(
          String name,
          String status,
          String note,
-         List<TableInput> tables
+         List<String> tables
 ) {
 
 }

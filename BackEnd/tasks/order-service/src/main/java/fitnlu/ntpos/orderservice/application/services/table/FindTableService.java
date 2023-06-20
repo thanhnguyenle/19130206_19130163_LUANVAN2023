@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableAtTimeUseCase, IFindAllTableUseCase, IFindBusyTableAtTimeUseCase , IFindAllTableByOrderIDUseCase {
+public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableAtTimeUseCase,
+        IFindAllTableUseCase, IFindBusyTableAtTimeUseCase , IFindAllTableByOrderIDUseCase,
+    IFindAllTableByGroupIDUseCase{
     private final IReadTablePort readTablePort;
     @Override
     public List<Table> findAllTable() {
@@ -28,17 +30,17 @@ public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableA
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(String startTime, String endTime) {
+    public List<Table> findEmptyTableAtTime(long startTime, long endTime) {
         return readTablePort.findEmptyTableAtTime(startTime,endTime);
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findEmptyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return readTablePort.findEmptyTableAtTime(paging,startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findEmptyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return readTablePort.findEmptyTableAtTime(startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
 
@@ -48,32 +50,38 @@ public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableA
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(String startTime, String endTime) {
+    public List<Table> findBusyTableAtTime(long startTime, long endTime) {
         return readTablePort.findBusyTableAtTime(startTime,endTime);
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findBusyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return readTablePort.findBusyTableAtTime(paging,startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findBusyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return readTablePort.findBusyTableAtTime(startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
 
     @Override
     public List<Table> findAllTableByOrderID(String orderID) {
-        return null;
+        return readTablePort.findAllTableByOrderID(orderID);
     }
 
     @Override
     public List<Table> findAllTableByOrderID(IPaging paging, String orderID, String sortType, String sortValue, String searchType, String searchValue) {
-        return null;
+        return readTablePort.findAllTableByOrderID(paging,orderID,sortType,sortValue,searchType,searchValue);
     }
 
     @Override
-    public List<Table> findAllTableByOrderID(String startTime, String orderID, String sortValue, String searchType, String searchValue) {
-        return null;
+    public List<Table> findAllTableByOrderID(String orderID,String sortType, String sortValue, String searchType, String searchValue) {
+        return readTablePort.findAllTableByOrderID(orderID,sortType,sortValue,searchType,searchValue);
     }
+
+        @Override
+        public List<Table> findAllTableByGroupID(String groupID) {
+            return readTablePort.findAllTableByGroupID(groupID);
+        }
+
 }

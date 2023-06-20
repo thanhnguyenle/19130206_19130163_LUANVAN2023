@@ -2,10 +2,12 @@ package fitnlu.ntpos.orderservice.infracstructure.jwt;
 
 import com.google.gson.Gson;
 
-import fitnlu.ntpos.productservice.infrastructure.jwt.dto.UserJwtDTO;
-import fitnlu.ntpos.productservice.infrastructure.jwt.gsonDTO.JWTPayLoadDTO;
+
+import fitnlu.ntpos.orderservice.infracstructure.jwt.dto.UserJwtDTO;
+import fitnlu.ntpos.orderservice.infracstructure.jwt.gsonDTO.JWTPayLoadDTO;
 import lombok.Data;
 import org.apache.commons.codec.binary.Base64;
+
 
 @Data
 public class JwtHandler {

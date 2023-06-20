@@ -11,6 +11,9 @@ import fitnlu.ntpos.orderservice.application.usecases.order.IFindAllOrderByUserI
 import fitnlu.ntpos.orderservice.application.usecases.order.IFindAllOrderUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.order.IFindOrderByIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IFindAllOrderLineItemByOrderIDUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindAllOrderTableByOrderIDUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindAllOrderTableUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindOrderTableByIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.IFindAllTableByOrderIDUseCase;
 import fitnlu.ntpos.orderservice.domain.model.Order;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
@@ -29,9 +32,21 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
     private final IFindAllOrderByUserIDUseCase findAllOrderByUserIDUseCase;
     private final IFindAllOrderLineItemByOrderIDUseCase findAllOrderLineItemByOrderIDUseCase;
     private final IFindAllTableByOrderIDUseCase findAllTableByOrderIDUseCase;
+    private final IFindAllOrderTableByOrderIDUseCase findAllOrderTableByOrderIDUseCase;
     @Override
     public List<OrderOutput> findAllOrderByUserID(String userID) {
-        return findAllOrderByUserIDUseCase.findAllOrderByUserID(userID).stream().map(OrderMapperInput::toDTO).toList();
+        return findAllOrderByUserIDUseCase.findAllOrderByUserID(userID).stream().map(order -> {
+            OrderOutput orderOutput = OrderMapperInput.toDTO(order);
+
+            //get category of products
+            List<OrderLineItemOutput> orderLineItemOutputs = findAllOrderLineItemByOrderIDUseCase.findAllOrderLineItemByOrderID(order.getId()).stream().map(OrderLineItemMapperInput::toDTO).toList();
+            orderOutput.setOrderLineItems(orderLineItemOutputs);
+
+            //get image of products
+            List<OrderTableOutput> tableOutputs = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(order.getId()).stream().map(OrderTableMapperInput::toDTO).toList();
+            orderOutput.setTables(tableOutputs);
+            return orderOutput;
+        }).toList();
     }
 
     @Override
@@ -48,8 +63,8 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
                 orderOutput.setOrderLineItems(orderLineItemOutputs);
 
                 //get image of products
-                List<TableOutput> tableOutputs = findAllTableByOrderIDUseCase.findAllTableByOrderID(order.getId()).stream().map(TableMapperInput::toDTO).toList();
-                orderOutput.setTable(tableOutputs);
+                List<OrderTableOutput> tableOutputs = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(order.getId()).stream().map(OrderTableMapperInput::toDTO).toList();
+                orderOutput.setTables(tableOutputs);
                 return orderOutput;
             }).toList();
             int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
@@ -61,7 +76,18 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
                     .build();
         } else {
             return ListOrderOutput.builder()
-                    .orders(products.stream().map(OrderMapperInput::toDTO).toList())
+                    .orders(products.stream().map(order -> {
+                        OrderOutput orderOutput = OrderMapperInput.toDTO(order);
+
+                        //get category of products
+                        List<OrderLineItemOutput> orderLineItemOutputs = findAllOrderLineItemByOrderIDUseCase.findAllOrderLineItemByOrderID(order.getId()).stream().map(OrderLineItemMapperInput::toDTO).toList();
+                        orderOutput.setOrderLineItems(orderLineItemOutputs);
+
+                        //get image of products
+                        List<OrderTableOutput> tableOutputs = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(order.getId()).stream().map(OrderTableMapperInput::toDTO).toList();
+                        orderOutput.setTables(tableOutputs);
+                        return orderOutput;
+                    }).toList())
                     .currentPage(1)
                     .totalPage(1)
                     .totalItem(products.size())
@@ -71,11 +97,25 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
 
     @Override
     public List<OrderOutput> findAllOrder() {
-        return  findAllOrderUseCase.findAllOrder().stream().map(OrderMapperInput::toDTO).toList();
+        return  findAllOrderUseCase.findAllOrder().stream().map(order -> {
+            OrderOutput orderOutput = OrderMapperInput.toDTO(order);
+
+            //get category of products
+            List<OrderLineItemOutput> orderLineItemOutputs = findAllOrderLineItemByOrderIDUseCase.findAllOrderLineItemByOrderID(order.getId()).stream().map(OrderLineItemMapperInput::toDTO).toList();
+            orderOutput.setOrderLineItems(orderLineItemOutputs);
+
+            //get image of products
+            List<OrderTableOutput> tableOutputs = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(order.getId()).stream().map(OrderTableMapperInput::toDTO).toList();
+            orderOutput.setTables(tableOutputs);
+            return orderOutput;
+        }).toList();
     }
 
     @Override
     public OrderOutput findOrderByID(String orderID) {
-        return OrderMapperInput.toDTO(findOrderByIDUseCase.findOrderByID(orderID));
+        OrderOutput orderOutput = OrderMapperInput.toDTO(findOrderByIDUseCase.findOrderByID(orderID));
+        orderOutput.setTables(findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(orderID).stream().map(OrderTableMapperInput::toDTO).toList());
+        orderOutput.setOrderLineItems(findAllOrderLineItemByOrderIDUseCase.findAllOrderLineItemByOrderID(orderID).stream().map(OrderLineItemMapperInput::toDTO).toList());
+        return orderOutput;
     }
 }

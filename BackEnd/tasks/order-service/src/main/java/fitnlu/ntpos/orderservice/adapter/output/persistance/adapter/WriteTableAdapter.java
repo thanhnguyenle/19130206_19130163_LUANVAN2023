@@ -22,7 +22,17 @@ public class WriteTableAdapter implements IWriteTablePort {
     }
 
     @Override
-    public Table updateTable(Table table) {
-        return TableMapperOutput.toDomain(tableDBIRepository.updateTable(TableMapperOutput.toEntities(table)));
+    public Table updateTable(String id, Table table) {
+        return TableMapperOutput.toDomain(tableDBIRepository.updateTable(id, TableMapperOutput.toEntities(table)));
+    }
+
+    @Override
+    public boolean deleteAllTableByGroupID(String groupID) {
+        return tableDBIRepository.deleteAllTableByGroupID(groupID);
+    }
+
+    @Override
+    public boolean deleteAllTableFromOrder(String orderID) {
+        return tableDBIRepository.deleteAllTableFromOrder(orderID);
     }
 }

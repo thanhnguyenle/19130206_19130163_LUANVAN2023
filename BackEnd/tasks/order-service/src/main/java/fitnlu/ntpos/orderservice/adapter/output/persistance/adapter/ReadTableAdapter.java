@@ -31,32 +31,32 @@ public class ReadTableAdapter implements IReadTablePort {
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(String startTime, String endTime) {
+    public List<Table> findEmptyTableAtTime(long startTime, long endTime) {
         return tableDBIRepository.findEmptyTableAtTime(startTime,endTime).stream().map(TableMapperOutput::toDomain).toList();
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findEmptyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return tableDBIRepository.findEmptyTableAtTime(paging,startTime,endTime,sortType,sortValue,searchType,searchValue).stream().map(TableMapperOutput::toDomain).toList();
     }
 
     @Override
-    public List<Table> findEmptyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findEmptyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return tableDBIRepository.findEmptyTableAtTime(startTime,endTime,sortType,sortValue,searchType,searchValue).stream().map(TableMapperOutput::toDomain).toList();
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(String startTime, String endTime) {
+    public List<Table> findBusyTableAtTime(long startTime, long endTime) {
         return tableDBIRepository.findBusyTableAtTime(startTime,endTime).stream().map(TableMapperOutput::toDomain).toList();
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(IPaging paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findBusyTableAtTime(IPaging paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return tableDBIRepository.findBusyTableAtTime(paging,startTime,endTime,sortType,sortValue,searchType,searchValue).stream().map(TableMapperOutput::toDomain).toList();
     }
 
     @Override
-    public List<Table> findBusyTableAtTime(String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue) {
+    public List<Table> findBusyTableAtTime(long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
         return tableDBIRepository.findBusyTableAtTime(startTime,endTime,sortType,sortValue,searchType,searchValue).stream().map(TableMapperOutput::toDomain).toList();
     }
 
@@ -78,5 +78,10 @@ public class ReadTableAdapter implements IReadTablePort {
     @Override
     public List<Table> findAllTableByOrderID(String startTime, String orderID, String sortValue, String searchType, String searchValue) {
         return tableDBIRepository.findAllTableByOrderID(startTime,orderID,sortValue,searchType,searchValue).stream().map(TableMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public List<Table> findAllTableByGroupID(String groupID) {
+        return tableDBIRepository.findTableByGroupID(groupID).stream().map(TableMapperOutput::toDomain).toList();
     }
 }

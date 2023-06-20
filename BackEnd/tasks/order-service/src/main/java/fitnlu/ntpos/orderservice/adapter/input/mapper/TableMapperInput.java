@@ -22,6 +22,14 @@ public class TableMapperInput {
                 .groups(groups)
                 .build();
     }
+    public static String toTableID(Table table){
+        return table.getId();
+    }
+    public static Table toDomain(String tableID){
+        return Table.builder()
+                .id(tableID)
+                .build();
+    }
     public static Table toDomain(TableInput tableInput) {
         List<GroupTable> groups = tableInput.groups()!=null?tableInput.groups().stream().map(GroupTableMapperInput::toDomain).toList():List.of();
         return Table.builder()

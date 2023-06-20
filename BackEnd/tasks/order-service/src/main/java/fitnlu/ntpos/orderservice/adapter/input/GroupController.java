@@ -21,7 +21,7 @@ public class GroupController {
 
     //Query
     @QueryMapping("findGroup")
-    public GroupOutput findGroup(@Argument("groupID")  String groupID) {
+    public GroupOutput findGroup(@Argument("id")  String groupID) {
         return findGroupEndpointAdapter.findGroupTable(groupID);
     }
 
@@ -32,17 +32,17 @@ public class GroupController {
 
     //Mutation
     @MutationMapping("createGroup")
-    public GroupOutput createGroup(@Argument("groupID")GroupInput groupInput) {
+    public GroupOutput createGroup(@Argument("groupInput")GroupInput groupInput) {
         return changeGroupEndpointAdapter.createGroupTable(groupInput);
     }
 
     @MutationMapping("updateGroup")
-    public GroupOutput updateGroup(@Argument("groupID") String groupID, @Argument("groupID") GroupInput groupInput) {
+    public GroupOutput updateGroup(@Argument("id") String groupID, @Argument GroupInput groupInput) {
         return changeGroupEndpointAdapter.updateGroupTable(groupID, groupInput);
     }
 
     @MutationMapping("deleteGroup")
-    public GroupOutput deleteGroup(@Argument("groupID") String groupID) {
+    public GroupOutput deleteGroup(@Argument("id") String groupID) {
         return changeGroupEndpointAdapter.deleteGroupTable(groupID);
     }
 }

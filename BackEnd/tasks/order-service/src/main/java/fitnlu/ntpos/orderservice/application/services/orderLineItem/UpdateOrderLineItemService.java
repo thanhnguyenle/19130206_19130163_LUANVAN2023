@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UpdateOrderLineItemService implements IUpdateOrderLineItemUseCase {
     private final IWriteOrderLineItemPort writeOrderLineItemPort;
     @Override
-    public OrderProduct updateOrderLineItem(String orderLineItemID, OrderProduct orderLineItem) {
-        return writeOrderLineItemPort.updateOrderLineItem(orderLineItemID,orderLineItem);
+    public OrderProduct updateOrderLineItem(String orderID,String productID, OrderProduct orderLineItem) {
+        return writeOrderLineItemPort.updateOrderLineItem(orderID, productID,orderLineItem);
     }
 }

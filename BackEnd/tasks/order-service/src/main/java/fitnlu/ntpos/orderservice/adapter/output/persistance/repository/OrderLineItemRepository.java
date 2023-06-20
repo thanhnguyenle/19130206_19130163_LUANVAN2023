@@ -28,25 +28,20 @@ public class OrderLineItemRepository implements IOrderLineItemDBIRepository {
     private static final String GET_ITEM_BYID = "select * from `order_product` where id = :id";
 
     private static final String UPDATE = "UPDATE `order_product` SET quantity =:quantity, discount=:discount,price=:price WHERE orderID =:orderID AND productID =:productID";
-
+    private static final String DELETE_ALL_ORDERLINEITEM_BY_ORDER = "DELETE FROM `order_product` WHERE orderID =:orderID";
     @NonNull
     private final Jdbi jdbi;
 
     @Override
-    public OrderProductEntities updateOrderLineItem(String orderLineItemID, OrderProductEntities orderProductEntities) {
-        return jdbi.withHandle(handle -> {
-            handle.createUpdate(UPDATE)
-                    .bind("orderID", orderProductEntities.getOrderID())
-                    .bind("productID", orderProductEntities.getProductID())
-                    .bind("quantity", orderProductEntities.getQuantity())
-                    .bind("price", orderProductEntities.getPrice())
-                    .bind("discount", orderProductEntities.getDiscount())
-                    .execute();
-            return handle.createQuery(GET_ITEM_BYID)
-                    .bind("id", orderLineItemID)
-                    .mapToBean(OrderProductEntities.class)
-                    .one();
-        });
+    public OrderProductEntities updateOrderLineItem(String orderID, String productID,  OrderProductEntities orderProductEntities) {
+         jdbi.withHandle(handle -> handle.createUpdate(UPDATE)
+                .bind("orderID",orderID)
+                .bind("productID",productID)
+                .bind("quantity",orderProductEntities.getQuantity())
+                .bind("discount",orderProductEntities.getDiscount())
+                .bind("price",orderProductEntities.getPrice())
+                .execute());
+        return orderProductEntities;
     }
 
     @Override
@@ -99,5 +94,12 @@ public class OrderLineItemRepository implements IOrderLineItemDBIRepository {
                 .bind("id", id)
                 .mapToBean(OrderProductEntities.class)
                 .one());
+    }
+
+    @Override
+    public boolean deleteAllOrderLineItemsFromOrder(String orderID) {
+        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL_ORDERLINEITEM_BY_ORDER)
+                .bind("orderID",orderID)
+                .execute())>0;
     }
 }

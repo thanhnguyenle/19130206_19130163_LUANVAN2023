@@ -1,6 +1,5 @@
 package fitnlu.ntpos.orderservice.adapter.input.dto;
 
-import fitnlu.ntpos.orderservice.domain.model.GroupTable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

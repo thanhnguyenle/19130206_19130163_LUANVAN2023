@@ -2,6 +2,7 @@ package fitnlu.ntpos.orderservice.application.services.groupTable;
 
 import fitnlu.ntpos.orderservice.application.ports.output.IWriteGroupTablePort;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IAddTableToGroupUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.groupTable.IDeleteAllGroupByTableIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IRemoveTableFromGroupUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IUpdateGroupTableUseCase;
 import fitnlu.ntpos.orderservice.domain.model.GroupTable;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-public class UpdateGroupTableService implements IUpdateGroupTableUseCase, IAddTableToGroupUseCase, IRemoveTableFromGroupUseCase {
+public class UpdateGroupTableService implements IUpdateGroupTableUseCase,
+        IAddTableToGroupUseCase, IRemoveTableFromGroupUseCase,
+        IDeleteAllGroupByTableIDUseCase {
     private final IWriteGroupTablePort writeGroupTablePort;
     @Override
     public GroupTable updateGroupTable(String groupID, GroupTable groupTable) {
@@ -26,5 +29,10 @@ public class UpdateGroupTableService implements IUpdateGroupTableUseCase, IAddTa
     @Override
     public boolean removeTableFromGroup(String groupID, List<String> tableIDs) {
         return writeGroupTablePort.removeTableFromGroup(groupID, tableIDs);
+    }
+
+    @Override
+    public boolean deleteAllGroupByTableID(String tableID) {
+        return writeGroupTablePort.deleteAllGroupByTableID(tableID);
     }
 }

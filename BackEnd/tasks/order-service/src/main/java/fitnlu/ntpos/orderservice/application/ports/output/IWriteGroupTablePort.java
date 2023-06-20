@@ -11,4 +11,5 @@ public interface IWriteGroupTablePort {
     GroupTable updateGroupTable(String groupTableID, GroupTable groupTable);
     boolean addTableToGroup(String groupID, List<String> tableIDs);
     boolean removeTableFromGroup(String groupID, List<String> tablesIDs);
+    boolean deleteAllGroupByTableID(String tableID);
 }

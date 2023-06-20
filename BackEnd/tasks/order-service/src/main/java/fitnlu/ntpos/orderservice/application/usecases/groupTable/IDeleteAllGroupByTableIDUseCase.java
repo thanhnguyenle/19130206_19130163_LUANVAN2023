@@ -1,7 +1,7 @@
-package fitnlu.ntpos.orderservice.application.usecases.table;
+package fitnlu.ntpos.orderservice.application.usecases.groupTable;
 
 import fitnlu.ntpos.orderservice.domain.model.Table;
 
 public interface IDeleteAllGroupByTableIDUseCase {
-    Table updateTable(String id,Table table);
+    boolean deleteAllGroupByTableID(String tableID);
 }

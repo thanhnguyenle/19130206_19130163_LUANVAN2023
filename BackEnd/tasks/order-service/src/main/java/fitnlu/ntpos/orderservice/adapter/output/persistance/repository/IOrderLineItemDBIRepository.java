@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface IOrderLineItemDBIRepository {
 
-    OrderProductEntities updateOrderLineItem(String orderLineItemID, OrderProductEntities orderProductEntities);
+    OrderProductEntities updateOrderLineItem(String orderID, String productID,  OrderProductEntities orderProductEntities);
     List<OrderProductEntities> findAllOrderLineItemByOrderID(String orderID) ;
     List<OrderProductEntities> filterAllOrderLineItemByOrderID(IPaging paging, String orderID, String sortType, String sortValue, String searchType, String searchValue) ;
     List<OrderProductEntities> filterAllOrderLineItemByOrderID(String orderID, String sortType, String sortValue, String searchType, String searchValue) ;
     OrderProductEntities findOrderLineItemByID(String id);
+    boolean deleteAllOrderLineItemsFromOrder(String orderID);
 }

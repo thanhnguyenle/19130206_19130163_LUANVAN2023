@@ -11,11 +11,12 @@ import java.util.List;
 public interface IFindTableEndpointPort {
     ListTableOutput findAllTable() ;
     ListTableOutput findAllTable(PagingInput paging, String sortType, String sortValue, String searchType, String searchValue);
-    ListTableOutput findEmptyTableAtTime(String startTime, String endTime) ;
-    ListTableOutput findEmptyTableAtTime(PagingInput paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
-    ListTableOutput findBusyTableAtTime(String startTime, String endTime) ;
-    ListTableOutput findBusyTableAtTime(PagingInput paging, String startTime, String endTime, String sortType, String sortValue, String searchType, String searchValue);
+    ListTableOutput findEmptyTableAtTime(long startTime, long endTime) ;
+    ListTableOutput findEmptyTableAtTime(PagingInput paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue);
+    ListTableOutput findBusyTableAtTime(long startTime, long endTime) ;
+    ListTableOutput findBusyTableAtTime(PagingInput paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue);
    TableOutput findTableByID(String tableID) ;
     ListTableOutput findAllTableByOrderID(String orderID);
+    ListTableOutput findAllTableByGroupID(String groupID);
     ListTableOutput findAllTableByOrderID(PagingInput paging, String orderID, String sortType, String sortValue, String searchType, String searchValue);
 }

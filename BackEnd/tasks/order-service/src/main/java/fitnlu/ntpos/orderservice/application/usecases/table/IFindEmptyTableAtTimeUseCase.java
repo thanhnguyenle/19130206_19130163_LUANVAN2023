@@ -6,8 +6,8 @@ import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import java.util.List;
 
 public interface IFindEmptyTableAtTimeUseCase {
-    List<Table> findEmptyTableAtTime(String startTime, String endTime);
-    List<Table> findEmptyTableAtTime(IPaging paging, String startTime, String endTime,String sortType, String sortValue, String searchType, String searchValue);
-    List<Table> findEmptyTableAtTime(String startTime, String endTime,String sortType, String sortValue, String searchType, String searchValue);
+    List<Table> findEmptyTableAtTime(long startTime, long endTime);
+    List<Table> findEmptyTableAtTime(IPaging paging, long startTime, long endTime,String sortType, String sortValue, String searchType, String searchValue);
+    List<Table> findEmptyTableAtTime(long startTime, long endTime,String sortType, String sortValue, String searchType, String searchValue);
 
 }

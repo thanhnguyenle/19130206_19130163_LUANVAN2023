@@ -10,4 +10,6 @@ public interface IReadGroupTablePort {
 
     List<GroupTable> findAllGroupTable();
 
+    List<GroupTable> findAllGroupTableByTableID(String tableID);
+
 }

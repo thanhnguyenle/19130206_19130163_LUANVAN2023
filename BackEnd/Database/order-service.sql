@@ -42,6 +42,13 @@ CREATE TABLE IF NOT EXISTS `orderReturn_product`(
         `discount` DECIMAL (19,4),
 	     FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS `group` (
+		`id` VARCHAR ( 36 ) NOT NULL,
+		`name` VARCHAR ( 36 ),
+		`status` CHAR (30),
+		`note` MEDIUMTEXT,
+		PRIMARY KEY (`id`)
+	);
 
 CREATE TABLE IF NOT EXISTS `table` (
 		`id` VARCHAR ( 36 ) NOT NULL,
@@ -51,6 +58,15 @@ CREATE TABLE IF NOT EXISTS `table` (
 		`note` MEDIUMTEXT,
 		PRIMARY KEY (`id`)
 	);
+
+CREATE TABLE IF NOT EXISTS `group_table` (
+		`tableID` VARCHAR ( 36 ) NOT NULL,
+		`groupID` VARCHAR ( 36 ) NOT NULL,
+		PRIMARY KEY (`tableID`,`groupID`),
+         FOREIGN KEY (`tableID`) REFERENCES `table`(`id`) ON DELETE CASCADE,
+	     FOREIGN KEY (`groupID`) REFERENCES `group`(`id`) ON DELETE CASCADE
+	);
+
 CREATE TABLE IF NOT EXISTS `tableReturn` (
 		`id` VARCHAR ( 36 ) NOT NULL,
 		`tableID` VARCHAR (36) NOT NULL,
@@ -69,7 +85,6 @@ CREATE TABLE IF NOT EXISTS `order_table` (
 		PRIMARY KEY (`orderID`,`tableID`),
          FOREIGN KEY (`orderID`) REFERENCES `order`(`id`) ON DELETE CASCADE,
 	     FOREIGN KEY (`tableID`) REFERENCES `table`(`id`) ON DELETE CASCADE
-
 	);
 CREATE TABLE IF NOT EXISTS `orderReturn_table` (
 		`orderReturnID` VARCHAR ( 36 ) NOT NULL,
@@ -78,6 +93,6 @@ CREATE TABLE IF NOT EXISTS `orderReturn_table` (
 		`startTime` BIGINT,
 		`endTime` BIGINT,
 		PRIMARY KEY (`orderReturnID`,`tableReturnID`),
-		  FOREIGN KEY (`tableReturnID`) REFERENCES `tableReturn`(`id`) ON DELETE CASCADE,
-	     FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
+		FOREIGN KEY (`tableReturnID`) REFERENCES `tableReturn`(`id`) ON DELETE CASCADE,
+	    FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
 	);

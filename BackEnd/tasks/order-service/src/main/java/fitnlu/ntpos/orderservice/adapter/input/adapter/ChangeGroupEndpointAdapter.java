@@ -6,6 +6,7 @@ import fitnlu.ntpos.orderservice.adapter.input.dto.ResultOutput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.GroupTableMapperInput;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeGroupEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.*;
+import fitnlu.ntpos.orderservice.application.usecases.table.IDeleteAllTableByGroupIDUseCase;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +20,14 @@ public class ChangeGroupEndpointAdapter implements IChangeGroupEndpointPort {
     private final IUpdateGroupTableUseCase updateGroupTableUseCase;
     private final IAddTableToGroupUseCase addTableToGroupUseCase;
     private final IRemoveTableFromGroupUseCase removeTableFromGroupUseCase;
+    private final IDeleteAllTableByGroupIDUseCase deleteAllTableByGroupIDUseCase;
     @Override
     public GroupOutput createGroupTable(GroupInput groupInput) {
-        return GroupTableMapperInput.toDTO(createGroupTableUseCase.createGroupTable(GroupTableMapperInput.toDomain(groupInput)));
+        GroupOutput groupOutput = GroupTableMapperInput.toDTO(createGroupTableUseCase.createGroupTable(GroupTableMapperInput.toDomain(groupInput)));
+        if(groupInput.tables() != null){
+            addTableToGroupUseCase.addTableToGroup(groupOutput.getId(), groupInput.tables());
+        }
+        return groupOutput;
     }
 
     @Override
@@ -31,7 +37,12 @@ public class ChangeGroupEndpointAdapter implements IChangeGroupEndpointPort {
 
     @Override
     public GroupOutput updateGroupTable(String groupTableID, GroupInput groupInput) {
-        return GroupTableMapperInput.toDTO(updateGroupTableUseCase.updateGroupTable(groupTableID, GroupTableMapperInput.toDomain(groupInput)));
+        GroupOutput groupOutput = GroupTableMapperInput.toDTO(updateGroupTableUseCase.updateGroupTable(groupTableID, GroupTableMapperInput.toDomain(groupInput)));
+        if(groupInput.tables() != null){
+           deleteAllTableByGroupIDUseCase.deleteAllTableByGroupID(groupTableID);
+           addTableToGroupUseCase.addTableToGroup(groupTableID, groupInput.tables());
+        }
+        return groupOutput;
     }
 
     @Override

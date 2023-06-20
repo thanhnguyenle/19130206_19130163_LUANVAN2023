@@ -57,6 +57,7 @@ public class FindOrderLineItemEndpointAdapter implements IFindOrderLineItemEndpo
 
     @Override
     public OrderLineItemOutput findOrderLineItemByID(String id) {
-        return OrderLineItemMapperInput.toDTO(findOrderLineItemByIDUseCase.findOrderLineItemByID(id));
+        OrderProduct orderProduct = findOrderLineItemByIDUseCase.findOrderLineItemByID(id);
+        return OrderLineItemMapperInput.toDTO(orderProduct);
     }
 }

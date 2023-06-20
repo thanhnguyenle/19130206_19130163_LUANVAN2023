@@ -1,13 +1,12 @@
 type Order{
     id: String,
     userID: String,
-    numberOfPeople: Int,
     group: String,
-    orderDate: String,
+    orderDate: Int,
     status: String,
     note: String,
-    orderProducts: [OrderProduct],
-    tables: [Table]
+    orderLineItems: [OrderProduct],
+    tables: [OrderTable]
 }
 
 type OrderReturn {
@@ -17,7 +16,7 @@ type OrderReturn {
     orderID: String,
     orderReturnDate: String,
     orderProductReturns: [OrderProduct]
-    tableReturns: [Table],
+    tableReturns: [OrderTable],
     status: String,
     note: String,
 }
@@ -28,6 +27,14 @@ type OrderProduct {
     quantity: Int,
     price: Float,
     discount: Float
+}
+type OrderTable {
+    orderID: String,
+    tableID: String,
+    note: String,
+    status: String
+    startTime: Int,
+    endTime: Int
 }
 
 type Table {
@@ -95,39 +102,43 @@ enum TimeSearch{
 
 input OrderInput{
     userID: String,
-    numberOfPeople: Int,
     group: String,
-    orderDate: String,
+    orderDate: Int,
     status: String,
     note: String,
-    orderProducts: [OrderProductInput],
-    tables: [TableInput]
+    orderLineItems: [OrderProductInput],
+    tables: [OrderTableInput]
 }
 input OrderProductInput{
-    orderID: String,
     productID: String,
     quantity: Int,
     price: Float,
     discount: Float
 }
+input OrderTableInput{
+    tableID: String,
+    note: String,
+    status: String
+    startTime: Int,
+    endTime: Int
+}
 input TableInput{
-    id: String,
     name: String,
     numberOfPeople: Int,
     status: String,
     note: String,
-    groups: [GroupTableInput]
+    groups: [String]
 }
 input GroupTableInput{
-    id: String,
     name: String,
     status: String,
     note: String,
-    tables: [TableInput]
+    tables: [String]
 }
 type Query {
    #Order
-    findOrderByID(id: String): Order
+    orders: [Order]
+    order(id: String): Order
     findOrdersByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
     findAllOrderByUserID(userID: String): [Order]
     #OrderProduct
@@ -136,10 +147,13 @@ type Query {
     #Table
     findTableByID(id: String): Table
     filterTables(pagingInput: Paging, searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
-    findAllTables: [Table]
+    findAllTables: PageTableInfo
+    filterTablesByGroupID(pagingInput: Paging, groupID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    filterBusyTables(pagingInput: Paging, startTime:Int,endTime:Int , searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    filterEmptyTables(pagingInput: Paging, startTime:Int,endTime:Int , searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
     #GroupTable
-    findGroupTableByID(id: String): GroupTable
-    findAllGroupTables: [GroupTable]
+    findGroup(id: String): GroupTable
+    findAllGroup: [GroupTable]
     #OrderReturn
     findOrderReturnByOrderID(orderID: String): OrderReturn
     findOrderReturnByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
@@ -150,17 +164,17 @@ type Query {
 
 type Mutation {
     #Order
-    createOrder(order: OrderInput): Order
-    updateOrder(id: String, order: OrderInput): Order
-    deleteOrder(id: String): ResultOutput
+    createOrder(orderInput: OrderInput): Order
+    updateOrder(id: String, orderInput: OrderInput): Order
+    deleteOrder(id: String): Order
     #OrderProduct
     updateOrderLineItem(orderID: String, orderLineItemInput: OrderProductInput): OrderProduct
     #Table
-    createTable(table: TableInput): Table
-    updateTable(id: String, table: TableInput): Table
-    deleteTable(id: String): ResultOutput
+    createTable(tableInput: TableInput): Table
+    updateTable(id: String, tableInput: TableInput): Table
+    deleteTable(id: String): Table
     #GroupTable
-    createGroupTable(groupTable: GroupTableInput): GroupTable
-    updateGroupTable(id: String, groupTable: GroupTableInput): GroupTable
-    deleteGroupTable(id: String): ResultOutput
+    createGroup(groupInput: GroupTableInput): GroupTable
+    updateGroup(id: String, groupInput: GroupTableInput): GroupTable
+    deleteGroup(id: String): GroupTable
 }

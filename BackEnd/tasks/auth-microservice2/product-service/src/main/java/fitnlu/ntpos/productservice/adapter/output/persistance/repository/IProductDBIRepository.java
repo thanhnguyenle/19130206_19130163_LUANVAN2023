@@ -1,6 +1,5 @@
 package fitnlu.ntpos.productservice.adapter.output.persistance.repository;
 
-import fitnlu.ntpos.productservice.adapter.input.dto.PagingInput;
 import fitnlu.ntpos.productservice.adapter.output.persistance.entities.ProductEntities;
 import fitnlu.ntpos.productservice.domain.model.TimeSearch;
 import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
@@ -14,7 +13,7 @@ public interface IProductDBIRepository {
     List<ProductEntities> filterProduct( String categoryID, String searchType, String searchValue, String sortType, String sortValue);
     Optional<ProductEntities> findById(String id);
 
-    boolean save(ProductEntities product);
+    ProductEntities save(ProductEntities product);
     boolean saveAll(List<ProductEntities> products);
 
     boolean deleteById(String id);
@@ -31,4 +30,6 @@ public interface IProductDBIRepository {
     boolean removeBatchProductFromCategory(String categoryID, List<String> productIDs);
     List<ProductEntities> filterProductByTime(IPaging paging, TimeSearch timeSearch);
     List<ProductEntities> filterProductByTime(TimeSearch timeSearch);
+    boolean deleteAllImageOfProduct(String productID) ;
+    boolean deleteAllCategoryOfProduct(String productID) ;
 }

@@ -20,7 +20,11 @@ public class OrderController {
     private final FindOrderEndpointAdapter findOrderEndpointAdapter;
 
     //Query
-    @QueryMapping("findOrderByID")
+    @QueryMapping("orders")
+    public List<OrderOutput> orders() {
+        return findOrderEndpointAdapter.findAllOrder();
+    }
+    @QueryMapping("order")
     public OrderOutput findOrderByID(@Argument String id) {
         return findOrderEndpointAdapter.findOrderByID(id);
     }
@@ -28,11 +32,6 @@ public class OrderController {
     public ListOrderOutput findOrdersByUserID(@Argument PagingInput pagingInput, @Argument String userID, @Argument TimeSearch timeSearch, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
         return findOrderEndpointAdapter.filterOrder(pagingInput, userID,timeSearch, searchType, searchValue, sortType, sortValue);
     }
-    @QueryMapping("findAllOrderByUserID")
-    public List<OrderOutput> findOrdersByUserID( @Argument String userID) {
-        return findOrderEndpointAdapter.findAllOrderByUserID(userID);
-    }
-
     //Mutation
     @MutationMapping("createOrder")
     public OrderOutput createOrder(@Argument OrderInput orderInput) {
@@ -46,5 +45,4 @@ public class OrderController {
     public OrderOutput deleteOrder(@Argument String id) {
         return changeOrderEndpointAdapter.deleteOrder(id);
     }
-
 }

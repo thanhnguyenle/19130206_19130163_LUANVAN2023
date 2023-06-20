@@ -18,20 +18,20 @@ public class OrderLineItemController {
     private final FindOrderLineItemEndpointAdapter findOrderLineItemEndpointAdapter;
 
     //Query
-    @QueryMapping("findOrderProductByOrderID")
-    public ListOrderLineItemsOutput findOrderProductByOrderID(@Argument String orderID) {
+    @QueryMapping("findOrderLineItemsByOrderID")
+    public ListOrderLineItemsOutput findOrderLineItemsByOrderID(@Argument String orderID) {
         return findOrderLineItemEndpointAdapter.findAllOrderLineItemByOrderID(orderID);
     }
 
-    @QueryMapping("findOrderProductByOrderID")
+    @QueryMapping("filterOrderLineItemsByOrderID")
     public ListOrderLineItemsOutput filterOrderLineItemsByOrderID(@Argument PagingInput pagingInput, @Argument String orderID, @Argument String sortType, @Argument String sortValue, @Argument String searchType, @Argument String searchValue) {
         return findOrderLineItemEndpointAdapter.filterAllOrderLineItemByOrderID(pagingInput, orderID, sortType, sortValue, searchType, searchValue);
     }
 
     //Mutation
     @MutationMapping("updateOrderLineItem")
-    public OrderLineItemOutput updateOrderLineItem(@Argument String orderID, @Argument OrderLineItemInput orderLineItemInput) {
-        return changeOrderLineItemEndpointAdapter.updateOrderLineItem(orderID, orderLineItemInput);
+    public OrderLineItemOutput updateOrderLineItem(@Argument String orderID,@Argument String productID, @Argument OrderLineItemInput orderLineItemInput) {
+        return changeOrderLineItemEndpointAdapter.updateOrderLineItem(orderID,productID, orderLineItemInput);
     }
 }
 

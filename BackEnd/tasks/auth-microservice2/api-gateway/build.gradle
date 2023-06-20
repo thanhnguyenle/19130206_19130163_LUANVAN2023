@@ -46,7 +46,7 @@ tasks.register('copyProperties', Copy) {
     rename('application-docker.properties', 'application.properties')
 
 }
-//processResources.dependsOn copyProperties
+processResources.dependsOn copyProperties
 tasks.named('test') {
     useJUnitPlatform()
 }

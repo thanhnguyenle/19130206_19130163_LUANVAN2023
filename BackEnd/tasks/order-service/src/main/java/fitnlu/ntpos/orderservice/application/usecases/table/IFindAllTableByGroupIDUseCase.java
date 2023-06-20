@@ -6,8 +6,5 @@ import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import java.util.List;
 
 public interface IFindAllTableByGroupIDUseCase {
-    List<Table> findAllTableByOrderID(String orderID);
-    List<Table> findAllTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
-    List<Table> findAllTableByOrderID(String orderID,String sortType, String sortValue, String searchType, String searchValue);
-
+    List<Table> findAllTableByGroupID(String groupID);
 }
