@@ -39,4 +39,19 @@ public class ReadOrderTableAdapter implements IReadOrderTablePort {
     public List<OrderTable> findAllOrderTable() {
         return orderTableDBIRepository.findAllOrderTable().stream().map(OrderTableMapperOutput::toDomain).toList();
     }
+
+    @Override
+    public List<OrderTable> findAllOrderTableByTableID(String tableID) {
+        return orderTableDBIRepository.findAllOrderTableByTableID(tableID).stream().map(OrderTableMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public List<OrderTable> findOrderTableByTableID(String tableID, String sortType, String sortValue, String searchType, String searchValue) {
+        return orderTableDBIRepository.findOrderTableByTableID(tableID, sortType, sortValue, searchType, searchValue).stream().map(OrderTableMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public List<OrderTable> findOrderTableByTableID(IPaging paging, String tableID, String sortType, String sortValue, String searchType, String searchValue) {
+        return orderTableDBIRepository.findOrderTableByTableID(paging, tableID, sortType, sortValue, searchType, searchValue).stream().map(OrderTableMapperOutput::toDomain).toList();
+    }
 }

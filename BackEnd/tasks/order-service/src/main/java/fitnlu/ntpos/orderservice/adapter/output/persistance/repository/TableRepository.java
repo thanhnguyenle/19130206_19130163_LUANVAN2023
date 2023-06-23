@@ -27,6 +27,11 @@ public class TableRepository implements ITableDBIRepository {
     private static final String DELETE_ALL_TABLE_BY_GROUPID = "DELETE FROM `group_table` WHERE groupID = :groupID";
     private static final String DELETE_ALL_TABLE_BY_ORDERID = "DELETE FROM `order_table` WHERE orderID = :orderID";
     private static final String GET_LIST_TABLE_BY_ORDERID = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE orderID = :orderID)";
+    private static final String GET_LIST_TABLE_BY_ORDERID_FREE = "SELECT * FROM `table` WHERE id NOT IN (SELECT tableID FROM `order_table` WHERE orderID = :orderID)";
+    private static final String GET_LIST_TABLE_BY_ORDERID_BUSY = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE orderID = :orderID)";
+    private static final String GET_LIST_TABLE_ALL_FREE = "SELECT * FROM `table` WHERE id NOT IN (SELECT tableID FROM `order_table`)";
+    private static final String GET_LIST_TABLE_BY_ALL_BUSY = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table`)";
+
     @NonNull
     private final Jdbi jdbi;
 
@@ -250,6 +255,20 @@ public class TableRepository implements ITableDBIRepository {
         }
 
         return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
+                .mapToBean(TableEntities.class)
+                .list());
+    }
+
+    @Override
+    public List<TableEntities> findAllBusyTable() {
+        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_TABLE_BY_ALL_BUSY)
+                .mapToBean(TableEntities.class)
+                .list());
+    }
+
+    @Override
+    public List<TableEntities> findAllEmptyTable() {
+        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_TABLE_ALL_FREE)
                 .mapToBean(TableEntities.class)
                 .list());
     }

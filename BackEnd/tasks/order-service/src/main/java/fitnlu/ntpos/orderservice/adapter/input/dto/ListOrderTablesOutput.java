@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @Builder
 public class ListOrderTablesOutput {
-    private List<OrderLineItemOutput> orderLineItemOutputs;
+    private List<OrderTableOutput> orderTableOutputs;
     private int currentPage;
     private int totalPage;
     private int totalItem;

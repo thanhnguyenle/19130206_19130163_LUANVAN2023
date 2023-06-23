@@ -27,6 +27,8 @@ public class FindTableEndpointAdapter implements IFindTableEndpointPort {
     private final IFindTableByIDUseCase findTableByIDUseCase;
     private final IFindAllGroupTableUseCase findAllGroupTableUseCase;
     private final IFindAllTableByGroupIDUseCase findAllTableByGroupIDUseCase;
+    private final IFindAllEmptyTableUseCase findAllEmptyTableUseCase;
+    private final IFindAllBusyTableUseCase findAllBusyTableUseCase;
 
     @Override
     public ListTableOutput findAllTable() {
@@ -251,5 +253,27 @@ public class FindTableEndpointAdapter implements IFindTableEndpointPort {
                     .totalItem(tableOutputs.size())
                     .build();
         }
+    }
+
+    @Override
+    public ListTableOutput findAllTableBusy() {
+        List<TableOutput> tables = findAllBusyTableUseCase.findAllBusyTable().stream().map(TableMapperInput::toDTO).toList();
+        return ListTableOutput.builder()
+                .tables(tables)
+                .currentPage(1)
+                .totalPage(1)
+                .totalItem(tables.size())
+                .build();
+    }
+
+    @Override
+    public ListTableOutput findAllTableEmpty() {
+        List<TableOutput> tables = findAllEmptyTableUseCase.findAllEmptyTable().stream().map(TableMapperInput::toDTO).toList();
+        return ListTableOutput.builder()
+                .tables(tables)
+                .currentPage(1)
+                .totalPage(1)
+                .totalItem(tables.size())
+                .build();
     }
 }

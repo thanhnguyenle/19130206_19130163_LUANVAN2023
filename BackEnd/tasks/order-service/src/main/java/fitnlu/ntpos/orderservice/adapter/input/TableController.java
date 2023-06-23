@@ -39,6 +39,14 @@ public class TableController {
     public ListTableOutput filterBusyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
         return findTableEndpointAdapter.findBusyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);
     }
+    @QueryMapping("findAllBusyTables")
+    public ListTableOutput findAllBusyTable() {
+        return findTableEndpointAdapter.findAllTableBusy();
+    }
+    @QueryMapping("findAllEmptyTables")
+    public ListTableOutput findAllEmptyTable() {
+        return findTableEndpointAdapter.findAllTableEmpty();
+    }
     @QueryMapping("filterEmptyTables")
     public ListTableOutput filterEmptyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
         return findTableEndpointAdapter.findEmptyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);

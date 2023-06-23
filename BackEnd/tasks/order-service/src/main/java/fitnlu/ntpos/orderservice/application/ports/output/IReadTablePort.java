@@ -20,4 +20,6 @@ public interface IReadTablePort {
      List<Table> findAllTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
      List<Table> findAllTableByOrderID(String startTime, String orderID, String sortValue, String searchType, String searchValue);
       List<Table> findAllTableByGroupID(String groupID);
+      List<Table> findAllBusyTable();
+      List<Table> findAllEmptyTable();
 }

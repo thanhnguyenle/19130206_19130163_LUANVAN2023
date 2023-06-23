@@ -27,4 +27,6 @@ public interface ITableDBIRepository {
     List<TableEntities> findAllTableByOrderID(String orderID);
     List<TableEntities> findAllTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
     List<TableEntities> findAllTableByOrderID(String orderID, String sortType, String sortValue, String searchType, String searchValue);
+    List<TableEntities> findAllBusyTable();
+    List<TableEntities> findAllEmptyTable();
 }

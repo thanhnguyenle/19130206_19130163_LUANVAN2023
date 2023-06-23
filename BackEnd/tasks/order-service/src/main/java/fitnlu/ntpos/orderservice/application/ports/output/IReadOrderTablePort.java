@@ -13,4 +13,8 @@ public interface IReadOrderTablePort {
     List<OrderTable> findAllOrderTableByOrderID(String orderID,String sortType, String sortValue, String searchType, String searchValue);
     OrderTable findOrderTableByID(String orderID, String tableID);
     List<OrderTable> findAllOrderTable() ;
+    List<OrderTable> findAllOrderTableByTableID(String tableID) ;
+    List<OrderTable> findOrderTableByTableID(String tableID, String sortType, String sortValue, String searchType, String searchValue);
+    List<OrderTable> findOrderTableByTableID(IPaging paging, String tableID, String sortType, String sortValue, String searchType, String searchValue);
+
 }

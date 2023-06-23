@@ -90,4 +90,44 @@ public class OrderTableRepository implements IOrderTableDBIRepository {
                 .bind("orderID", orderID)
                 .mapToBean(OrderTableEntities.class).list());
     }
+
+    @Override
+    public List<OrderTableEntities> findAllOrderTableByTableID(String tableID) {
+        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST + " WHERE tableID = :tableID")
+                .bind("tableID", tableID)
+                .mapToBean(OrderTableEntities.class).list());
+    }
+
+    @Override
+    public List<OrderTableEntities> findOrderTableByTableID(String tableID, String sortType, String sortValue, String searchType, String searchValue) {
+        StringBuilder sql = new StringBuilder(GET_LIST);
+        boolean haveTableID = false;
+        if (tableID != null && !tableID.isEmpty()) {
+            sql.append(" WHERE tableID = :tableID");
+            haveTableID = true;
+        }
+        if (searchType != null && !searchType.isEmpty() && searchValue != null && !searchValue.isEmpty()) {
+            if (haveTableID) {
+                sql.append(" AND ").append(searchType).append(" LIKE '%").append(searchValue).append("%'");
+            } else {
+                sql.append(" WHERE ").append(searchType).append(" LIKE '%").append(searchValue).append("%'");
+            }
+        }
+        if (sortType != null && !sortType.isEmpty() && sortValue != null && !sortValue.isEmpty()) {
+            sql.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
+        }
+
+        return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
+                .bind("tableID", tableID)
+                .mapToBean(OrderTableEntities.class).list());
+    }
+
+    @Override
+    public List<OrderTableEntities> findOrderTableByTableID(IPaging paging, String tableID, String sortType, String sortValue, String searchType, String searchValue) {
+        List<OrderTableEntities> orderTableEntities = findOrderTableByTableID(tableID, sortType, sortValue, searchType, searchValue);
+        if(paging!=null){
+            return orderTableEntities.stream().skip(paging.getOffset()).limit(paging.getLimit()).toList();
+        }
+        return orderTableEntities;
+    }
 }

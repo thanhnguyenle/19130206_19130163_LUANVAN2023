@@ -7,7 +7,6 @@ import fitnlu.ntpos.orderservice.adapter.input.mapper.TableMapperInput;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeTableEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IAddTableToGroupUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IDeleteAllGroupByTableIDUseCase;
-import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IDeleteAllOrderLineItemsFromOrderUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.*;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.Collections;
 
 @Adapter
 @RequiredArgsConstructor
-public class ChangeTableEndpointAdapter implements IChangeTableEndpointPort {
+public class ChangeOrderTableEndpointAdapter implements IChangeTableEndpointPort {
     private final ICreateTableUseCase createTableUseCase;
     private final IDeleteTableUseCase deleteTableUseCase;
     private final IUpdateTableUseCase updateTableUseCase;

@@ -1,14 +1,19 @@
 package fitnlu.ntpos.orderservice.adapter.input.adapter;
 
-import fitnlu.ntpos.orderservice.adapter.input.dto.GroupOutput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.ListTableOutput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.PagingInput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.TableOutput;
+import fitnlu.ntpos.orderservice.adapter.input.OrderTableController;
+import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.GroupTableMapperInput;
+import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderTableMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.TableMapperInput;
+import fitnlu.ntpos.orderservice.application.ports.input.IFindOrderTableEndpointPort;
 import fitnlu.ntpos.orderservice.application.ports.input.IFindTableEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IFindAllGroupTableUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindAllOrderTableByOrderIDUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindAllOrderTableUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindOrderTableByIDUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderTable.IFindOrderTableByTableIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.*;
+import fitnlu.ntpos.orderservice.domain.model.OrderTable;
 import fitnlu.ntpos.orderservice.domain.model.Table;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
@@ -19,261 +24,70 @@ import java.util.List;
 
 @Adapter
 @RequiredArgsConstructor
-public class FindOrderTableEndpointAdapter implements IFindTableEndpointPort {
-    private final IFindAllTableUseCase findAllTableUseCase;
-    private final IFindAllTableByOrderIDUseCase findAllTableByOrderIDUseCase;
-    private final IFindEmptyTableAtTimeUseCase findEmptyTableAtTimeUseCase;
-    private final IFindBusyTableAtTimeUseCase findBusyTableAtTimeUseCase;
-    private final IFindTableByIDUseCase findTableByIDUseCase;
-    private final IFindAllGroupTableUseCase findAllGroupTableUseCase;
-    private final IFindAllTableByGroupIDUseCase findAllTableByGroupIDUseCase;
-    private final IFindAllEmptyTableUseCase findAllEmptyTableUseCase;
-    private final IFindAllBusyTableUseCase findAllBusyTableUseCase;
-
+public class FindOrderTableEndpointAdapter implements IFindOrderTableEndpointPort {
+    private final IFindAllOrderTableByOrderIDUseCase findAllOrderTableByOrderIDUseCase;
+    private final IFindOrderTableByIDUseCase findOrderTableByIDUseCase;
+    private final IFindAllOrderTableUseCase findAllOrderTableUseCase;
+    private final IFindOrderTableByTableIDUseCase findOrderTableByTableIDUseCase;
     @Override
-    public ListTableOutput findAllTable() {
-        List<TableOutput> tableOutputs = findAllTableUseCase.findAllTable().stream().map(table -> {
-            TableOutput tableOutput = TableMapperInput.toDTO(table);
-            List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-            tableOutput.setGroups(groupTable);
-            return tableOutput;
-        }).toList();
-        return ListTableOutput.builder()
-                .tables(tableOutputs)
-                .currentPage(1)
+    public ListOrderTablesOutput findAllOrderTableByOrderID(String orderID) {
+        List<OrderTableOutput> orderTableOutputs = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(orderID).stream().map(OrderTableMapperInput::toDTO).toList();
+        return ListOrderTablesOutput.builder()
+                .orderTableOutputs(orderTableOutputs)
                 .totalPage(1)
-                .totalItem(tableOutputs.size())
+                .totalItem(orderTableOutputs.size())
+                .currentPage(1)
                 .build();
-    }
+      }
 
     @Override
-    public ListTableOutput findAllTable(PagingInput paging, String sortType, String sortValue, String searchType, String searchValue) {
-        IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
-        List<Table> products = findAllTableUseCase.findAllTable(ipaging, sortType, sortValue, searchType, searchValue);
-        int totalItem = products.size();
+    public ListOrderTablesOutput findAllOrderTableByOrderID(PagingInput pagingInput, String orderID, String sortType, String sortValue, String searchType, String searchValue) {
+        IPaging ipaging = pagingInput != null ? new PageRequest(pagingInput.page(), pagingInput.limit()) : null;
+        List<OrderTable> orderTables = findAllOrderTableByOrderIDUseCase.findAllOrderTableByOrderID(orderID ,sortType, sortValue, searchType, searchValue);
+        int totalItem = orderTables.size();
         if (ipaging != null && ipaging.getPage() != null) {
-            List<TableOutput> productOutputs = products.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(table->{
-                TableOutput tableOutput = TableMapperInput.toDTO(table);
-                List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                tableOutput.setGroups(groupTable);
-                return tableOutput;
-            }).toList();
+            List<OrderTableOutput> orderTableOutputs = orderTables.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(OrderTableMapperInput::toDTO).toList();
             int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
-            return ListTableOutput.builder()
-                    .tables(productOutputs)
+            return ListOrderTablesOutput.builder()
+                    .orderTableOutputs(orderTableOutputs)
                     .currentPage(ipaging.getPage())
                     .totalPage(totalPage <= 0 ? 1 : totalPage)
                     .totalItem(totalItem)
                     .build();
-        } else {
-            return ListTableOutput.builder()
-                    .tables(products.stream().map(table -> {
-                        TableOutput tableOutput = TableMapperInput.toDTO(table);
-                        List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                        tableOutput.setGroups(groupTable);
-                        return tableOutput;
-                    }).toList())
+        }else {
+            List<OrderTableOutput> orderTableOutputs = orderTables.stream().map(OrderTableMapperInput::toDTO).toList();
+            return ListOrderTablesOutput.builder()
+                    .orderTableOutputs(orderTableOutputs)
                     .currentPage(1)
                     .totalPage(1)
-                    .totalItem(products.size())
+                    .totalItem(totalItem)
                     .build();
         }
     }
 
     @Override
-    public ListTableOutput findEmptyTableAtTime(long startTime, long endTime) {
-        List<TableOutput> tableOutputs = findEmptyTableAtTimeUseCase.findEmptyTableAtTime(startTime, endTime).stream().map(
-                table -> {
-                    TableOutput tableOutput = TableMapperInput.toDTO(table);
-                    List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                    tableOutput.setGroups(groupTable);
-                    return tableOutput;
-                }
-        ).toList();
-        return ListTableOutput.builder()
-                .tables(tableOutputs)
-                .currentPage(1)
+    public OrderTableOutput findOrderTableByID(String orderID, String tableID) {
+        return OrderTableMapperInput.toDTO(findOrderTableByIDUseCase.findOrderTableByID(orderID, tableID));
+    }
+
+    @Override
+    public ListOrderTablesOutput findAllOrderTable() {
+        List<OrderTableOutput> orderTableOutputs = findAllOrderTableUseCase.findAllOrderTable().stream().map(OrderTableMapperInput::toDTO).toList();
+        return ListOrderTablesOutput.builder()
+                .orderTableOutputs(orderTableOutputs)
                 .totalPage(1)
-                .totalItem(tableOutputs.size())
+                .totalItem(orderTableOutputs.size())
+                .currentPage(1)
                 .build();
     }
 
     @Override
-    public ListTableOutput findEmptyTableAtTime(PagingInput paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
-        IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
-        List<Table> tableOutputs = findEmptyTableAtTimeUseCase.findEmptyTableAtTime(startTime, endTime);
-        int totalItem = tableOutputs.size();
-        if (ipaging != null && ipaging.getPage() != null) {
-            List<TableOutput> productOutputs = tableOutputs.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(table -> {
-                TableOutput tableOutput = TableMapperInput.toDTO(table);
-                List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                tableOutput.setGroups(groupTable);
-                return tableOutput;
-            }).toList();
-            int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
-            return ListTableOutput.builder()
-                    .tables(productOutputs)
-                    .currentPage(ipaging.getPage())
-                    .totalPage(totalPage <= 0 ? 1 : totalPage)
-                    .totalItem(totalItem)
-                    .build();
-        } else {
-            return ListTableOutput.builder()
-                    .tables(tableOutputs.stream().map(table -> {
-                        TableOutput tableOutput = TableMapperInput.toDTO(table);
-                        List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                        tableOutput.setGroups(groupTable);
-                        return tableOutput;
-                    }).toList())
-                    .currentPage(1)
-                    .totalPage(1)
-                    .totalItem(tableOutputs.size())
-                    .build();
-        }
-    }
-
-    @Override
-    public ListTableOutput findBusyTableAtTime(long startTime, long endTime) {
-        List<TableOutput> tableOutputs = findBusyTableAtTimeUseCase.findBusyTableAtTime(startTime, endTime).stream().map(table -> {
-            TableOutput tableOutput = TableMapperInput.toDTO(table);
-            List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-            tableOutput.setGroups(groupTable);
-            return tableOutput;
-        }).toList();
-        return ListTableOutput.builder()
-                .tables(tableOutputs)
-                .currentPage(1)
+    public ListOrderTablesOutput findOrderTableByTableID(String tableID) {
+        return ListOrderTablesOutput.builder()
+                .orderTableOutputs(findOrderTableByTableIDUseCase.findOrderTableByTableID(tableID).stream().map(OrderTableMapperInput::toDTO).toList())
                 .totalPage(1)
-                .totalItem(tableOutputs.size())
-                .build();
-    }
-
-    @Override
-    public ListTableOutput findBusyTableAtTime(PagingInput paging, long startTime, long endTime, String sortType, String sortValue, String searchType, String searchValue) {
-        IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
-        List<Table> tableOutputs = findBusyTableAtTimeUseCase.findBusyTableAtTime(startTime, endTime);
-        int totalItem = tableOutputs.size();
-        if (ipaging != null && ipaging.getPage() != null) {
-            List<TableOutput> productOutputs = tableOutputs.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(table -> {
-                TableOutput tableOutput = TableMapperInput.toDTO(table);
-                List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                tableOutput.setGroups(groupTable);
-                return tableOutput;
-            }).toList();
-            int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
-            return ListTableOutput.builder()
-                    .tables(productOutputs)
-                    .currentPage(ipaging.getPage())
-                    .totalPage(totalPage <= 0 ? 1 : totalPage)
-                    .totalItem(totalItem)
-                    .build();
-        } else {
-            return ListTableOutput.builder()
-                    .tables(tableOutputs.stream().map(table -> {
-                        TableOutput tableOutput = TableMapperInput.toDTO(table);
-                        List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                        tableOutput.setGroups(groupTable);
-                        return tableOutput;
-                    }).toList())
-                    .currentPage(1)
-                    .totalPage(1)
-                    .totalItem(tableOutputs.size())
-                    .build();
-        }
-    }
-
-    @Override
-    public TableOutput findTableByID(String tableID) {
-        TableOutput tableOutput = TableMapperInput.toDTO(findTableByIDUseCase.findTableByID(tableID));
-        tableOutput.setGroups(findAllGroupTableUseCase.findAllGroupTableByTableID(tableID).stream().map(GroupTableMapperInput::toDTO).toList());
-        return tableOutput;
-    }
-
-    @Override
-    public ListTableOutput findAllTableByOrderID(String orderID) {
-        List<TableOutput> tableOutputs = findAllTableByOrderIDUseCase.findAllTableByOrderID(orderID).stream().map(table -> {
-            TableOutput tableOutput = TableMapperInput.toDTO(table);
-            List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-            tableOutput.setGroups(groupTable);
-            return tableOutput;
-        }).toList();
-        return ListTableOutput.builder()
-                .tables(tableOutputs)
+                .totalItem(findOrderTableByTableIDUseCase.findOrderTableByTableID(tableID).size())
                 .currentPage(1)
-                .totalPage(1)
-                .totalItem(tableOutputs.size())
-                .build();
-    }
-
-    @Override
-    public ListTableOutput findAllTableByGroupID(String groupID) {
-        List<TableOutput> re =  findAllTableByGroupIDUseCase.findAllTableByGroupID(groupID).stream().map(table -> {
-            TableOutput tableOutput = TableMapperInput.toDTO(table);
-            List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-            tableOutput.setGroups(groupTable);
-            return tableOutput;
-        }).toList();
-        return ListTableOutput.builder()
-                .tables(re)
-                .currentPage(1)
-                .totalPage(1)
-                .totalItem(re.size())
-                .build();
-    }
-
-    @Override
-    public ListTableOutput findAllTableByOrderID(PagingInput paging, String orderID, String sortType, String sortValue, String searchType, String searchValue) {
-        List<Table> tableOutputs = findAllTableByOrderIDUseCase.findAllTableByOrderID(orderID);
-        int totalItem = tableOutputs.size();
-        IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
-        if (ipaging != null && ipaging.getPage() != null) {
-            List<TableOutput> productOutputs = tableOutputs.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(table -> {
-                TableOutput tableOutput = TableMapperInput.toDTO(table);
-                List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                tableOutput.setGroups(groupTable);
-                return tableOutput;
-            }).toList();
-            int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
-            return ListTableOutput.builder()
-                    .tables(productOutputs)
-                    .currentPage(ipaging.getPage())
-                    .totalPage(totalPage <= 0 ? 1 : totalPage)
-                    .totalItem(totalItem)
-                    .build();
-        } else {
-            return ListTableOutput.builder()
-                    .tables(tableOutputs.stream().map(table -> {
-                        TableOutput tableOutput = TableMapperInput.toDTO(table);
-                        List<GroupOutput> groupTable = findAllGroupTableUseCase.findAllGroupTableByTableID(table.getId()).stream().map(GroupTableMapperInput::toDTO).toList();
-                        tableOutput.setGroups(groupTable);
-                        return tableOutput;
-                    }).toList())
-                    .currentPage(1)
-                    .totalPage(1)
-                    .totalItem(tableOutputs.size())
-                    .build();
-        }
-    }
-
-    @Override
-    public ListTableOutput findAllTableBusy() {
-        List<TableOutput> tables = findAllBusyTableUseCase.findAllBusyTable().stream().map(TableMapperInput::toDTO).toList();
-        return ListTableOutput.builder()
-                .tables(tables)
-                .currentPage(1)
-                .totalPage(1)
-                .totalItem(tables.size())
-                .build();
-    }
-
-    @Override
-    public ListTableOutput findAllTableEmpty() {
-        List<TableOutput> tables = findAllEmptyTableUseCase.findAllEmptyTable().stream().map(TableMapperInput::toDTO).toList();
-        return ListTableOutput.builder()
-                .tables(tables)
-                .currentPage(1)
-                .totalPage(1)
-                .totalItem(tables.size())
                 .build();
     }
 }

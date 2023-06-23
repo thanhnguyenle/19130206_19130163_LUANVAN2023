@@ -1,68 +1,34 @@
 package fitnlu.ntpos.orderservice.adapter.input;
 
-import fitnlu.ntpos.orderservice.adapter.input.adapter.ChangeTableEndpointAdapter;
-import fitnlu.ntpos.orderservice.adapter.input.adapter.FindTableEndpointAdapter;
+import fitnlu.ntpos.orderservice.adapter.input.adapter.FindOrderTableEndpointAdapter;
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
-import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
-public class TableController {
-    private final ChangeTableEndpointAdapter changeTableEndpointAdapter;
-    private final FindTableEndpointAdapter findTableEndpointAdapter;
+public class OrderTableController {
+    private final FindOrderTableEndpointAdapter findOrderTableEndpointAdapter;
 
     //Query
-    @QueryMapping("findTableByID")
-    public TableOutput findTableByID(@Argument String id) {
-        return findTableEndpointAdapter.findTableByID(id);
+    @QueryMapping("orderTables")
+    public ListOrderTablesOutput orderTables() {
+        return findOrderTableEndpointAdapter.findAllOrderTable();
     }
-    @QueryMapping("filterTables")
-    public ListTableOutput filterTables(@Argument PagingInput pagingInput, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findAllTable(pagingInput,searchType,searchValue,sortType,sortValue);
+    @QueryMapping("orderTable")
+    public OrderTableOutput orderTable(@Argument String orderID, @Argument String tableID) {
+        return findOrderTableEndpointAdapter.findOrderTableByID(orderID,tableID);
     }
-    @QueryMapping("findAllTables")
-    public ListTableOutput findAllTables() {
-        return findTableEndpointAdapter.findAllTable();
+    @QueryMapping("findOrderTableByOrderID")
+    public ListOrderTablesOutput findOrderTableByOrderID(@Argument String orderID) {
+        return findOrderTableEndpointAdapter.findAllOrderTableByOrderID(orderID);
     }
-    @QueryMapping("filterTablesByGroupID")
-    public ListTableOutput filterTablesByGroupID(@Argument PagingInput pagingInput, @Argument String groupID, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findAllTableByOrderID(pagingInput,groupID,searchType,searchValue,sortType,sortValue);
-    }
-    @QueryMapping("filterBusyTables")
-    public ListTableOutput filterBusyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findBusyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);
-    }
-    @QueryMapping("findAllBusyTables")
-    public ListTableOutput findAllBusyTable() {
-        return findTableEndpointAdapter.findAllTableBusy();
-    }
-    @QueryMapping("findAllEmptyTables")
-    public ListTableOutput findAllEmptyTable() {
-        return findTableEndpointAdapter.findAllTableEmpty();
-    }
-    @QueryMapping("filterEmptyTables")
-    public ListTableOutput filterEmptyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findEmptyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);
-    }
-    //Mutation
-    @MutationMapping("createTable")
-    public TableOutput createTable(@Argument TableInput tableInput) {
-        return changeTableEndpointAdapter.createTable(tableInput);
+    @QueryMapping("findOrderTableByTableID")
+    public ListOrderTablesOutput findOrderTableByTableID(@Argument String tableID) {
+        return findOrderTableEndpointAdapter.findOrderTableByTableID(tableID);
     }
 
-    @MutationMapping("updateTable")
-    public TableOutput updateTable(@Argument String id, @Argument TableInput tableInput) {
-        return changeTableEndpointAdapter.updateTable(id,tableInput);
-    }
-    @MutationMapping("deleteTable")
-    public TableOutput deleteTable(@Argument String id) {
-        return changeTableEndpointAdapter.deleteTable(id);
-    }
+
 }

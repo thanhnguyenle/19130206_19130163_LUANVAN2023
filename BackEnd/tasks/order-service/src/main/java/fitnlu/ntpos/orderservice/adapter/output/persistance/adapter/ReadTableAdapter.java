@@ -84,4 +84,14 @@ public class ReadTableAdapter implements IReadTablePort {
     public List<Table> findAllTableByGroupID(String groupID) {
         return tableDBIRepository.findTableByGroupID(groupID).stream().map(TableMapperOutput::toDomain).toList();
     }
+
+    @Override
+    public List<Table> findAllBusyTable() {
+        return tableDBIRepository.findAllBusyTable().stream().map(TableMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public List<Table> findAllEmptyTable() {
+        return tableDBIRepository.findAllEmptyTable().stream().map(TableMapperOutput::toDomain).toList();
+    }
 }

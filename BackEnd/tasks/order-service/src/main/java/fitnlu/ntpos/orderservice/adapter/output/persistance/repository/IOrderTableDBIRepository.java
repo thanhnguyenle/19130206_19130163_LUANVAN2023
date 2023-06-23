@@ -15,4 +15,8 @@ public interface IOrderTableDBIRepository {
     List<OrderTableEntities> findAllOrderTableByOrderID(String orderID);
     List<OrderTableEntities> findAllOrderTableByOrderID(IPaging paging, String orderID,String sortType, String sortValue, String searchType, String searchValue);
     List<OrderTableEntities> findAllOrderTableByOrderID(String orderID, String sortType, String sortValue, String searchType, String searchValue);
+    List<OrderTableEntities> findAllOrderTableByTableID(String tableID) ;
+    List<OrderTableEntities> findOrderTableByTableID(String tableID, String sortType, String sortValue, String searchType, String searchValue);
+    List<OrderTableEntities> findOrderTableByTableID(IPaging paging, String tableID, String sortType, String sortValue, String searchType, String searchValue);
+
 }
