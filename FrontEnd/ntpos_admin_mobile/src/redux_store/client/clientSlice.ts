@@ -56,9 +56,32 @@ const clientSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    sortUsers: (state, action: PayloadAction<string>) => {
+      switch (action.payload) {
+        case 'ascending':
+          console.log(action.payload)
+          const sortedUsers = [...state.users].sort((a, b) => parseInt(b.registeredAt) - parseInt(a.registeredAt));
+          console.log(sortedUsers)
+          return {
+            ...state,
+            users: sortedUsers,
+          };
+        case 'oldest':
+          console.log(action.payload)
+          console.log(parseInt('1683653586831'));
+          const sortedUserss = [...state.users].sort((a, b) => parseInt(a.registeredAt) - parseInt(b.registeredAt));
+          console.log(sortedUserss)
+          return {
+            ...state,
+            users: sortedUserss,
+          };
+        default:
+          return state;
+      }
+    },
   },
 });
 
-export const { addClientRequest, addClientSuccess, addClientFailure, fetchUsersRequest, fetchUsersSuccess, fetchUsersFailure } = clientSlice.actions;
+export const { sortUsers, addClientRequest, addClientSuccess, addClientFailure, fetchUsersRequest, fetchUsersSuccess, fetchUsersFailure } = clientSlice.actions;
 
 export default clientSlice.reducer;

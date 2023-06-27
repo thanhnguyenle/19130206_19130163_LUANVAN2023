@@ -11,15 +11,32 @@ import { TouchableOpacity } from 'react-native'
 import { BottomSheet, ButtonComponent, ButtonSheetCom, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteClientRequest } from '../redux_store/client/deleteClientSlice';
 import { RootState } from '../app/store';
 import { setSearch } from '../redux_store/client/filterSlice';
+import { sortUsers } from '../redux_store/client/clientSlice';
 
 const ClientScreenStack = ({ navigation }: any) => {
-    const [locDs, setLocDS] = useState('moinhat');
+    const [locDs, setLocDS] = useState('ascending');
     const dispatch = useDispatch();
     const searchType = useSelector((state: RootState) => state.client.searchFifter.searchType);
     const searchValue = useSelector((state: RootState) => state.client.searchFifter.searchValue);
+    const handleDateChange = (value: any) => {
+        setLocDS(value)
+        processSelectedDate(value);
+    };
+    const processSelectedDate = (value: any) => {
+        // Xử lý giá trị ngày được chọn
+        switch (value) {
+            case 'ascending':
+                dispatch(sortUsers('ascending'))
+                break;
+            case 'oldest':
+                dispatch(sortUsers('oldest'))
+                break;
+            default:
+                break;
+        }
+    };
     return (
         <ClientStack.Navigator
             initialRouteName='Client'
@@ -55,13 +72,11 @@ const ClientScreenStack = ({ navigation }: any) => {
                             </TouchableOpacity>
                             <BottomSheet title='' fontSize={12}
                                 icon={<Ionicons name='md-filter-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
-                                height={300}
+                                height={220}
                                 content={
-                                    <RadioButton.Group onValueChange={newLocDs => setLocDS(newLocDs)} value={locDs}>
-                                        <RadioButtonCom title='Mới nhất' value='moinhat' />
-                                        <RadioButtonCom title='Cũ nhất' value='cunhat' />
-                                        <RadioButtonCom title='A->Z' value='ASC' />
-                                        <RadioButtonCom title='Z-A' value='DESC' />
+                                    <RadioButton.Group onValueChange={handleDateChange} value={locDs}>
+                                        <RadioButtonCom title='Mới nhất' value='ascending' />
+                                        <RadioButtonCom title='Cũ nhất' value='oldest' />
                                     </RadioButton.Group>
                                 } />
                             <TouchableOpacity onPress={() => {

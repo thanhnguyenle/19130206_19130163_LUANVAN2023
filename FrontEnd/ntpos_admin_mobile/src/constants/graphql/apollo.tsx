@@ -1,9 +1,25 @@
 // apollo.js
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { clientUri, productUri } from '../LinkAPI';
 
 const client = new ApolloClient({
-    uri: 'http://localhost:8082/user-service/graphql',
+    uri: clientUri,
+    cache: new InMemoryCache(),
+    defaultOptions: {
+        watchQuery: {
+            fetchPolicy: 'no-cache',
+        },
+        query: {
+            fetchPolicy: 'no-cache',
+        },
+        mutate: {
+            fetchPolicy: 'no-cache',
+        },
+    },
+});
+const product = new ApolloClient({
+    uri: productUri,
     cache: new InMemoryCache(),
     defaultOptions: {
         watchQuery: {
@@ -18,4 +34,4 @@ const client = new ApolloClient({
     },
 });
 
-export { client };
+export { client, product };

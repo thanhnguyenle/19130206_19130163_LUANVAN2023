@@ -1,50 +1,60 @@
-import React from 'react';
-import { View, Text, ImageBackground, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, ImageBackground, StyleSheet, Modal, Image, } from 'react-native';
 import { COLORS } from '../../constants/common';
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { fetchProductRequest } from '../../redux_store/product/productSlice';
+import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const DetailProductScreen = () => {
+const DetailProductScreen = ({ route, navigation }: any) => {
+    const { id } = route.params;
+    const product = useSelector((state: RootState) => state.product.products.product);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchProductRequest(id));
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.boxImage}>
-                <ImageBackground source={{
-                    uri: 'https://cdn.tgdd.vn/2021/06/CookProduct/1(1)-1200x676-1.jpg'
-                }}
-                    style={{ width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white }}
-                />
+                <ScrollView horizontal>
+                    {
+                        product.images?.length > 0 ?
+                            product.images.map((item, index) => (
+                                <ImageBackground source={{ uri: item.url + '' }} key={index}
+                                    style={[styles.content, { width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white }]} />
+                            )) : null
+                    }
+                </ScrollView>
             </View>
             <View style={styles.boxContent}>
-                <Text style={styles.name}>Lemon Tea</Text>
+                <Text style={styles.name}>{product.name}</Text>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Nhóm hàng</Text>
-                    <Text style={styles.textContent}>TEA</Text>
-                </View>
-                <View style={styles.itemContent}>
-                    <Text style={styles.textTitle}>Loại hàng</Text>
-                    <Text style={styles.textContent}>Hàng hóa</Text>
-                </View>
-                <View style={styles.itemContent}>
-                    <Text style={styles.textTitle}>Định mức tồn</Text>
-                    <Text style={styles.textContent}>0 - 1000</Text>
+                    <Text style={styles.textContent}>{product.categories}</Text>
                 </View>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Giá bán</Text>
-                    <Text style={styles.textContent}>15000</Text>
-                </View>
-                <View style={styles.itemContent}>
-                    <Text style={styles.textTitle}>Giá vốn</Text>
-                    <Text style={styles.textContent}>6000</Text>
+                    <Text style={styles.textContent}>{product.price}</Text>
                 </View>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Tồn kho</Text>
-                    <Text style={styles.textContent}>1008</Text>
+                    <Text style={styles.textContent}>{product.quantity}</Text>
+                </View>
+                <View style={styles.itemContent}>
+                    <Text style={styles.textTitle}>Đơn vị</Text>
+                    <Text style={styles.textContent}>{product.unit}</Text>
+                </View>
+                <View style={styles.itemContent}>
+                    <Text style={styles.textTitle}>Trạng thái</Text>
+                    <Text style={styles.textContent}>{product.status == 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</Text>
                 </View>
             </View>
             <View style={styles.box}>
                 <Text style={styles.textTitle}>Mô tả</Text>
                 <View style={styles.des}>
-                    <Text style={styles.textDes}></Text>
+                    <Text style={styles.textDes}>{product.description}</Text>
                 </View>
             </View>
         </View>
@@ -54,11 +64,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    content: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'lightblue',
+        marginHorizontal: 10,
+    },
     boxImage: {
         marginTop: 10,
         marginBottom: 10,
         height: '20%',
         alignItems: 'center',
+        flexDirection: 'row',
+        padding: 1,
     },
     boxContent: {
         paddingLeft: 15,

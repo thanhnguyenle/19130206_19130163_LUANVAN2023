@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextInput, TextInputProps, View, StyleSheet } from 'react-native';
 
 interface InputComponentProps extends TextInputProps {
-    onChangeText: (text: string) => void;
+    onChangeText: (text: any) => void;
     value: string;
 }
 
@@ -23,6 +23,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
         <TextInput
             placeholder={placeholder}
             onChangeText={handleTextChange}
+            multiline={true}
             value={text}
             {...props}
         />
