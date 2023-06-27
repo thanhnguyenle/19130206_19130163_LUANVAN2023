@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, ScrollView, StyleSheet, } from 'react-native';
+import { View, ScrollView, StyleSheet, Alert} from 'react-native';
 import { blogs, carousels, categorys, products } from '../constants/data';
 import SearchBar from '../components/SearchBar';
 import Carousel from '../components/carousel/Carousel';

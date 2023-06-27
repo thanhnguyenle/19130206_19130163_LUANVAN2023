@@ -54,6 +54,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     //authorization
 //    implementation 'org.springframework.security:spring-security-config:6.0.3'
+    //zipkin
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.3'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
+    implementation 'io.micrometer:micrometer-observation:1.10.6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
+
 
 }
 tasks.register('copyProperties', Copy) {
