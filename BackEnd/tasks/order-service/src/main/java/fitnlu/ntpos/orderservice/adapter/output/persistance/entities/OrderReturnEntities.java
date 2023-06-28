@@ -1,24 +1,23 @@
-package fitnlu.ntpos.orderservice.domain.model;
+package fitnlu.ntpos.orderservice.adapter.output.persistance.entities;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
+import fitnlu.ntpos.orderservice.domain.model.Table;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
-@ToString
-public class OrderReturn {
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderReturnEntities {
     private String id;
     private String userID;
     private String group;
     private String orderID;
     private long orderReturnDate;
-    private List<OrderProduct> orderLineItemsReturn;
-    private List<Table> tableReturn;
+    private List<OrderProductEntities> orderLineItemsReturn;
+    private List<OrderTableEntities> tableReturn;
     private String status;
     private String note;
 

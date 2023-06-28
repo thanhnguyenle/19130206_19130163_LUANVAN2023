@@ -18,7 +18,7 @@ public class OrderReturn {
     private String orderID;
     private long orderReturnDate;
     private List<OrderProduct> orderLineItemsReturn;
-    private List<Table> tableReturn;
+    private List<OrderTable> tableReturn;
     private String status;
     private String note;
 

@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ListOrderOutput {
-    private List<OrderOutput> orders;
+public class ListReturnOrderOutput {
+    private List<OrderReturnOutput> ordersReturn;
     private int currentPage;
     private int totalPage;
     private int totalItem;

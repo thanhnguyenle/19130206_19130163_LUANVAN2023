@@ -25,7 +25,7 @@ public class TableController {
     }
     @QueryMapping("filterTables")
     public ListTableOutput filterTables(@Argument PagingInput pagingInput, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findAllTable(pagingInput,searchType,searchValue,sortType,sortValue);
+        return findTableEndpointAdapter.findAllTable(pagingInput,sortType,sortValue,searchType,searchValue);
     }
     @QueryMapping("findAllTables")
     public ListTableOutput findAllTables() {
@@ -33,11 +33,11 @@ public class TableController {
     }
     @QueryMapping("filterTablesByGroupID")
     public ListTableOutput filterTablesByGroupID(@Argument PagingInput pagingInput, @Argument String groupID, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findAllTableByOrderID(pagingInput,groupID,searchType,searchValue,sortType,sortValue);
+        return findTableEndpointAdapter.findAllTableByOrderID(pagingInput,groupID,sortType,sortValue,searchType,searchValue);
     }
     @QueryMapping("filterBusyTables")
     public ListTableOutput filterBusyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findBusyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);
+        return findTableEndpointAdapter.findBusyTableAtTime(pagingInput,startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
     @QueryMapping("findAllBusyTables")
     public ListTableOutput findAllBusyTable() {
@@ -49,7 +49,7 @@ public class TableController {
     }
     @QueryMapping("filterEmptyTables")
     public ListTableOutput filterEmptyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findTableEndpointAdapter.findEmptyTableAtTime(pagingInput,startTime,endTime,searchType,searchValue,sortType,sortValue);
+        return findTableEndpointAdapter.findEmptyTableAtTime(pagingInput,startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
     //Mutation
     @MutationMapping("createTable")

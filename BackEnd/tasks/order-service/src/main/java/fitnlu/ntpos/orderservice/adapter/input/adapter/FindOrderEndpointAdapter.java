@@ -31,7 +31,6 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
     private final IFindOrderByIDUseCase findOrderByIDUseCase;
     private final IFindAllOrderByUserIDUseCase findAllOrderByUserIDUseCase;
     private final IFindAllOrderLineItemByOrderIDUseCase findAllOrderLineItemByOrderIDUseCase;
-    private final IFindAllTableByOrderIDUseCase findAllTableByOrderIDUseCase;
     private final IFindAllOrderTableByOrderIDUseCase findAllOrderTableByOrderIDUseCase;
     @Override
     public List<OrderOutput> findAllOrderByUserID(String userID) {
@@ -52,7 +51,7 @@ public class FindOrderEndpointAdapter implements IFindOrderEndpointPort {
     @Override
     public ListOrderOutput filterOrder(PagingInput paging, String userID, TimeSearch timeSearch, String sortType, String sortValue, String searchType, String searchValue) {
         IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
-        List<Order> products = findAllOrderByUserIDUseCase.filterOrder(ipaging, userID, timeSearch, sortType, sortValue, searchType, searchValue);
+        List<Order> products = findAllOrderByUserIDUseCase.filterOrder(userID, timeSearch, sortType, sortValue, searchType, searchValue);
         int totalItem = products.size();
         if (ipaging != null && ipaging.getPage() != null) {
             List<OrderOutput> orderOutputs = products.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).map(order -> {

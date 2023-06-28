@@ -124,13 +124,13 @@ public class OrderRepository implements IOrderDBIRepository {
                 sql.append(" AND");
             }
             TimeSearchCompute timeSearchCompute = getTimeSearchCompute(timeSearch);
-            sql.append(" createdTime BETWEEN ").append(timeSearchCompute.startTime)
+            sql.append(" orderDate BETWEEN ").append(timeSearchCompute.startTime)
                     .append(" AND ").append(timeSearchCompute.endTime);
         }
         if(sortType!=null && !sortType.isEmpty() && sortValue!=null && !sortValue.isEmpty()){
             sql.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
         }
-
+        System.out.println(sql.toString());
         return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
                 .mapToBean(OrderEntities.class)
                 .list());

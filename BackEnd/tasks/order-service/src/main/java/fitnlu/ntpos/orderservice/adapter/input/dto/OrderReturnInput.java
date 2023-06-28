@@ -4,10 +4,11 @@ import java.util.List;
 public record OrderReturnInput(
          String userID,
          String group,
-         long orderDate,
-         List<OrderLineItemInput> orderLineItems,
+         String orderID,
+         long orderReturnDate,
+         List<OrderLineItemInput> orderLineItemsReturn,
          String status,
          String note,
-         List<OrderTableInput> tables
+         List<OrderTableInput> tablesReturn
 ) {
 }

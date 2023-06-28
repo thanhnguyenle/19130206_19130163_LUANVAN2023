@@ -1,11 +1,8 @@
 package fitnlu.ntpos.orderservice.adapter.input;
 
-import fitnlu.ntpos.orderservice.adapter.input.adapter.ChangeOrderEndpointAdapter;
-import fitnlu.ntpos.orderservice.adapter.input.adapter.FindOrderEndpointAdapter;
-import fitnlu.ntpos.orderservice.adapter.input.dto.ListOrderOutput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.OrderInput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.OrderOutput;
-import fitnlu.ntpos.orderservice.adapter.input.dto.PagingInput;
+import fitnlu.ntpos.orderservice.adapter.input.adapter.ChangeReturnOrderEndpointAdapter;
+import fitnlu.ntpos.orderservice.adapter.input.adapter.FindReturnOrderEndpointAdapter;
+import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -18,33 +15,41 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class OrderReturnController {
-    private final ChangeOrderEndpointAdapter changeOrderEndpointAdapter;
-    private final FindOrderEndpointAdapter findOrderEndpointAdapter;
+    private final ChangeReturnOrderEndpointAdapter changeReturnOrderEndpointAdapter;
+    private final FindReturnOrderEndpointAdapter findReturnOrderEndpointAdapter;
 
     //Query
-    @QueryMapping("orders")
-    public List<OrderOutput> orders() {
-        return findOrderEndpointAdapter.findAllOrder();
+    @QueryMapping("ordersReturn")
+    public List<OrderReturnOutput> ordersReturn() {
+        return findReturnOrderEndpointAdapter.findAllOrderReturn();
     }
-    @QueryMapping("order")
-    public OrderOutput findOrderByID(@Argument String id) {
-        return findOrderEndpointAdapter.findOrderByID(id);
+    @QueryMapping("orderReturn")
+    public OrderReturnOutput orderReturn(@Argument String id) {
+        return findReturnOrderEndpointAdapter.findOrderReturn(id);
     }
-    @QueryMapping("findOrdersByUserID")
-    public ListOrderOutput findOrdersByUserID(@Argument PagingInput pagingInput, @Argument String userID, @Argument TimeSearch timeSearch, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findOrderEndpointAdapter.filterOrder(pagingInput, userID,timeSearch, searchType, searchValue, sortType, sortValue);
+    @QueryMapping("filterOrdersReturn")
+    public ListReturnOrderOutput filterOrdersReturn(@Argument PagingInput pagingInput, @Argument TimeSearch timeSearch, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
+        return findReturnOrderEndpointAdapter.findAllOrderReturn(pagingInput,timeSearch, sortType, sortValue,searchType, searchValue);
+    }
+    @QueryMapping("findAllOrderReturnByOrderID")
+    public List<OrderReturnOutput> findAllOrderReturnByOrderID(@Argument String orderID){
+        return findReturnOrderEndpointAdapter.findAllOrderReturnByOrderID(orderID);
+    }
+    @QueryMapping("findAllOrderReturnByUserID")
+    public List<OrderReturnOutput> findAllOrderReturnByUserID(@Argument String userID){
+        return findReturnOrderEndpointAdapter.findAllOrderReturnByUserID(userID);
     }
     //Mutation
-    @MutationMapping("createOrder")
-    public OrderOutput createOrder(@Argument OrderInput orderInput) {
-        return changeOrderEndpointAdapter.createOrder(orderInput);
+    @MutationMapping("createOrderReturn")
+    public OrderReturnOutput createOrderReturn(@Argument OrderReturnInput orderReturnInput) {
+        return changeReturnOrderEndpointAdapter.createOrderReturn(orderReturnInput);
     }
-    @MutationMapping("updateOrder")
-    public OrderOutput updateOrder(@Argument String id, @Argument OrderInput orderInput) {
-        return changeOrderEndpointAdapter.updateOrder(id,orderInput);
+    @MutationMapping("updateOrderReturn")
+    public OrderReturnOutput updateOrderReturn(@Argument String id, @Argument OrderReturnInput orderReturnInput) {
+        return changeReturnOrderEndpointAdapter.updateOrderReturn(id,orderReturnInput);
     }
-    @MutationMapping("deleteOrder")
-    public OrderOutput deleteOrder(@Argument String id) {
-        return changeOrderEndpointAdapter.deleteOrder(id);
+    @MutationMapping("deleteOrderReturn")
+    public OrderReturnOutput deleteOrderReturn(@Argument String id) {
+        return changeReturnOrderEndpointAdapter.deleteOrderReturn(id);
     }
 }

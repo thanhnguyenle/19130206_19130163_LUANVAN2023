@@ -12,11 +12,12 @@ public class OrderReturnOutput {
     private String id;
     private String userID;
     private String group;
-    private long orderDate;
+    private String orderID;
+    private long orderReturnDate;
     @Setter
-    private List<OrderLineItemOutput> orderLineItems;
+    private List<OrderLineItemOutput> orderLineItemsReturn;
+    @Setter
+    private List<OrderTableOutput> tablesReturn;
     private String status;
     private String note;
-    @Setter
-    private List<OrderTableOutput> tables;
 }

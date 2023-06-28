@@ -5,7 +5,6 @@ USE `order-service`;
 CREATE TABLE IF NOT EXISTS `order` (
 		`id` VARCHAR ( 36 ) NOT NULL,
         `userID` VARCHAR (36) NOT NULL,
-        `numberOfPeople` INT,
         `group` CHAR(30),
         `orderDate` BIGINT ,
         `note` MEDIUMTEXT,
@@ -93,6 +92,5 @@ CREATE TABLE IF NOT EXISTS `orderReturn_table` (
 		`startTime` BIGINT,
 		`endTime` BIGINT,
 		PRIMARY KEY (`orderReturnID`,`tableReturnID`),
-		FOREIGN KEY (`tableReturnID`) REFERENCES `tableReturn`(`id`) ON DELETE CASCADE,
 	    FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
 	);

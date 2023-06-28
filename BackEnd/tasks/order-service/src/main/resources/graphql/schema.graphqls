@@ -14,9 +14,9 @@ type OrderReturn {
     userID: String,
     group: String,
     orderID: String,
-    orderReturnDate: String,
-    orderProductReturns: [OrderProduct]
-    tableReturns: [OrderTable],
+    orderReturnDate: Int,
+    orderLineItemsReturn: [OrderProduct]
+    tablesReturn: [OrderTable],
     status: String,
     note: String,
 }
@@ -74,6 +74,12 @@ type PageOrderInfo{
     totalPage: Int,
     totalItem: Int
 }
+type PageReturnOrderInfo{
+    ordersReturn: [OrderReturn],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
 
 type PageTableInfo{
     tables: [Table],
@@ -114,6 +120,16 @@ input OrderInput{
     note: String,
     orderLineItems: [OrderProductInput],
     tables: [OrderTableInput]
+}
+input OrderReturnInput{
+    userID: String,
+    group: String,
+    orderReturnDate: Int,
+    orderID: String,
+    status: String,
+    note: String,
+    orderLineItemsReturn: [OrderProductInput],
+    tablesReturn: [OrderTableInput]
 }
 input OrderProductInput{
     productID: String,
@@ -170,9 +186,11 @@ type Query {
     findGroup(id: String): GroupTable
     findAllGroup: [GroupTable]
     #OrderReturn
-    findOrderReturnByOrderID(orderID: String): OrderReturn
-    findOrderReturnByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
-
+    ordersReturn:[OrderReturn]
+    orderReturn(id: String): OrderReturn
+    filterOrdersReturn(pagingInput: Paging,  timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageReturnOrderInfo
+    findAllOrderReturnByOrderID(orderID: String): [OrderReturn]
+    findAllOrderReturnByUserID(userID: String): [OrderReturn]
 
 
 }
@@ -182,6 +200,11 @@ type Mutation {
     createOrder(orderInput: OrderInput): Order
     updateOrder(id: String, orderInput: OrderInput): Order
     deleteOrder(id: String): Order
+    #Order Return
+    createOrderReturn(orderReturnInput: OrderReturnInput): OrderReturn
+    updateOrderReturn(id: String, orderReturnInput: OrderReturnInput): OrderReturn
+    deleteOrderReturn(id: String): OrderReturn
+
     #OrderProduct
     updateOrderLineItem(orderID: String, orderLineItemInput: OrderProductInput): OrderProduct
     #Table

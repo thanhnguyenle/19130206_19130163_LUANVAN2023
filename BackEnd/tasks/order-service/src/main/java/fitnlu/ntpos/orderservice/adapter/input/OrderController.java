@@ -30,7 +30,7 @@ public class OrderController {
     }
     @QueryMapping("findOrdersByUserID")
     public ListOrderOutput findOrdersByUserID(@Argument PagingInput pagingInput, @Argument String userID, @Argument TimeSearch timeSearch, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
-        return findOrderEndpointAdapter.filterOrder(pagingInput, userID,timeSearch, searchType, searchValue, sortType, sortValue);
+        return findOrderEndpointAdapter.filterOrder(pagingInput, userID,timeSearch,  sortType, sortValue,searchType, searchValue);
     }
     //Mutation
     @MutationMapping("createOrder")

@@ -3,10 +3,15 @@ package fitnlu.ntpos.orderservice.adapter.input.adapter;
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
+import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderReturnMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderTableMapperInput;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeOrderEndpointPort;
+import fitnlu.ntpos.orderservice.application.ports.input.IChangeReturnOrderEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.order.*;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IDeleteAllOrderLineItemsFromOrderUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderReturn.ICreateOrderReturnUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderReturn.IDeleteOrderReturnUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.orderReturn.IUpdateOrderReturnUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.IDeleteAllTableFromOrderUseCase;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
@@ -15,65 +20,66 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Adapter
-public class ChangeReturnOrderEndpointAdapter implements IChangeOrderEndpointPort {
-    private final ICreateOrderUseCase createOrderUseCase;
-    private final IDeleteOrderUseCase deleteOrderUseCase;
-    private final IUpdateOrderUseCase updateOrderUseCase;
-    private final IAddOrderLineItemToOrderUseCase addOrderLineItemToOrderUseCase;
-    private final IAddTableToOrderUseCase addTableToOrderUseCase;
-    private final IDeleteOrderLineItemFromOrderUseCase deleteOrderLineItemFromOrderUseCase;
-    private final IDeleteTableFromOrderUseCase deleteTableFromOrderUseCase;
-    private final IDeleteAllTableFromOrderUseCase deleteAllTableFromOrderUseCase;
-    private final IDeleteAllOrderLineItemsFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
+public class ChangeReturnOrderEndpointAdapter implements IChangeReturnOrderEndpointPort {
+    private final ICreateOrderReturnUseCase createOrderReturnUseCase;
+    private final IDeleteOrderReturnUseCase deleteOrderReturnUseCase;
+    private final IUpdateOrderReturnUseCase updateOrderReturnUseCase;
     @Override
-    public OrderOutput createOrder(OrderInput orderInput) {
-        return OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
-    }
-
-    @Override
-    public OrderOutput deleteOrder(String orderID) {
-        return OrderMapperInput.toDTO(deleteOrderUseCase.deleteOrder(orderID));
-    }
-
-    @Override
-    public OrderOutput updateOrder(String orderID, OrderInput orderInput) {
-        OrderOutput orderOutput = OrderMapperInput.toDTO(updateOrderUseCase.updateOrder(orderID, OrderMapperInput.toDomain(orderInput)));
-        if(orderInput.orderLineItems()!= null) {
-            deleteAllOrderLineItemsFromOrderUseCase.deleteAllOrderLineItemsFromOrder(orderID);
-            addOrderLineItemFromOrder(orderID, orderInput.orderLineItems());
+    public OrderReturnOutput createOrderReturn(OrderReturnInput orderReturnInput) {
+        OrderReturnOutput orderOutput = OrderReturnMapperInput.toDTO(createOrderReturnUseCase.createOrderReturn( OrderReturnMapperInput.toDomain(orderReturnInput)));
+        if(orderReturnInput.orderLineItemsReturn()!= null) {
+            addOrderLineItemToReturnOrder(orderOutput.getId(), orderReturnInput.orderLineItemsReturn());
         }
-        if(orderInput.tables()!= null) {
-            deleteAllTableFromOrderUseCase.deleteAllTableFromOrder(orderID);
-            addTableToOrder(orderID, orderInput.tables());
+        if(orderReturnInput.tablesReturn()!= null) {
+            addTableToReturnOrder(orderOutput.getId(), orderReturnInput.tablesReturn());
         }
         return orderOutput;
     }
 
     @Override
-    public ResultOutput addOrderLineItemFromOrder(String orderID, List<OrderLineItemInput> orderProducts) {
+    public OrderReturnOutput deleteOrderReturn(String id) {
+        return OrderReturnMapperInput.toDTO(deleteOrderReturnUseCase.deleteOrderReturn(id));
+    }
+
+    @Override
+    public OrderReturnOutput updateOrderReturn(String id, OrderReturnInput orderReturnInput) {
+        OrderReturnOutput orderOutput = OrderReturnMapperInput.toDTO(createOrderReturnUseCase.createOrderReturn( OrderReturnMapperInput.toDomain(orderReturnInput)));
+        if(orderReturnInput.orderLineItemsReturn()!= null) {
+            deleteAllOrderItemFromReturnOrder(id);
+            addOrderLineItemToReturnOrder(id, orderReturnInput.orderLineItemsReturn());
+        }
+        if(orderReturnInput.tablesReturn()!= null) {
+            deleteAllTableFromReturnOrder(id);
+           addTableToReturnOrder(id, orderReturnInput.tablesReturn());
+        }
+        return orderOutput;
+    }
+
+    @Override
+    public ResultOutput addOrderLineItemToReturnOrder(String orderID, List<OrderLineItemInput> orderLineItemInputs) {
         return ResultOutput.builder()
-                .success(addOrderLineItemToOrderUseCase.addOrderLineItemFromOrder(orderID, orderProducts.stream().map(OrderLineItemMapperInput::toDomain).toList()))
+                .success(updateOrderReturnUseCase.addOrderLineItemToReturnOrder(orderID, orderLineItemInputs.stream().map(OrderLineItemMapperInput::toDomain).toList()))
                 .build();
     }
 
     @Override
-    public ResultOutput addTableToOrder(String orderID, List<OrderTableInput> orderTables) {
+    public ResultOutput addTableToReturnOrder(String orderID, List<OrderTableInput> orderTableInputs) {
         return ResultOutput.builder()
-                .success(addTableToOrderUseCase.addTableToOrder(orderID, orderTables.stream().map(OrderTableMapperInput::toDomain).toList()))
+                .success(updateOrderReturnUseCase.addTableToReturnOrder(orderID, orderTableInputs.stream().map(OrderTableMapperInput::toDomain).toList()))
                 .build();
     }
 
     @Override
-    public ResultOutput deleteOrderLineItemFromOrder(String orderID, List<String> orderLineItemIDs) {
+    public ResultOutput deleteAllOrderItemFromReturnOrder(String orderItemID) {
         return ResultOutput.builder()
-                .success(deleteOrderLineItemFromOrderUseCase.deleteOrderLineItemFromOrder(orderID, orderLineItemIDs))
+                .success(updateOrderReturnUseCase.deleteAllOrderItemFromReturnOrder(orderItemID))
                 .build();
     }
 
     @Override
-    public ResultOutput deleteTableToOrder(String orderID, List<String> tableIDs) {
-            return ResultOutput.builder()
-                    .success(deleteTableFromOrderUseCase.deleteTableToOrder(orderID, tableIDs))
-                    .build();
+    public ResultOutput deleteAllTableFromReturnOrder(String tableID) {
+        return ResultOutput.builder()
+                .success(updateOrderReturnUseCase.deleteAllTableFromReturnOrder(tableID))
+                .build();
     }
 }

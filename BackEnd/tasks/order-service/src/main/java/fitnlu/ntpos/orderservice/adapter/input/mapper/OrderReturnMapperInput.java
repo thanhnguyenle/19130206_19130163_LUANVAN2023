@@ -1,44 +1,43 @@
 package fitnlu.ntpos.orderservice.adapter.input.mapper;
 
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
-import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.TableEntities;
 import fitnlu.ntpos.orderservice.domain.model.Order;
 import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
+import fitnlu.ntpos.orderservice.domain.model.OrderReturn;
 import fitnlu.ntpos.orderservice.domain.model.OrderTable;
-import fitnlu.ntpos.orderservice.domain.model.Table;
 
 import java.util.List;
 
-public class OrderMapperInput {
-    public static OrderOutput toDTO(Order order) {
-        List<OrderTableOutput> categories = order.getTable()!=null?order.getTable().stream().map(OrderTableMapperInput::toDTO).toList():List.of();
-        List<OrderLineItemOutput> orderLineItemOutputs = order.getOrderLineItems()!=null?order.getOrderLineItems().stream()
+public class OrderReturnMapperInput {
+    public static OrderReturnOutput toDTO(OrderReturn orderReturn) {
+        List<OrderTableOutput> categories = orderReturn.getTableReturn()!=null?orderReturn.getTableReturn().stream().map(OrderTableMapperInput::toDTO).toList():List.of();
+        List<OrderLineItemOutput> orderLineItemOutputs = orderReturn.getOrderLineItemsReturn()!=null?orderReturn.getOrderLineItemsReturn().stream()
                         .map(OrderLineItemMapperInput::toDTO).toList():List.of();
-        return OrderOutput.builder()
-                .id(order.getId())
-                .orderLineItems(orderLineItemOutputs)
-                .tables(categories)
-                .orderDate(order.getOrderDate())
-                .status(order.getStatus())
-                .group(order.getGroup())
-                .note(order.getNote())
-                .userID(order.getUserID())
+        return OrderReturnOutput.builder()
+                .id(orderReturn.getId())
+                .orderID(orderReturn.getOrderID())
+                .orderLineItemsReturn(orderLineItemOutputs)
+                .tablesReturn(categories)
+                .orderReturnDate(orderReturn.getOrderReturnDate())
+                .status(orderReturn.getStatus())
+                .group(orderReturn.getGroup())
+                .note(orderReturn.getNote())
+                .userID(orderReturn.getUserID())
                 .build();
     }
-    public static Order toDomain(OrderInput orderInput) {
-        List<OrderTable> categories = orderInput.tables()!=null?orderInput.tables().stream().map(OrderTableMapperInput::toDomain).toList():List.of();
-        List<OrderProduct> images = orderInput.orderLineItems()!=null?orderInput.orderLineItems().stream()
+    public static OrderReturn toDomain(OrderReturnInput orderInput) {
+        List<OrderTable> categories = orderInput.tablesReturn()!=null?orderInput.tablesReturn().stream().map(OrderTableMapperInput::toDomain).toList():List.of();
+        List<OrderProduct> images = orderInput.orderLineItemsReturn()!=null?orderInput.orderLineItemsReturn().stream()
                 .map(OrderLineItemMapperInput::toDomain).toList():List.of();
-        return Order.builder()
+        return OrderReturn.builder()
+                .orderID(orderInput.orderID())
                 .userID(orderInput.userID())
                 .group(orderInput.group())
-                .orderDate(orderInput.orderDate())
-                .orderLineItems(images)
+                .orderReturnDate(orderInput.orderReturnDate())
+                .orderLineItemsReturn(images)
                 .status(orderInput.status())
                 .note(orderInput.note())
-                .table(categories)
+                .tableReturn(categories)
                 .build();
     }
 }
