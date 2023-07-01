@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
         // backgroundColor: COLORS.color_white,
     },
     listCategory: {
-
     }
 });
 export default SelectGroupScreen;

@@ -62,7 +62,7 @@ const ProductSreen = ({ navigation }: any) => {
                                 <View style={styles.box1}>
                                     {
                                         item.images.length > 0 ?
-                                            <Image source={{ uri: item.images[0].url + '' }} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+                                            <Image source={{ uri: item.images[0].url }} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
                                             : <Image source={require('../../assets/imageDefauProduct.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
                                     }
                                 </View>

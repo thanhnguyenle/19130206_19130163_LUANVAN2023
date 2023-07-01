@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '../../models/product';
+import { Category } from '../../models/categorys';
 
 
 interface ProductState {
@@ -13,7 +14,7 @@ const productModel: Product = {
     id: '1',
     name: "Tên sản phẩm",
     description: "Mô tả",
-    categories: [],
+    categories: [{ id: "1", name: "Category 1", description: 'c' },],
     images: ['https://cdn.tgdd.vn/2021/06/CookProduct/1(1)-1200x676-1.jpg'],
     price: '0.0',
     quantity: '0',
@@ -29,7 +30,7 @@ const initialState: ProductState = {
 };
 
 const productSlice = createSlice({
-    name: 'product',
+    name: 'products',
     initialState,
     reducers: {
         fetchProductsStart(state) {
@@ -59,7 +60,17 @@ const productSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        editProductRequest(state, action: PayloadAction<Product>) {
+        editProductRequest(state, action: PayloadAction<{
+            id: string,
+            name: string,
+            description: string,
+            images: string[],
+            price: string,
+            quantity: string,
+            status: string,
+            unit: string,
+            categories: string[],
+        }>) {
             state.loading = true;
             state.error = null;
         },

@@ -2,7 +2,6 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
 import { gql } from "@apollo/client";
 import { product } from "../../constants/graphql/apollo";
-import { action } from "mobx";
 const fetchProductsQuery = gql`
   query FetchProducts {
     products{
@@ -13,6 +12,7 @@ const fetchProductsQuery = gql`
         url
         }
         categories {
+        id
         name
         }
         quantity
@@ -27,12 +27,12 @@ const fetchProductDetailQuery = gql`
     id
     name
     description
-    price
-    quantity
-    unit
     images{
         url
     }
+    price
+    quantity
+    unit
     categories{
         name
     }
@@ -45,6 +45,7 @@ const fetchEditProductQuery = gql`
             $id:String,
             $name:String,
             $description:String,
+            $categories:[String],
             $images:[String],
             $quantity:Int,
             $price:Float,
@@ -61,6 +62,7 @@ const fetchEditProductQuery = gql`
             price: $price
             unit: $unit
             status:$status
+            categories:$categories
         }){
             success
         }
@@ -100,7 +102,7 @@ export function* detailProductSaga() {
 }
 function* fetchEditProductSaga(action: any): Generator<any, any, any> {
     try {
-        const { id, name, description, images, categories, quantity, price, unit, status } = action.payload;
+        const { id, name, description, images, quantity, price, unit, status, categories, } = action.payload;
         console.log(images);
         const { data } = yield call(product.mutate, {
             mutation: fetchEditProductQuery,
@@ -113,6 +115,7 @@ function* fetchEditProductSaga(action: any): Generator<any, any, any> {
                 price: price,
                 unit: unit,
                 status: status,
+                categories: categories,
             }
         });
         console.log(data.updateProduct.success);

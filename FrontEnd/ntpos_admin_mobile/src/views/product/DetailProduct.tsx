@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { fetchProductRequest } from '../../redux_store/product/productSlice';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-
-
 const DetailProductScreen = ({ route, navigation }: any) => {
     const { id } = route.params;
     const product = useSelector((state: RootState) => state.product.products.product);
@@ -32,7 +30,11 @@ const DetailProductScreen = ({ route, navigation }: any) => {
                 <Text style={styles.name}>{product.name}</Text>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Nhóm hàng</Text>
-                    <Text style={styles.textContent}>{product.categories}</Text>
+                    <Text style={styles.textContent}>
+                        {product.categories.map((category, index) => (
+                            <Text key={index}>{(product.categories.length - 1) != index ? category.name + ', ' : category.name + ' '}</Text>
+                        ))}
+                    </Text>
                 </View>
                 <View style={styles.itemContent}>
                     <Text style={styles.textTitle}>Giá bán</Text>

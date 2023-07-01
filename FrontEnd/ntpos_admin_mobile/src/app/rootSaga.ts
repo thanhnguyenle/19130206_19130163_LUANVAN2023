@@ -8,6 +8,7 @@ import { watchDeleteClient } from '../redux_store/client/deleteClientSaga';
 import { listRolesSaga } from '../redux_store/client/listRoleSaga';
 import { addgroupSaga, listGroupsSaga } from '../redux_store/client/group/groupSaga';
 import { detailProductSaga, editProductSaga, watchProductSaga } from '../redux_store/product/productSaga';
+import { watchCategorySaga } from '../redux_store/product/categorySaga';
 
 export default function* rootSaga() {
     yield all([
@@ -28,6 +29,7 @@ export default function* rootSaga() {
         watchProductSaga(),
         detailProductSaga(),
         editProductSaga(),
+        watchCategorySaga(),
         // end product//
     ]);
 }
