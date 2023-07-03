@@ -4,74 +4,31 @@ import { COLORS } from '../../constants/common';
 import IconIocns from 'react-native-vector-icons/Ionicons'
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
 import { launchImageLibrary } from 'react-native-image-picker'
+import { InputComponent } from '../../components';
 const AddProductScreen = ({ navigation }: any) => {
-    const [urlPic, setUrlPic] = useState('');
-    const setToastMsg = (msg: any) => {
-        ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
-    }
-    function uploadImage() {
-        launchImageLibrary({
-            mediaType: 'photo',
-        }, response => {
-            if (response.didCancel) {
-                setToastMsg('Thoát');
-            } else if (response.errorCode = 'permission') {
-                setToastMsg('permission')
-            } else if (response.errorCode = 'others') {
-                setToastMsg(response.errorMessage)
-            } else {
-                const selectedAssets = response.assets ?? [];
-                if (selectedAssets.length > 0) {
-                    const selectedImageUri = selectedAssets[0].uri;
-                    console.log('Selected image URI: ', selectedImageUri);
-                    setUrlPic(selectedImageUri + '');
-                }
-            }
-        })
-    }
-    const openImageLibrary = () => {
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                quality: 1,
-                includeBase64: true,// specify the media type to limit the selection to photos only
-            },
-            (response) => {
-                const fileSize = response.assets?.[0]?.fileSize ?? 0;
-                const base64: string | number = response?.assets?.[0]?.base64 ?? 0;
-                if (response.didCancel) {
-                    setToastMsg('Cancelled image selection');
-                } else if (response.errorCode = 'permission') {
-                    setToastMsg('Demo');
-                } else if (response.errorCode = 'others') {
-                    setToastMsg(response.errorMessage);
-                } else if (fileSize > 2097152) {
-                    alert('Demo');
-                } else {
-                    setUrlPic(base64 + '');
-                }
-            }
-        );
-    };
-
-    function removeImage() {
-        alert('remove')
-    }
+    const [name, setName] = useState('');
+    const [imagesOb, setImagesOb] = useState<[url: string]>();
+    const [categories, setCategories] = useState();
+    const [description, setDescription] = useState('');
+    const [quantity, setQuantity] = useState<number>(0);
+    const [price, setPrice] = useState<number>(0);
+    const [unit, setUnit] = useState('');
+    const [status, setstatus] = useState('');
     return (
         <View style={styles.container}>
             <View style={styles.boxImage}>
                 <View style={{ flexDirection: 'row' }}>
                     <ImageBackground source={{
-                        uri: 'data:image/png;base64' + urlPic
+                        uri: 'null',
                     }}
                         style={{ width: 150, height: 150, borderRadius: 20, backgroundColor: COLORS.color_white, alignItems: 'flex-end', justifyContent: 'flex-start' }}
                     >
-                        <TouchableOpacity style={{ backgroundColor: '#00000030', borderRadius: 20 }} onPress={() => { removeImage() }}>
+                        <TouchableOpacity style={{ backgroundColor: '#00000030', borderRadius: 20 }} onPress={() => { }}>
                             <IconIocns name='close' size={40} color={COLORS.color_white} />
                         </TouchableOpacity>
                     </ImageBackground>
                     <View style={{ alignItems: 'center', width: 150, height: 150, backgroundColor: COLORS.color_grey_seconds, justifyContent: 'center', marginLeft: 10, }}>
-                        <TouchableOpacity onPress={() => { openImageLibrary() }}>
+                        <TouchableOpacity onPress={() => { }}>
                             <IconIocns name='camera' size={40} color={COLORS.color_grey} />
                         </TouchableOpacity>
                     </View>
@@ -80,12 +37,13 @@ const AddProductScreen = ({ navigation }: any) => {
             <ScrollView>
                 <View style={styles.boxContent}>
                     <View style={styles.itemContent}>
-                        <Text style={styles.textTitle}>Mã hàng</Text>
-                        <TextInput style={styles.textContent} placeholder='Mã hàng tự động'></TextInput>
-                    </View>
-                    <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Tên hàng</Text>
-                        <TextInput style={styles.textContent} placeholder='Tên'></TextInput>
+                        <InputComponent
+                            value={name}
+                            onChangeText={setName}
+                            placeholder=''
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Nhóm hàng</Text>
@@ -95,26 +53,43 @@ const AddProductScreen = ({ navigation }: any) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.itemContent}>
-                        <Text style={styles.textTitle}>Định mức tồn</Text>
-                        <TextInput style={styles.textContent} placeholder='0-1000'>0 - 1000</TextInput>
-                    </View>
-                    <View style={styles.itemContent}>
                         <Text style={styles.textTitle}>Giá bán</Text>
-                        <TextInput style={styles.textContent} placeholder='vnđ'>15000</TextInput>
+                        <InputComponent
+                            value={price + ''}
+                            onChangeText={setPrice}
+                            placeholder='Giá'
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
-                        <Text style={styles.textTitle}>Giá vốn</Text>
-                        <TextInput style={styles.textContent} placeholder='vnđ'>6000</TextInput>
+                        <Text style={styles.textTitle}>Đơn vị</Text>
+                        <InputComponent
+                            value={unit}
+                            onChangeText={setUnit}
+                            placeholder='vnd'
+                            style={styles.textContent}
+                        />
                     </View>
                     <View style={styles.itemContent}>
-                        <Text style={styles.textTitle}>Tồn kho</Text>
-                        <TextInput style={styles.textContent} placeholder='cái, món...'>1008</TextInput>
+                        <Text style={styles.textTitle}>Số lượng</Text>
+                        <InputComponent
+                            value={quantity + ''}
+                            onChangeText={setQuantity}
+                            placeholder='0'
+                            style={styles.textContent}
+                        />
                     </View>
                 </View>
                 <View style={styles.box}>
                     <Text style={styles.textTitle}>Mô tả</Text>
                     <View style={styles.des}>
-                        <TextInput style={styles.textDes} placeholder='chi tiết...'>Món ăn ngon</TextInput>
+                        <InputComponent
+                            value={description}
+                            onChangeText={setDescription}
+                            placeholder='vnd'
+                            style={styles.des}
+                            multiline={true}
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -122,6 +97,11 @@ const AddProductScreen = ({ navigation }: any) => {
     );
 };
 const styles = StyleSheet.create({
+    des: {
+        borderColor: 'gray',
+        borderRadius: 5,
+        padding: 5,
+    },
     container: {
         flex: 1,
     },

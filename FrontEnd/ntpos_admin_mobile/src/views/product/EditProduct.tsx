@@ -15,7 +15,7 @@ import { dispatchCategorysNull } from '../../redux_store/product/categorySlice';
 const EditProductScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const product = useSelector((state: RootState) => state.product.products.product);
-    const [id, setID] = useState(product.id);
+    const id = product.id;
     const [name, setName] = useState(product.name);
     const [imagesOb, setImagesOb] = useState<[url: string]>(product.images);
     const [categories, setCategories] = useState(product.categories);
@@ -222,6 +222,7 @@ const EditProductScreen = ({ navigation }: any) => {
                     <InputComponent
                         value={description}
                         onChangeText={setDescription}
+                        multiline={true}
                         placeholder=''
                         style={styles.des}
                     />

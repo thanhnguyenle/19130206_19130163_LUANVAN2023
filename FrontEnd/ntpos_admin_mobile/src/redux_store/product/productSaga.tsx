@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
+import { createProduct, editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
 import { gql } from "@apollo/client";
 import { product } from "../../constants/graphql/apollo";
 const fetchProductsQuery = gql`
@@ -40,9 +40,36 @@ const fetchProductDetailQuery = gql`
     }
   }
 `;
-const fetchEditProductQuery = gql`
+const fetchCretaeProductQuery = gql`
     mutation FetchEditProduct(
             $id:String,
+            $name:String,
+            $description:String,
+            $categories:[String],
+            $images:[String],
+            $quantity:Int,
+            $price:Float,
+            $unit:String,
+            $status:String
+        ) {
+        updateProduct (
+            id:$id,
+            productInput:{
+            name:$name
+            description:$description
+            images:$images
+            quantity: $quantity
+            price: $price
+            unit: $unit
+            status:$status
+            categories:$categories
+        }){
+            success
+        }
+    }
+`;
+const fetchEditProductQuery = gql`
+    mutation FetchEditProduct(
             $name:String,
             $description:String,
             $categories:[String],
@@ -126,4 +153,21 @@ function* fetchEditProductSaga(action: any): Generator<any, any, any> {
 }
 export function* editProductSaga() {
     yield takeEvery(editProductRequest.type, fetchEditProductSaga);
+}
+
+function* createProductFun(action: any): Generator<any, any, any> {
+    try {
+        // Gọi API để tạo product
+        const response = yield call(createProductApi, action.payload);
+
+        // Xử lý thành công
+        yield put(createProductSuccess(response.data));
+    } catch (error) {
+        // Xử lý lỗi
+        yield put(createProductFailure(error.message));
+    }
+}
+
+export function* watchCreateProduct() {
+    yield takeLatest(createProduct.type, createProductFun);
 }

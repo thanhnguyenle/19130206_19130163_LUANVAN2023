@@ -9,6 +9,7 @@ interface ProductState {
     error: string | null;
     product: Product;
     editSuccess: null | boolean;
+    createSucess: null | boolean;
 }
 const productModel: Product = {
     id: '1',
@@ -26,7 +27,8 @@ const initialState: ProductState = {
     loading: false,
     error: null,
     product: productModel,
-    editSuccess: null
+    editSuccess: null,
+    createSucess: null
 };
 
 const productSlice = createSlice({
@@ -83,10 +85,24 @@ const productSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        createProduct: (state) => {
+            state.loading = true;
+            state.error = '';
+        },
+        createProductSuccess: (state) => {
+            state.loading = false;
+        },
+        createProductFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
     },
 });
 
 export const {
+    createProduct,
+    createProductSuccess,
+    createProductFailure,
     editProductRequest,
     editProductSuccess,
     editProductFailure,
