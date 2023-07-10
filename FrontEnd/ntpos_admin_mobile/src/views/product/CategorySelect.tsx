@@ -7,16 +7,16 @@ import { FlatList } from 'react-native-gesture-handler';
 import { CheckBox } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { Category } from '../../models/categorys';
+import { Category } from '../../models/category';
 import { deselectCategory, dispatchCategorysNull, requestListCategory, selectCategorys } from '../../redux_store/product/categorySlice';
 
 const CategorySelectScreen = ({ route, navigation }: any) => {
     const categories = route.params && route.params.categories ? route.params.categories : [];
     const dispatch = useDispatch();
-    const loading = useSelector((state: RootState) => state.product.categorys.loading);
-    const error = useSelector((state: RootState) => state.product.categorys.error);
-    const categorys = useSelector((state: RootState) => state.product.categorys.categorys);
-    const selectedCategorys = useSelector((state: RootState) => state.product.categorys.selectedCategorys);
+    const loading = useSelector((state: RootState) => state.product.categorysSevice.loading);
+    const error = useSelector((state: RootState) => state.product.categorysSevice.error);
+    const categorys = useSelector((state: RootState) => state.product.categorysSevice.categorys);
+    const selectedCategorys = useSelector((state: RootState) => state.product.categorysSevice.selectedCategorys);
     useEffect(() => {
         dispatch(requestListCategory());
         dispatch(dispatchCategorysNull());

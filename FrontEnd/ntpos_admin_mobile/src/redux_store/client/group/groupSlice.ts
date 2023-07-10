@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Group } from '../../../models/groups';
+import { Group } from '../../../models/group';
 
 export interface GroupUser {
     name: string;

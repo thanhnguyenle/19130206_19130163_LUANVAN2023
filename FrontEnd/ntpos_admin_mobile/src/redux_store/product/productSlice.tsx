@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '../../models/product';
-import { Category } from '../../models/categorys';
+import { Category } from '../../models/category';
 
 
 interface ProductState {
@@ -10,6 +10,7 @@ interface ProductState {
     product: Product;
     editSuccess: null | boolean;
     createSucess: null | boolean;
+    deleteSucess: null | boolean;
 }
 const productModel: Product = {
     id: '1',
@@ -28,7 +29,8 @@ const initialState: ProductState = {
     error: null,
     product: productModel,
     editSuccess: null,
-    createSucess: null
+    createSucess: null,
+    deleteSucess: null,
 };
 
 const productSlice = createSlice({
@@ -62,17 +64,19 @@ const productSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        editProductRequest(state, action: PayloadAction<{
-            id: string,
-            name: string,
-            description: string,
-            images: string[],
-            price: string,
-            quantity: string,
-            status: string,
-            unit: string,
-            categories: string[],
-        }>) {
+        editProductRequest(state,
+            action: PayloadAction<{
+                id: string,
+                name: string,
+                description: string,
+                images: string[],
+                price: string,
+                quantity: string,
+                status: string,
+                unit: string,
+                categories: string[],
+            }>
+        ) {
             state.loading = true;
             state.error = null;
         },
@@ -85,21 +89,72 @@ const productSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        createProduct: (state) => {
+        createProduct: (state,
+            action: PayloadAction<{
+                name: string,
+                description: string,
+                images: string[],
+                price: string,
+                quantity: string,
+                status: string,
+                unit: string,
+                categories: string[],
+            }>
+        ) => {
             state.loading = true;
             state.error = '';
         },
-        createProductSuccess: (state) => {
+        createProductSuccess: (state, action: PayloadAction<boolean>) => {
             state.loading = false;
+            state.createSucess = action.payload;
+            state.error = null;
         },
         createProductFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
+        sortProducts: (state, action: PayloadAction<string>) => {
+            switch (action.payload) {
+                case 'ascending':
+                    const sortedProducts = [...state.products].sort((a, b) => b.name.localeCompare(a.name));
+                    return {
+                        ...state,
+                        products: sortedProducts,
+                    };
+                case 'oldest':
+                    const sortedProducts1 = [...state.products].sort((a, b) => a.name.localeCompare(b.name));
+                    return {
+                        ...state,
+                        products: sortedProducts1,
+                    };
+                default:
+                    return state;
+            }
+        },
+        deleteProduct: (state, action: PayloadAction<string>) => {
+            state.loading = true;
+            state.error = '';
+        },
+        deleteProductSuccess: (state, action: PayloadAction<boolean>) => {
+            state.loading = false;
+            state.deleteSucess = action.payload;
+            state.error = null;
+        },
+        deleteProductFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        deleteProductNull: (state) => {
+            state.deleteSucess = false;
+        },
     },
 });
 
 export const {
+    deleteProductNull,
+    deleteProduct,
+    deleteProductSuccess,
+    deleteProductFailure,
     createProduct,
     createProductSuccess,
     createProductFailure,
@@ -111,7 +166,8 @@ export const {
     fetchProductsFailure,
     fetchProductsDetail,
     fetchProductRequest,
-    fetchProductFailure
+    fetchProductFailure,
+    sortProducts
 } = productSlice.actions;
 
 export default productSlice.reducer;

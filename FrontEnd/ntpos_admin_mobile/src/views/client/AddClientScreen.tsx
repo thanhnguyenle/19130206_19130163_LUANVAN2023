@@ -40,21 +40,21 @@ const AddClientScreen = ({ navigation }: any) => {
 
         const formData = new FormData();
         if (selectedImage && selectedImage.assets) {
-            formData.append('image', {
-                name: selectedImage.assets[0].fileName,
-                type: selectedImage.assets[0].type,
-                uri: Platform.OS === 'ios' ? selectedImage.assets[0].uri!.replace('file://', '') : selectedImage.assets[0].uri,
-            });
+            // formData.append('image', {
+            //     name: selectedImage.assets[0].fileName,
+            //     type: selectedImage.assets[0].type,
+            //     uri: Platform.OS === 'ios' ? selectedImage.assets[0].uri!.replace('file://', '') : selectedImage.assets[0].uri,
+            // });
+            formData.append('image', selectedImage.assets[0])
         }
-
-        const clientId = '28dbc5a4ac6a7b3'; // Replace with your Imgur client ID
-        axios.post('https://api.imgur.com/3/image', formData, {
+        console.log('Hello');
+        axios.post('https://4cb1-27-65-196-160.ngrok-free.app/api/image', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Client-ID ${clientId}`,
+                'Content-Type': 'multipart/form-data'
             },
         })
             .then(response => {
+                console.log(response)
                 if (response.data.success) {
                     let uploadedUrl = response.data.data.link;
                     setAvatar(uploadedUrl);

@@ -8,7 +8,7 @@ import { fetchProductRequest } from '../../redux_store/product/productSlice';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 const DetailProductScreen = ({ route, navigation }: any) => {
     const { id } = route.params;
-    const product = useSelector((state: RootState) => state.product.products.product);
+    const product = useSelector((state: RootState) => state.product.productsSevice.product);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchProductRequest(id));

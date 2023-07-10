@@ -7,8 +7,10 @@ import { detailClientSaga } from '../redux_store/client/detailClientSaga';
 import { watchDeleteClient } from '../redux_store/client/deleteClientSaga';
 import { listRolesSaga } from '../redux_store/client/listRoleSaga';
 import { addgroupSaga, listGroupsSaga } from '../redux_store/client/group/groupSaga';
-import { detailProductSaga, editProductSaga, watchProductSaga } from '../redux_store/product/productSaga';
+import { detailProductSaga, editProductSaga, watchCreateProduct, watchDeleteProduct, watchProductSaga } from '../redux_store/product/productSaga';
 import { watchCategorySaga } from '../redux_store/product/categorySaga';
+import { filterProductsSaga } from '../redux_store/product/fifterProductSaga';
+import { ordersSaga } from '../redux_store/orders/ordersSaga';
 
 export default function* rootSaga() {
     yield all([
@@ -30,6 +32,12 @@ export default function* rootSaga() {
         detailProductSaga(),
         editProductSaga(),
         watchCategorySaga(),
+        watchCreateProduct(),
+        filterProductsSaga(),
+        watchDeleteProduct(),
         // end product//
+        // start order //
+        ordersSaga(),
+        // end order //
     ]);
 }
