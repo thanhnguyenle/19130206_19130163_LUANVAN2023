@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "build",
+    "removeComments": true,
+    "watch": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "@types/react-native-vector-icons"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

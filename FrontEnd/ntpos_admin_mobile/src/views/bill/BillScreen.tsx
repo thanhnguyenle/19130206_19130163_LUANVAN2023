@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import { responsiveFontSize, responsiveHeight, responsiveWidth, } from 'react-native-responsive-dimensions';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { COLORS } from '../../constants/common';
 import { BillComponent, BottomSheet, CheckSheetComponent, RadioButtonCom } from '../../components';
 import { RadioButton } from 'react-native-paper';
-
+import { FlatList, Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { setTime } from '../../redux_store/client/filterSlice';
+import Icon from 'react-native-vector-icons/AntDesign'
+import { deleteOrderNull, fetchOrdersStart } from '../../redux_store/orders/ordersSilce';
 const BillScreen = ({ navigation }: any) => {
     const [locThoiGia, setLocThoiGian] = useState('homnay');
+    const dispatch = useDispatch();
+    const loading = useSelector((state: RootState) => state.order.orderSevice.loading);
+    const error = useSelector((state: RootState) => state.order.orderSevice.error);
+    const orders = useSelector((state: RootState) => state.order.orderSevice.orders);
+    const deleteSucess = useSelector((state: RootState) => state.order.orderSevice.deleteSucess);
+    useEffect(() => {
+        dispatch(fetchOrdersStart());
+        dispatch(deleteOrderNull());
+    }, [dispatch]);
     function getNameTitle(value: string): string {
         let valueNew = '';
         switch (value) {
@@ -40,6 +54,39 @@ const BillScreen = ({ navigation }: any) => {
         }
         return valueNew;
     }
+    //Animate
+    const renderRightActions = (id: string) => (
+        <TouchableOpacity style={styles.deleteBox} onPress={() => {
+            // Alert.alert(
+            //     'Cảnh báo',
+            //     'Bạn có muốn xóa sản phẩm này không?',
+            //     [
+            //         { text: 'Cancel', style: 'cancel' },
+            //         {
+            //             text: 'OK', onPress: () => {
+            //                 dispatch(deleteProduct(id))
+            //                 if (deleteSucess == true) {
+            //                     dispatch(setTime('ALL_TIME'));
+            //                     dispatch(deleteProductNull());
+            //                 } else {
+            //                     Alert.alert(
+            //                         'Thông báo',
+            //                         'Bạn xóa sản phẩm không thành công?',
+            //                     )
+            //                 }
+            //             }
+            //         }
+            //     ]);
+        }}>
+            <Icon name='delete' size={20} style={{ color: COLORS.color_white, padding: 15 }} />
+        </TouchableOpacity>
+    );
+    if (loading) {
+        return <Text>Loading...</Text>;
+    }
+    if (error) {
+        return <Text>Lỗi: {error}</Text>;
+    }
     return (
         <View style={styles.container}>
             <View style={styles.boxFifter}>
@@ -66,23 +113,27 @@ const BillScreen = ({ navigation }: any) => {
                     </Text>
                 </View>
             </View>
-            <View>
-                <Text style={styles.title}>Thứ 7, 15/4/2023</Text>
-                <BillComponent bill={{
-                    idBill: 'HD98392',
-                    price: 2330989,
-                    datetimeStart: 'Thứ 7,15/05/2023',
-                    datetimeEnd: 'Thứ 2, 20/4/2023',
-                    customer: 'Khách lẻ',
-                    operation: 'Đã cân bằng kho',
-                    status: 'Hoàn thành',
-                    tableName: 'Bàn 1'
-                }} onPress={() => {
-                    navigation.push('DetailBillScreen')
-                }}
+            <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
+                <FlatList
+                    style={{ flex: 1, width: '100%' }}
+                    data={orders}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => {
+                        return (
+                            <Swipeable renderRightActions={() => renderRightActions(item.id)} >
+                                <BillComponent billItem={item} key={item.id} />
+                            </Swipeable>
+                        )
+                    }}
+                    ItemSeparatorComponent={() => {
+                        return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
+                    }}
                 />
             </View>
-        </View>
+            {/* <View>
+               
+            </View> */}
+        </View >
     );
 };
 const styles = StyleSheet.create({
@@ -111,6 +162,36 @@ const styles = StyleSheet.create({
         marginBottom: responsiveHeight(1),
         marginLeft: responsiveWidth(2),
         fontSize: responsiveFontSize(2),
+    },
+    container1: {
+        textAlign: 'center',
+        borderRadius: 5,
+        width: '99.1%',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        shadowOpacity: 0.08,
+        shadowOffset: {
+            width: 0,
+            height: 20,
+        },
+        backgroundColor: COLORS.color_white,
+    },
+    box1: {
+        width: responsiveWidth(20),
+        height: responsiveWidth(20),
+    },
+    box2: {
+        width: responsiveWidth(40),
+    },
+    box3: {
+        width: responsiveWidth(20),
+    },
+    deleteBox: {
+        padding: 10,
+        marginRight: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f04d4f',
     }
 })
 export default BillScreen;

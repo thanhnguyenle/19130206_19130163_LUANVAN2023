@@ -11,8 +11,28 @@ import { TouchableOpacity } from 'react-native'
 import { BottomSheet, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper'
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { sortProducts } from '../redux_store/product/productSlice';
 const ProductScreenStack = ({ navigation }: any) => {
-    const [locDs, setLocDS] = useState('moinhat');
+    const [locDs, setLocDS] = useState('ascending');
+    const dispatch = useDispatch();
+    const handleDateChange = (value: any) => {
+        setLocDS(value)
+        processSelectedDate(value);
+    };
+    const processSelectedDate = (value: any) => {
+        // Xử lý giá trị ngày được chọn
+        switch (value) {
+            case 'ascending':
+                dispatch(sortProducts('ascending'))
+                break;
+            case 'oldest':
+                dispatch(sortProducts('oldest'))
+                break;
+            default:
+                break;
+        }
+    };
     return (
         < ProductStack.Navigator
             initialRouteName='Product'
@@ -48,13 +68,11 @@ const ProductScreenStack = ({ navigation }: any) => {
                             </TouchableOpacity>
                             <BottomSheet title='' fontSize={12}
                                 icon={<Ionicons name='md-filter-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
-                                height={300}
+                                height={200}
                                 content={
-                                    <RadioButton.Group onValueChange={newLocDs => setLocDS(newLocDs)} value={locDs}>
-                                        <RadioButtonCom title='Mới nhất' value='moinhat' />
-                                        <RadioButtonCom title='Cũ nhất' value='cunhat' />
-                                        <RadioButtonCom title='A->Z' value='az' />
-                                        <RadioButtonCom title='Z->A' value='za' />
+                                    <RadioButton.Group onValueChange={handleDateChange} value={locDs}>
+                                        <RadioButtonCom title='A->Z' value='ascending' />
+                                        <RadioButtonCom title='Z->A' value='oldest' />
                                     </RadioButton.Group>
                                 } />
                             <TouchableOpacity onPress={() => {
@@ -121,6 +139,7 @@ const ProductScreenStack = ({ navigation }: any) => {
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
                             navigation.pop();
+                            navigation.replace('Product');
                         }}>
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>
@@ -159,11 +178,6 @@ const ProductScreenStack = ({ navigation }: any) => {
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>
                     ),
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ color: COLORS.darkGreen, fontSize: 18, fontWeight: '500' }}>Lưu</Text>
-                        </TouchableOpacity>
-                    ),
                 }}
             />
             <ProductStack.Screen
@@ -173,7 +187,7 @@ const ProductScreenStack = ({ navigation }: any) => {
                     title: 'Thêm sản phẩm',
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
-                            navigation.pop();
+                            navigation.replace("Product");
                         }}>
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>

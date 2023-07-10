@@ -18,7 +18,7 @@ const initialState: ListRolesState = {
 };
 
 const listRolesSlice = createSlice({
-    name: 'listRoles',
+    name: 'listRolesClient',
     initialState,
     reducers: {
         fetchListRolesRequest(state) {

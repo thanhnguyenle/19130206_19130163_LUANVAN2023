@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { GroupUser, deselectGroup, dispatchGroupsNull, requestList, selectGroups } from '../../redux_store/client/group/groupSlice';
 import { FlatList } from 'react-native-gesture-handler';
-import { Group } from '../../models/groups';
+import { Group } from '../../models/group';
 const SelectGroupScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.client.groups.loading);
@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
         // backgroundColor: COLORS.color_white,
     },
     listCategory: {
-
     }
 });
 export default SelectGroupScreen;

@@ -2,14 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextStyle, ViewStyle, View, Image } from 'react-native';
 import { responsiveHeight, responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions'
 import { COLORS } from '../constants/common';
-interface Product {
-    name: string;
-    idProduct: string;
-    image: string;
-    price: number,
-    costPrice: number,
-    numberInventory: number;
-}
+import { Product } from '../models/product';
 interface ProductItemProps {
     product: Product;
     showPrice: string;
@@ -23,18 +16,18 @@ const ProductItemComponent: React.FC<ProductItemProps> = ({ product, onPress, co
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={styles.box1}>
                     {
-                        product.image != '' ?
-                            <Image source={{ uri: product.image }} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+                        product.images.length > 0 ?
+                            <Image source={{ uri: product.images[0] }} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
                             : <Image source={require('../assets/imageDefauProduct.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
                     }
                 </View>
                 <View style={styles.box2}>
                     <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{product.name}</Text>
-                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{product.idProduct}</Text>
+                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{product.id}</Text>
                 </View>
                 <View style={styles.box3}>
-                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{showPrice == 'giaban' ? product.price : product.costPrice}</Text>
-                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{product.numberInventory}</Text>
+                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{showPrice == 'giaban' ? product.price : product.price}</Text>
+                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{product.quantity}</Text>
                 </View>
             </View>
         </TouchableOpacity>

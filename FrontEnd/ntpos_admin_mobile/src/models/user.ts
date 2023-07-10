@@ -9,4 +9,5 @@ export interface User {
     address: string;
     avatar: string;
     groups: string[],
+    registeredAt: string,
 }
