@@ -25,7 +25,7 @@ public class ProductRepository implements IProductDBIRepository {
     private static final String CREATE = "INSERT INTO `product` VALUES (:id, :name,:price,:description,:quantity,:unit, :status,:createdAt)";
     private static final String DELETE = "DELETE FROM `product` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `product` WHERE id = :id";
-    private static final String UPDATE = "UPDATE `product` SET name =:name, description =:description, price =:price, unit =:unit, status =:status WHERE id =:id";
+    private static final String UPDATE = "UPDATE `product` SET name =:name, description =:description, price =:price, unit =:unit, status =:status, quantity=:quantity WHERE id =:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `product`";
     private static final String SEARCH_BY_NAME = "SELECT * FROM `product` WHERE name LIKE '%:name%'";
     private static final String ADD_PRODUCT_TO_CATEGORY = "INSERT INTO `product_category` VALUES (:productID,:categoryID)";
@@ -112,6 +112,7 @@ public class ProductRepository implements IProductDBIRepository {
                     .bind("quantity", product.getQuantity())
                     .bind("unit", product.getUnit())
                     .bind("status", product.getStatus())
+                    .bind("createdAt", DateTime.now().getTimestamp()/1000)
                     .add());
             return preparedBatch.execute().length>0;
         });
@@ -143,6 +144,7 @@ public class ProductRepository implements IProductDBIRepository {
                 .bind("description", product.getDescription())
                 .bind("price", product.getPrice())
                 .bind("unit", product.getUnit())
+                .bind("quantity", product.getQuantity())
                 .bind("status", product.getStatus())
                 .execute()) > 0;
     }

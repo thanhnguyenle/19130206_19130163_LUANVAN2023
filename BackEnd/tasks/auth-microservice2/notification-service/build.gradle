@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    implementation 'org.apache.kafka:kafka-streams:3.4.0'
+
+    //spring eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+
+    //zipkin
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.3'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
+    implementation 'io.micrometer:micrometer-observation:1.10.6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
+
+    //graphQL
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
+    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+    implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

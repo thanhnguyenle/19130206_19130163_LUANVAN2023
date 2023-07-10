@@ -4,13 +4,14 @@ import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderTableMapperInput;
+import fitnlu.ntpos.orderservice.adapter.output.event.OrderPlacedEvent;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeOrderEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.order.*;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IDeleteAllOrderLineItemsFromOrderUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.IDeleteAllTableFromOrderUseCase;
-import fitnlu.ntpos.orderservice.domain.model.OrderProduct;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.List;
 
@@ -26,8 +27,10 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final IDeleteTableFromOrderUseCase deleteTableFromOrderUseCase;
     private final IDeleteAllTableFromOrderUseCase deleteAllTableFromOrderUseCase;
     private final IDeleteAllOrderLineItemsFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
+        kafkaTemplate.send("orderTopic", new OrderPlacedEvent(orderInput.userID()));
         return OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
     }
 

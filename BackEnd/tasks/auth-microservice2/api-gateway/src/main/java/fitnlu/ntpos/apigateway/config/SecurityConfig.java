@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**","/actuator/**","/keycloak/**","/auth/resources/**","/zipkin/**",
                                 "/auth-service/graphql","/product-service/graphql","/user-service/graphql",
-                                "/auth-service/graphiql/**","/user-service/graphiql/**","/product-service/graphiql/**")
+                                "/auth-service/graphiql/**","/user-service/graphiql/**","/product-service/graphiql/**",
+                        "/order-service/graphql","/order-service/graphiql/**")
                         .permitAll()
                         .pathMatchers("/auth-service/login", "/auth-service/register", "/auth-service/resetPassword")
                         .permitAll()

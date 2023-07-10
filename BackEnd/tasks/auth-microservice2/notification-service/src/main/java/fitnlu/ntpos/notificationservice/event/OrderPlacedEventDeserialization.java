@@ -13,11 +13,11 @@ import java.nio.ByteBuffer;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class OrderPlacedEventDeserialization implements Deserializer<OrderPlacedEventDeserialization> {
+public class OrderPlacedEventDeserialization implements Deserializer<OrderPlacedEvent> {
     private String orderNumber;
 
     @Override
-    public OrderPlacedEventDeserialization deserialize(String topic, byte[] data) {
+    public OrderPlacedEvent deserialize(String topic, byte[] data) {
         String orderNumber;
         int orderNumberSize;
         try {
@@ -34,10 +34,10 @@ public class OrderPlacedEventDeserialization implements Deserializer<OrderPlaced
             buffer.get(nameBytes);
             orderNumber = new String(nameBytes, "UTF-8");
 
-            return new OrderPlacedEventDeserialization(orderNumber);
+            return new OrderPlacedEvent(orderNumber);
 
         } catch (Exception e) {
-            throw new SerializationException("Error when deserializing " +   	        "byte[] to Customer " + e);
+            throw new SerializationException("Error when deserializing " + "byte[] to Customer " + e);
         }
     }
 }

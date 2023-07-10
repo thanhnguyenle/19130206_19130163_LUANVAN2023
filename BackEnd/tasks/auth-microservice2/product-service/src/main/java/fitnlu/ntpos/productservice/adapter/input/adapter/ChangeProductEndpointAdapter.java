@@ -36,7 +36,7 @@ public class ChangeProductEndpointAdapter implements IChangeProductEndpointPort 
         if(productInput.images()!=null)
             addImageToProductUseCase.addImageToProduct(result.getId(), productInput.images().stream().map(ImageMapperInput::toDomain).toList());
         if(productInput.categories()!=null)
-            productInput.categories().forEach(categoryID -> addProductToCategoryUseCase.addProductToCategory(result.getId(), categoryID));
+            productInput.categories().forEach(categoryID -> addProductToCategoryUseCase.addProductToCategory(categoryID, result.getId()));
         return ResultOutput.builder()
                 .success(result.getId()!=null)
                 .build();
