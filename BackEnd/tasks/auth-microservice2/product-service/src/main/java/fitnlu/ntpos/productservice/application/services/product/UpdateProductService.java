@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
-public class UpdateProductService implements IUpdateProductUseCase, IAddBatchProductToCategoryUseCase, IDeleteBatchProductFromCategoryUseCase, IAddProductToCategoryUseCase, IDeleteProductFromCategoryUseCase {
+public class UpdateProductService implements IUpdateProductUseCase, IAddBatchProductToCategoryUseCase, IDeleteBatchProductFromCategoryUseCase, IAddProductToCategoryUseCase, IDeleteProductFromCategoryUseCase, IDeleteAllCategoryOfProduct, IDeleteAllImageOfProduct {
     private final IWriteProductPort writeProductPort;
     @Override
     public boolean updateProduct(String id, Product product) {
@@ -36,5 +36,15 @@ public class UpdateProductService implements IUpdateProductUseCase, IAddBatchPro
     @Override
     public boolean deleteProductFromCategory(String categoryID, String productID) {
         return writeProductPort.deleteProductFromCategory(categoryID, productID);
+    }
+
+    @Override
+    public boolean deleteAllCategoryOfProduct(String productID) {
+        return writeProductPort.deleteAllCategoryOfProduct(productID);
+    }
+
+    @Override
+    public boolean deleteAllImageOfProduct(String productID) {
+        return writeProductPort.deleteAllImageOfProduct(productID);
     }
 }

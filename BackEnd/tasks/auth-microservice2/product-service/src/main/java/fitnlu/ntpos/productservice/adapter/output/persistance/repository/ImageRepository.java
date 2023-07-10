@@ -27,6 +27,7 @@ public class ImageRepository implements IImageDBIRepository {
 
     @Override
     public List<ProductImageEntities> findByProductID(String productID) {
+        System.out.println("productID: " + productID);
         return jdbi.withHandle(handle -> handle.createQuery(GET_IMAGE_BY_PRODUCTID)
                 .bind("productID", productID)
                 .mapToBean(ProductImageEntities.class)

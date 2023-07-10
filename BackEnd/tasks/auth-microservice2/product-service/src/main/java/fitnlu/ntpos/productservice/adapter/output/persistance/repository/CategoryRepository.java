@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CategoryRepository implements ICategoryDBIRepository {
     private static final String GET_LIST = "select * from `category`";
 
-    private static final String CREATE = "INSERT INTO `category` VALUES (:id, :name, :description)";
+    private static final String CREATE = "INSERT INTO `category` VALUES (:id, :name, :description,:createdAt)";
     private static final String DELETE = "DELETE FROM `category` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `category` WHERE id = :id";
     private static final String UPDATE = "UPDATE `category` SET name =:name, description =:description WHERE id =:id";
@@ -77,6 +77,7 @@ public class CategoryRepository implements ICategoryDBIRepository {
                 .bind("id", UUID.randomUUID().toString())
                 .bind("name", category.getName())
                 .bind("description", category.getDescription())
+                .bind("createdAt", DateTime.now().getTimestamp()/1000)
                 .execute()) > 0;
     }
 
