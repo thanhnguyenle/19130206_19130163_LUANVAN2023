@@ -26,7 +26,7 @@ const initialState: UserState = {
 };
 
 const clientSlice = createSlice({
-  name: 'user',
+  name: 'client',
   initialState,
   reducers: {
     fetchUsersRequest: (state) => {
@@ -68,7 +68,6 @@ const clientSlice = createSlice({
           };
         case 'oldest':
           console.log(action.payload)
-          console.log(parseInt('1683653586831'));
           const sortedUserss = [...state.users].sort((a, b) => parseInt(a.registeredAt) - parseInt(b.registeredAt));
           console.log(sortedUserss)
           return {

@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { createProduct, editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
+import { createProduct, createProductFailure, createProductSuccess, deleteProduct, deleteProductFailure, deleteProductSuccess, editProductFailure, editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
 import { gql } from "@apollo/client";
 import { product } from "../../constants/graphql/apollo";
 const fetchProductsQuery = gql`
@@ -40,7 +40,33 @@ const fetchProductDetailQuery = gql`
     }
   }
 `;
-const fetchCretaeProductQuery = gql`
+const fetchCreateProductQuery = gql`
+    mutation FetchCreateProduct(
+            $name:String,
+            $description:String,
+            $categories:[String],
+            $images:[String],
+            $quantity:Int,
+            $price:Float,
+            $unit:String,
+            $status:String
+        ) {
+        createProduct (
+            productInput:{
+            name:$name
+            description:$description
+            images:$images
+            quantity: $quantity
+            price: $price
+            unit: $unit
+            status:$status
+            categories:$categories
+        }){
+            success
+        }
+    }
+`;
+const fetchEditProductQuery = gql`
     mutation FetchEditProduct(
             $id:String,
             $name:String,
@@ -68,32 +94,13 @@ const fetchCretaeProductQuery = gql`
         }
     }
 `;
-const fetchEditProductQuery = gql`
-    mutation FetchEditProduct(
-            $name:String,
-            $description:String,
-            $categories:[String],
-            $images:[String],
-            $quantity:Int,
-            $price:Float,
-            $unit:String,
-            $status:String
-        ) {
-        updateProduct (
-            id:$id,
-            productInput:{
-            name:$name
-            description:$description
-            images:$images
-            quantity: $quantity
-            price: $price
-            unit: $unit
-            status:$status
-            categories:$categories
-        }){
-            success
-        }
-    }
+export const fetchDeleteProductQuery = gql`
+  mutation($id: String){
+  deleteProduct(id:$id){
+  	success
+  }
+}
+
 `;
 function* fetchProductsSaga() {
     try {
@@ -129,8 +136,8 @@ export function* detailProductSaga() {
 }
 function* fetchEditProductSaga(action: any): Generator<any, any, any> {
     try {
+        console.log("Hello")
         const { id, name, description, images, quantity, price, unit, status, categories, } = action.payload;
-        console.log(images);
         const { data } = yield call(product.mutate, {
             mutation: fetchEditProductQuery,
             variables: {
@@ -147,27 +154,54 @@ function* fetchEditProductSaga(action: any): Generator<any, any, any> {
         });
         console.log(data.updateProduct.success);
         yield put(editProductSuccess(data.updateProduct.success));
-    } catch (error) {
-
+    } catch (error: any) {
+        yield put(editProductFailure(error.message));
     }
 }
 export function* editProductSaga() {
-    yield takeEvery(editProductRequest.type, fetchEditProductSaga);
+    yield takeLatest(editProductRequest.type, fetchEditProductSaga);
 }
 
 function* createProductFun(action: any): Generator<any, any, any> {
     try {
-        // Gọi API để tạo product
-        const response = yield call(createProductApi, action.payload);
-
-        // Xử lý thành công
-        yield put(createProductSuccess(response.data));
-    } catch (error) {
-        // Xử lý lỗi
+        const { name, description, images, quantity, price, unit, status, categories, } = action.payload;
+        const { data } = yield call(product.mutate, {
+            mutation: fetchCreateProductQuery,
+            variables: {
+                name: name,
+                description: description,
+                images: images,
+                quantity: quantity,
+                price: price,
+                unit: unit,
+                status: status,
+                categories: categories,
+            }
+        });
+        yield put(createProductSuccess(data.createProduct.success));
+    } catch (error: any) {
         yield put(createProductFailure(error.message));
     }
 }
 
 export function* watchCreateProduct() {
     yield takeLatest(createProduct.type, createProductFun);
+}
+function* deleteProductSaga(action: any): Generator<any, any, any> {
+    try {
+        console.log(action.payload)
+        const { data } = yield call(product.mutate, {
+            mutation: fetchDeleteProductQuery,
+            variables: {
+                id: action.payload,
+            },
+        });
+        yield put(deleteProductSuccess(data.deleteProduct.success));
+    } catch (error: any) {
+        yield put(deleteProductFailure(error.message));
+    }
+}
+
+export function* watchDeleteProduct() {
+    yield takeEvery(deleteProduct.type, deleteProductSaga);
 }

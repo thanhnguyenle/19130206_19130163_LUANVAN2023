@@ -2,37 +2,36 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, TextStyle, ViewStyle, View, Image, ImageBackground } from 'react-native';
 import { responsiveHeight, responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions'
 import { COLORS } from '../constants/common';
-interface Bill {
-    idBill: string;
-    price: number;
-    datetimeStart: string;
-    datetimeEnd: string;
-    customer: string;
-    operation: string;
-    status: string;
-    tableName: string;
+interface BillComponentProps {
+    billItem: Order;
 }
-interface BillProps {
-    bill: Bill;
-    onPress: () => void;
-    containerStyle?: ViewStyle;
+
+function calculateTotalPrice(orderLineItems: OrderLineItem[]): number {
+    let totalPrice = 0;
+
+    for (const orderLineItem of orderLineItems) {
+        totalPrice += orderLineItem.price;
+    }
+
+    return totalPrice;
 }
-const BillComponent: React.FC<BillProps> = ({ bill, onPress, containerStyle }) => {
+const BillComponent: React.FC<BillComponentProps> = ({ billItem }) => {
+    
+    const totalPrice = calculateTotalPrice(billItem.orderLineItems);
     return (
-        <TouchableOpacity style={[styles.container, containerStyle]} onPress={onPress}>
+        <TouchableOpacity style={[styles.container]} onPress={() => { }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={styles.box1}>
                     <Image source={require('../assets/bill.png')} style={{ flex: 1, resizeMode: 'stretch', width: '100%', height: '100%', borderRadius: 10 }} />
                 </View>
                 <View style={styles.box2}>
-                    <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{bill.price}</Text>
-                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(1.8) }}>{bill.idBill}</Text>
-                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{bill.customer}</Text>
+                    <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{totalPrice}</Text>
+                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{billItem.group}</Text>
                 </View>
                 <View style={styles.box3}>
-                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.1) }}>{bill.datetimeEnd}</Text>
-                    <Text style={{ color: COLORS.color_black, fontSize: responsiveFontSize(1.9) }}>{bill.status}</Text>
-                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{bill.tableName}</Text>
+                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.1) }}>{billItem.orderDate}</Text>
+                    <Text style={{ color: COLORS.color_black, fontSize: responsiveFontSize(1.9) }}>{billItem.status}</Text>
+                    <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{billItem.status}</Text>
                 </View>
             </View>
         </TouchableOpacity>

@@ -98,7 +98,7 @@ const ClientScreen = ({ navigation }: any) => {
         <View style={styles.container}>
             <View style={styles.boxFifter}>
                 <BottomSheet title={getNameTitle(locThoiGia)} fontSize={responsiveFontSize(2)}
-                    icon={<Ionicons name='ios-calendar-sharp' size={18} color={Colors.darkGreen} style={{ marginLeft: 8, }} />}
+                    icon={<Ionicons name='ios-calendar-sharp' size={18} color={COLORS.darkGreen} style={{ marginLeft: 8, }} />}
                     height={460}
                     content={
                         <RadioButton.Group onValueChange={handleDateChange} value={locThoiGia}>
@@ -143,8 +143,8 @@ const ClientScreen = ({ navigation }: any) => {
                                 </View>
                             </View>
                         </TouchableOpacity>
-                    )} 
-                    />
+                    )}
+                />
             </View>
             <View style={styles.button}>
                 <TouchableOpacity onPress={() => { navigation.push('AddClient') }}>

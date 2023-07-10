@@ -10,7 +10,7 @@ import { editProductRequest, editProductSuccess } from '../../redux_store/produc
 import { ButtonComponent, InputComponent } from '../../components';
 import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
-import { Category } from '../../models/categorys';
+import { Category } from '../../models/category';
 import { dispatchCategorysNull } from '../../redux_store/product/categorySlice';
 const EditProductScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
@@ -25,7 +25,8 @@ const EditProductScreen = ({ navigation }: any) => {
     const [unit, setUnit] = useState(product.unit);
     const [status, setstatus] = useState(product.status);
     const [selectedImages, setSelectedImages] = useState<ImagePickerResponse[]>([]);
-    const selectedCategorys = useSelector((state: RootState) => state.product.categorys.selectedCategorys);
+    const selectedCategorys = useSelector((state: RootState) => state.product.categorysSevice.selectedCategorys);
+    const isBooleanEdit = useSelector((state: RootState) => state.product.productsSevice.editSuccess);
     const [imageUploadNew, setImageUploadNew] = useState([]);
     useEffect(() => {
         dispatch(dispatchCategorysNull());
@@ -43,7 +44,6 @@ const EditProductScreen = ({ navigation }: any) => {
         launchImageLibrary({ mediaType: 'photo' }, (response: ImagePickerResponse) => {
             if (response) {
                 setSelectedImages(prevImages => [...prevImages, response]);
-                console.log('response' + selectedImages);
             }
         });
     };
@@ -51,7 +51,6 @@ const EditProductScreen = ({ navigation }: any) => {
         if (!selectedImages.length) {
             return;
         }
-
         const formData = new FormData();
         selectedImages.forEach(image => {
             if (image.assets) {
@@ -81,24 +80,26 @@ const EditProductScreen = ({ navigation }: any) => {
                 Alert.alert('Upload Failed', 'Failed to upload the image. Please try again.');
             });
     }
-    function handleEditProduct() {
+    async function processImages(imagesOb: any[], imageUploadNew: any[]) {
         handleImageUpload();
         const images: string[] = [];
-        for (let i = 0; i < imageUploadNew.length; i++) {
-            const imageUrl2 = imageUploadNew[i].assets[0].uri;
-            console.log(imageUrl2)
-            images.push(imageUrl2);
-        }
         for (let i = 0; i < imagesOb.length; i++) {
             const imageUrl = imagesOb[i].url;
             images.push(imageUrl);
         }
+        for (let i = 0; i < imageUploadNew.length; i++) {
+            const imageUrl2 = imageUploadNew[i].assets[0].uri;
+            images.push(imageUrl2);
+        }
+        return images;
+    }
+
+    async function handleEditProduct() {
+        const images = await processImages(imagesOb, imageUploadNew);
         if (selectedCategorys.length > 0) {
             setCategories(selectedCategorys);
         }
-        console.log(images)
         dispatch(editProductRequest({ id, name, description, images, price, quantity, status, unit, categories: categoryIds }));
-        console.log(categoryIds);
     }
     return (
         <View style={styles.container}>
@@ -230,8 +231,13 @@ const EditProductScreen = ({ navigation }: any) => {
                 <View style={{ alignItems: 'center', flex: 1, marginTop: 10, marginBottom: 30, }}>
                     <ButtonComponent title='Cập nhật' onPress={() => {
                         handleEditProduct();
-                        navigation.pop();
-                        navigation.replace('DetailProdcuct', { id: product.id })
+                        if (isBooleanEdit == true) {
+                            Alert.alert('Thông báo', 'Đã tạo chỉnh sửa thành công!');
+                            navigation.replace('DetailProdcuct', { id: product.id })
+                        }
+                        else {
+                            Alert.alert('Thông báo', 'Chỉnh sửa sản phẩm thất bại!');
+                        }
                     }} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen }} />
                 </View>
             </ScrollView >
