@@ -2,10 +2,13 @@ package fitnlu.ntpos.productservice.adapter.input.adapter;
 
 import fitnlu.ntpos.productservice.adapter.input.dto.ProductInput;
 import fitnlu.ntpos.productservice.adapter.input.dto.ResultOutput;
+import fitnlu.ntpos.productservice.adapter.input.mapper.CategoryMapperInput;
+import fitnlu.ntpos.productservice.adapter.input.mapper.ImageMapperInput;
 import fitnlu.ntpos.productservice.adapter.input.mapper.ProductMapperInput;
 import fitnlu.ntpos.productservice.application.ports.input.IChangeProductEndpointPort;
 import fitnlu.ntpos.productservice.application.usecases.image.IAddImageToProductUseCase;
 import fitnlu.ntpos.productservice.application.usecases.product.*;
+import fitnlu.ntpos.productservice.domain.model.Product;
 import fitnlu.ntpos.productservice.infrastructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
 
@@ -24,18 +27,37 @@ public class ChangeProductEndpointAdapter implements IChangeProductEndpointPort 
     private final IDeleteProductFromCategoryUseCase deleteProductFromCategoryUseCase;
     private final IDeleteBatchProductFromCategoryUseCase deleteProductBatchFromCategoryUseCase;
     private final IAddImageToProductUseCase addImageToProductUseCase;
+    private final IDeleteAllCategoryOfProduct deleteAllCategoryOfProduct;
+    private final IDeleteAllImageOfProduct deleteAllImageOfProduct;
     @Override
     public ResultOutput addProduct(ProductInput productInput) {
-        boolean result = addProductUseCase.addProduct(ProductMapperInput.toDomain(productInput));
-     return ResultOutput.builder()
-                .success(result)
+        Product product = ProductMapperInput.toDomain(productInput);
+        Product result = addProductUseCase.addProduct(product);
+        if(productInput.images()!=null)
+            addImageToProductUseCase.addImageToProduct(result.getId(), productInput.images().stream().map(ImageMapperInput::toDomain).toList());
+        if(productInput.categories()!=null)
+            productInput.categories().forEach(categoryID -> addProductToCategoryUseCase.addProductToCategory(categoryID, result.getId()));
+        return ResultOutput.builder()
+                .success(result.getId()!=null)
                 .build();
     }
 
     @Override
     public ResultOutput updateProduct(String id, ProductInput productInput) {
+        Product product = ProductMapperInput.toDomain(productInput);
+        boolean result = updateProductUseCase.updateProduct(id, product);
+        if(result){
+            if(productInput.images()!=null) {
+                deleteAllImageOfProduct.deleteAllImageOfProduct(id);
+                addImageToProductUseCase.addImageToProduct(id, productInput.images().stream().map(ImageMapperInput::toDomain).toList());
+            }
+            if(productInput.categories()!=null) {
+                deleteAllCategoryOfProduct.deleteAllCategoryOfProduct(id);
+                productInput.categories().forEach(categoryID -> addProductToCategoryUseCase.addProductToCategory(categoryID, id));
+            }
+        }
         return ResultOutput.builder()
-                .success(updateProductUseCase.updateProduct(id, ProductMapperInput.toDomain(productInput)))
+                .success(result)
                 .build();
     }
 
@@ -85,6 +107,20 @@ public class ChangeProductEndpointAdapter implements IChangeProductEndpointPort 
     public ResultOutput deleteBatchProduct(List<String> productIDs) {
         return ResultOutput.builder()
                 .success(deleteBatchProductUseCase.deleteBatchProduct(productIDs))
+                .build();
+    }
+
+    @Override
+    public ResultOutput deleteAllImageOfProduct(String productID) {
+        return ResultOutput.builder()
+                .success(deleteAllImageOfProduct.deleteAllImageOfProduct(productID))
+                .build();
+    }
+
+    @Override
+    public ResultOutput deleteAllCategoryOfProduct(String productID) {
+        return ResultOutput.builder()
+                .success(deleteAllCategoryOfProduct.deleteAllCategoryOfProduct(productID))
                 .build();
     }
 }

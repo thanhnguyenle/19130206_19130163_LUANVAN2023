@@ -14,8 +14,8 @@ import java.util.List;
 public class WriteProductAdapter implements IWriteProductPort {
     private final IProductDBIRepository productDBIRepository;
     @Override
-    public boolean addProduct(Product product) {
-        return productDBIRepository.save(ProductMapperOutput.toEntity(product));
+    public Product addProduct(Product product) {
+        return ProductMapperOutput.toDomain(productDBIRepository.save(ProductMapperOutput.toEntity(product)));
     }
 
     @Override
@@ -56,6 +56,16 @@ public class WriteProductAdapter implements IWriteProductPort {
     @Override
     public boolean deleteProductFromCategory(String categoryID, List<String> productIDs) {
         return productDBIRepository.removeBatchProductFromCategory(categoryID, productIDs);
+    }
+
+    @Override
+    public boolean deleteAllImageOfProduct(String productID) {
+        return productDBIRepository.deleteAllImageOfProduct(productID);
+    }
+
+    @Override
+    public boolean deleteAllCategoryOfProduct(String productID) {
+        return productDBIRepository.deleteAllCategoryOfProduct(productID);
     }
 
 }

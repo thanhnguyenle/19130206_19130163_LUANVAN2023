@@ -30,7 +30,7 @@ public class ProductMapperInput {
                 .build();
     }
     public static Product toDomain(ProductInput productInput) {
-        List<String> categoryList = productInput.category()!=null?productInput.category():List.of();
+        List<String> categoryList = productInput.categories()!=null?productInput.categories():List.of();
         List<String> imageList = productInput.images()!=null?productInput.images():List.of();
         return Product.builder()
                 .name(productInput.name())

@@ -18,7 +18,7 @@ public class AddProductService implements IAddBatchProductUseCase, IAddProductUs
     }
 
     @Override
-    public boolean addProduct(Product product) {
+    public Product addProduct(Product product) {
         return writeProductPort.addProduct(product);
     }
 }

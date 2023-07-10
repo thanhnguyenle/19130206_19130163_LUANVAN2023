@@ -5,6 +5,8 @@ import fitnlu.ntpos.productservice.adapter.input.dto.ResultOutput;
 import fitnlu.ntpos.productservice.adapter.input.mapper.CategoryMapperInput;
 import fitnlu.ntpos.productservice.application.ports.input.IChangeCategoryEndpointPort;
 import fitnlu.ntpos.productservice.application.usecases.category.*;
+import fitnlu.ntpos.productservice.application.usecases.product.IAddBatchProductToCategoryUseCase;
+import fitnlu.ntpos.productservice.application.usecases.product.IAddBatchProductUseCase;
 import fitnlu.ntpos.productservice.infrastructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +19,7 @@ public class ChangeCategoryEndpointAdapter implements IChangeCategoryEndpointPor
     private final IDeleteCategoryUseCase deleteCategoryUseCase;
     private final IAddBatchCategoryUseCase addBatchCategoryUseCase;
     private final IDeleteBatchCategoryUseCase deleteBatchCategoryUseCase;
+    private final IAddBatchProductToCategoryUseCase addProductBatchToCategoryUseCase;
 
     @Override
     public ResultOutput addCategory(CategoryInput categoryInput) {

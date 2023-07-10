@@ -58,7 +58,18 @@ public class FindProductEndpointAdapter implements IFindProductEndpointPort {
                     .build();
         }else{
             return ListProductOutput.builder()
-                    .products(products.stream().map(ProductMapperInput::toDTO).toList())
+                    .products(products.stream().map(product -> {
+                        ProductOutput productOutput = ProductMapperInput.toDTO(product);
+
+                        //get category of products
+                        List<CategoryOutput> categoryOutputs = findCategoryByProductIDUseCase.findCategoryByProduct(product.getId()).stream().map(CategoryMapperInput::toDTO).toList();
+                        productOutput.setCategories(categoryOutputs);
+
+                        //get image of products
+                        List<ProductImageOutput> imageOutputs = findImageByProductIDUseCase.findImageByProduct(product.getId()).stream().map(ImageMapperInput::toDomain).toList();
+                        productOutput.setImages(imageOutputs);
+                        return productOutput;
+                    }).toList())
                     .currentPage(1)
                     .totalPage(1)
                     .totalItem(products.size())
@@ -128,7 +139,18 @@ public class FindProductEndpointAdapter implements IFindProductEndpointPort {
                     .build();
         } else {
             return ListProductOutput.builder()
-                    .products(products.stream().map(ProductMapperInput::toDTO).toList())
+                    .products(products.stream().map(product ->{
+                        ProductOutput productOutput = ProductMapperInput.toDTO(product);
+
+                        //get category of products
+                        List<CategoryOutput> categoryOutputs = findCategoryByProductIDUseCase.findCategoryByProduct(product.getId()).stream().map(CategoryMapperInput::toDTO).toList();
+                        productOutput.setCategories(categoryOutputs);
+
+                        //get image of products
+                        List<ProductImageOutput> productImageOutputs = findImageByProductIDUseCase.findImageByProduct(product.getId()).stream().map(ImageMapperInput::toDomain).toList();
+                        productOutput.setImages(productImageOutputs);
+                        return productOutput;
+                    }).toList())
                     .currentPage(1)
                     .totalPage(1)
                     .totalItem(products.size())

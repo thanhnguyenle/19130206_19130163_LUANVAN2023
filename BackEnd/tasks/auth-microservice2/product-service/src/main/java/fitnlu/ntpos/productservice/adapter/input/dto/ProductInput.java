@@ -5,7 +5,7 @@ import java.util.List;
 public record ProductInput(
         String name,
         String description,
-        List<String> category,
+        List<String> categories,
         double price,
         int quantity,
         String unit,
