@@ -5,7 +5,6 @@ const HomeStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import SearchScreen from '../views/SearchScreen';
 import HomeScreen from '../views/HomeScreen';
-
 const HomeScreenStack = ({ navigation }: any) => {
     return (
         <HomeStack.Navigator

@@ -22,7 +22,7 @@ declare const alert: (message?: string) => void;
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
     const [email, setEmail] = useState('12@gmail.com');
-    const [password, setPassword] = useState('123');
+    const [password, setPassword] = useState('1234');
     const loading = useSelector((state: RootState) => state.auth.auth.loading);
     const error = useSelector((state: RootState) => state.auth.auth.error);
     const dispatch = useDispatch();

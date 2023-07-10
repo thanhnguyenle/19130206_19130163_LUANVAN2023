@@ -10,14 +10,6 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import NotificationScreenStack from './NotificationStack';
 const HomeStack = createNativeStackNavigator()
-// type HomeStackParamList = {
-//     Home: undefined;
-//     // Notification: undefined;
-//     NotificationStack: undefined
-//     // SettingNotification: undefined;
-//     Overview: undefined;
-// };
-// type HomeStackProps = NativeStackScreenProps<HomeStackParamList, 'Home'>;
 const HomeScreenStack = ({ navigation }: any) => {
     return (
         <HomeStack.Navigator

@@ -5,7 +5,7 @@ import deleteUserReduce from '../../redux_store/client/deleteClientSlice';
 import rolesReducer from '../../redux_store/client/listRoleSlice';
 import groupReducer from '../../redux_store/client/group/groupSlice';
 import searchFitter from '../../redux_store/client/filterSlice';
-const clientReducer = combineReducers({
+const clientSeviceReducer = combineReducers({
     users: userReducer,
     userDetail: userDetailReducer,
     deleteUser: deleteUserReduce,
@@ -14,4 +14,4 @@ const clientReducer = combineReducers({
     searchFifter: searchFitter,
 });
 
-export default clientReducer;
+export default clientSeviceReducer;

@@ -143,7 +143,8 @@ const ClientScreen = ({ navigation }: any) => {
                                 </View>
                             </View>
                         </TouchableOpacity>
-                    )} />
+                    )} 
+                    />
             </View>
             <View style={styles.button}>
                 <TouchableOpacity onPress={() => { navigation.push('AddClient') }}>

@@ -121,6 +121,7 @@ const ProductScreenStack = ({ navigation }: any) => {
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
                             navigation.pop();
+                            navigation.replace('Product');
                         }}>
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>
@@ -157,11 +158,6 @@ const ProductScreenStack = ({ navigation }: any) => {
                             navigation.pop();
                         }}>
                             <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
-                        </TouchableOpacity>
-                    ),
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ color: COLORS.darkGreen, fontSize: 18, fontWeight: '500' }}>Lưu</Text>
                         </TouchableOpacity>
                     ),
                 }}
