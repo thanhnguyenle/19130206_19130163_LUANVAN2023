@@ -12,6 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -19,14 +25,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityWebFilterChain(ServerHttpSecurity http){
-            http
+            http.cors().and()
                 .csrf()
                 .disable()
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**","/actuator/**","/keycloak/**","/auth/resources/**","/zipkin/**",
                                 "/auth-service/graphql","/product-service/graphql","/user-service/graphql",
                                 "/auth-service/graphiql/**","/user-service/graphiql/**","/product-service/graphiql/**",
-                        "/order-service/graphql","/order-service/graphiql/**")
+                        "/order-service/graphql","/order-service/graphiql/**","/kafka-ui/**","/inventory-service/graphql","/inventory-service/graphiql/**" ,
+                                        "/payment-service/graphql","/payment-service/graphiql/**","/chat-service/**")
                         .permitAll()
                         .pathMatchers("/auth-service/login", "/auth-service/register", "/auth-service/resetPassword")
                         .permitAll()
@@ -34,6 +41,16 @@ public class SecurityConfig {
                         .authenticated())
                 .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt);
         return http.build();
+    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource()
+    {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

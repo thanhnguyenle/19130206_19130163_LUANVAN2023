@@ -8,7 +8,7 @@ const HeaderRight = ({ navigation }: any) => {
         <View style={styles.iconContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('ChatBox');
+                    navigation.navigate('HomeChat');
                 }}
             >
                 <Iconicons
@@ -20,7 +20,7 @@ const HeaderRight = ({ navigation }: any) => {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('ChatBox');
+                    navigation.navigate('HomeChat');
                 }}
             >
                 <Iconicons
@@ -37,6 +37,7 @@ const HeaderRight = ({ navigation }: any) => {
 const styles = StyleSheet.create({
     icon: {
         paddingLeft: 10,
+        color: COLORS.darkGreen,
     },
     iconContainer: {
         flexDirection: 'row',

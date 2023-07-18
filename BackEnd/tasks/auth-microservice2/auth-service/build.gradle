@@ -59,7 +59,8 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
     implementation 'io.micrometer:micrometer-observation:1.10.6'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
-
+    //prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
 
 }
 tasks.register('copyProperties', Copy) {

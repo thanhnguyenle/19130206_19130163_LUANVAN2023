@@ -34,7 +34,8 @@ dependencies {
 
     //security
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
+    //prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
 }
 
 tasks.register('copyProperties', Copy) {

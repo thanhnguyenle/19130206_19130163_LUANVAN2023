@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.domain.model;
+package fitnlu.ntpos.notificationservice.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

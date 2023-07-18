@@ -68,6 +68,8 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     implementation 'org.apache.kafka:kafka-streams:3.4.0'
+    //prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
 
 }
 tasks.register('copyProperties', Copy) {

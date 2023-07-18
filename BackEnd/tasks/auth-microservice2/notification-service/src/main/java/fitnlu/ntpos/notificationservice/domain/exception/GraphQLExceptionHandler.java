@@ -1,4 +1,4 @@
-package fitnlu.ntpos.paymentservice.domain.exception;
+package fitnlu.ntpos.notificationservice.domain.exception;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;

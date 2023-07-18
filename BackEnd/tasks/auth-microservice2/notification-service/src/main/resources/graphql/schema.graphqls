@@ -1,6 +1,26 @@
 type Result{
     message:String
 }
+
+type OrderPlacedEvent{
+    userID: String,
+    orderID: String,
+    status: String
+}
+
+type PageOrderPlacedEventInfo{
+    orderPlacedEvents: [OrderPlacedEvent],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
+
 type Query {
-    orderPlacedEvent: Result
+    orderPlacedEvents: PageOrderPlacedEventInfo
+    getOrderPlacedEventsByUserID(pagingInput: Paging,userID: String): PageOrderPlacedEventInfo
 }

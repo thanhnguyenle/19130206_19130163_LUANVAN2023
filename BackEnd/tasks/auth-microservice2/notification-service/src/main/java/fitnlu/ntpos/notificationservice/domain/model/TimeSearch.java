@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.domain.model;
+package fitnlu.ntpos.notificationservice.domain.model;
 
 public enum TimeSearch {
     TODAY,

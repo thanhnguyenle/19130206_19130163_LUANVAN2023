@@ -161,7 +161,7 @@ type Query {
    #Order
     orders: [Order]
     order(id: String): Order
-    findOrdersByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
+    findOrdersByUserID(pagingInput: Paging, userID: String,timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
     findAllOrderByUserID(userID: String): [Order]
 
     #OrderProduct

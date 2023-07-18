@@ -30,8 +30,13 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
-        kafkaTemplate.send("orderTopic", new OrderPlacedEvent(orderInput.userID()));
-        return OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
+        OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
+        kafkaTemplate.send("orderTopic", OrderPlacedEvent.builder()
+                        .orderID(orderOutput.getId())
+                        .userID(orderOutput.getUserID())
+                        .status(orderOutput.getStatus())
+                .build());
+        return orderOutput;
     }
 
     @Override

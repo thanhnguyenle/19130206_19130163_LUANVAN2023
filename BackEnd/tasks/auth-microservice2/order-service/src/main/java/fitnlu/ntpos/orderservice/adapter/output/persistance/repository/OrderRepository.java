@@ -130,7 +130,6 @@ public class OrderRepository implements IOrderDBIRepository {
         if(sortType!=null && !sortType.isEmpty() && sortValue!=null && !sortValue.isEmpty()){
             sql.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
         }
-        System.out.println(sql.toString());
         return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
                 .mapToBean(OrderEntities.class)
                 .list());

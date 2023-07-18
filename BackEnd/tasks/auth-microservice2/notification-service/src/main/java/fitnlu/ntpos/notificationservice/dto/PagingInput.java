@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.adapter.input.dto;
+package fitnlu.ntpos.notificationservice.dto;
 
 public record PagingInput(
         Integer page,

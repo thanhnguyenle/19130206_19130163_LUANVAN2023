@@ -12,33 +12,54 @@ import java.nio.ByteBuffer;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderPlacedEventSerialization implements Serializer<OrderPlacedEvent> {
-    private String orderNumber;
+    private String userID;
+    private String orderID;
+    private String status;
 
     @Override
     public byte[] serialize(String topic, OrderPlacedEvent data) {
         try {
-            byte[] serializedName;
-            int stringSize;
+            byte[] userIDSerialize, orderIDSerialize, statusSerialize;
+            int userIDSize, orderIDSize, statusSize;
             if (data == null)
                 return null;
             else {
-                if (data.getOrderNumber() != null) {
-                    serializedName = data.getOrderNumber().getBytes("UTF-8");
-                    stringSize = serializedName.length;
+                if (data.getUserID() != null) {
+                    userIDSerialize = data.getUserID().getBytes("UTF-8");
+                    userIDSize = userIDSerialize.length;
                 } else {
-                    serializedName = new byte[0];
-                    stringSize = 0;
+                    userIDSerialize = new byte[0];
+                    userIDSize = 0;
+                }
+                if (data.getOrderID() != null) {
+                    orderIDSerialize = data.getOrderID().getBytes("UTF-8");
+                    orderIDSize = orderIDSerialize.length;
+                } else {
+                    orderIDSerialize = new byte[0];
+                    orderIDSize = 0;
+                }
+                if (data.getStatus() != null) {
+                    statusSerialize = data.getStatus().getBytes("UTF-8");
+                    statusSize = statusSerialize.length;
+                } else {
+                    statusSerialize = new byte[0];
+                    statusSize = 0;
                 }
             }
 
-            ByteBuffer buffer = ByteBuffer.allocate( 4 + stringSize);
-            buffer.putInt(stringSize);
-            buffer.put(serializedName);
+            ByteBuffer buffer = ByteBuffer.allocate( 4 + userIDSize + 4 + orderIDSize + 4 + statusSize);
+            buffer.putInt(userIDSize);
+            buffer.put(userIDSerialize);
 
+            buffer.putInt(orderIDSize);
+            buffer.put(orderIDSerialize);
+
+            buffer.putInt(statusSize);
+            buffer.put(statusSerialize);
             return buffer.array();
         } catch (Exception e) {
             throw new SerializationException(
-                    "Error when serializing Customer to byte[] " + e);
+                    "Error when serializing OrderPlacedEvent to byte[] " + e);
         }
     }
 }

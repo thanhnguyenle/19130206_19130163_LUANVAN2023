@@ -1,6 +1,6 @@
-package fitnlu.ntpos.orderservice.infracstructure.paging;
+package fitnlu.ntpos.notificationservice.domain.paging;
 
-public class PageRequest implements IPaging{
+public class PageRequest implements IPaging {
     private Integer page;
     private Integer maxPageItem;
 
