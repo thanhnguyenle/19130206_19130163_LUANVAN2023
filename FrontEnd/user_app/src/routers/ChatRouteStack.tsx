@@ -5,6 +5,7 @@ const ChatStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import SearchScreen from '../views/SearchScreen';
 import HomeScreen from '../views/HomeScreen';
+import ChatBox from '../views/ChatBox';
 
 const ChatScreenStack = ({ navigation }: any) => {
     return (
@@ -23,7 +24,7 @@ const ChatScreenStack = ({ navigation }: any) => {
         >
             <ChatStack.Screen
                 name='HomeChat'
-                component={HomeScreen}
+                component={ChatBox}
                 options={{
                     title: 'NTPOS',
                 }}

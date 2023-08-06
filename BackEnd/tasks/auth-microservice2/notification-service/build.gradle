@@ -50,8 +50,19 @@ dependencies {
     testImplementation 'org.springframework.graphql:spring-graphql-test'
     implementation 'com.graphql-java:graphql-java-tools:5.2.4'
     implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
-}
 
+    //prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
+}
+tasks.register('copyProperties', Copy) {
+    from('src/main/resources/application.properties')
+    into('src/main/resources/')
+    rename('application.properties', 'application-docker-1.properties')
+    from('src/main/resources/application-docker.properties')
+    into('src/main/resources/')
+    rename('application-docker.properties', 'application.properties')
+}
+//processResources.dependsOn copyProperties
 tasks.named('test') {
     useJUnitPlatform()
 }

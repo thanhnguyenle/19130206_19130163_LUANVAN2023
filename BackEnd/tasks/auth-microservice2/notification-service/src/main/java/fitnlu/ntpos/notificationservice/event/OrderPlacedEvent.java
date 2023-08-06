@@ -14,5 +14,7 @@ import java.nio.ByteBuffer;
 @NoArgsConstructor
 @ToString
 public class OrderPlacedEvent  {
-    private String orderNumber;
+    private String userID;
+    private String orderID;
+    private String status;
 }

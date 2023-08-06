@@ -10,12 +10,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoleController implements GraphQLQueryResolver, GraphQLMutationResolver {
     private final ChangeRoleEndpointAdapter changeRoleEndpointAdapter;
     private final FindRoleEndpointAdapter findRoleEndpointAdapter;

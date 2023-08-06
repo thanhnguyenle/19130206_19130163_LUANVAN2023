@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {
     View,
     Text,
@@ -14,6 +14,9 @@ import { COLORS } from '../constants/common';
 import Icons from 'react-native-vector-icons/Entypo';
 import { orders } from '../constants/data';
 import ItemOrder from '../components/ItemOrder';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+import { ordersRequest } from '../redux/order/orderSlice';
 
 interface List {
     title: string;
@@ -21,15 +24,23 @@ interface List {
 }
 
 const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const [listOrders, setListOrders] = useState(orders);
+    // const [listOrders, setListOrders] = useState(orders);
     const [isVisible, setIsVisible] = useState(false);
     const [fifter, setFifter] = useState(0);
+    /** */
+    const dispatch = useDispatch();
+    const loading = useSelector((state: RootState) => state.order.orders.loading);
+    const error = useSelector((state: RootState) => state.order.orders.error);
+    const listOrders = useSelector((state: RootState) => state.order.orders.orders);
+    /** */
     const list: List[] = [
         { title: 'Chưa hoàn thành', status: 2 },
         { title: 'Đã hoàn thành', status: 1 },
         { title: 'Đã hủy', status: 3 },
     ];
-
+    useEffect(() => {
+        dispatch(ordersRequest('6dc08b8c-ac31-4413-98b4-1a2e0645fd2c'));
+    }, [dispatch]);
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -62,7 +73,8 @@ const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
                 </View>
                 <View style={styles.listOrder}>
                     {listOrders.map((item, index) => (
-                        <ItemOrder navigation={navigation} item={item} key={index} />
+                        // <ItemOrder navigation={navigation} item={item} key={index} />
+                        <Text key={item.id} style={{color:'red'}}>{item.id}</Text>
                     ))}
                 </View>
             </ScrollView>

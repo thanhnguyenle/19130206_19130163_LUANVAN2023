@@ -13,9 +13,9 @@ import chatAPI from './ChatAPI';
 
 const ListChat: React.FC = () => {
   const [refreshing] = useState(false);
-  const [contents, setContents] = useState<{ user_id: number; content: string }[]>([]);
+  const [contents, setContents] = useState<{ user_id: string; content: string }[]>([]);
   const [_scrollView, setScrollView] = useState<ScrollView | null>(null);
-  const SOCKET_URL = 'http://localhost:8080/ws-chat/';
+  const SOCKET_URL = 'https://5f96-203-113-146-152.ngrok-free.app/chat-service/ws-chat/';
 
   let onConnected = () => {
     console.log('Connected!!');
@@ -24,7 +24,7 @@ const ListChat: React.FC = () => {
   let onMessageReceived = (msg: any) => {
     console.log('New Message Received!!', msg);
     let current = contents.slice();
-    current.push({ user_id: 1, content: 'hello' });
+    current.push({ user_id: '1', content: 'hello' });
     setContents(current);
   };
 
@@ -46,16 +46,16 @@ const ListChat: React.FC = () => {
   useEffect(() => {
     setContents([
       {
-        user_id: 1,
+        user_id: '1',
         content:
           'hellhello hellohello hellohello hellohello hellohello hellohello hellohello hellohello hellohello hellohello helloo hello',
       },
       {
-        user_id: 2,
+        user_id: '2',
         content: 'hello',
       },
       {
-        user_id: 1,
+        user_id: '1',
         content: 'hello',
       },
     ]);
