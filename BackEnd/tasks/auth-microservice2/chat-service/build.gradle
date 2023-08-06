@@ -10,11 +10,19 @@ version = '0.0.1-SNAPSHOT'
 java {
 	sourceCompatibility = '17'
 }
-
+//add for config client
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 repositories {
 	mavenCentral()
 }
-
+//add for config client
+ext {
+	set('springCloudVersion', "2022.0.3")
+}
 dependencies {
 	//websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -49,8 +57,15 @@ dependencies {
 	implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
 	//prometheus
 	implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
+	//add for config client
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 }
-
+//add for config client
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }

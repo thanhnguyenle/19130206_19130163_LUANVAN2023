@@ -10,11 +10,19 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '17'
 }
-
+//add for config client
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 repositories {
     mavenCentral()
 }
-
+//add for config client
+ext {
+	set('springCloudVersion', "2022.0.3")
+}
 dependencies {
     //spring boot
 	implementation 'org.springframework.boot:spring-boot-starter'
@@ -55,7 +63,6 @@ dependencies {
 	//mysql
 	testImplementation "org.testcontainers:mysql:1.17.6"
 	runtimeOnly 'com.mysql:mysql-connector-j'
-
 	implementation 'commons-codec:commons-codec:1.15'
 
 	//zipkin
@@ -65,6 +72,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
 	//prometheus
 	implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
+	//add for config client
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
 }
 tasks.register('copyProperties', Copy) {
 	from('src/main/resources/application.properties')
@@ -73,9 +83,14 @@ tasks.register('copyProperties', Copy) {
 	from('src/main/resources/application-docker.properties')
 	into('src/main/resources/')
 	rename('application-docker.properties', 'application.properties')
-
 }
 //processResources.dependsOn copyProperties
+//add for config client
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
 tasks.named('test') {
     useJUnitPlatform()
 }

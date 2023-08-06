@@ -10,11 +10,19 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '17'
 }
-
+//add for config client
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 repositories {
     mavenCentral()
 }
-
+//add for config client
+ext {
+    set('springCloudVersion', "2022.0.3")
+}
 dependencies {
     //spring boot
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -70,7 +78,8 @@ dependencies {
     implementation 'org.apache.kafka:kafka-streams:3.4.0'
     //prometheus
     implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
-
+    //add for config client
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 }
 tasks.register('copyProperties', Copy) {
     from('src/main/resources/application.properties')
@@ -81,6 +90,13 @@ tasks.register('copyProperties', Copy) {
     rename('application-docker.properties', 'application.properties')
 
 }
+//add for config client
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 //processResources.dependsOn copyProperties
 tasks.named('test') {
     useJUnitPlatform()
