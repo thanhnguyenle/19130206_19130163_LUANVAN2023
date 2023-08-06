@@ -15,7 +15,7 @@ const ListChat: React.FC = () => {
   const [refreshing] = useState(false);
   const [contents, setContents] = useState<{ user_id: string; content: string }[]>([]);
   const [_scrollView, setScrollView] = useState<ScrollView | null>(null);
-  const SOCKET_URL = 'http://localhost:8080/ws-chat/';
+  const SOCKET_URL = 'https://5f96-203-113-146-152.ngrok-free.app/chat-service/ws-chat/';
 
   let onConnected = () => {
     console.log('Connected!!');

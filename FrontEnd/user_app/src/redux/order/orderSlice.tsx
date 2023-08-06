@@ -1,59 +1,39 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface LoginResponse {
-    accessToken: string | null;
-    refreshToken: string | null;
-    accessTokenExpiration: number;
-    refreshTokenExpiration: number;
-}
-interface LoginState {
-    loginResponse: LoginResponse | null;
-    loggedIn: boolean,
+interface OrderState {
+    idUser : string | null;
     loading: boolean;
-    resetPass: boolean;
     error: string | null;
+    orders : Order[];
 }
-interface LoginCredentials {
-    email: string;
-    password: string;
-}
-const initialState: LoginState = {
-    resetPass: false,
-    loginResponse: null,
-    loggedIn: false,
+const initialState: OrderState = {
+    idUser : null,
     loading: false,
     error: null,
+    orders : [],
 };
 
-const loginSlice = createSlice({
-    name: 'login',
+const orderSlice = createSlice({
+    name: 'order',
     initialState,
     reducers: {
-        loginRequest: (state, action: PayloadAction<LoginCredentials>) => {
+        ordersRequest: (state, action: PayloadAction<string>) => {
+            state.idUser = action.payload;
             state.loading = true;
             state.error = null;
         },
-        loginSuccess: (state, action: PayloadAction<LoginResponse>) => {
-            state.loginResponse = action.payload;
-            state.loggedIn = true;
+        ordersSuccess: (state, action: PayloadAction<Order[]>) => {
+            state.orders = action.payload;
             state.loading = false;
             state.error = null;
         },
-        loginFailure: (state, action: PayloadAction<string>) => {
-            state.loggedIn = false;
+        ordersFailure: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        logOut: (state) => {
-            state.loginResponse = null;
-            state.loggedIn = false;
-            state.loading = false;
-        },
-        resetPassword: (state, action: PayloadAction<boolean>) => {
-            state.resetPass = action.payload;
-        },
+      
     },
 });
 
-export const { loginRequest, logOut, loginSuccess, loginFailure, resetPassword, } = loginSlice.actions;
-export default loginSlice.reducer;
+export const { ordersRequest,ordersSuccess,ordersFailure} = orderSlice.actions;
+export default orderSlice.reducer;

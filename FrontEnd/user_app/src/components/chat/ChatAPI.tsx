@@ -20,7 +20,7 @@ const chatAPI = {
       sender: username,
       message: text,
     };
-    return api.post('http://localhost:8080/api/send', msg, { headers: headers });
+    return api.post('https://5f96-203-113-146-152.ngrok-free.app/chat-service/api/send', msg, { headers: headers });
   },
 };
 

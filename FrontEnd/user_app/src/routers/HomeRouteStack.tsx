@@ -5,6 +5,7 @@ const HomeStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import SearchScreen from '../views/SearchScreen';
 import HomeScreen from '../views/HomeScreen';
+import ChatBox from '../views/ChatBox';
 const HomeScreenStack = ({ navigation }: any) => {
     return (
         <HomeStack.Navigator
@@ -32,7 +33,16 @@ const HomeScreenStack = ({ navigation }: any) => {
                 component={SearchScreen}
                 options={{ headerShown: false }}
             />
-
+            <HomeStack.Screen
+                name="ChatScreen"
+                component={ChatBox}
+                options={{ headerShown: true }}
+            />
+            <HomeStack.Screen
+            name="Notification"
+            component={ChatBox}
+            options={{ headerShown: false }}
+            />
 
         </ HomeStack.Navigator>
     );

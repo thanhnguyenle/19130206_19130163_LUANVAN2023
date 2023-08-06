@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController implements GraphQLQueryResolver, GraphQLMutationResolver {
     private final ChangeUserEndpointAdapter changeUserEndpointAdapter;
     private final FindUserEndpointAdapter findUserEndpointAdapter;
