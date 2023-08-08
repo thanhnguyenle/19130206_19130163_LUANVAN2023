@@ -23,4 +23,5 @@ public interface IFindUserEndpointPort {
     List<UserOutput> findUserByGroupID(String groupID);
     List<UserOutput> filterUserByTime(TimeSearch timeSearch);
     ListUserOutput filterUser(PagingInput pagingInput, String groupID, String searchType, String searchValue, String sortType, String sortValue);
+    boolean isVerify(String id);
 }

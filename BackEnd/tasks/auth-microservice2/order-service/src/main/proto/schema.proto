@@ -17,5 +17,5 @@ message UserRequest {
 }
 
 service UserService {
-    rpc getUser(stream UserRequest) returns (stream UserResponse) {}
+    rpc getUser(UserRequest) returns (UserResponse) {}
 }

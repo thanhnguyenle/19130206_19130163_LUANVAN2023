@@ -95,4 +95,10 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
     public ListUserOutput usersFilter(@Argument PagingInput paging, @Argument String groupID, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue){
         return findUserEndpointAdapter.filterUser(paging,groupID,searchType,searchValue,sortType,sortValue);
     }
+    @SchemaMapping(typeName = "Query", field = "isVerify")
+    public ResultOutput isVerify(@Argument String id){
+        return ResultOutput.builder()
+                .isVerify(findUserEndpointAdapter.isVerify(id))
+                .build();
+    }
 }
