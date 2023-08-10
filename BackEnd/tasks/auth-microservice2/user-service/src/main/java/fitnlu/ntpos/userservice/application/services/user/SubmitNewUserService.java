@@ -7,6 +7,8 @@ import fitnlu.ntpos.userservice.infrastructure.reactive.UnitReactive;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class SubmitNewUserService implements ISubmitNewUserUseCase {
@@ -20,5 +22,10 @@ public class SubmitNewUserService implements ISubmitNewUserUseCase {
     @Override
     public User saveNewSync(User user)  {
         return iWriteUserPort.saveNewSync(user);
+    }
+
+    @Override
+    public boolean addBatchUsers(List<User> users) {
+        return iWriteUserPort.addBatchUsers(users);
     }
 }

@@ -1,10 +1,10 @@
-package fitnlu.ntpos.orderservice.adapter.webapi.util;
+package fitnlu.ntpos.userservice.adapter.webapi.util;
 
-import fitnlu.ntpos.orderservice.adapter.webapi.constant.CustomCellStyle;
+import fitnlu.ntpos.userservice.adapter.webapi.constant.CustomCellStyle;
+import fitnlu.ntpos.userservice.adapter.webapi.mapper.IExcelModelMapper;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,18 +12,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
-@Component
-public class ExcelHelper {
+import java.util.*;
+public abstract class AbsExcelHelper<T, O> {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = { "Id", "LastName", "FirstName" };
-    static String SHEET = "Actor";
-    @Autowired
-    StylesGenerator stylesGenerator;
-    public static boolean hasExcelFormat(MultipartFile file) {
+    public abstract String getSheetName();
+    public abstract String[] getHeaders();
+    @Autowired(required=false)
+    private final StylesGenerator stylesGenerator;
+    @Autowired(required=false)
+    private final IExcelModelMapper<T, O> iExcelModelMapper;
+
+    public AbsExcelHelper(StylesGenerator stylesGenerator, IExcelModelMapper<T, O> iExcelModelMapper) {
+        this.stylesGenerator = stylesGenerator;
+        this.iExcelModelMapper = iExcelModelMapper;
+    }
+
+    public boolean hasExcelFormat(MultipartFile file) {
 
         if (!TYPE.equals(file.getContentType())) {
             return false;
@@ -32,14 +36,14 @@ public class ExcelHelper {
         return true;
     }
 
-    public List<Actor> excelToTutorials(InputStream is) {
+    public List<T> importExcelFileToOrders(InputStream is) {
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
-            Sheet sheet = workbook.getSheet(SHEET);
+            Sheet sheet = workbook.getSheet(getSheetName());
             Iterator<Row> rows = sheet.iterator();
 
-            List<Actor> tutorials = new ArrayList<Actor>();
+            List<T> templates = new ArrayList<>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -50,50 +54,22 @@ public class ExcelHelper {
                     rowNumber++;
                     continue;
                 }
-
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-
-                Actor tutorial = new Actor();
-
-                int cellIdx = 0;
-                while (cellsInRow.hasNext()) {
-                    Cell currentCell = cellsInRow.next();
-
-                    switch (cellIdx) {
-                        case 0:
-                            tutorial.setActor_id((int) currentCell.getNumericCellValue());
-                            break;
-
-                        case 1:
-                            tutorial.setLast_name(currentCell.getStringCellValue());
-                            break;
-
-                        case 2:
-                            tutorial.setFirst_name(currentCell.getStringCellValue());
-                            break;
-                        default:
-                            break;
-                    }
-
-                    cellIdx++;
-                }
-
-                tutorials.add(tutorial);
+                T template = iExcelModelMapper.fromExcelRowToModel(cellsInRow);
+                templates.add(template);
             }
-
             workbook.close();
-
-            return tutorials;
+            return templates;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
     }
 
-    public ByteArrayInputStream tutorialsToExcel(List<Actor> tutorials) {
+    public ByteArrayInputStream exportOrdersToExcelFile(List<T> templates) {
 
         try (Workbook workbook = new XSSFWorkbook();
              ByteArrayOutputStream out = new ByteArrayOutputStream();) {
-             Sheet sheet = workbook.createSheet(SHEET);
+             Sheet sheet = workbook.createSheet(getSheetName());
 
             Map<CustomCellStyle, CellStyle> styles = stylesGenerator.prepareStyles(workbook);
             setColumnsWidth(sheet);
@@ -102,14 +78,10 @@ public class ExcelHelper {
             createHeaderRow(sheet,styles);
 
             int rowIdx = 1;
-            for (Actor tutorial : tutorials) {
+            for (T template : templates) {
                 Row row = sheet.createRow(rowIdx++);
-
-                row.createCell(0).setCellValue(tutorial.getActor_id());
-                row.createCell(1).setCellValue(tutorial.getLast_name());
-                row.createCell(2).setCellValue(tutorial.getFirst_name());
+                iExcelModelMapper.fromModelToExcelRow(template, row, rowIdx);
             }
-
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
         } catch (IOException e) {
@@ -119,7 +91,7 @@ public class ExcelHelper {
     private void setColumnsWidth(Sheet sheet) {
         sheet.setColumnWidth(0, 256 * 5);
 
-        for (int columnIndex = 1; columnIndex < HEADERs.length+1; columnIndex++) {
+        for (int columnIndex = 1; columnIndex < getHeaders().length+1; columnIndex++) {
             sheet.setColumnWidth(columnIndex, 256 * 15);
         }
     }
@@ -127,9 +99,9 @@ public class ExcelHelper {
     private void createHeaderRow(Sheet sheet, Map<CustomCellStyle, CellStyle> styles) {
         Row headerRow = sheet.createRow(0);
 
-        for (int col = 0; col < HEADERs.length; col++) {
+        for (int col = 0; col < getHeaders().length; col++) {
             Cell cell = headerRow.createCell(col);
-            cell.setCellValue(HEADERs[col]);
+            cell.setCellValue(getHeaders()[col]);
             cell.setCellStyle(styles.get(CustomCellStyle.GREY_CENTERED_BOLD_ARIAL_WITH_BORDER));
         }
     }

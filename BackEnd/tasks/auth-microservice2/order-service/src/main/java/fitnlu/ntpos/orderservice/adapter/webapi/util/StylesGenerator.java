@@ -1,13 +1,22 @@
 package fitnlu.ntpos.orderservice.adapter.webapi.util;
 
 import fitnlu.ntpos.orderservice.adapter.webapi.constant.CustomCellStyle;
-import org.springframework.stereotype.Component;
-
-import java.awt.*;
+import org.apache.poi.ss.usermodel.*;
 import java.util.Map;
 
-@Component
 public class StylesGenerator {
+    private static StylesGenerator instance;
+
+    private StylesGenerator() {
+    }
+
+    public static StylesGenerator getInstance(){
+        if(instance==null){
+            return new StylesGenerator();
+        }
+        return instance;
+    }
+
     public Map<CustomCellStyle, CellStyle> prepareStyles(Workbook wb) {
         Font boldArial = createBoldArialFont(wb);
         Font redBoldArial = createRedBoldArialFont(wb);

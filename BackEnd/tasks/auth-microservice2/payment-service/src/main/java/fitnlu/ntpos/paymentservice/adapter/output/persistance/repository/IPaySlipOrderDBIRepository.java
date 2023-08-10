@@ -16,4 +16,6 @@ public interface IPaySlipOrderDBIRepository {
     PaySlipOrderEntities removePaySlip(String id);
 
     PaySlipOrderEntities updatePaySlip(String id, PaySlipOrderEntities paySlipOrderEntities);
+
+    boolean addBatchPaySlip(List<PaySlipOrderEntities> toList);
 }
