@@ -53,4 +53,9 @@ public class WriteOrderAdapter implements IWriteOrderPort {
     public boolean deleteTableToOrder(String orderID, List<String> tableIDs) {
         return orderDBIRepository.deleteTableToOrder(orderID, tableIDs);
     }
+
+    @Override
+    public boolean createBatchOrders(List<Order> orders) {
+        return orderDBIRepository.createBatchOrders(orders.stream().map(OrderMapperOutput::toEntity).toList());
+    }
 }

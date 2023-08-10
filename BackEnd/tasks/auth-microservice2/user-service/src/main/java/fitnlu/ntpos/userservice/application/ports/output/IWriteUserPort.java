@@ -16,5 +16,6 @@ public interface IWriteUserPort {
     boolean lockUser(String id);
     boolean unlockUser(String id);
 
+    boolean addBatchUsers(List<User> users);
 }
 

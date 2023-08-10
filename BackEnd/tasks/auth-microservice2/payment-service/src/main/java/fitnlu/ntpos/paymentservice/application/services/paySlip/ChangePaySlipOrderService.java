@@ -8,6 +8,8 @@ import fitnlu.ntpos.paymentservice.domain.model.PaySlip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ChangePaySlipOrderService implements IUpdatePaySlipUseCase, IRemovePaySlipUseCase, IAddPaySlipUseCase {
@@ -15,6 +17,11 @@ public class ChangePaySlipOrderService implements IUpdatePaySlipUseCase, IRemove
     @Override
     public PaySlip addPaySlip(PaySlip paySlip) {
         return iWritePaySlipPort.addPaySlip(paySlip);
+    }
+
+    @Override
+    public boolean addBatchPaySlip(List<PaySlip> paySlips) {
+        return iWritePaySlipPort.addBatchPaySlip(paySlips);
     }
 
     @Override

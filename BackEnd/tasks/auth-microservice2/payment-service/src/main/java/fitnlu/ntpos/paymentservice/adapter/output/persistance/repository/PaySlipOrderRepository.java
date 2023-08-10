@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,6 +119,31 @@ public class PaySlipOrderRepository implements IPaySlipOrderDBIRepository {
             return paySlipOrderEntities;
         });
     }
+
+    @Override
+    public boolean addBatchPaySlip(List<PaySlipOrderEntities> toList) {
+        return jdbi.withHandle(handle -> {
+            PreparedBatch preparedBatch = handle.prepareBatch(CREATE);
+            for(PaySlipOrderEntities paySlipOrderEntities: toList){
+                String id = UUID.randomUUID().toString();
+                preparedBatch
+                         .bind("id", id)
+                        .bind("orderReturnID", paySlipOrderEntities.getOrderReturnID())
+                        .bind("total", paySlipOrderEntities.getTotal())
+                        .bind("totalReceive", paySlipOrderEntities.getTotalReceive())
+                        .bind("totalReturn", paySlipOrderEntities.getTotalReturn())
+                        .bind("description", paySlipOrderEntities.getDescription())
+                        .bind("paymentType", paySlipOrderEntities.getPaymentType())
+                        .bind("accountSend", paySlipOrderEntities.getAccountSend())
+                        .bind("accountReceive", paySlipOrderEntities.getAccountReceive())
+                        .bind("status", paySlipOrderEntities.getStatus())
+                        .bind("createdAt",System.currentTimeMillis()/1000)
+                        .add();
+            }
+            return preparedBatch.execute().length>0;
+        });
+    }
+
     @Builder
     static
     class TimeSearchCompute {

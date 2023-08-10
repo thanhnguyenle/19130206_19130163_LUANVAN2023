@@ -7,6 +7,8 @@ import fitnlu.ntpos.paymentservice.domain.model.PaySlip;
 import fitnlu.ntpos.paymentservice.infrastructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Adapter
 @RequiredArgsConstructor
 public class WritePaySlipOrderAdapter implements IWritePaySlipOrderPort {
@@ -24,5 +26,10 @@ public class WritePaySlipOrderAdapter implements IWritePaySlipOrderPort {
     @Override
     public PaySlip updatePaySlip(String id, PaySlip paySlip) {
         return PaySlipOrderMapperOutput.toDomain(iPaySlipOrderDBIRepository.updatePaySlip(id, PaySlipOrderMapperOutput.toEntities(paySlip)));
+    }
+
+    @Override
+    public boolean addBatchPaySlip(List<PaySlip> paySlips) {
+        return iPaySlipOrderDBIRepository.addBatchPaySlip(paySlips.stream().map(PaySlipOrderMapperOutput::toEntities).toList());
     }
 }

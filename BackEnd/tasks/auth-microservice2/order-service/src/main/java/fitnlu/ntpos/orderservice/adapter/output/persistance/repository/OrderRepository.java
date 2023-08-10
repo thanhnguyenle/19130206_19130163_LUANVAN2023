@@ -4,6 +4,7 @@ import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntiti
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderTableEntities;
 import fitnlu.ntpos.orderservice.domain.model.DateTime;
+import fitnlu.ntpos.orderservice.domain.model.Order;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import lombok.Builder;
@@ -161,7 +162,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
                     .bind("note", orderEntities.getNote())
-                    .bind("orderDate", orderEntities.getOrderDate())
+                    .bind("orderDate",DateTime.now().getTimestamp()/1000)
                     .execute();
             orderEntities.setId(orderID);
             return orderEntities;
@@ -245,6 +246,25 @@ public class OrderRepository implements IOrderDBIRepository {
             tableIDs.forEach(tableID -> preparedBatch
                     .bind("id",tableID)
                     .add());
+            return preparedBatch.execute().length > 0;
+        });
+    }
+
+    @Override
+    public boolean createBatchOrders(List<OrderEntities> orders) {
+        return jdbi.withHandle(handle -> {
+            PreparedBatch preparedBatch = handle.prepareBatch(CREATE);
+            for(OrderEntities orderEntities: orders) {
+                String orderID = UUID.randomUUID().toString();
+                preparedBatch
+                        .bind("id", orderID)
+                        .bind("userID", orderEntities.getUserID())
+                        .bind("group", orderEntities.getGroup())
+                        .bind("status", orderEntities.getStatus())
+                        .bind("note", orderEntities.getNote())
+                        .bind("orderDate", orderEntities.getOrderDate())
+                        .add();
+            }
             return preparedBatch.execute().length > 0;
         });
     }
