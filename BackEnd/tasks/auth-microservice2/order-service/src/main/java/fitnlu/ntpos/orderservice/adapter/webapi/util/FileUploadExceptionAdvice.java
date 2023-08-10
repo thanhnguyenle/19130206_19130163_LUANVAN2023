@@ -1,6 +1,5 @@
 package fitnlu.ntpos.orderservice.adapter.webapi.util;
 
-import com.example.demo.dto.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

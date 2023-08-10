@@ -1,4 +1,4 @@
-package fitnlu.ntpos.orderservice.adapter.webapi.util;
+package fitnlu.ntpos.orderservice.adapter.webapi.constant;
 
 public enum CustomCellStyle {
     GREY_CENTERED_BOLD_ARIAL_WITH_BORDER,
