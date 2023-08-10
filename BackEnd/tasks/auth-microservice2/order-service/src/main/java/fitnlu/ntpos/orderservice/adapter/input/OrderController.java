@@ -45,4 +45,24 @@ public class OrderController {
     public OrderOutput deleteOrder(@Argument String id) {
         return changeOrderEndpointAdapter.deleteOrder(id);
     }
+
+    @MutationMapping("addTableToOrder")
+    public ResultOutput addTableToOrder(@Argument String orderID, @Argument List<OrderTableInput> orderTables) {
+        return changeOrderEndpointAdapter.addTableToOrder(orderID,orderTables);
+    }
+
+    @MutationMapping("addOrderLineItemToOrder")
+    public ResultOutput addOrderLineItemToOrder(@Argument String orderID, @Argument  List<OrderLineItemInput> orderLineItems ) {
+        return changeOrderEndpointAdapter.addOrderLineItemFromOrder(orderID,orderLineItems);
+    }
+
+    @MutationMapping("deleteTableFromOrder")
+    public ResultOutput deleteTableFromOrder(@Argument String orderID, @Argument  List<String> tableIDs) {
+        return changeOrderEndpointAdapter.deleteTableToOrder(orderID,tableIDs);
+    }
+
+    @MutationMapping("deleteOrderLineItemFromOrder")
+    public ResultOutput deleteOrderLineItemFromOrder(@Argument String orderID, @Argument List<String> orderLineItemIDs) {
+        return changeOrderEndpointAdapter.deleteOrderLineItemFromOrder(orderID,orderLineItemIDs);
+    }
 }

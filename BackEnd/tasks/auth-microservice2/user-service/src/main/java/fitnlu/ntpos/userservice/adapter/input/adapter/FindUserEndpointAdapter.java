@@ -30,37 +30,63 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
     private final IFilterUserUseCase iFilterUserUseCase;
     @Override
     public CollectionReactive<UserOutput> findALL() {
-        return iFindAllUserUseCase.findAll().map(UserMapperInput::toDTO);
+        return iFindAllUserUseCase.findAll().map(user ->{
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return UserMapperInput.toDTO(user);
+        });
     }
 
     @Override
     public List<UserOutput> findAllSync() {
-        return iFindAllUserUseCase.findAllSync().stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+        return iFindAllUserUseCase.findAllSync().stream().map(user -> {
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return userOutput;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public UnitReactive<UserOutput> findById(String id) {
-        return iFindUserUseCase.findById(id).map(UserMapperInput::toDTO);
+        return iFindUserUseCase.findById(id).map(user -> {
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return userOutput;
+        });
     }
 
     @Override
     public UserOutput findByIdSync(String id) {
-        return UserMapperInput.toDTO(iFindUserUseCase.findByIdSync(id));
+        UserOutput userOutput = UserMapperInput.toDTO(iFindUserUseCase.findByIdSync(id));
+        userOutput.setVerify(iFindUserUseCase.isVerify(id));
+        return userOutput;
     }
 
     @Override
     public List<UserOutput> findUserByGroupName(String groupName) {
-        return iFindAllUserByGroupNameUseCase.findAllUserByGroupName(groupName).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+        return iFindAllUserByGroupNameUseCase.findAllUserByGroupName(groupName).stream().map(user -> {
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return userOutput;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<UserOutput> findUserByGroupID(String groupID) {
-        return iFindAllUserByGroupIDUseCase.findAllUserByGroupID(groupID).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+        return iFindAllUserByGroupIDUseCase.findAllUserByGroupID(groupID).stream().map(user -> {
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return userOutput;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<UserOutput> filterUserByTime(TimeSearch timeSearch) {
-        return iFilterUserByTimeUseCase.filterUserByTime(timeSearch).stream().map(UserMapperInput::toDTO).collect(Collectors.toList());
+        return iFilterUserByTimeUseCase.filterUserByTime(timeSearch).stream().map(user -> {
+            UserOutput userOutput = UserMapperInput.toDTO(user);
+            userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+            return userOutput;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -69,7 +95,11 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
         IPaging paging = pagingInput!=null?new PageRequest(pagingInput.page(),pagingInput.limit()):null;
         if(paging==null){
             return ListUserOutput.builder()
-                    .users(userOutputs.stream().map(UserMapperInput::toDTO).collect(Collectors.toList()))
+                    .users(userOutputs.stream().map(user -> {
+                        UserOutput userOutput = UserMapperInput.toDTO(user);
+                        userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+                        return userOutput;
+                    }).collect(Collectors.toList()))
                     .currentPage(1)
                     .totalItem(userOutputs.size())
                     .totalPage(1)
@@ -79,11 +109,20 @@ public class FindUserEndpointAdapter implements IFindUserEndpointPort {
         userOutputs = userOutputs.stream().skip(paging.getOffset()).limit(paging.getLimit()).collect(Collectors.toList());
         int totalPage = totalItem%paging.getLimit()==0?totalItem/paging.getLimit():totalItem/paging.getLimit()+1;
         return ListUserOutput.builder()
-                .users(userOutputs.stream().map(UserMapperInput::toDTO).collect(Collectors.toList()))
+                .users(userOutputs.stream().map(user -> {
+                    UserOutput userOutput = UserMapperInput.toDTO(user);
+                    userOutput.setVerify(iFindUserUseCase.isVerify(user.getId()));
+                    return userOutput;
+                }).collect(Collectors.toList()))
                 .totalItem(totalItem)
                 .totalPage(totalPage)
                 .currentPage(pagingInput.page())
                 .build();
+    }
+
+    @Override
+    public boolean isVerify(String id) {
+        return iFindUserUseCase.isVerify(id);
     }
 
 }

@@ -200,6 +200,11 @@ type Mutation {
     createOrder(orderInput: OrderInput): Order
     updateOrder(id: String, orderInput: OrderInput): Order
     deleteOrder(id: String): Order
+    addTableToOrder(orderID: String, orderTables: [OrderTableInput]): ResultOutput
+    deleteTableFromOrder(orderID: String, tableIDs: [String]): ResultOutput
+    addOrderLineItemToOrder(orderID: String, orderLineItems: [OrderProductInput]): ResultOutput
+    deleteOrderLineItemFromOrder(orderID: String, orderLineItemIDs: [String]): ResultOutput
+
     #Order Return
     createOrderReturn(orderReturnInput: OrderReturnInput): OrderReturn
     updateOrderReturn(id: String, orderReturnInput: OrderReturnInput): OrderReturn

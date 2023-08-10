@@ -1,5 +1,7 @@
 package fitnlu.ntpos.orderservice.adapter.input.adapter;
 
+import fitnlu.ntpos.grpcproto.UserResponse;
+import fitnlu.ntpos.orderservice.adapter.gRPCInput.UserGrpcClientService;
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
@@ -28,15 +30,24 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final IDeleteAllTableFromOrderUseCase deleteAllTableFromOrderUseCase;
     private final IDeleteAllOrderLineItemsFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    private final UserGrpcClientService userGrpcClientService;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
-        OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
-        kafkaTemplate.send("orderTopic", OrderPlacedEvent.builder()
-                        .orderID(orderOutput.getId())
-                        .userID(orderOutput.getUserID())
-                        .status(orderOutput.getStatus())
-                .build());
-        return orderOutput;
+        System.out.println("start create order: 1");
+        UserResponse userResponse = userGrpcClientService.checkUserExisted(orderInput.userID());
+        System.out.println("start create order: 2");
+        if(userResponse.getHaveUser()&& userResponse.getVerified()){
+            OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
+            kafkaTemplate.send("orderTopic", OrderPlacedEvent.builder()
+                    .orderID(orderOutput.getId())
+                    .userID(orderOutput.getUserID())
+                    .status(orderOutput.getStatus())
+                    .build());
+            System.out.println("start create order: 3");
+            return orderOutput;
+        }
+       else throw new RuntimeException("User not found or not verified");
+
     }
 
     @Override

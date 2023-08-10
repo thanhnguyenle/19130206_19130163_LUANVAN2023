@@ -43,6 +43,11 @@ public class FindUserService implements IFindAllUserUseCase,
     }
 
     @Override
+    public boolean isVerify(String id) {
+        return iReadProductPort.checkUserVerify(id);
+    }
+
+    @Override
     public List<User> findAllUserByGroupName(String groupName) {
         return iReadProductPort.findAllUserByGroupName(groupName);
     }

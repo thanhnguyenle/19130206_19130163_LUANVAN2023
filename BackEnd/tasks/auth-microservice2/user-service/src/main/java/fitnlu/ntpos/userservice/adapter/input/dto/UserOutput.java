@@ -21,5 +21,7 @@ public class UserOutput {
     private List<GroupOutput> groups;
     @Setter
     private List<RoleOutput> roles;
+    @Setter
+    private boolean isVerify;
     private long registeredAt;
 }

@@ -7,4 +7,6 @@ public interface IFindUserUseCase {
     UnitReactive<User> findById(String id);
     User findByIdSync(String id);
 
+    boolean isVerify(String id);
+
 }
