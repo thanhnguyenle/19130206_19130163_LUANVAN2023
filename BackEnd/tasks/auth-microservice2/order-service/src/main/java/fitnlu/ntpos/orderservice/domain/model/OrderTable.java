@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class OrderTable {
     private String orderID;
     private String tableID;
+    private String name;
     private String status;
     private String note;
     private long startTime;

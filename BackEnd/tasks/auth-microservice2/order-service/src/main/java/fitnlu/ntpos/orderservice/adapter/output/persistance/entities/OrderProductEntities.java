@@ -15,4 +15,5 @@ public class OrderProductEntities {
     private int quantity;
     private double price;
     private double discount;
+    private String name;
 }

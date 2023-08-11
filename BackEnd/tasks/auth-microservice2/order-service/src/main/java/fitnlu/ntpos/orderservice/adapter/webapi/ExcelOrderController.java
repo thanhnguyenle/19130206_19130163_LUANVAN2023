@@ -23,7 +23,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/order-service/excel")
+@RequestMapping("/order-service/order/excel")
 public class ExcelOrderController {
     @Autowired
     IFindAllOrderUseCase findAllOrderUseCase  ;

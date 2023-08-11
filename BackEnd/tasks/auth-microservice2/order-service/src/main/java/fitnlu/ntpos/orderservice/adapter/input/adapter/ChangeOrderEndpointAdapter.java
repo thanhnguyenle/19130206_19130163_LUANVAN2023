@@ -33,8 +33,9 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final UserGrpcClientService userGrpcClientService;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
-        System.out.println("start create order: 1");
+        System.out.println("start create order: 1"+orderInput.userID());
         UserResponse userResponse = userGrpcClientService.checkUserExisted(orderInput.userID());
+        System.out.println(userResponse.getHaveUser()+" - "+userResponse.getVerified());
         System.out.println("start create order: 2");
         if(userResponse.getHaveUser()&& userResponse.getVerified()){
             OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));

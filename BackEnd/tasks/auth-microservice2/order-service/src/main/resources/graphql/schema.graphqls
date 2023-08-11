@@ -26,7 +26,8 @@ type OrderProduct {
     productID: String,
     quantity: Int,
     price: Float,
-    discount: Float
+    discount: Float,
+    name: String
 }
 type OrderTable {
     orderID: String,
@@ -34,7 +35,8 @@ type OrderTable {
     note: String,
     status: String
     startTime: Int,
-    endTime: Int
+    endTime: Int,
+    name: String
 }
 
 type Table {
@@ -135,14 +137,16 @@ input OrderProductInput{
     productID: String,
     quantity: Int,
     price: Float,
-    discount: Float
+    discount: Float,
+    name: String
 }
 input OrderTableInput{
     tableID: String,
     note: String,
     status: String
     startTime: Int,
-    endTime: Int
+    endTime: Int,
+    name: String
 }
 input TableInput{
     name: String,

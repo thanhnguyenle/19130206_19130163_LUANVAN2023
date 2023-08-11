@@ -28,8 +28,8 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
     private static final String UPDATE = "UPDATE `orderReturn` SET userID=:userID, `group`=:group,orderID=:orderID, status=:status, orderReturnDate=:orderDate, note=:note WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `orderReturn`";
 
-    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `orderReturn_product` VALUES (:orderReturnID,:productID,:quantity,:price,:discount)";
-    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `orderReturn_table` VALUES (:orderReturnID,:tableReturnID,:note,:startTime,:endTime)";
+    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `orderReturn_product` VALUES (:orderReturnID,:productID,:quantity,:price,:discount, :name)";
+    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `orderReturn_table` VALUES (:orderReturnID,:tableReturnID,:note,:startTime,:endTime, :name)";
     private static final String DELETE_ORDERITEM_FROM_ORDER = "DELETE FROM `orderReturn_product` WHERE orderID = :orderID AND productID = :productID";
     private static final String DELETE_TABLE_FROM_ORDER = "DELETE FROM `orderReturn_table` WHERE orderID = :orderID AND tableID = :tableID";
     private static final String DELETE_ALL_TABLE_FROM_ORDER = "DELETE FROM `orderReturn_table` WHERE orderReturnID = :orderReturnID";

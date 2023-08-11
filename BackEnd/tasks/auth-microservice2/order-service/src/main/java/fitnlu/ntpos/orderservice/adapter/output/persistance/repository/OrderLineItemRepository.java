@@ -40,7 +40,8 @@ public class OrderLineItemRepository implements IOrderLineItemDBIRepository {
                 .bind("quantity",orderProductEntities.getQuantity())
                 .bind("discount",orderProductEntities.getDiscount())
                 .bind("price",orderProductEntities.getPrice())
-                .execute());
+                 .bind("name",orderProductEntities.getName())
+                 .execute());
         return orderProductEntities;
     }
 

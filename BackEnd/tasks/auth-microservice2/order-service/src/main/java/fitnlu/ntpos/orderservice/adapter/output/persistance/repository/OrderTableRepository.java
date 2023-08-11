@@ -33,6 +33,7 @@ public class OrderTableRepository implements IOrderTableDBIRepository {
                 .bind("note", orderTableEntities.getNote())
                 .bind("startTime", orderTableEntities.getStartTime())
                 .bind("endTime", orderTableEntities.getEndTime())
+                .bind("name", orderTableEntities.getName())
                 .execute());
         return orderTableEntities;
     }

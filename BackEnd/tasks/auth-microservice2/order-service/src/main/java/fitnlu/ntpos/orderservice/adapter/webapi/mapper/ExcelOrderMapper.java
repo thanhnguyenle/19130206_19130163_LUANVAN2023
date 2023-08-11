@@ -3,6 +3,7 @@ package fitnlu.ntpos.orderservice.adapter.webapi.mapper;
 import fitnlu.ntpos.orderservice.adapter.webapi.dto.ExcelOrder;
 import fitnlu.ntpos.orderservice.domain.model.Order;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.Iterator;
@@ -11,6 +12,7 @@ public class ExcelOrderMapper implements IExcelModelMapper<ExcelOrder, Order> {
     private static ExcelOrderMapper instance;
     private ExcelOrderMapper() {
     }
+
     public static ExcelOrderMapper getInstance(){
         if(instance==null){
             instance = new ExcelOrderMapper();
@@ -27,17 +29,34 @@ public class ExcelOrderMapper implements IExcelModelMapper<ExcelOrder, Order> {
             Cell currentCell = cellsInRow.next();
             switch (cellIdx) {
                 case 0 -> order.setId("");
-                case 1 -> order.setUserID(currentCell.getStringCellValue());
-                case 2 -> order.setGroup(currentCell.getStringCellValue());
-                case 3 -> order.setOrderDate(Math.round(currentCell.getNumericCellValue()));
-                case 4 -> order.setStatus(currentCell.getStringCellValue());
-                case 5 -> order.setNote(currentCell.getStringCellValue());
+                case 1 -> order.setUserID(getCellStringType(currentCell));
+                case 2 -> order.setGroup(getCellStringType(currentCell));
+                case 3 -> order.setOrderDate(getCellLongType(currentCell));
+                case 4 -> order.setStatus(getCellStringType(currentCell));
+                case 5 -> order.setNote(getCellStringType(currentCell));
                 default -> {
                 }
             }
             cellIdx++;
         }
         return order;
+    }
+
+    private String getCellStringType(Cell cell){
+        if(cell.getCellType() == CellType.STRING){
+            return cell.getStringCellValue();
+        }else if (cell.getCellType() == CellType.NUMERIC){
+            return String.valueOf(cell.getNumericCellValue());
+        }
+        return "";
+    }
+    private long getCellLongType(Cell cell){
+        if(cell.getCellType() == CellType.STRING){
+            return Long.parseLong(cell.getStringCellValue());
+        }else if (cell.getCellType() == CellType.NUMERIC){
+            return Math.round(cell.getNumericCellValue());
+        }
+        return 0L;
     }
 
     @Override

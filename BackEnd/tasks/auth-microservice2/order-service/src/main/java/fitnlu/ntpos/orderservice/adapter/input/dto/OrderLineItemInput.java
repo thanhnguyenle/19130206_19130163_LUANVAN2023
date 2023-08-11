@@ -4,7 +4,8 @@ public record OrderLineItemInput(
          String productID,
          int quantity,
          double price,
-         double discount
+         double discount,
+         String name
 ) {
 
 }
