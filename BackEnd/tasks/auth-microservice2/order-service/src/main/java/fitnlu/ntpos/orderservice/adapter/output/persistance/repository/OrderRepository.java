@@ -29,11 +29,11 @@ public class OrderRepository implements IOrderDBIRepository {
     private static final String DELETE = "DELETE FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BY_USERID = "SELECT * FROM `order` WHERE userID = :userID";
-    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, orderDate=:orderDate, note=:note WHERE id=:id";
+    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, orderDate=:orderDate, note=:note, name=:name WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `order`";
 
-    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount)";
-    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `order_table` VALUES (:orderID,:tableID,:note,:status,:startTime,:endTime)";
+    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount, :name)";
+    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `order_table` VALUES (:orderID,:tableID,:note,:status,:startTime,:endTime,:name)";
     private static final String DELETE_ORDERITEM_FROM_ORDER = "DELETE FROM `order_product` WHERE orderID = :orderID AND productID = :productID";
     private static final String DELETE_TABLE_FROM_ORDER = "DELETE FROM `order_table` WHERE orderID = :orderID AND tableID = :tableID";
 
@@ -207,6 +207,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("quantity",orderProducts.getQuantity())
                     .bind("price",orderProducts.getPrice())
                     .bind("discount",orderProducts.getDiscount())
+                    .bind("name",orderProducts.getName())
                     .add());
             return preparedBatch.execute().length > 0;
         });
@@ -223,6 +224,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("status",orderTable.getStatus())
                     .bind("startTime",orderTable.getStartTime())
                     .bind("endTime",orderTable.getEndTime())
+                    .bind("name",orderTable.getName())
                     .add());
             return preparedBatch.execute().length > 0;
         });

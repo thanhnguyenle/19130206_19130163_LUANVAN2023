@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `order_product`(
         `quantity` INT,
         `price` DECIMAL (19,4),
         `discount` DECIMAL (19,4),
-	     FOREIGN KEY (`orderID`) REFERENCES `order`(`id`) ON DELETE CASCADE
+        `name` VARCHAR (50) CHARACTER SET 'utf8mb4' NOT NULL,
+        FOREIGN KEY (`orderID`) REFERENCES `order`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `orderReturn` (
@@ -39,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `orderReturn_product`(
         `quantity` INT,
         `price` DECIMAL (19,4),
         `discount` DECIMAL (19,4),
-	     FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
+        `name` VARCHAR (50) CHARACTER SET 'utf8mb4' NOT NULL,
+	FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `group` (
 		`id` VARCHAR ( 36 ) NOT NULL,
@@ -81,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `order_table` (
 		`status` CHAR (30),
 		`startTime` BIGINT,
 		`endTime` BIGINT,
+		`name` VARCHAR (50) CHARACTER SET 'utf8mb4' NOT NULL,
 		PRIMARY KEY (`orderID`,`tableID`),
          FOREIGN KEY (`orderID`) REFERENCES `order`(`id`) ON DELETE CASCADE,
 	     FOREIGN KEY (`tableID`) REFERENCES `table`(`id`) ON DELETE CASCADE
@@ -92,5 +95,6 @@ CREATE TABLE IF NOT EXISTS `orderReturn_table` (
 		`startTime` BIGINT,
 		`endTime` BIGINT,
 		PRIMARY KEY (`orderReturnID`,`tableReturnID`),
+		`name` VARCHAR (50) CHARACTER SET 'utf8mb4' NOT NULL,
 	    FOREIGN KEY (`orderReturnID`) REFERENCES `orderReturn`(`id`) ON DELETE CASCADE
 	);

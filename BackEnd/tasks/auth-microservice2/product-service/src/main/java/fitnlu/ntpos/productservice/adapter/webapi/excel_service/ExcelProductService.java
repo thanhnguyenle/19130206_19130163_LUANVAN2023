@@ -15,11 +15,11 @@ public class ExcelProductService extends AbsExcelHelper<ExcelProduct, Product> {
 
     @Override
     public String getSheetName() {
-        return "Order";
+        return "Product";
     }
 
     @Override
     public String[] getHeaders() {
-        return new String[]{"ID", "UserID", "Group", "Order Date", "Status", "Note"};
+        return new String[]{"ID", "Name", "Description", "Quantity", "Price", "UNIT", "Status", "Created At"};
     }
 }

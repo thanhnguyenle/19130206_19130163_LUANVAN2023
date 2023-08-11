@@ -14,6 +14,7 @@ public class OrderTableMapperInput {
                 .status(orderTable.getStatus())
                 .startTime(orderTable.getStartTime())
                 .endTime(orderTable.getEndTime())
+                .name(orderTable.getName())
                 .build();
     }
     public static OrderTable toDomain(OrderTableInput orderTableInput) {
@@ -23,6 +24,7 @@ public class OrderTableMapperInput {
                 .status(orderTableInput.status())
                 .startTime(orderTableInput.startTime())
                 .endTime(orderTableInput.endTime())
+                .name(orderTableInput.name())
                 .build();
     }
 }

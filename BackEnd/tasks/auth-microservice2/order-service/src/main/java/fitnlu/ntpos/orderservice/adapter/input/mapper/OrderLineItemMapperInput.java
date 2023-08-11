@@ -12,6 +12,7 @@ public class OrderLineItemMapperInput {
                 .price(orderProduct.getPrice())
                 .discount(orderProduct.getDiscount())
                 .quantity(orderProduct.getQuantity())
+                .name(orderProduct.getName())
                 .build();
     }
     public static OrderProduct toDomain(OrderLineItemInput orderLineItemInput) {
@@ -20,6 +21,7 @@ public class OrderLineItemMapperInput {
                 .price(orderLineItemInput.price())
                 .discount(orderLineItemInput.discount())
                 .quantity(orderLineItemInput.quantity())
+                .name(orderLineItemInput.name())
                 .build();
     }
 }

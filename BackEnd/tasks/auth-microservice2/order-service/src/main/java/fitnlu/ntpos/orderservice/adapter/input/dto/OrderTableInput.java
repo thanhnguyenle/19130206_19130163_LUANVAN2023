@@ -7,6 +7,7 @@ public record OrderTableInput(
         String note,
         String status,
         long startTime,
-         long endTime
+         long endTime,
+        String name
 ) {
 }

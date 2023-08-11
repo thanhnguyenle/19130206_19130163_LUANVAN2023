@@ -24,7 +24,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/product-service/product/excel")
-public class ExcelMaterialController {
+public class ExcelProductController {
     @Autowired
     IFindAllProductUseCase findAllProductUseCasee  ;
     @Autowired

@@ -21,6 +21,7 @@ public class UserGrpcServerService extends UserServiceGrpc.UserServiceImplBase{
         log.info("Received request from client: " + request.getUserID());
         try {
             User user = iFindUserUseCase.findByIdSync(request.getUserID());
+            System.out.println(user);
             UserResponse userResponse = null;
             if (user != null) {
                 userResponse = UserResponse.newBuilder()
@@ -33,10 +34,11 @@ public class UserGrpcServerService extends UserServiceGrpc.UserServiceImplBase{
                         .setVerified(false)
                         .build();
             }
-
+            System.out.println(userResponse.getHaveUser()+" - "+userResponse.getVerified());
             responseObserver.onNext(userResponse);
             responseObserver.onCompleted();
         } catch (Exception error) {
+            error.printStackTrace();
             Status status = Status.NOT_FOUND.withDescription(error.getMessage()).withCause(error);
             log.error("Error: " + error.getMessage());
             responseObserver.onError(status.asException());

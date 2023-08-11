@@ -18,6 +18,7 @@ public class OrderTableMapperOutput {
                 .status(orderTable.getStatus())
                 .startTime(orderTable.getStartTime())
                 .endTime(orderTable.getEndTime())
+                .name(orderTable.getName())
                 .build();
     }
     public static OrderTable toDomain(OrderTableEntities orderTableEntities) {
@@ -28,6 +29,7 @@ public class OrderTableMapperOutput {
                 .status(orderTableEntities.getStatus())
                 .startTime(orderTableEntities.getStartTime())
                 .endTime(orderTableEntities.getEndTime())
+                .name(orderTableEntities.getName())
                 .build();
     }
 }
