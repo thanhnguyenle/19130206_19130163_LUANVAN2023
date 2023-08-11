@@ -33,6 +33,13 @@ dependencies {
 
     //add for config server
     implementation 'org.springframework.cloud:spring-cloud-config-server'
+
+    //eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
 }
 
 
