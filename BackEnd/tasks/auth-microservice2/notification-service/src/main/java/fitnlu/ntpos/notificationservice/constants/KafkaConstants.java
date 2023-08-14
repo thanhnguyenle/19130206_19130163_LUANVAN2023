@@ -14,7 +14,7 @@ public class KafkaConstants {
 
     //Consumer
     public static final String GROUP_ID = "notificationId";
-    public static final String KAFKA_BROKER = "broker:29092";
+    public static final String KAFKA_BROKER = "broker:9092";
     private static Properties properties = null;
     public static Properties getProperties(){
         return Objects.requireNonNullElseGet(properties, Properties::new);

@@ -1,9 +1,9 @@
 package fitnlu.ntpos.paymentservice.adapter.webapi.excel_service;
 
-import fitnlu.ntpos.inventoryservice.adapter.webapi.util.StylesGenerator;
 import fitnlu.ntpos.paymentservice.adapter.webapi.dto.ExcelPaySlipOrder;
 import fitnlu.ntpos.paymentservice.adapter.webapi.mapper.ExcelPaySlipOrderMapper;
 import fitnlu.ntpos.paymentservice.adapter.webapi.util.AbsExcelHelper;
+import fitnlu.ntpos.paymentservice.adapter.webapi.util.StylesGenerator;
 import fitnlu.ntpos.paymentservice.domain.model.PaySlip;
 import org.springframework.stereotype.Service;
 
