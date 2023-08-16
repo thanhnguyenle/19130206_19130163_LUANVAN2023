@@ -36,7 +36,11 @@ public class JwtHandler {
         //body
         String body = new String(base64Url.decode(base64EncodedBody));
         JWTPayLoadDTO jwtObjectDTO = gson.fromJson( body, JWTPayLoadDTO.class);
-
+        if(jwtObjectDTO.getResource_access()==null){
+            return null;
+        }else if(jwtObjectDTO.getResource_access().getUser_test()==null) {
+            return null;
+        }
         return UserJwtDTO.builder()
                 .name(jwtObjectDTO.getName())
                 .id(jwtObjectDTO.getSub())
