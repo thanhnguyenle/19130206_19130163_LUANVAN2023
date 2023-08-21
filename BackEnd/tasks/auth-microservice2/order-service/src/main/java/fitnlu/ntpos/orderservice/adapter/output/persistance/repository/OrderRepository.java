@@ -264,7 +264,7 @@ public class OrderRepository implements IOrderDBIRepository {
                         .bind("group", orderEntities.getGroup())
                         .bind("status", orderEntities.getStatus())
                         .bind("note", orderEntities.getNote())
-                        .bind("orderDate", orderEntities.getOrderDate())
+                        .bind("orderDate", DateTime.now().getTimestamp()/1000)
                         .add();
             }
             return preparedBatch.execute().length > 0;
