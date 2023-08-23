@@ -24,5 +24,4 @@ public class JWTPayLoadDTO {
     private String avatar;
     private String phoneNumber;
     private String address;
-
 }
