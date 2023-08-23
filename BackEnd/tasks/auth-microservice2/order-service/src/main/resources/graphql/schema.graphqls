@@ -117,7 +117,6 @@ enum TimeSearch{
 input OrderInput{
     userID: String,
     group: String,
-    orderDate: Int,
     status: String,
     note: String,
     orderLineItems: [OrderProductInput],
@@ -126,7 +125,6 @@ input OrderInput{
 input OrderReturnInput{
     userID: String,
     group: String,
-    orderReturnDate: Int,
     orderID: String,
     status: String,
     note: String,

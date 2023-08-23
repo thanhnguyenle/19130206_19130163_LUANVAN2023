@@ -29,7 +29,7 @@ public class OrderRepository implements IOrderDBIRepository {
     private static final String DELETE = "DELETE FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BY_USERID = "SELECT * FROM `order` WHERE userID = :userID";
-    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, orderDate=:orderDate, note=:note WHERE id=:id";
+    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, note=:note WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `order`";
 
     private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount, :name)";
@@ -190,7 +190,6 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
                     .bind("note", orderEntities.getNote())
-                    .bind("orderDate", orderEntities.getOrderDate())
                     .execute();
             orderEntities.setId(orderID);
             return orderEntities;
