@@ -39,7 +39,7 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
         System.out.println("start create order: 2");
         if(userResponse.getHaveUser()&& userResponse.getVerified()){
             OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
-            kafkaTemplate.send("orderTopic", OrderPlacedEvent.builder()
+            kafkaTemplate.send(orderInput.userID(), OrderPlacedEvent.builder()
                     .orderID(orderOutput.getId())
                     .userID(orderOutput.getUserID())
                     .status(orderOutput.getStatus())

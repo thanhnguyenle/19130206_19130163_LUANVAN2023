@@ -30,6 +30,18 @@ public class OrderPlacedEventController {
                 .currentPage(1)
                 .build();
     }
+    @QueryMapping("notificationOfUser")
+    public ListOrderPlacedEvent notificationOfUser(@Argument String userID) {
+        List<OrderPlacedEvent> orderPlacedEvents = orderPlacedEventService.getNotificationOfUserID(userID);
+        int totalItem = orderPlacedEvents.size();
+        return ListOrderPlacedEvent.builder()
+                .orderPlacedEvents(orderPlacedEvents)
+                .totalPage(1)
+                .totalItem(totalItem)
+                .currentPage(1)
+                .build();
+    }
+
     @QueryMapping("getOrderPlacedEventsByUserID")
     public ListOrderPlacedEvent getOrderPlacedEventsByUserID(@Argument  PagingInput pagingInput, @Argument String userID) {
         IPaging ipaging = pagingInput != null ? new PageRequest(pagingInput.page(), pagingInput.limit()) : null;

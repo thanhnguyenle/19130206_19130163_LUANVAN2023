@@ -63,6 +63,14 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
     //add for config client
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    //security
+    implementation 'org.springframework.security:spring-security-config:6.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
 }
 tasks.register('copyProperties', Copy) {
     from('src/main/resources/application.properties')

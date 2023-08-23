@@ -23,4 +23,5 @@ input Paging{
 type Query {
     orderPlacedEvents: PageOrderPlacedEventInfo
     getOrderPlacedEventsByUserID(pagingInput: Paging,userID: String): PageOrderPlacedEventInfo
+    notificationOfUser(userID: String): PageOrderPlacedEventInfo
 }

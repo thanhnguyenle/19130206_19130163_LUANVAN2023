@@ -14,7 +14,7 @@ import java.util.List;
 
 @Adapter
 @RequiredArgsConstructor
-public class ChangeGroupEndpointAdapter implements IChangeGroupEndpointPort {
+public class  ChangeGroupEndpointAdapter implements IChangeGroupEndpointPort {
     private final ICreateGroupTableUseCase createGroupTableUseCase;
     private final IDeleteGroupTableUseCase deleteGroupTableUseCase;
     private final IUpdateGroupTableUseCase updateGroupTableUseCase;

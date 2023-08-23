@@ -5,7 +5,6 @@ import fitnlu.ntpos.orderservice.adapter.input.adapter.FindOrderEndpointAdapter;
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
