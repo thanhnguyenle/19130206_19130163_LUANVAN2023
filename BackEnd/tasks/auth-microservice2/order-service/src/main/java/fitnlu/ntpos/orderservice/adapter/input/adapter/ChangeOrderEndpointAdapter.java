@@ -58,14 +58,19 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
 
     @Override
     public OrderOutput updateOrder(String orderID, OrderInput orderInput) {
+        System.out.println("Update order 01");
         OrderOutput orderOutput = OrderMapperInput.toDTO(updateOrderUseCase.updateOrder(orderID, OrderMapperInput.toDomain(orderInput)));
         if(orderInput.orderLineItems()!= null) {
+            System.out.println("Update order 02");
             deleteAllOrderLineItemsFromOrderUseCase.deleteAllOrderLineItemsFromOrder(orderID);
             addOrderLineItemFromOrder(orderID, orderInput.orderLineItems());
+            System.out.println("Update order 03");
         }
         if(orderInput.tables()!= null) {
+            System.out.println("Update order 04");
             deleteAllTableFromOrderUseCase.deleteAllTableFromOrder(orderID);
             addTableToOrder(orderID, orderInput.tables());
+            System.out.println("Update order 05");
         }
         return orderOutput;
     }

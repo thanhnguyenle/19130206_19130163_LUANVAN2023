@@ -14,6 +14,6 @@ public class DeleteOrderLineItemService implements IDeleteAllOrderLineItemsFromO
 
     @Override
     public boolean deleteAllOrderLineItemsFromOrder(String orderID) {
-        return false;
+        return writeOrderLineItemPort.deleteAllOrderLineItemsFromOrder(orderID);
     }
 }
