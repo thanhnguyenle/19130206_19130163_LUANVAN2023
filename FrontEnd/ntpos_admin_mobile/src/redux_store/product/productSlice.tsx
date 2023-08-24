@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '../../models/product';
-import { Category } from '../../models/category';
 
 
 interface ProductState {
@@ -38,6 +37,11 @@ const productSlice = createSlice({
     initialState,
     reducers: {
         fetchProductsStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchProductsNull(state) {
+            state.products = [];
             state.loading = true;
             state.error = null;
         },
@@ -167,7 +171,8 @@ export const {
     fetchProductsDetail,
     fetchProductRequest,
     fetchProductFailure,
-    sortProducts
+    sortProducts,
+    fetchProductsNull
 } = productSlice.actions;
 
 export default productSlice.reducer;

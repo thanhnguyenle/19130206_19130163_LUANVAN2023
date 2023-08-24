@@ -1,7 +1,8 @@
-interface Table {
-    tableID: string;
-    note: string;
+export interface Table {
+    id: string;
+    name: string;
+    numberOfPeople: number;
     status: string;
-    startTime: string;
-    endTime: string;
+    note: string;
+    groups: string[];
 }

@@ -4,17 +4,24 @@
   "description": "Pack of templates for mdb-react-ui-kit",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@fortawesome/fontawesome-free": "^6.0.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "graphql": "^16.7.1",
     "mdb-react-file-upload": "./plugins/file-upload.tgz",
     "mdb-react-table-editor": "./plugins/table-editor.tgz",
     "mdb-react-ui-kit": "./mdb-react-ui-kit-4.0.0.tgz",
     "node-sass": "^8.0.0",
+    "or": "^0.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-i18next": "^12.2.0",
     "react-onclickoutside": "^6.12.2",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^4.0.3",
+    "redux-saga": "^1.2.3",
     "tslib": "^2.3.1",
     "web-vitals": "^0.2.4"
   },
@@ -41,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
   }
 }

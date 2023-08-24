@@ -3,12 +3,16 @@ import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navig
 import { COLORS } from '../constants/common'
 import { View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { DetailExportProductScreen, ExportProductScreen, SearchExportProductScreen } from '../views/ImportFile';
+import { ExportProductScreen, SearchExportProductScreen } from '../views/ImportFile';
 import NotificationScreenStack from '../routes/NotificationStack'
 const ExportProductStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import { BottomSheet, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper';
+import AddOrderReturnScreen1 from "../views/exportProduct/AddOrderReturnScreen";
+import SelectMethodPaymentScreen from "../views/bill/SelectMethodPayment";
+import DetailOrderReturnScreen from "../views/exportProduct/DetailOrderReturnScreen";
+import DetailPaySlipOrderScreen from "../views/exportProduct/DetailPaySlipOrderScreen";
 
 const ExportProductScreenStack = ({ navigation }: any) => {
     const [locDs, setLocDS] = useState('moinhat');
@@ -89,21 +93,64 @@ const ExportProductScreenStack = ({ navigation }: any) => {
                     ),
                 }}
             />
-            <ExportProductStack.Screen
-                name="DetailExportProduct"
-                component={DetailExportProductScreen}
-                options={{
-                    title: 'Chi tiết phiếu trả hàng',
-                    headerLeft: () => (
-                        <TouchableOpacity onPress={() => {
-                            navigation.pop();
-                        }}>
-                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
-                        </TouchableOpacity>
-                    ),
-                }}
-            />
+          <ExportProductStack.Screen
+            name="AddOrderReturnScreen"
+            component={AddOrderReturnScreen1}
+            options={{
+              title: 'Tạo phiếu trả hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+          <ExportProductStack.Screen
+            name="SelectMethodPaymentScreen"
+            component={SelectMethodPaymentScreen}
+            options={{
+              title: 'Chọn phương thức thanh toán',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+          <ExportProductStack.Screen
+            name="DetailOrderReturnScreen"
+            component={DetailOrderReturnScreen}
+            options={{
+              title: 'Chi tiết đơn trả hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
 
+          />
+          <ExportProductStack.Screen
+            name="DetailPaySlipOrderScreen"
+            component={DetailPaySlipOrderScreen}
+            options={{
+              title: 'Chi tiết phiếu trả hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+
+          />
         </ ExportProductStack.Navigator>
     );
 }

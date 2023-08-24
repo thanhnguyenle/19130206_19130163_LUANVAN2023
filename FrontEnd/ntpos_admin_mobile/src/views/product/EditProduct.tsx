@@ -14,7 +14,7 @@ import { Category } from '../../models/category';
 import { dispatchCategorysNull } from '../../redux_store/product/categorySlice';
 const EditProductScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
-    const product = useSelector((state: RootState) => state.product.products.product);
+    const product = useSelector((state: RootState) => state.product.productsSevice.product);
     const id = product.id;
     const [name, setName] = useState(product.name);
     const [imagesOb, setImagesOb] = useState<[url: string]>(product.images);

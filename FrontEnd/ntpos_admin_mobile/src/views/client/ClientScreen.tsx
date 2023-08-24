@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { BottomSheet, RadioButtonCom } from '../../components';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/AntDesign'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { RadioButton } from 'react-native-paper';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -11,8 +11,11 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsersRequest } from '../../redux_store/client/clientSlice';
 import { RootState } from '../../app/store';
-import { format } from 'date-fns';
 import { setTime } from '../../redux_store/client/filterSlice';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { deleteClientNull, deleteClientRequest } from '../../redux_store/client/deleteClientSlice';
+import LoadingScreen, { loaderRef, showLoader, hideLoader } from "../../components/LoadingScreen";
+import Toast from 'react-native-toast-message';
 const ClientScreen = ({ navigation }: any) => {
     const [locThoiGia, setLocThoiGian] = useState('toanthoigia');
     function getNameTitle(value: string): string {
@@ -33,9 +36,6 @@ const ClientScreen = ({ navigation }: any) => {
             case 'tuantruoc':
                 valueNew = 'Tuần trước'
                 break;
-            case 'toanthoigia':
-                valueNew = 'Toàn thời gian'
-                break;
             case 'thangnay':
                 valueNew = 'Tháng này'
                 break;
@@ -52,6 +52,7 @@ const ClientScreen = ({ navigation }: any) => {
     const error = useSelector((state: RootState) => state.client.users.error);
     const users = useSelector((state: RootState) => state.client.users.users);
     const number = useSelector((state: RootState) => state.client.users.size);
+    const deleteSucess = useSelector((state: RootState) => state.client.deleteUser.deleteSuccess);
     const handleDateChange = (value: any) => {
         setLocThoiGian(value);
         processSelectedDate(value);
@@ -87,7 +88,50 @@ const ClientScreen = ({ navigation }: any) => {
     useEffect(() => {
         dispatch(fetchUsersRequest());
     }, [dispatch]);
+    //Animate
+    const renderRightActions = (id: string) => (
+        <TouchableOpacity style={styles.deleteBox} onPress={() => {
+            Alert.alert(
+                'Cảnh báo',
+                'Bạn có muốn xóa sản phẩm này không?',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                        text: 'OK', onPress: async () => {
+                            try {
+                                await dispatch(deleteClientRequest(id)); // Gọi action để xóa
+                                showLoader();
+                                setTimeout(() => {
+                                    hideLoader();
+                                    Toast.show({
+                                        type: 'success',// success, error, info, or any
+                                        text1: 'Bạn xóa người dùng thành công 👋',
+                                        position: 'top',
+                                    });
+                                    dispatch(deleteClientNull());
+                                    dispatch(fetchUsersRequest());
+                                }, 1000);
+                            } catch (error) {
+                                console.error('Delete error:', error);
+                                hideLoader();
+                                Alert.alert(
+                                    'Thông báo',
+                                    'Có lỗi xảy ra khi xóa bàn.',
+                                );
+                                Toast.show({
+                                    type: 'error',// success, error, info, or any
+                                    text1: 'Bạn xóa người dùng không thành công 😞',
+                                    position: 'top',
+                                });
+                            }
+                        }
 
+                    }
+                ]);
+        }}>
+            <Icon name='delete' size={20} style={{ color: COLORS.color_white, padding: 15 }} />
+        </TouchableOpacity>
+    );
     if (loading) {
         return <Text>Loading...</Text>;
     }
@@ -120,30 +164,40 @@ const ClientScreen = ({ navigation }: any) => {
                     </Text>
                 </View>
             </View>
-            <View style={styles.list}>
+            <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
                 <FlatList
+                    style={{ flex: 1, width: '100%', padding: 5 }}
                     data={users}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => {
-                            navigation.push('DetailClient', { id: item.id.toString() })
-                        }}>
-                            <View style={styles.itemAccount}>
-                                <View style={styles.avatar}>
-                                    <ImageBackground source={{ uri: 'https://i.imgur.com/czQ9CWT.png' }} style={styles.imageBg}>
-                                        <Text style={styles.avatarText}></Text>
-                                    </ImageBackground>
+                    renderItem={({ item }) => {
+                        return (
+                            <Swipeable renderRightActions={() => renderRightActions(item.id)} >
+                                <View style={styles.container1}>
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.push('DetailClient', { id: item.id.toString() })
+                                    }}>
+                                        <View style={styles.itemAccount}>
+                                            <View style={styles.avatar}>
+                                                <ImageBackground source={{ uri: 'https://i.imgur.com/czQ9CWT.png' }} style={styles.imageBg}>
+                                                    <Text style={styles.avatarText}></Text>
+                                                </ImageBackground>
+                                            </View>
+                                            <View style={styles.content}>
+                                                <Text style={styles.text1}>{item.name != '' ? item.name : (item.username != '' ? item.username : item.email)}</Text>
+                                                <View style={{ flexDirection: 'row', marginTop: 4, justifyContent: 'center', alignItems: 'center' }}>
+                                                    <Text>Liên hệ:</Text>
+                                                    <Text style={styles.phone}>{item.phoneNumber === '' ? item.email : item.phoneNumber}</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
-                                <View style={styles.content}>
-                                    <Text style={styles.text1}>{item.name != '' ? item.name : (item.username != '' ? item.username : item.email)}</Text>
-                                    <View style={{ flexDirection: 'row', marginTop: 4, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Text>Liên hệ:</Text>
-                                        <Text style={styles.phone}>{item.phoneNumber === '' ? item.email : item.phoneNumber}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    )}
+                            </Swipeable>
+                        );
+                    }}
+                    ItemSeparatorComponent={() => {
+                        return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
+                    }}
                 />
             </View>
             <View style={styles.button}>
@@ -151,7 +205,8 @@ const ClientScreen = ({ navigation }: any) => {
                     <Ionicons name='add' size={20} style={{ color: COLORS.color_white, padding: 15 }} />
                 </TouchableOpacity>
             </View>
-        </View>
+            <LoadingScreen ref={loaderRef} />
+        </View >
     );
 };
 const styles = StyleSheet.create({
@@ -174,6 +229,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row-reverse',
         alignItems: 'flex-end',
+    },
+    container1: {
+        textAlign: 'center',
+        borderRadius: 5,
+        width: '99.1%',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        shadowOpacity: 0.08,
+        shadowOffset: {
+            width: 0,
+            height: 20,
+        },
+        backgroundColor: COLORS.color_white,
     },
     boxTitle: {
         flexDirection: 'row',
@@ -199,8 +267,6 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingTop: 5,
         flexDirection: 'row',
-        borderBottomColor: COLORS.color_grey_seconds,
-        borderBottomWidth: 0.3,
     },
     avatar: {
         backgroundColor: COLORS.bgGreen1,
@@ -234,6 +300,15 @@ const styles = StyleSheet.create({
         color: COLORS.color_grey,
         fontSize: responsiveFontSize(2),
         marginLeft: 10,
+    },
+    deleteBox: {
+        height: '100%',
+        padding: 10,
+        marginRight: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f04d4f',
     }
+
 })
 export default ClientScreen;

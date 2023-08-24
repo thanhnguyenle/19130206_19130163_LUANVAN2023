@@ -28,9 +28,6 @@ const InventoryScreen = ({ navigation }: any) => {
             case 'tuantruoc':
                 valueNew = 'Tuần trước'
                 break;
-            case 'toanthoigia':
-                valueNew = 'Toàn thời gian'
-                break;
             case 'thangnay':
                 valueNew = 'Tháng này'
                 break;
