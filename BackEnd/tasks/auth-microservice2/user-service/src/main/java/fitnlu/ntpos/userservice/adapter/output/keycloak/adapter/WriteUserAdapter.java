@@ -77,10 +77,12 @@ public class WriteUserAdapter implements IWriteUserPort {
                     userRepresentation.setId(id);
                     //add role
                     User userCreated = userMapperOutput.toDomain(userRepresentation);
-                    addRoleToUser(id, user.getRoles().stream().map(Role::getRoleName).toList());
-                    user.getGroups().forEach(group->{
-                        addUserToGroup(id, group.getId());
-                    });
+                    if(user.getRoles()!=null)
+                        addRoleToUser(id, user.getRoles().stream().map(Role::getRoleName).toList());
+                    if(user.getGroups()!=null)
+                        user.getGroups().forEach(group->{
+                            addUserToGroup(id, group.getId());
+                        });
                     return userCreated;
                 } else {
                     log.info(response.getStatus() + ": " + response.getStatusInfo().getReasonPhrase());
@@ -197,5 +199,14 @@ public class WriteUserAdapter implements IWriteUserPort {
     @Override
     public boolean unlockUser(String id) {
         return false;
+    }
+
+    @Override
+    public boolean addBatchUsers(List<User> users) {
+        for(User user: users){
+            User checkUser = saveNewSync(user);
+            if(checkUser==null) return false;
+        }
+        return true;
     }
 }

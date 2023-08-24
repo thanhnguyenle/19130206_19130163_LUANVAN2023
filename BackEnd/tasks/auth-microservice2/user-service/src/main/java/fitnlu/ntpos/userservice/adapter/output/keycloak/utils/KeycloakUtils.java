@@ -9,6 +9,8 @@ import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class KeycloakUtils {
 //    private final Environment environment;
@@ -32,7 +34,10 @@ public class KeycloakUtils {
                     .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                     .clientId(KEYCLOAK_CLIENT_ID)
                     .clientSecret(KEYCLOAK_CLIENT_SECRET)
-                    .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build()).build();
+                    .resteasyClient(new ResteasyClientBuilder()
+                            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+                            .readTimeout(10000, TimeUnit.MILLISECONDS)
+                            .connectionPoolSize(10).build()).build();
             keycloakInstance.tokenManager().getAccessToken();
             keycloakInstance.realms().realm(KEYCLOAK_REALM).clients().findAll();
         }

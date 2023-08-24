@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController implements GraphQLQueryResolver, GraphQLMutationResolver {
     private final ChangeUserEndpointAdapter changeUserEndpointAdapter;
     private final FindUserEndpointAdapter findUserEndpointAdapter;
@@ -93,5 +94,11 @@ public class UserController implements GraphQLQueryResolver, GraphQLMutationReso
     @SchemaMapping(typeName = "Query", field = "usersFilter")
     public ListUserOutput usersFilter(@Argument PagingInput paging, @Argument String groupID, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue){
         return findUserEndpointAdapter.filterUser(paging,groupID,searchType,searchValue,sortType,sortValue);
+    }
+    @SchemaMapping(typeName = "Query", field = "isVerify")
+    public ResultOutput isVerify(@Argument String id){
+        return ResultOutput.builder()
+                .isVerify(findUserEndpointAdapter.isVerify(id))
+                .build();
     }
 }

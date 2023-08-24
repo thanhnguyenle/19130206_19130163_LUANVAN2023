@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class GroupController implements GraphQLQueryResolver, GraphQLMutationResolver {
     private final FindGroupEndpointAdapter findGroupEndpointAdapter;
     private final ChangeGroupEndpointAdapter changeGroupEndpointAdapter;

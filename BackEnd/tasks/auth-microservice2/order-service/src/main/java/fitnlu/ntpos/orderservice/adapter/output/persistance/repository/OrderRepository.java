@@ -4,6 +4,7 @@ import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntiti
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderTableEntities;
 import fitnlu.ntpos.orderservice.domain.model.DateTime;
+import fitnlu.ntpos.orderservice.domain.model.Order;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import lombok.Builder;
@@ -28,11 +29,11 @@ public class OrderRepository implements IOrderDBIRepository {
     private static final String DELETE = "DELETE FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `order` WHERE id = :id";
     private static final String GET_ITEM_BY_USERID = "SELECT * FROM `order` WHERE userID = :userID";
-    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, orderDate=:orderDate, note=:note WHERE id=:id";
+    private static final String UPDATE = "UPDATE `order` SET userID=:userID, `group`=:group, status=:status, note=:note WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `order`";
 
-    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount)";
-    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `order_table` VALUES (:orderID,:tableID,:note,:status,:startTime,:endTime)";
+    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `order_product` VALUES (:orderID,:productID,:quantity,:price,:discount, :name)";
+    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `order_table` VALUES (:orderID,:tableID,:note,:status,:startTime,:endTime,:name)";
     private static final String DELETE_ORDERITEM_FROM_ORDER = "DELETE FROM `order_product` WHERE orderID = :orderID AND productID = :productID";
     private static final String DELETE_TABLE_FROM_ORDER = "DELETE FROM `order_table` WHERE orderID = :orderID AND tableID = :tableID";
 
@@ -130,7 +131,6 @@ public class OrderRepository implements IOrderDBIRepository {
         if(sortType!=null && !sortType.isEmpty() && sortValue!=null && !sortValue.isEmpty()){
             sql.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
         }
-        System.out.println(sql.toString());
         return jdbi.withHandle(handle -> handle.createQuery(sql.toString())
                 .mapToBean(OrderEntities.class)
                 .list());
@@ -162,7 +162,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
                     .bind("note", orderEntities.getNote())
-                    .bind("orderDate", orderEntities.getOrderDate())
+                    .bind("orderDate",DateTime.now().getTimestamp()/1000)
                     .execute();
             orderEntities.setId(orderID);
             return orderEntities;
@@ -190,7 +190,6 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("group", orderEntities.getGroup())
                     .bind("status", orderEntities.getStatus())
                     .bind("note", orderEntities.getNote())
-                    .bind("orderDate", orderEntities.getOrderDate())
                     .execute();
             orderEntities.setId(orderID);
             return orderEntities;
@@ -207,6 +206,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("quantity",orderProducts.getQuantity())
                     .bind("price",orderProducts.getPrice())
                     .bind("discount",orderProducts.getDiscount())
+                    .bind("name",orderProducts.getName())
                     .add());
             return preparedBatch.execute().length > 0;
         });
@@ -223,6 +223,7 @@ public class OrderRepository implements IOrderDBIRepository {
                     .bind("status",orderTable.getStatus())
                     .bind("startTime",orderTable.getStartTime())
                     .bind("endTime",orderTable.getEndTime())
+                    .bind("name",orderTable.getName())
                     .add());
             return preparedBatch.execute().length > 0;
         });
@@ -246,6 +247,25 @@ public class OrderRepository implements IOrderDBIRepository {
             tableIDs.forEach(tableID -> preparedBatch
                     .bind("id",tableID)
                     .add());
+            return preparedBatch.execute().length > 0;
+        });
+    }
+
+    @Override
+    public boolean createBatchOrders(List<OrderEntities> orders) {
+        return jdbi.withHandle(handle -> {
+            PreparedBatch preparedBatch = handle.prepareBatch(CREATE);
+            for(OrderEntities orderEntities: orders) {
+                String orderID = UUID.randomUUID().toString();
+                preparedBatch
+                        .bind("id", orderID)
+                        .bind("userID", orderEntities.getUserID())
+                        .bind("group", orderEntities.getGroup())
+                        .bind("status", orderEntities.getStatus())
+                        .bind("note", orderEntities.getNote())
+                        .bind("orderDate", DateTime.now().getTimestamp()/1000)
+                        .add();
+            }
             return preparedBatch.execute().length > 0;
         });
     }

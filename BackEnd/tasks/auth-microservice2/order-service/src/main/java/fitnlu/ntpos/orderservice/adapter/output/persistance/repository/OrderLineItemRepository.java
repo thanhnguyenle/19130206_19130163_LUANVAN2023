@@ -27,7 +27,7 @@ public class OrderLineItemRepository implements IOrderLineItemDBIRepository {
 
     private static final String GET_ITEM_BYID = "select * from `order_product` where id = :id";
 
-    private static final String UPDATE = "UPDATE `order_product` SET quantity =:quantity, discount=:discount,price=:price WHERE orderID =:orderID AND productID =:productID";
+    private static final String UPDATE = "UPDATE `order_product` SET quantity =:quantity, discount=:discount, price=:price, name=:name WHERE orderID =:orderID AND productID =:productID";
     private static final String DELETE_ALL_ORDERLINEITEM_BY_ORDER = "DELETE FROM `order_product` WHERE orderID =:orderID";
     @NonNull
     private final Jdbi jdbi;
@@ -40,7 +40,8 @@ public class OrderLineItemRepository implements IOrderLineItemDBIRepository {
                 .bind("quantity",orderProductEntities.getQuantity())
                 .bind("discount",orderProductEntities.getDiscount())
                 .bind("price",orderProductEntities.getPrice())
-                .execute());
+                 .bind("name",orderProductEntities.getName())
+                 .execute());
         return orderProductEntities;
     }
 

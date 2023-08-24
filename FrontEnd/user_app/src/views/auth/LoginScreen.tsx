@@ -23,7 +23,7 @@ declare const alert: (message?: string) => void;
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
     const [email, setEmail] = useState('12@gmail.com');
-    const [password, setPassword] = useState('123');
+    const [password, setPassword] = useState('1234');
     const loading = useSelector((state: RootState) => state.auth.login.loading);
     const error = useSelector((state: RootState) => state.auth.login.error);
     const dispatch = useDispatch();
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
         maxWidth: '50%',
         marginBottom: responsiveWidth(6),
         fontSize: responsiveFontSize(2),
+        color: COLORS.color_black,
     },
     boxTitle: {
         flex: 1,

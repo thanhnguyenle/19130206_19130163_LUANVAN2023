@@ -3,6 +3,7 @@ package fitnlu.ntpos.orderservice.adapter.output.persistance.repository;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderProductEntities;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.entities.OrderTableEntities;
+import fitnlu.ntpos.orderservice.domain.model.Order;
 import fitnlu.ntpos.orderservice.domain.model.TimeSearch;
 import fitnlu.ntpos.orderservice.infracstructure.paging.IPaging;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface IOrderDBIRepository {
     boolean addTableToOrder(String orderID, List<OrderTableEntities> orderTableEntities) ;
     boolean deleteOrderLineItemFromOrder(String orderID, List<String> orderLineItemIDs) ;
     boolean deleteTableToOrder(String orderID, List<String> tableIDs);
+
+    boolean createBatchOrders(List<OrderEntities> orders);
 }

@@ -25,11 +25,11 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
     private static final String DELETE = "DELETE FROM `orderReturn` WHERE id = :id";
     private static final String GET_ITEM_BYID = "SELECT * FROM `orderReturn` WHERE id = :id";
     private static final String GET_ITEM_BY_USERID = "SELECT * FROM `orderReturn` WHERE userID = :userID";
-    private static final String UPDATE = "UPDATE `orderReturn` SET userID=:userID, `group`=:group,orderID=:orderID, status=:status, orderReturnDate=:orderDate, note=:note WHERE id=:id";
+    private static final String UPDATE = "UPDATE `orderReturn` SET userID=:userID, `group`=:group,orderID=:orderID, status=:status, note=:note WHERE id=:id";
     private static final String TOTAL_ITEM = "SELECT COUNT(*) FROM `orderReturn`";
 
-    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `orderReturn_product` VALUES (:orderReturnID,:productID,:quantity,:price,:discount)";
-    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `orderReturn_table` VALUES (:orderReturnID,:tableReturnID,:note,:startTime,:endTime)";
+    private static final String ADD_ORDERITEM_TO_ORDER = "INSERT INTO `orderReturn_product` VALUES (:orderReturnID,:productID,:quantity,:price,:discount, :name)";
+    private static final String ADD_TABLE_TO_ORDER = "INSERT INTO `orderReturn_table` VALUES (:orderReturnID,:tableReturnID,:note,:startTime,:endTime, :name)";
     private static final String DELETE_ORDERITEM_FROM_ORDER = "DELETE FROM `orderReturn_product` WHERE orderID = :orderID AND productID = :productID";
     private static final String DELETE_TABLE_FROM_ORDER = "DELETE FROM `orderReturn_table` WHERE orderID = :orderID AND tableID = :tableID";
     private static final String DELETE_ALL_TABLE_FROM_ORDER = "DELETE FROM `orderReturn_table` WHERE orderReturnID = :orderReturnID";
@@ -138,7 +138,7 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
                     .bind("userID", orderReturn.getUserID())
                     .bind("group", orderReturn.getGroup())
                     .bind("orderID", orderReturn.getOrderID())
-                    .bind("orderReturnDate", orderReturn.getOrderReturnDate())
+                    .bind("orderReturnDate", System.currentTimeMillis()/1000)
                     .bind("status", orderReturn.getStatus())
                     .bind("note", orderReturn.getNote())
                     .execute();
@@ -164,7 +164,6 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
                     .bind("userID", orderReturn.getUserID())
                     .bind("group", orderReturn.getGroup())
                     .bind("orderID", orderReturn.getOrderID())
-                    .bind("orderReturnDate", orderReturn.getOrderReturnDate())
                     .bind("status", orderReturn.getStatus())
                     .bind("note", orderReturn.getNote())
                     .execute();
@@ -184,6 +183,7 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
                         .bind("quantity", orderProduct.getQuantity())
                         .bind("price", orderProduct.getPrice())
                         .bind("discount", orderProduct.getDiscount())
+                        .bind("name", orderProduct.getName())
                         .add();
             });
             return preparedBatch.execute().length > 0;
@@ -200,6 +200,7 @@ public class ReturnOrderRepository implements IReturnOrderDBIRepository {
                         .bind("note", orderTable.getNote())
                         .bind("startTime", orderTable.getStartTime())
                         .bind("endTime", orderTable.getEndTime())
+                        .bind("name", orderTable.getName())
                         .add();
             });
             return preparedBatch.execute().length > 0;

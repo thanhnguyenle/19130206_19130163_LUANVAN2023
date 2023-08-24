@@ -7,8 +7,17 @@ import CarouseCategory from '../components/carousel/CarouseCategory';
 import ShowEndow from '../components/ShowEndow';
 import ListBlog from '../components/ListBlog';
 import ListProductGrid from '../components/ListProductGrid';
+import HeaderRight from '../components/HeaderRight';
+interface Props {
+    navigation: any;
+  }
 
-const HomeScreen = ({ navigation }: any) => {
+  const HomeScreen: React.FC<Props> = ({ navigation }) => {
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerRight: () => <HeaderRight navigation={navigation} />,
+        });
+      }, [navigation]);
     return (
         <View style={styles.container}>
             <ScrollView>

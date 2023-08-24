@@ -16,4 +16,5 @@ public class OrderTableOutput {
     private String note;
     private long startTime;
     private long endTime;
+    private String name;
 }

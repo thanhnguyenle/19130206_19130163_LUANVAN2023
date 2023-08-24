@@ -1,5 +1,7 @@
 package fitnlu.ntpos.orderservice.adapter.input.adapter;
 
+import fitnlu.ntpos.grpcproto.UserResponse;
+import fitnlu.ntpos.orderservice.adapter.gRPCInput.UserGrpcClientService;
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
@@ -28,10 +30,25 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final IDeleteAllTableFromOrderUseCase deleteAllTableFromOrderUseCase;
     private final IDeleteAllOrderLineItemsFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
     private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    private final UserGrpcClientService userGrpcClientService;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
-        kafkaTemplate.send("orderTopic", new OrderPlacedEvent(orderInput.userID()));
-        return OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
+        System.out.println("start create order: 1"+orderInput.userID());
+        UserResponse userResponse = userGrpcClientService.checkUserExisted(orderInput.userID());
+        System.out.println(userResponse.getHaveUser()+" - "+userResponse.getVerified());
+        System.out.println("start create order: 2");
+        if(userResponse.getHaveUser()&& userResponse.getVerified()){
+            OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
+            kafkaTemplate.send("orderTopic", OrderPlacedEvent.builder()
+                    .orderID(orderOutput.getId())
+                    .userID(orderOutput.getUserID())
+                    .status(orderOutput.getStatus())
+                    .build());
+            System.out.println("start create order: 3");
+            return orderOutput;
+        }
+       else throw new RuntimeException("User not found or not verified");
+
     }
 
     @Override
@@ -41,14 +58,19 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
 
     @Override
     public OrderOutput updateOrder(String orderID, OrderInput orderInput) {
+        System.out.println("Update order 01");
         OrderOutput orderOutput = OrderMapperInput.toDTO(updateOrderUseCase.updateOrder(orderID, OrderMapperInput.toDomain(orderInput)));
         if(orderInput.orderLineItems()!= null) {
+            System.out.println("Update order 02");
             deleteAllOrderLineItemsFromOrderUseCase.deleteAllOrderLineItemsFromOrder(orderID);
             addOrderLineItemFromOrder(orderID, orderInput.orderLineItems());
+            System.out.println("Update order 03");
         }
         if(orderInput.tables()!= null) {
+            System.out.println("Update order 04");
             deleteAllTableFromOrderUseCase.deleteAllTableFromOrder(orderID);
             addTableToOrder(orderID, orderInput.tables());
+            System.out.println("Update order 05");
         }
         return orderOutput;
     }

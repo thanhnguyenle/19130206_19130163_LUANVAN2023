@@ -1,0 +1,164 @@
+package fitnlu.ntpos.paymentservice.adapter.output.persistance.repository;
+import fitnlu.ntpos.paymentservice.adapter.output.persistance.entities.PaySlipInventoryEntities;
+import fitnlu.ntpos.paymentservice.domain.model.DateTime;
+import fitnlu.ntpos.paymentservice.domain.model.TimeSearch;
+import fitnlu.ntpos.paymentservice.infrastructure.paging.IPaging;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+@Transactional
+@RequiredArgsConstructor
+public class PaySlipInventoryRepository implements IPaySlipInventoryDBIRepository {
+    private static final String GET_LIST = "select * from `paySlipInventory`";
+    private static final String CREATE = "INSERT INTO `paySlipInventory` VALUES (:id, :materialReturnID, :total, :totalReceive,:totalReturn,:description,:paymentType,:accountSend,:accountReceive,:status,:createdAt)";
+    private static final String DELETE = "DELETE FROM `paySlipInventory` WHERE id = :id";
+    private static final String UPDATE = "UPDATE `paySlipInventory` SET materialReturnID=:materialReturnID, total=:total, totalReceive=:totalReceive, totalReturn=:totalReturn, description=:description,paymentType=:paymentType,accountSend=:accountSend,accountReceive=:accountReceive, status=:status WHERE id=:id";
+
+    @NonNull
+    private final Jdbi jdbi;
+
+    @Override
+    public List<PaySlipInventoryEntities> findAllPaySlip() {
+        return jdbi.withHandle(handle -> handle.createQuery(GET_LIST)
+                .mapToBean(PaySlipInventoryEntities.class)
+                .list());
+    }
+
+    @Override
+    public List<PaySlipInventoryEntities> filterAllPaySlip(IPaging paging, TimeSearch timeSearch, String searchType, String searchValue, String sortType, String sortValue) {
+        List<PaySlipInventoryEntities> paySlipInventoryEntities = filterAllPaySlip(timeSearch, searchType, searchValue, sortType, sortValue);
+        if(paging !=null){
+            return paySlipInventoryEntities.stream().skip(paging.getOffset()).limit(paging.getLimit()).toList();
+        }
+        return paySlipInventoryEntities;
+    }
+
+    @Override
+    public List<PaySlipInventoryEntities> filterAllPaySlip(TimeSearch timeSearch, String searchType, String searchValue, String sortType, String sortValue) {
+        StringBuilder query = new StringBuilder(GET_LIST);
+        boolean hasTimeSearch = false;
+        if(timeSearch != null){
+            hasTimeSearch = true;
+            TimeSearchCompute timeSearchCompute = getTimeSearchCompute(timeSearch);
+            query.append(" WHERE createdAt BETWEEN '").append(timeSearchCompute.startTime).append("' AND '").append(timeSearchCompute.endTime).append("'");
+        }
+        if(searchType != null && !searchType.isEmpty() && searchValue != null && !searchValue.isEmpty()){
+            if(hasTimeSearch){
+                query.append(" AND ");
+            }else{
+                query.append(" WHERE ");
+            }
+            query.append(searchType).append(" LIKE '%").append(searchValue).append("%'");
+        }
+        if(sortType != null && !sortType.isEmpty() && sortValue != null && !sortValue.isEmpty()){
+            query.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
+        }
+        return jdbi.withHandle(handle -> handle.createQuery(query.toString())
+                .mapToBean(PaySlipInventoryEntities.class)
+                .list());
+    }
+
+    @Override
+    public PaySlipInventoryEntities addPaySlip(PaySlipInventoryEntities paySlipInventoryEntities) {
+        String id = UUID.randomUUID().toString();
+        return jdbi.withHandle(handle -> {
+            handle.createUpdate(CREATE)
+                    .bind("id", id)
+                    .bind("materialReturnID", paySlipInventoryEntities.getMaterialReturnID())
+                    .bind("total", paySlipInventoryEntities.getTotal())
+                    .bind("totalReceive", paySlipInventoryEntities.getTotalReceive())
+                    .bind("totalReturn", paySlipInventoryEntities.getTotalReturn())
+                    .bind("description", paySlipInventoryEntities.getDescription())
+                    .bind("paymentType", paySlipInventoryEntities.getPaymentType())
+                    .bind("accountSend", paySlipInventoryEntities.getAccountSend())
+                    .bind("accountReceive", paySlipInventoryEntities.getAccountReceive())
+                    .bind("status", paySlipInventoryEntities.getStatus())
+                    .bind("createdAt",System.currentTimeMillis()/1000)
+                    .execute();
+            paySlipInventoryEntities.setId(id);
+            return paySlipInventoryEntities;
+        });
+    }
+
+    @Override
+    public PaySlipInventoryEntities removePaySlip(String id) {
+        return jdbi.withHandle(handle -> {
+            handle.createUpdate(DELETE)
+                    .bind("id", id)
+                    .execute();
+            return PaySlipInventoryEntities.builder()
+                    .id(id)
+                    .build();
+        });
+    }
+
+    @Override
+    public PaySlipInventoryEntities updatePaySlip(String id, PaySlipInventoryEntities paySlipInventoryEntities) {
+        return jdbi.withHandle(handle -> {
+            handle.createUpdate(UPDATE)
+                    .bind("id", id)
+                    .bind("materialReturnID", paySlipInventoryEntities.getMaterialReturnID())
+                    .bind("total", paySlipInventoryEntities.getTotal())
+                    .bind("totalReceive", paySlipInventoryEntities.getTotalReceive())
+                    .bind("totalReturn", paySlipInventoryEntities.getTotalReturn())
+                    .bind("description", paySlipInventoryEntities.getDescription())
+                    .bind("paymentType", paySlipInventoryEntities.getPaymentType())
+                    .bind("accountSend", paySlipInventoryEntities.getAccountSend())
+                    .bind("accountReceive", paySlipInventoryEntities.getAccountReceive())
+                    .bind("status", paySlipInventoryEntities.getStatus())
+                    .execute();
+            paySlipInventoryEntities.setId(id);
+            return paySlipInventoryEntities;
+        });
+    }
+    @Builder
+static
+class TimeSearchCompute {
+    long startTime;
+    long endTime;
+}
+    public TimeSearchCompute getTimeSearchCompute(TimeSearch timeSearch) {
+        DateTime dateTime = DateTime.builder().build();
+        long currentTime = System.currentTimeMillis();
+        dateTime.updateTime(currentTime);
+        long startTime = currentTime;
+        long endTime = currentTime;
+        if(timeSearch == TimeSearch.ALL_TIME) {
+            startTime = 0;
+        }else if(timeSearch == TimeSearch.TODAY){
+            startTime = (currentTime / 86400000) * 86400000;
+        }else if(timeSearch == TimeSearch.YESTERDAY){
+            startTime = (currentTime / 86400000) * 86400000 - 86400*1000;
+            endTime = (currentTime / 86400000) * 86400000;
+        }else if(timeSearch == TimeSearch.THIS_WEEK){
+            startTime = dateTime.getStartWeek();
+        }else if (timeSearch == TimeSearch.LAST_WEEK){
+            startTime = dateTime.getEndWeek();
+            endTime = dateTime.getStartWeek();
+        }else if (timeSearch == TimeSearch.THIS_MONTH) {
+            startTime = dateTime.getStartMonth();
+        }else if (timeSearch == TimeSearch.LAST_MONTH) {
+            startTime = dateTime.getEndMonth();
+            endTime = dateTime.getStartMonth();
+        }else if (timeSearch == TimeSearch.THIS_YEAR) {
+            startTime = dateTime.getStartYear();
+        }else if (timeSearch == TimeSearch.LAST_YEAR) {
+            startTime = dateTime.getEndYear();
+            endTime = dateTime.getStartYear();
+        }
+        long finalStartTime = startTime/1000;
+        long finalEndTime = endTime/1000;
+        return TimeSearchCompute.builder()
+                .startTime(finalStartTime)
+                .endTime(finalEndTime)
+                .build();
+    }
+}

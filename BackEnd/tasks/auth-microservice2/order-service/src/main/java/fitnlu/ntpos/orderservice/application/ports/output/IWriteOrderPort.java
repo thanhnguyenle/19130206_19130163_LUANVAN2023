@@ -14,4 +14,6 @@ public interface IWriteOrderPort {
     boolean addTableToOrder(String orderID, List<OrderTable> orderTables) ;
     boolean deleteOrderLineItemFromOrder(String orderID, List<String> orderLineItemIDs) ;
     boolean deleteTableToOrder(String orderID, List<String> tableIDs);
+
+    boolean createBatchOrders(List<Order> orders);
 }

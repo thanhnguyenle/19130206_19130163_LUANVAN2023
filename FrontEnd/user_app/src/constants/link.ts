@@ -1,2 +1,5 @@
-export const linkLogin = 'http://localhost:8080/auth-service/login';
-export const linkRegister = 'http://localhost:8080/auth-service/register';
+const context = 'https://5f96-203-113-146-152.ngrok-free.app'
+export const linkLogin = context + '/auth-service/login';
+export const linkRegister = context + '/auth-service/register';
+export const linkProduct = context + '/product-service/graphql';
+export const linkOrder = context + '/order-service/graphql';

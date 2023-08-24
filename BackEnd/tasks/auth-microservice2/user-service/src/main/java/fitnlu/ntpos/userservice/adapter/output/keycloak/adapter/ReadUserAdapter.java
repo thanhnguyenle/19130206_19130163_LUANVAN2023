@@ -229,4 +229,21 @@ public class ReadUserAdapter implements IReadUserPort {
         }
         return List.of();
     }
+
+    @Override
+    public boolean checkUserVerify(String id) {
+        try {
+            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
+            UsersResource userResource = keycloak.realm(KEYCLOAK_REALM).users();
+            UserRepresentation userRepresentation = userResource.get(id).toRepresentation();
+            boolean isVerify = userRepresentation.isEmailVerified();
+            System.out.println("isVerify: " + isVerify);
+            return isVerify;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("User not found");
+        }
+    }
+
+
 }

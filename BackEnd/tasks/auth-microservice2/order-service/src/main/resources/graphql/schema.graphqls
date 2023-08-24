@@ -26,7 +26,8 @@ type OrderProduct {
     productID: String,
     quantity: Int,
     price: Float,
-    discount: Float
+    discount: Float,
+    name: String
 }
 type OrderTable {
     orderID: String,
@@ -34,7 +35,8 @@ type OrderTable {
     note: String,
     status: String
     startTime: Int,
-    endTime: Int
+    endTime: Int,
+    name: String
 }
 
 type Table {
@@ -115,7 +117,6 @@ enum TimeSearch{
 input OrderInput{
     userID: String,
     group: String,
-    orderDate: Int,
     status: String,
     note: String,
     orderLineItems: [OrderProductInput],
@@ -124,7 +125,6 @@ input OrderInput{
 input OrderReturnInput{
     userID: String,
     group: String,
-    orderReturnDate: Int,
     orderID: String,
     status: String,
     note: String,
@@ -135,14 +135,16 @@ input OrderProductInput{
     productID: String,
     quantity: Int,
     price: Float,
-    discount: Float
+    discount: Float,
+    name: String
 }
 input OrderTableInput{
     tableID: String,
     note: String,
     status: String
     startTime: Int,
-    endTime: Int
+    endTime: Int,
+    name: String
 }
 input TableInput{
     name: String,
@@ -161,7 +163,7 @@ type Query {
    #Order
     orders: [Order]
     order(id: String): Order
-    findOrdersByUserID(pagingInput: Paging, userID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
+    findOrdersByUserID(pagingInput: Paging, userID: String,timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
     findAllOrderByUserID(userID: String): [Order]
 
     #OrderProduct
@@ -200,6 +202,11 @@ type Mutation {
     createOrder(orderInput: OrderInput): Order
     updateOrder(id: String, orderInput: OrderInput): Order
     deleteOrder(id: String): Order
+    addTableToOrder(orderID: String, orderTables: [OrderTableInput]): ResultOutput
+    deleteTableFromOrder(orderID: String, tableIDs: [String]): ResultOutput
+    addOrderLineItemToOrder(orderID: String, orderLineItems: [OrderProductInput]): ResultOutput
+    deleteOrderLineItemFromOrder(orderID: String, orderLineItemIDs: [String]): ResultOutput
+
     #Order Return
     createOrderReturn(orderReturnInput: OrderReturnInput): OrderReturn
     updateOrderReturn(id: String, orderReturnInput: OrderReturnInput): OrderReturn

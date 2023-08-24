@@ -29,7 +29,7 @@ INSERT INTO `image` (url, description, productID)  VALUES ('https://giadinh.medi
 INSERT INTO `image` (url, description, productID)  VALUES ('https://giadinh.mediacdn.vn/296230595582509056/2022/12/30/toi-nay-an-gi-167236732141564694536.jpg','ngon','280f6cec-f303-11ed-97fe-0242ac140002');
 CREATE TABLE IF NOT EXISTS `category` (
 		`id` VARCHAR ( 36 ) NOT NULL,
-        `name` VARCHAR (50) NOT NULL,
+        `name` VARCHAR (50)  CHARACTER SET 'utf8mb4' NOT NULL,
         `description` TEXT,
         `createdAt` BIGINT,
 	     PRIMARY KEY ( `id` )

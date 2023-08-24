@@ -14,12 +14,14 @@ import java.nio.ByteBuffer;
 @NoArgsConstructor
 @ToString
 public class OrderPlacedEventDeserialization implements Deserializer<OrderPlacedEvent> {
-    private String orderNumber;
+    private String userID;
+    private String orderID;
+    private String status;
 
     @Override
     public OrderPlacedEvent deserialize(String topic, byte[] data) {
-        String orderNumber;
-        int orderNumberSize;
+        String userID, orderID, status;
+        int userIDSize, orderIDSize, statusSize;
         try {
             if (data == null)
                 return null;
@@ -28,16 +30,26 @@ public class OrderPlacedEventDeserialization implements Deserializer<OrderPlaced
                         "by deserializer is shorter than expected");
 
             ByteBuffer buffer = ByteBuffer.wrap(data);
-            orderNumberSize = buffer.getInt();
 
-            byte[] nameBytes = new byte[orderNumberSize];
+            userIDSize = buffer.getInt();
+            byte[] nameBytes = new byte[userIDSize];
             buffer.get(nameBytes);
-            orderNumber = new String(nameBytes, "UTF-8");
+            userID = new String(nameBytes, "UTF-8");
 
-            return new OrderPlacedEvent(orderNumber);
+            orderIDSize = buffer.getInt();
+            byte[] orderBytes = new byte[orderIDSize];
+            buffer.get(orderBytes);
+            orderID = new String(orderBytes, "UTF-8");
+
+            statusSize = buffer.getInt();
+            byte[] statusBytes = new byte[statusSize];
+            buffer.get(statusBytes);
+            status = new String(statusBytes, "UTF-8");
+
+            return new OrderPlacedEvent(userID, orderID, status);
 
         } catch (Exception e) {
-            throw new SerializationException("Error when deserializing " + "byte[] to Customer " + e);
+            throw new SerializationException("Error when deserializing " + "byte[] to OrderPlacedEvent " + e);
         }
     }
 }

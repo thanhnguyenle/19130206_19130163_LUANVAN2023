@@ -19,4 +19,5 @@ public interface IReadUserPort {
     List<User> filterUserByTime(TimeSearch timeSearch);
     List<User> filterUser(IPaging paging,String groupID, String searchType, String searchValue, String sortType, String sortValue);
     List<User> filterUser(String groupID, String searchType, String searchValue, String sortType, String sortValue);
+    boolean checkUserVerify(String id);
 }

@@ -11,6 +11,7 @@ public class OrderLineItemMapperOutput {
                 .price(orderProduct.getPrice())
                 .discount(orderProduct.getDiscount())
                 .quantity(orderProduct.getQuantity())
+                .name(orderProduct.getName())
                 .build();
     }
     public static OrderProduct toDomain(OrderProductEntities orderProductEntities) {
@@ -20,6 +21,7 @@ public class OrderLineItemMapperOutput {
                 .price(orderProductEntities.getPrice())
                 .discount(orderProductEntities.getDiscount())
                 .quantity(orderProductEntities.getQuantity())
+                .name(orderProductEntities.getName())
                 .build();
     }
 }

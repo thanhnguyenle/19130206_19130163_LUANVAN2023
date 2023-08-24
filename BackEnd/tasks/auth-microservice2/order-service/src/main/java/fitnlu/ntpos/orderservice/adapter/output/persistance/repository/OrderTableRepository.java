@@ -18,7 +18,7 @@ import java.util.UUID;
 public class OrderTableRepository implements IOrderTableDBIRepository {
     private static final String GET_LIST = "select * from `order_table`";
     private static final String GET_LIST_BYID = "select * from `order_table` where orderID=:orderID AND tableID=:tableID";
-   private static final String UPDATE = "UPDATE `order_table` SET status =:status, note=:note, startTime=:startTime, endTime=:endTime WHERE orderID=:orderID AND tableID=:tableID";
+   private static final String UPDATE = "UPDATE `order_table` SET status =:status, note=:note, startTime=:startTime, endTime=:endTime, name=:name WHERE orderID=:orderID AND tableID=:tableID";
 
      @NonNull
     private final Jdbi jdbi;
@@ -33,6 +33,7 @@ public class OrderTableRepository implements IOrderTableDBIRepository {
                 .bind("note", orderTableEntities.getNote())
                 .bind("startTime", orderTableEntities.getStartTime())
                 .bind("endTime", orderTableEntities.getEndTime())
+                .bind("name", orderTableEntities.getName())
                 .execute());
         return orderTableEntities;
     }

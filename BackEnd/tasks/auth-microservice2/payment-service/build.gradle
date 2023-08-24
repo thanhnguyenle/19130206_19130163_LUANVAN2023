@@ -1,0 +1,99 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'fitnlu.ntpos'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+//add for config client
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+repositories {
+    mavenCentral()
+}
+//add for config client
+ext {
+	set('springCloudVersion', "2022.0.3")
+}
+dependencies {
+    //spring boot
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+	testCompileOnly 'org.projectlombok:lombok:1.18.26'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	//graphQL
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+	testImplementation 'org.springframework.graphql:spring-graphql-test'
+	implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+	implementation 'com.graphql-java:graphiql-spring-boot-starter:5.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//eureka-client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.0'
+	implementation 'org.yaml:snakeyaml:2.0'
+	implementation 'com.thoughtworks.xstream:xstream:1.4.20'
+	implementation 'com.google.guava:guava:31.1-jre'
+	implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+
+	//security
+	implementation 'org.springframework.security:spring-security-config:6.0.3'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//gson
+	implementation 'com.google.code.gson:gson:2.10.1'
+
+	//jdbi
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.0.4'
+	implementation 'org.jdbi:jdbi3-spring4:3.19.0'
+	implementation 'org.jdbi:jdbi3-sqlobject:3.37.1'
+
+	//mysql
+	testImplementation "org.testcontainers:mysql:1.17.6"
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'commons-codec:commons-codec:1.15'
+
+	//zipkin
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.3'
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
+	implementation 'io.micrometer:micrometer-observation:1.10.6'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
+	//prometheus
+	implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
+	//add for config client
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	//excel
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.3'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
+
+}
+tasks.register('copyProperties', Copy) {
+	from('src/main/resources/application.properties')
+	into('src/main/resources/')
+	rename('application.properties', 'application-docker-1.properties')
+	from('src/main/resources/application-docker.properties')
+	into('src/main/resources/')
+	rename('application-docker.properties', 'application.properties')
+}
+//processResources.dependsOn copyProperties
+//add for config client
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}

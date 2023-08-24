@@ -8,10 +8,21 @@ group = 'fitnlu.ntpos'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+//add for config client
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
+//add for config client
+ext {
+    set('springCloudVersion', "2022.0.3")
+}
 dependencies {
     //spring boot
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -59,8 +70,10 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing-bridge-brave:1.0.4'
     implementation 'io.micrometer:micrometer-observation:1.10.6'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.0.6'
-
-
+    //prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.2'
+    //add for config client
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 }
 tasks.register('copyProperties', Copy) {
     from('src/main/resources/application.properties')
@@ -72,6 +85,12 @@ tasks.register('copyProperties', Copy) {
 
 }
 //processResources.dependsOn copyProperties
+//add for config client
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 tasks.named('test') {
     useJUnitPlatform()
 }
