@@ -3,9 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface DeleteClientState {
     loading: boolean;
     error: string | null;
+    deleteSuccess: boolean | null;
 }
 
 const initialState: DeleteClientState = {
+    deleteSuccess: null,
     loading: false,
     error: null,
 };
@@ -18,7 +20,8 @@ const deleteClientSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        deleteClientSuccess: (state) => {
+        deleteClientSuccess: (state, action: PayloadAction<boolean>) => {
+            state.deleteSuccess = action.payload;
             state.loading = false;
             state.error = null;
         },
@@ -26,10 +29,14 @@ const deleteClientSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteClientNull: (state) => {
+            state.deleteSuccess = false;
+        },
     },
 });
 
 export const {
+    deleteClientNull,
     deleteClientRequest,
     deleteClientSuccess,
     deleteClientFailure,

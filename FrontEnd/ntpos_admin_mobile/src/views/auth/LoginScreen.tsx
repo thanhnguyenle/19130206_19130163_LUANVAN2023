@@ -21,7 +21,7 @@ interface LoginScreenProps {
 declare const alert: (message?: string) => void;
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
-    const [email, setEmail] = useState('12@gmail.com');
+    const [email, setEmail] = useState('19130163@st.hcmuaf.edu.vn');
     const [password, setPassword] = useState('1234');
     const loading = useSelector((state: RootState) => state.auth.auth.loading);
     const error = useSelector((state: RootState) => state.auth.auth.error);

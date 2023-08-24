@@ -84,12 +84,15 @@ const AddProductScreen = ({ navigation }: any) => {
 
 
     async function handleCreateProduct() {
-        console.log(selectedImages.length);
-        await handleImageUpload(selectedImages);
-        if (selectedCategorys.length > 0) {
-            setCategories(selectedCategorys);
+        try {
+            await handleImageUpload(selectedImages);
+            if (selectedCategorys.length > 0) {
+                setCategories(selectedCategorys);
+            }
+            dispatch(createProduct({ name, description, images: imagesOb, price, quantity, status, unit, categories: categoryIds }));
+        } catch (error) {
+            console.error('Error creating product:', error);
         }
-        dispatch(createProduct({ name, description, images: imagesOb, price, quantity, status, unit, categories: categoryIds }));
     }
 
     return (
@@ -293,10 +296,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20,
         backgroundColor: COLORS.color_white
-    },
-    des: {
-        paddingTop: 10,
-        paddingBottom: 10,
     },
     textDes: {
         fontSize: responsiveFontSize(2),

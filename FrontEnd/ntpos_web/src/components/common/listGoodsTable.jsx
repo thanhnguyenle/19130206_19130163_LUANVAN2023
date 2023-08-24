@@ -1,15 +1,15 @@
-import React  from "react";
+import React from "react";
 import { MDBDatatable } from 'mdb-react-ui-kit';
-import {useTranslation} from "react-i18next";
-export default function ListGoodsTable(props){
-    const {t} = useTranslation();
-    const listPage=[
-        {page:'category',apiUrl:''},
-        {page:'priceSetting',apiUrl:''},
-        {page:'inventoryControl',apiUrl:''},
+import { useTranslation } from "react-i18next";
+export default function ListGoodsTable(props) {
+    const { t } = useTranslation();
+    const listPage = [
+        { page: 'category', apiUrl: '' },
+        { page: 'priceSetting', apiUrl: '' },
+        { page: 'inventoryControl', apiUrl: '' },
     ]
     const basicData = {
-        columns: [t('image'),t('goods_name'), t('commodity_codes'),t('type_of_menu'), t('price'), t('capital_value')],
+        columns: [t('image'), t('goods_name'), t('commodity_codes'), t('type_of_menu'), t('price'), t('capital_value')],
         rows: [
             ['Tiger Nixon', 'System Architect', 'Edinburgh', '61', '2011/04/25', '$320,800'],
             ['Garrett Winters', 'Accountant', 'Tokyo', '63', '2011/07/25', '$170,750'],
@@ -27,8 +27,8 @@ export default function ListGoodsTable(props){
             ['Haley Kennedy', 'Senior Marketing Designer', 'London', '43', '2012/12/18', '$313,500'],
         ],
     };
-    if(props.page === 'category'){
-        return(
+    if (props.page === 'category') {
+        return (
             <MDBDatatable
                 multi
                 selectable
@@ -36,7 +36,7 @@ export default function ListGoodsTable(props){
                 maxWidth='97%'
                 data={basicData} />
         );
-    }else if(props.page === 'priceSetting'){
+    } else if (props.page === 'priceSetting') {
         return (
             <MDBDatatable
                 maxHeight='480px'
@@ -44,7 +44,7 @@ export default function ListGoodsTable(props){
                 data={basicData} />
         );
     }
-    else if(props.page === 'inventoryControl'){
+    else if (props.page === 'inventoryControl') {
         return (
             <MDBDatatable
                 maxHeight='480px'
@@ -52,5 +52,76 @@ export default function ListGoodsTable(props){
                 data={basicData} />
         );
     }
-
+    else if (props.page === 'tableRoom') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'returnOrder') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'bill') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'import_goods') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'material_return') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'cancellation') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'client-page') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'supplier-page') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
+    else if (props.page === 'cashBook-page') {
+        return (
+            <MDBDatatable
+                maxHeight='480px'
+                maxWidth='97%'
+                data={basicData} />
+        );
+    }
 }

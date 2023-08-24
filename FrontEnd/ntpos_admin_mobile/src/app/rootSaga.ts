@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects';
-import { watchLogin } from '../redux_store/auth/authSaga';
+import { watchLogin, watchReadUser } from '../redux_store/auth/authSaga';
 import { watchRegister } from '../redux_store/auth/registerSaga';
 import { addClientSaga, usersSaga } from '../redux_store/client/clientSaga';
 import { filterSaga, filterSearchSaga } from '../redux_store/client/filterSaga';
@@ -10,10 +10,29 @@ import { addgroupSaga, listGroupsSaga } from '../redux_store/client/group/groupS
 import { detailProductSaga, editProductSaga, watchCreateProduct, watchDeleteProduct, watchProductSaga } from '../redux_store/product/productSaga';
 import { watchCategorySaga } from '../redux_store/product/categorySaga';
 import { filterProductsSaga } from '../redux_store/product/fifterProductSaga';
-import { ordersSaga } from '../redux_store/orders/ordersSaga';
+import {
+    createEditTableOrderSaga,
+    createOrderSaga, detailOrderSaga,
+    ordersSaga,
+    watchDeleteOrder
+} from "../redux_store/orders/ordersSaga";
+import { tableSaga, watchCreateTable, watchDeleteTable } from '../redux_store/table/tableSaga';
+import { groupTableSaga, watchCreateGroupTable, watchDeleteGroupTable } from '../redux_store/table/groupTableSaga';
+import {
+    createOrderReturnSaga, createPaySlipOrderSaga, detailOrderReturnSaga,
+    detailPaySlipOrderSaga,
+    orderReturnSaga, OrderReturnsSaga, watchDeleteOrderReturn, watchDeletePaySlipOrder
+} from "../redux_store/order_return/OrderReturnSaga";
+import {
+    createReceiptOrderSaga,
+    detailReceiptOrderSaga,
+    receiptOrdersSaga,
+    watchDeleteReceiptOrder
+} from "../redux_store/payment/PaymentSaga";
 
 export default function* rootSaga() {
     yield all([
+        watchReadUser(),
         watchLogin(),
         watchRegister(),
         //start client//
@@ -38,6 +57,30 @@ export default function* rootSaga() {
         // end product//
         // start order //
         ordersSaga(),
+        watchDeleteOrder(),
         // end order //
+        tableSaga(),
+        groupTableSaga(),
+        watchCreateTable(),
+        watchCreateGroupTable(),
+        watchDeleteTable(),
+        watchDeleteGroupTable(),
+        createOrderSaga(),
+        createEditTableOrderSaga(),
+        // orderReturn
+        orderReturnSaga(),
+        detailPaySlipOrderSaga(),
+        detailOrderSaga(),
+        createReceiptOrderSaga(),
+        receiptOrdersSaga(),
+        watchDeleteReceiptOrder(),
+        detailReceiptOrderSaga(),
+        createOrderReturnSaga(),
+        OrderReturnsSaga(),
+        watchDeletePaySlipOrder(),
+        watchDeleteOrderReturn(),
+        createPaySlipOrderSaga(),
+        detailOrderReturnSaga(),
+        // end OrderReturn
     ]);
 }

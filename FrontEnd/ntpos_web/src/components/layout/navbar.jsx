@@ -18,12 +18,12 @@ import {
   MDBDropdownDivider,
   MDBBadge, MDBTabs, MDBTabsItem, MDBTabsLink, MDBTabsContent, MDBTabsPane,
 } from "mdb-react-ui-kit";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import ListNotication from "../common/listNotication";
 import inbox from "../../assets/images/inbox.png";
 import '../../assets/style/modules.scss';
 export default function Navbar({ updateSidenav, sidenavState }) {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const [pickedLanguage, setPickedLanguage] = useState('vn');
   const [basicActive, setBasicActive] = useState('tab1');
   const handleBasicClick = (value) => {
@@ -33,7 +33,7 @@ export default function Navbar({ updateSidenav, sidenavState }) {
     setBasicActive(value);
   };
   return (
-    <MDBNavbar id="main-navbar" expand="lg" light fixed="top" bgColor="light" style={{marginBottom:'40px'}}>
+    <MDBNavbar id="main-navbar" expand="lg" light fixed="top" bgColor="light" style={{ marginBottom: '40px' }}>
       <MDBContainer fluid>
         <MDBBtn
           onClick={() => updateSidenav(!sidenavState)}
@@ -50,37 +50,15 @@ export default function Navbar({ updateSidenav, sidenavState }) {
                 tag="a"
                 className="nav-link me-3 me-lg-0 hidden-arrow"
               >
-                <MDBIcon fas icon='headset'/>
-              </MDBDropdownToggle>
-              <MDBDropdownMenu style={{ zIndex: 1060 }}>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('user_manual')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('teamviewer')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('ultraview')}</MDBDropdownLink>
-                </MDBDropdownItem>
-              </MDBDropdownMenu>
-            </MDBDropdown>
-          </MDBNavbarItem>
-          <MDBNavbarItem>
-            <MDBDropdown>
-              <MDBDropdownToggle
-                  style={{ cursor: "pointer" }}
-                  tag="a"
-                  className="nav-link me-3 me-lg-0 hidden-arrow"
-              >
-                <MDBIcon fas icon='envelope'/>
+                <MDBIcon fas icon='envelope' />
                 <MDBBadge pill notification color="danger">
-                    1
+                  1
                 </MDBBadge>
               </MDBDropdownToggle>
               <MDBDropdownMenu style={{ zIndex: 1060 }}>
-                <br/>
+                <br />
                 <h6 className='text-center'>{t('inbox')}</h6>
-                <MDBTabs className='mb-3' style={{paddingTop:'10px',paddingBottom:'20px',paddingLeft:'30px',paddingRight:'30px'}}>
+                <MDBTabs className='mb-3' style={{ paddingTop: '10px', paddingBottom: '20px', paddingLeft: '30px', paddingRight: '30px' }}>
                   <MDBTabsItem>
                     <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={basicActive === 'tab1'}>
                       {t('all')}
@@ -97,56 +75,21 @@ export default function Navbar({ updateSidenav, sidenavState }) {
                     </MDBTabsLink>
                   </MDBTabsItem>
                 </MDBTabs>
-                <MDBTabsContent style={{height:'300px'}}>
+                <MDBTabsContent style={{ height: '300px' }}>
                   <MDBTabsPane show={basicActive === 'tab1'}>
                     <div className='text-center'>
-                      <img src={inbox} alt="" style={{width:'200px'}}/>
-                      <p style={{color:'grey'}}>{t('no_notifications')}</p>
+                      <img src={inbox} alt="" style={{ width: '200px' }} />
+                      <p style={{ color: 'grey' }}>{t('no_notifications')}</p>
                     </div>
                   </MDBTabsPane>
                   <MDBTabsPane show={basicActive === 'tab2'}>
-                    <ListNotication/>
+                    <ListNotication />
                   </MDBTabsPane>
-                  <MDBTabsPane show={basicActive === 'tab3'}><ListNotication/></MDBTabsPane>
+                  <MDBTabsPane show={basicActive === 'tab3'}><ListNotication /></MDBTabsPane>
                 </MDBTabsContent>
               </MDBDropdownMenu>
             </MDBDropdown>
           </MDBNavbarItem>
-          <MDBNavbarItem>
-            <MDBDropdown>
-              <MDBDropdownToggle
-                  style={{ cursor: "pointer" }}
-                  tag="a"
-                  className="nav-link me-3 me-lg-0 hidden-arrow"
-              >
-              <MDBIcon fas icon='cog'/>
-              </MDBDropdownToggle>
-              <MDBDropdownMenu style={{ zIndex: 1060 }}>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('set_up_shop')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('print_form_management')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('user_management')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('manage_cancellation_reason')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('manage_dish_notes')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('operation_history')}</MDBDropdownLink>
-                </MDBDropdownItem>
-                <MDBDropdownItem>
-                  <MDBDropdownLink href='#'>{t('clear_trial_data')}</MDBDropdownLink>
-                </MDBDropdownItem>
-              </MDBDropdownMenu>
-            </MDBDropdown>
-          </MDBNavbarItem>
-
           <MDBNavbarItem>
             <MDBDropdown>
               <MDBDropdownToggle
@@ -159,26 +102,26 @@ export default function Navbar({ updateSidenav, sidenavState }) {
               <MDBDropdownMenu style={{ zIndex: 1060 }}>
                 <MDBDropdownItem>
                   <MDBDropdownLink>
-                    <MDBIcon flag= {pickedLanguage} fas /> {t((pickedLanguage === 'vn') ? 'language_V' : 'language_E')}{" "}
+                    <MDBIcon flag={pickedLanguage} fas /> {t((pickedLanguage === 'vn') ? 'language_V' : 'language_E')}{" "}
                     <MDBIcon icon="check" className="text-success ms-2" />
                   </MDBDropdownLink>
                 </MDBDropdownItem>
                 <MDBDropdownDivider />
                 <MDBDropdownItem>
                   <MDBDropdownLink
-                      onClick={() => {
-                        i18n.changeLanguage("vn");
-                        setPickedLanguage('vn');
-                      }}>
+                    onClick={() => {
+                      i18n.changeLanguage("vn");
+                      setPickedLanguage('vn');
+                    }}>
                     <MDBIcon flag="vn" fas /> {t('language_V')}
                   </MDBDropdownLink>
                 </MDBDropdownItem>
                 <MDBDropdownItem>
                   <MDBDropdownLink
-                      onClick={() => {
-                        i18n.changeLanguage("en");
-                        setPickedLanguage('uk');
-                      }}>
+                    onClick={() => {
+                      i18n.changeLanguage("en");
+                      setPickedLanguage('uk');
+                    }}>
                     <MDBIcon flag="uk" fas /> {t('language_E')}
                   </MDBDropdownLink>
                 </MDBDropdownItem>

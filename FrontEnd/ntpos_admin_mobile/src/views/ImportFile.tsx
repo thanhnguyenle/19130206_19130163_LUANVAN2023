@@ -32,7 +32,6 @@ import DetailInventoryScreen from "./inventory/DetailInventoryScreen";
 import ImportProductScreen from "./importProduct/ImportProductScreen"
 import DetailTypeTableScreen from "./search/bill/DetailTypeTable";
 import DetailBillScreen from "./bill/DetailBillScreen";
-import DetailExportProductScreen from "./exportProduct/DetailExportProductScreen";
 import DetailImportProduct from "./importProduct/DetailImportProduct";
 import ReturnImportGoodScreen from "./returnImportGoods/ReturnImportGoodScreen";
 import SearchReturnImportGoods from "./search/SearchReturnImportGoods";
@@ -64,7 +63,6 @@ export {
     SearchReturnImportGoods,
     ReturnImportGoodScreen,
     DetailImportProduct,
-    DetailExportProductScreen,
     DetailBillScreen,
     DetailTypeTableScreen,
     DetailInventoryScreen,
