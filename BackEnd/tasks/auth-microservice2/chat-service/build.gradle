@@ -24,9 +24,6 @@ ext {
 	set('springCloudVersion', "2022.0.3")
 }
 dependencies {
-	//websocket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
 	//kafka
 	implementation 'org.springframework.kafka:spring-kafka'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -37,7 +34,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testCompileOnly 'org.projectlombok:lombok:1.18.26'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
-
+	//websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	//fix error websocket
 	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.1'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.15.1'
