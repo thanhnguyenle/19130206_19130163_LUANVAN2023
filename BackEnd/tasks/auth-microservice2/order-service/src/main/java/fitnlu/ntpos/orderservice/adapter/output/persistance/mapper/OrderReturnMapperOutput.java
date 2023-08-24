@@ -30,6 +30,7 @@ public class OrderReturnMapperOutput {
                 .startTime(orderTable.getStartTime())
                 .endTime(orderTable.getEndTime())
                 .note(orderTable.getNote())
+                .name(orderTable.getName())
                 .build();
     }
     public static OrderReturnProductEntities toEntity(OrderProduct orderProduct) {
@@ -38,6 +39,8 @@ public class OrderReturnMapperOutput {
                 .productID(orderProduct.getProductID())
                 .discount(orderProduct.getDiscount())
                 .quantity(orderProduct.getQuantity())
+                .price(orderProduct.getPrice())
+                .name(orderProduct.getName())
                 .build();
     }
     public static OrderTable toDomain(OrderReturnTableEntities orderTableEntities) {
@@ -47,6 +50,7 @@ public class OrderReturnMapperOutput {
                 .startTime(orderTableEntities.getStartTime())
                 .endTime(orderTableEntities.getEndTime())
                 .note(orderTableEntities.getNote())
+                .name(orderTableEntities.getName())
                 .build();
     }
     public static OrderProduct toDomain(OrderReturnProductEntities orderProductEntities) {
@@ -54,6 +58,8 @@ public class OrderReturnMapperOutput {
                 .orderID(orderProductEntities.getOrderReturnID())
                 .productID(orderProductEntities.getProductID())
                 .discount(orderProductEntities.getDiscount())
+                .price(orderProductEntities.getPrice())
+                .name(orderProductEntities.getName())
                 .quantity(orderProductEntities.getQuantity())
                 .build();
     }

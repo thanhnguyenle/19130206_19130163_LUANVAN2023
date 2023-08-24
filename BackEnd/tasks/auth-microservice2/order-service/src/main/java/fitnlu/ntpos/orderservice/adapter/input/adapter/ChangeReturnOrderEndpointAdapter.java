@@ -2,19 +2,16 @@ package fitnlu.ntpos.orderservice.adapter.input.adapter;
 
 import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
-import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderReturnMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderTableMapperInput;
-import fitnlu.ntpos.orderservice.application.ports.input.IChangeOrderEndpointPort;
+import fitnlu.ntpos.orderservice.adapter.output.event.Notification;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeReturnOrderEndpointPort;
-import fitnlu.ntpos.orderservice.application.usecases.order.*;
-import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IDeleteAllOrderLineItemsFromOrderUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.orderReturn.ICreateOrderReturnUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.orderReturn.IDeleteOrderReturnUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.orderReturn.IUpdateOrderReturnUseCase;
-import fitnlu.ntpos.orderservice.application.usecases.table.IDeleteAllTableFromOrderUseCase;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.List;
 
@@ -24,6 +21,7 @@ public class ChangeReturnOrderEndpointAdapter implements IChangeReturnOrderEndpo
     private final ICreateOrderReturnUseCase createOrderReturnUseCase;
     private final IDeleteOrderReturnUseCase deleteOrderReturnUseCase;
     private final IUpdateOrderReturnUseCase updateOrderReturnUseCase;
+    private final KafkaTemplate<String, Notification> kafkaTemplate ;
     @Override
     public OrderReturnOutput createOrderReturn(OrderReturnInput orderReturnInput) {
         OrderReturnOutput orderOutput = OrderReturnMapperInput.toDTO(createOrderReturnUseCase.createOrderReturn( OrderReturnMapperInput.toDomain(orderReturnInput)));
@@ -33,6 +31,12 @@ public class ChangeReturnOrderEndpointAdapter implements IChangeReturnOrderEndpo
         if(orderReturnInput.tablesReturn()!= null) {
             addTableToReturnOrder(orderOutput.getId(), orderReturnInput.tablesReturn());
         }
+        kafkaTemplate.send(orderReturnInput.userID(), Notification.builder()
+                .description("CREATE ORDER")
+                .userID(orderReturnInput.userID())
+                .status(orderReturnInput.status())
+                .timestamp(String.valueOf(System.currentTimeMillis()/1000))
+                .build());
         return orderOutput;
     }
 

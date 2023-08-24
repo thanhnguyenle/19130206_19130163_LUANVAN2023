@@ -12,43 +12,43 @@ import java.nio.ByteBuffer;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
-public class NotificationDeserialization implements Deserializer<OrderPlacedEvent> {
-    private String userID;
-    private String description;
-    private String status;
-    private long timestamp;
+public class NotificationDeserialization implements Deserializer<Notification> {
 
     @Override
-    public OrderPlacedEvent deserialize(String topic, byte[] data) {
-        String userID, orderID, status;
+    public Notification deserialize(String topic, byte[] data) {
         try {
             if (data == null)
                 return null;
-            if (data.length < 16)
-                throw new SerializationException("Size of data received " +
-                        "by deserializer is shorter than expected");
-
-            ByteBuffer buffer = ByteBuffer.wrap(data);
-
-            userID = getDataFromBytes(buffer);
-
-            orderID = getDataFromBytes(buffer);
-
-            status = getDataFromBytes(buffer);
-
-            return new OrderPlacedEvent(userID, orderID, status);
+            return fromBytesToClass(data);
 
         } catch (Exception e) {
             throw new SerializationException("Error when deserializing " + "byte[] to OrderPlacedEvent " + e);
         }
     }
+    private Notification fromBytesToClass(byte[] data) throws UnsupportedEncodingException {
+        String userID, description, status, timestamp;
+        if (data.length < 16)
+            throw new SerializationException("Size of data received " +
+                    "by deserializer is shorter than expected");
 
-    public String getDataFromBytes(ByteBuffer buffer) throws UnsupportedEncodingException {
+        ByteBuffer buffer = ByteBuffer.wrap(data);
+
+        userID = getDataFromBytes(buffer);
+
+        description = getDataFromBytes(buffer);
+
+        status = getDataFromBytes(buffer);
+
+        timestamp = getDataFromBytes(buffer);
+
+        return new Notification(userID, description, status, timestamp);
+    }
+    private String getDataFromBytes(ByteBuffer buffer) throws UnsupportedEncodingException {
         int bytes = buffer.getInt();
         byte[] nameBytes = new byte[bytes];
         buffer.get(nameBytes);
         return new String(nameBytes, "UTF-8");
     }
+
 }

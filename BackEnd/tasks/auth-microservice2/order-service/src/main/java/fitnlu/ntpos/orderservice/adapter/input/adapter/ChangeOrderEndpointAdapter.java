@@ -6,7 +6,7 @@ import fitnlu.ntpos.orderservice.adapter.input.dto.*;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderLineItemMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderMapperInput;
 import fitnlu.ntpos.orderservice.adapter.input.mapper.OrderTableMapperInput;
-import fitnlu.ntpos.orderservice.adapter.output.event.OrderPlacedEvent;
+import fitnlu.ntpos.orderservice.adapter.output.event.Notification;
 import fitnlu.ntpos.orderservice.application.ports.input.IChangeOrderEndpointPort;
 import fitnlu.ntpos.orderservice.application.usecases.order.*;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IDeleteAllOrderLineItemsFromOrderUseCase;
@@ -29,7 +29,7 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
     private final IDeleteTableFromOrderUseCase deleteTableFromOrderUseCase;
     private final IDeleteAllTableFromOrderUseCase deleteAllTableFromOrderUseCase;
     private final IDeleteAllOrderLineItemsFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
-    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Notification> kafkaTemplate;
     private final UserGrpcClientService userGrpcClientService;
     @Override
     public OrderOutput createOrder(OrderInput orderInput) {
@@ -39,10 +39,11 @@ public class ChangeOrderEndpointAdapter implements IChangeOrderEndpointPort {
         System.out.println("start create order: 2");
         if(userResponse.getHaveUser()&& userResponse.getVerified()){
             OrderOutput orderOutput = OrderMapperInput.toDTO(createOrderUseCase.createOrder(OrderMapperInput.toDomain(orderInput)));
-            kafkaTemplate.send(orderInput.userID(), OrderPlacedEvent.builder()
-                    .orderID(orderOutput.getId())
+            kafkaTemplate.send(orderInput.userID(), Notification.builder()
+                    .description("CREATE ORDER")
                     .userID(orderOutput.getUserID())
                     .status(orderOutput.getStatus())
+                            .timestamp(String.valueOf(System.currentTimeMillis()/1000))
                     .build());
             System.out.println("start create order: 3");
             return orderOutput;
