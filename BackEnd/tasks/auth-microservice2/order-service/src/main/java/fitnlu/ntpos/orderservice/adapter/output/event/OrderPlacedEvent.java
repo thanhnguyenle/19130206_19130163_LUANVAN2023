@@ -1,76 +1,58 @@
-package fitnlu.ntpos.orderservice.adapter.output.event;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.UnsupportedEncodingException;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class OrderPlacedEvent {
-    private String userID;
-    private String orderID;
-    private String status;
-
-    public EventData getUserSerialize() throws UnsupportedEncodingException {
-        if (userID != null) {
-            byte[] serialize = userID.getBytes("UTF-8");
-            return EventData.builder()
-                    .dataSerialize(serialize)
-                    .dataSize(serialize.length)
-                    .build();
-        } else {
-            return EventData.builder()
-                    .dataSerialize(new byte[0])
-                    .dataSize(0)
-                    .build();
-        }
-    }
-
-    public EventData getOrderIDSerialize() throws UnsupportedEncodingException {
-        if (orderID != null) {
-            byte[] serialize = orderID.getBytes("UTF-8");
-            return EventData.builder()
-                    .dataSerialize(orderID.getBytes("UTF-8"))
-                    .dataSize(serialize.length)
-                    .build();
-        } else {
-            return EventData.builder()
-                    .dataSerialize(new byte[0])
-                    .dataSize(0)
-                    .build();
-        }
-    }
-    public EventData getStatusSerialize() throws UnsupportedEncodingException {
-        if (status != null) {
-            byte[] serialize =status.getBytes("UTF-8");
-            return EventData.builder()
-                    .dataSerialize(status.getBytes("UTF-8"))
-                    .dataSize(serialize.length)
-                    .build();
-        } else {
-            return EventData.builder()
-                    .dataSerialize(new byte[0])
-                    .dataSize(0)
-                    .build();
-        }
-    }
-
-    public int getTotalSize() throws UnsupportedEncodingException {
-        EventData userIDEventData = getUserSerialize();
-        EventData orderIDEventData = getOrderIDSerialize();
-        EventData statusIDEventData = getStatusSerialize();
-        EventData[] eventDatas = new EventData[]{userIDEventData, orderIDEventData, statusIDEventData};
-        int total = 0;
-        int num=1;
-        for(EventData eventData: eventDatas){
-            total +=eventData.dataSize;
-            num++;
-        }
-        return total+num*4;
-    }
-}
+//package fitnlu.ntpos.orderservice.adapter.output.event;
+//
+//import lombok.AllArgsConstructor;
+//import lombok.Builder;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
+//
+//import java.io.UnsupportedEncodingException;
+//import java.nio.ByteBuffer;
+//
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+//public class OrderPlacedEvent {
+//    private String userID;
+//    private String orderID;
+//    private String status;
+//
+//    public byte[] getBytesData() throws UnsupportedEncodingException {
+//       EventData[] eventDatas = new EventData[]{
+//               getEvenData(userID),
+//               getEvenData(orderID),
+//               getEvenData(status)
+//       };
+//      int totalSize = getTotalSize(eventDatas);
+//        ByteBuffer buffer = ByteBuffer.allocate(totalSize);
+//        for(EventData eventData: eventDatas){
+//            buffer.putInt(eventData.getDataSize());
+//            buffer.put(eventData.dataSerialize);
+//        }
+//        return buffer.array();
+//    }
+//    private EventData getEvenData(String data) throws UnsupportedEncodingException {
+//        if (data != null) {
+//            byte[] serialize = data.getBytes("UTF-8");
+//            return EventData.builder()
+//                    .dataSerialize(serialize)
+//                    .dataSize(serialize.length)
+//                    .build();
+//        } else {
+//            return EventData.builder()
+//                    .dataSerialize(new byte[0])
+//                    .dataSize(0)
+//                    .build();
+//        }
+//    }
+//
+//    private int getTotalSize(EventData[] eventDatas) throws UnsupportedEncodingException {
+//        int total = 0;
+//        int num=1;
+//        for(EventData eventData: eventDatas){
+//            total +=eventData.dataSize;
+//            num++;
+//        }
+//        return total+num*4;
+//    }
+//}

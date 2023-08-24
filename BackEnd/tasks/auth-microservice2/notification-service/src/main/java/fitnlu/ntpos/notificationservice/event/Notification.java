@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.kafka.common.errors.SerializationException;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +17,6 @@ public class Notification {
     private String userID;
     private String description;
     private String status;
-    private long timestamp;
+    private String timestamp;
 
 }

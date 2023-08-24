@@ -8,6 +8,20 @@ type OrderPlacedEvent{
     status: String
 }
 
+type NotificationEvent{
+    userID: String,
+    description: String,
+    status: String,
+    timestamp: String
+}
+
+type PageNotificationEventInfo{
+    notifications: [NotificationEvent],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
 type PageOrderPlacedEventInfo{
     orderPlacedEvents: [OrderPlacedEvent],
     currentPage: Int,
@@ -21,7 +35,7 @@ input Paging{
 }
 
 type Query {
-    orderPlacedEvents: PageOrderPlacedEventInfo
-    getOrderPlacedEventsByUserID(pagingInput: Paging,userID: String): PageOrderPlacedEventInfo
-    notificationOfUser(userID: String): PageOrderPlacedEventInfo
+#    orderPlacedEvents: PageOrderPlacedEventInfo
+#    getOrderPlacedEventsByUserID(pagingInput: Paging,userID: String): PageOrderPlacedEventInfo
+    notificationOfUser(userID: String): PageNotificationEventInfo
 }
