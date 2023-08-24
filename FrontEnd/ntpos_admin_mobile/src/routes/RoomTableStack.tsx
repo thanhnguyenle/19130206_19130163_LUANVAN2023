@@ -6,6 +6,9 @@ import { RoomTableScreen } from '../views/ImportFile';
 import NotificationScreenStack from '../routes/NotificationStack'
 const RoomTableStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
+import AddTableScreen from '../views/roomTable/AddTableScreen';
+import SelectGroupTableScreen from '../views/roomTable/SelectGroupTable';
+import SelectTableScreen from '../views/roomTable/SelectTable';
 
 const RoomTableScreenStack = ({ navigation }: any) => {
     return (
@@ -36,6 +39,30 @@ const RoomTableScreenStack = ({ navigation }: any) => {
                     ),
                     headerRight: () => (
                         <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => {
+                                navigation.push('NotificationStack');
+                            }}>
+                                <Ionicons name='md-notifications-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 2, }} />
+                            </TouchableOpacity>
+                        </View>
+
+                    ),
+                }}
+            />
+            <RoomTableStack.Screen
+                name='AddRoomTable'
+                component={AddTableScreen}
+                options={{
+                    title: 'Thêm bàn/ khu vực',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.replace('RoomTable');
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                        <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={{ marginRight: 10 }} onPress={() => {
                                 // navigation.push('NotificationStack');
                             }}>
@@ -48,6 +75,34 @@ const RoomTableScreenStack = ({ navigation }: any) => {
                             </TouchableOpacity>
                         </View>
 
+                    ),
+                }}
+            />
+            <RoomTableStack.Screen
+                name='SelectGroupTable'
+                component={SelectGroupTableScreen}
+                options={{
+                    title: 'Chọn khu vực',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.pop();
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <RoomTableStack.Screen
+                name='SelectTables'
+                component={SelectTableScreen}
+                options={{
+                    title: 'Chọn bàn',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.pop();
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
                     ),
                 }}
             />

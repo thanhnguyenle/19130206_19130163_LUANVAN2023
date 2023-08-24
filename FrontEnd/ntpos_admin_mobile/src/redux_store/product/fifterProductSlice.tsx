@@ -9,7 +9,7 @@ const initialState: FilterState = {
 };
 
 const filterProductSlice = createSlice({
-    name: 'filterClient',
+    name: 'filterProduct',
     initialState,
     reducers: {
         setTime: (state, action: PayloadAction<string>) => {

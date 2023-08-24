@@ -114,7 +114,7 @@ function* fetchProductsSaga() {
 }
 
 export function* watchProductSaga() {
-    yield takeLatest(fetchProductsStart.type, fetchProductsSaga);
+    yield takeEvery(fetchProductsStart.type, fetchProductsSaga);
 }
 
 function* fetchProductDetailSaga(action: ReturnType<typeof fetchProductRequest>) {
@@ -136,7 +136,6 @@ export function* detailProductSaga() {
 }
 function* fetchEditProductSaga(action: any): Generator<any, any, any> {
     try {
-        console.log("Hello")
         const { id, name, description, images, quantity, price, unit, status, categories, } = action.payload;
         const { data } = yield call(product.mutate, {
             mutation: fetchEditProductQuery,

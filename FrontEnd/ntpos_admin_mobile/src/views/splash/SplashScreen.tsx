@@ -4,7 +4,11 @@ import { ActivityIndicator, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../../constants/common';
 import { useDispatch } from 'react-redux';
-import { navigateToAdmin, navigateToLogin } from '../../redux_store/navigation/navigationSlice';
+import {
+  navigateToAdmin,
+  navigateToLogin,
+} from '../../redux_store/navigation/navigationSlice';
+import {requestReadUser} from '../../redux_store/auth/authSlice';
 
 const SplashScreen = () => {
     const [animating, setAnimating] = useState(true);
@@ -12,10 +16,15 @@ const SplashScreen = () => {
     useEffect(() => {
         setTimeout(() => {
             setAnimating(false);
-            AsyncStorage.getItem('accessToken').then(value =>
-                value === null ? dispatch(navigateToLogin()) : dispatch(navigateToAdmin())
+            AsyncStorage.getItem('accessToken').then(value =>{
+                  value === null ? dispatch(navigateToLogin()) : (dispatch(navigateToAdmin()));
+                  if (value != null) {
+                      dispatch(requestReadUser(value));
+                  }
+            }
             );
-        }, 3000);
+        }, 2000
+        );
     }, []);
     return (
         <View style={styles.container}>

@@ -1,0 +1,67 @@
+$color-primary : rgb(0, 128, 55);
+$color-seconds:#0D9949;
+$color-black:#000;
+$color-grey :rgba(215, 215, 215, 0.43);
+$color-red:red;
+$color-green: green;
+.material-return-page{
+  margin-top: 80px;
+  margin-left: 10px;
+  margin-right: 10px;
+  .left{
+    width: 20%;
+  }
+  .right{
+    width: 80%;
+    .content{
+      margin-top: 15px;
+    }
+    .top{
+      width: 100%;
+      .hideGroup{
+        display: none;
+      }
+      .filterGroup{
+        z-index: 1;
+        text-align: start;
+        display: grid;
+        column-gap: 50px;
+        grid-template-columns: auto;
+        position: absolute;
+        top: 100px;
+        right: 80px;
+        .item{
+          input[type="checkbox"]{
+            margin-right: 10px;
+          }
+          label{
+            color: rgba(0, 0, 0, 0.8);
+          }
+        }
+      }
+      display: flex;
+      .title{
+        color: black;
+        width: 30%;
+        text-transform: uppercase;
+      }
+      .groupBtn{
+        text-align: end;
+        width: 70%;
+        .btn-add{
+          justify-content: center;
+          i.fa-sort-down{
+            margin-left: 10px;
+          }
+        }
+        .btn{
+          margin-top: 5px;
+          margin-right: 10px;
+          i{
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}

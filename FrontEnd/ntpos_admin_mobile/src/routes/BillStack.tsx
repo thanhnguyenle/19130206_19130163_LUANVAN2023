@@ -10,8 +10,19 @@ import { BottomSheet, ButtonSheetCom, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper';
 import { useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo'
+import AddOrderScreen from '../views/bill/CreateBillScreen';
+import SelectTableScreen from '../views/bill/SelectTableScreen';
+import InformationTableScreen from '../views/bill/InformationTable';
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import AddOrderReturnScreen from "../views/bill/AddOrderReturn";
+import InformationOrderScreen from "../views/bill/InformationTable";
+import SelectMethodPaymentScreen from "../views/bill/SelectMethodPayment";
+import EditOrderScreen from "../views/bill/EditOrderScreen";
+import DetailReceiptOrderScreen from "../views/bill/DetailReceiptOrder";
 
 const BillScreenStack = ({ navigation }: any) => {
+    const idOrder = useSelector((state: RootState) => state.orderReturn.orderReturnService.idOrder);
     const [locDs, setLocDS] = useState('moinhat');
     return (
         <BillStack.Navigator
@@ -123,6 +134,85 @@ const BillScreenStack = ({ navigation }: any) => {
                         </TouchableOpacity>
                     ),
                     headerRight: () => (
+                      <>
+                      <TouchableOpacity onPress={() => {
+                        navigation.push('EditOrderScreen',);
+                      }}>
+                        <Entypo name='edit' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                      </TouchableOpacity>
+                        <BottomSheet title='' fontSize={12}
+                            icon={<Entypo name='dots-three-horizontal' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
+                            height={160}
+                            content={
+                                <View style={{ alignItems: 'center' }}>
+                                    <ButtonSheetCom onPress={() => { }} title='In' titleStyle={{}} />
+                                    <ButtonSheetCom onPress={() => { navigation.push('AddOrderReturn', {id: idOrder}); }} title='Trả đơn hàng' titleStyle={{ color: COLORS.color_red }} />
+                                </View>
+                            } />
+                      </>
+                    ),
+                }}
+            />
+          <BillStack.Screen
+            name="DetailReceiptOrderScreen"
+            component={DetailReceiptOrderScreen}
+            options={{
+              title: 'Chi tiết phiếu chi',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+              headerRight: () => (
+                <>
+                  <TouchableOpacity onPress={() => {
+                    navigation.push('EditOrderScreen',);
+                  }}>
+                    <Entypo name='edit' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                  </TouchableOpacity>
+                  <BottomSheet title='' fontSize={12}
+                               icon={<Entypo name='dots-three-horizontal' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
+                               height={160}
+                               content={
+                                 <View style={{ alignItems: 'center' }}>
+                                   <ButtonSheetCom onPress={() => { }} title='In' titleStyle={{}} />
+                                   <ButtonSheetCom onPress={() => { navigation.push('AddOrderReturn', {id: idOrder}); }} title='Trả đơn hàng' titleStyle={{ color: COLORS.color_red }} />
+                                 </View>
+                               } />
+                </>
+              ),
+            }}
+          />
+          <BillStack.Screen
+            name="EditOrderScreen"
+            component={EditOrderScreen}
+            options={{
+              title: 'Chỉnh sửa hóa đơn',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+
+          />
+            <BillStack.Screen
+                name="AddBillScreen"
+                component={AddOrderScreen}
+                options={{
+                    title: 'Thêm đơn hàng',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.replace('Bill');
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
+                    ),
+                    headerRight: () => (
                         <BottomSheet title='' fontSize={12}
                             icon={<Entypo name='dots-three-horizontal' size={25} color={COLORS.darkGreen} style={{ marginRight: 8, }} />}
                             height={160}
@@ -134,8 +224,64 @@ const BillScreenStack = ({ navigation }: any) => {
                             } />
                     ),
                 }}
-
             />
+            <BillStack.Screen
+                name="SelectTableScreen"
+                component={SelectTableScreen}
+                options={{
+                    title: 'Chọn bàn',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.pop();
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+          <BillStack.Screen
+            name="SelectMethodPaymentScreen"
+            component={SelectMethodPaymentScreen}
+            options={{
+              title: 'Chọn phương thức thanh toán',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+
+            <BillStack.Screen
+                name="InformationOrderScreen"
+                component={InformationOrderScreen}
+                options={{
+                    title: 'Thông tin đơn hàng',
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => {
+                            navigation.pop();
+                        }}>
+                            <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+          <BillStack.Screen
+            name="AddOrderReturn"
+            component={AddOrderReturnScreen}
+            options={{
+              title: 'Tạo trả hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
         </ BillStack.Navigator>
     );
 }

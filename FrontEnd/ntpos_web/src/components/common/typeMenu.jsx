@@ -7,23 +7,19 @@ const listFood = [
     {i18n:'drinks',name:'nuoc'},
     {i18n:'others',name:'khac'},
 ]
-const listStatus = [
+const listStatus1 = [
     {i18n:'temporary_ticket',name:'phieutam'},
     {i18n:'balanced_stock',name:'phieucanbang'},
     {i18n:'cancelled',name:'dahuy'},
 ]
+const listStatus = [
+    {i18n:'active',name:'danghoatdong'},
+    {i18n:'stop_working',name:'ngunghoatdong'},
+    {i18n:'all',name:'tatca'},
+]
 export default function TypeMenu(props) {
     const {t} = useTranslation();
     const [show, setShow] = useState(false);
-    const [status, setStatus] = useState([]);
-    useEffect(()=>{
-        setStatus(listStatus);
-    });
-    const handleChange =(e)=> {
-     const {name,checked} = e.target;
-     let tempStatus = status.map(item => item.name === name ? {...item,isChecked:checked} :item);
-     setStatus(tempStatus);
-    }
 
     if(props.type === 'type_of_menu'){
         return(
@@ -65,15 +61,10 @@ export default function TypeMenu(props) {
                     </a>
                 </div>
                 <div className= {show ? 'hideGroup':'listGroup'}>
-                    {status.map((item) => {
+                    {listStatus.map((item) => {
                         return (
                             <>
-                                <input
-                                    type="checkbox"
-                                    name={item.name}
-                                    checked={item?.isChecked || false }
-                                    onChange={handleChange}
-                                />
+                                <input type="checkbox" name={t(props.type)} />
                                 <label htmlFor="food"> {t(item.i18n)}</label><br/>
                             </>
                         );

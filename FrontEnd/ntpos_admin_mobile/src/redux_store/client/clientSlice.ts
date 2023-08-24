@@ -16,6 +16,7 @@ export interface UserState {
   size: number;
   loading: boolean;
   error: string | null;
+  isCreateSuccess: boolean | null;
 }
 
 const initialState: UserState = {
@@ -23,6 +24,7 @@ const initialState: UserState = {
   size: 0,
   loading: false,
   error: null,
+  isCreateSuccess: null,
 };
 
 const clientSlice = createSlice({
@@ -48,9 +50,9 @@ const clientSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    addClientSuccess: (state, action: PayloadAction<User>) => {
+    addClientSuccess: (state, action: PayloadAction<boolean>) => {
       state.loading = false;
-      state.users.push(action.payload);
+      state.isCreateSuccess = action.payload;
     },
     addClientFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;

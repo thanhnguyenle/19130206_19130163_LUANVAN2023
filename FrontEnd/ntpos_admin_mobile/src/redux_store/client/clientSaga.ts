@@ -4,7 +4,6 @@ import { addClientFailure, addClientRequest, addClientSuccess, fetchUsersFailure
 import { gql } from '@apollo/client';
 import { User } from '../../models/user';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { Alert } from 'react-native'
 const fetchUsersQuery = gql`
   query FetchUsers {
     users {
@@ -88,16 +87,9 @@ function* addClientWorker(action: PayloadAction<User>): Generator<any, any, any>
         groups: groups,
       },
     });
-    console.log(data.createUser.id);
-    const { data1 } = yield call(client.query, {
-      query: getClientById1,
-      variables: {
-        id: data.createUser.id,
-      },
-    });
-    console.log(data1.user);
-    Alert.alert('Thông báo', 'Đã tạo khách hàng thành công!');
-    yield put(addClientSuccess(data1.user));
+    if(data.createUser.id){
+      yield put(addClientSuccess(true));
+    }
   } catch (error: any) {
     yield put(addClientFailure(error.message));
   }

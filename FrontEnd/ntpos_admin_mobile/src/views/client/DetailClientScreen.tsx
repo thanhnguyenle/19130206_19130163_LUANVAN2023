@@ -6,11 +6,7 @@ import { RootState } from '../../app/store';
 import IconIocns from 'react-native-vector-icons/Ionicons'
 import { COLORS } from '../../constants/common';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import { BottomSheet } from '../../components';
-import { deleteClientRequest } from '../../redux_store/client/deleteClientSlice';
-import Entypo from 'react-native-vector-icons/Entypo'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-const DetailClientScreen = ({ route, navigation }: any) => {
+const DetailClientScreen = ({ navigation, route }: any) => {
     const { id } = route.params;
     const user = useSelector((state: RootState) => state.client.userDetail.user);
     const dispatch = useDispatch();
@@ -69,22 +65,6 @@ const DetailClientScreen = ({ route, navigation }: any) => {
                         <Text key={index}>{group.name + ' '}</Text>
                     ))}
                 </Text>
-            </View>
-
-            <View style={styles.button}>
-                <BottomSheet title='' fontSize={12}
-                    icon={<Ionicons name='trash-outline' size={20} style={{ color: COLORS.color_white, padding: 15 }} />}
-                    height={130}
-                    content={
-                        <TouchableOpacity onPress={() => {
-                            dispatch(deleteClientRequest(id));
-                            navigation.pop();
-                        }}>
-                            <View style={{ marginTop: 10, padding: 10, alignItems: 'center' }}>
-                                <Text style={{ color: COLORS.color_red, fontSize: 16 }}>Xóa khách hàng</Text>
-                            </View>
-                        </TouchableOpacity>
-                    } />
             </View>
         </View>
     );

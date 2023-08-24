@@ -11,6 +11,8 @@ import { ButtonComponent, InputComponent } from '../../components';
 import { RootState } from '../../app/store';
 import { addClientRequest } from '../../redux_store/client/clientSlice';
 import { dispatchGroupsNull } from '../../redux_store/client/group/groupSlice';
+import LoadingScreen, { loaderRef, showLoader, hideLoader } from "../../components/LoadingScreen";
+import Toast from 'react-native-toast-message';
 const AddClientScreen = ({ navigation }: any) => {
     const [name, setName] = useState('nhu');
     const [username, setUserName] = useState('nhu');
@@ -33,43 +35,41 @@ const AddClientScreen = ({ navigation }: any) => {
             }
         });
     };
-    function handleImageUpload() {
-        if (!selectedImage) {
-            return;
-        }
-
-        const formData = new FormData();
-        if (selectedImage && selectedImage.assets) {
-            // formData.append('image', {
-            //     name: selectedImage.assets[0].fileName,
-            //     type: selectedImage.assets[0].type,
-            //     uri: Platform.OS === 'ios' ? selectedImage.assets[0].uri!.replace('file://', '') : selectedImage.assets[0].uri,
-            // });
-            formData.append('image', selectedImage.assets[0])
-        }
-        console.log('Hello');
-        axios.post('https://4cb1-27-65-196-160.ngrok-free.app/api/image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-        })
-            .then(response => {
-                console.log(response)
-                if (response.data.success) {
-                    let uploadedUrl = response.data.data.link;
-                    setAvatar(uploadedUrl);
-                }
-            })
-            .catch(error => {
-                console.error('Error uploading image:', error);
-                Alert.alert('Upload Failed', 'Failed to upload the image. Please try again.');
+    const uploadImage = async (fileUri: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', {
+                uri: fileUri.assets[0].uri,
+                name: fileUri.assets[0].fileName,
+                type: fileUri.assets[0].type,
             });
+            const response = await fetch('https://4cb1-27-65-196-160.ngrok-free.app/api/image', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gp',
+                },
+                body: formData,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setAvatar(`https://4cb1-27-65-196-160.ngrok-free.app/api/image/${data.id}`);
+            } else {
+                console.log('Request failed with status:', response.status);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    async function handleImageUpload(selectedImage: any) {
+        await uploadImage(selectedImage);
     }
 
-    function handleAddClient() {
-        handleImageUpload();
-        dispatch(
-            addClientRequest({
+    async function handleAddClient() {
+        console.log('Create client')
+        // await handleImageUpload(selectedImage);
+        try {
+            await dispatch(addClientRequest({
                 name,
                 username,
                 password,
@@ -78,8 +78,25 @@ const AddClientScreen = ({ navigation }: any) => {
                 address,
                 avatar,
                 groups,
-            })
-        );
+            }));
+            showLoader();
+            setTimeout(() => {
+                hideLoader();
+                Toast.show({
+                    type: 'success',// success, error, info, or any
+                    text1: 'Bạn tạo người thành công 👋',
+                    position: 'top',
+                });
+                navigation.replace('Client');
+            }, 1000);
+        } catch (error) {
+            Toast.show({
+                type: 'error',// success, error, info, or any
+                text1: 'Bạn tạo người dùng không thành công 😞',
+                position: 'top',
+            });
+            hideLoader();
+        }
     }
     useEffect(() => {
         dispatch(dispatchGroupsNull());
@@ -189,6 +206,7 @@ const AddClientScreen = ({ navigation }: any) => {
                 </View>
                 <Text></Text>
             </ScrollView>
+            <LoadingScreen ref={loaderRef} />
         </View >
     );
 };

@@ -7,7 +7,6 @@ import IconIcons from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { BottomSheet, ProductItemComponent, RadioButtonCom } from '../../components/index'
 import { FlatList, PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
-import Toast from '../../components/ToastComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { deleteProduct, deleteProductNull, fetchProductsStart } from '../../redux_store/product/productSlice';
@@ -15,6 +14,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Product } from '../../models/product';
 import { setTime } from '../../redux_store/product/fifterProductSlice';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Toast from 'react-native-toast-message';
+import LoadingScreen, { loaderRef, showLoader, hideLoader } from "../../components/LoadingScreen";
 const ProductSreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.product.productsSevice.loading);
@@ -30,9 +31,6 @@ const ProductSreen = ({ navigation }: any) => {
                 break;
             case 'homqua':
                 valueNew = 'Hôm qua'
-                break;
-            case 'toanthoigia':
-                valueNew = 'Toàn thời gian'
                 break;
             case 'tuannnay':
                 valueNew = 'Tuần này'
@@ -106,17 +104,29 @@ const ProductSreen = ({ navigation }: any) => {
                 [
                     { text: 'Cancel', style: 'cancel' },
                     {
-                        text: 'OK', onPress: () => {
-                            dispatch(deleteProduct(id))
-                            if (deleteSucess == true) {
-                                dispatch(setTime('ALL_TIME'));
-                                dispatch(deleteProductNull());
-                            } else {
+                        text: 'OK', onPress: async () => {
+                            try {
+                                await dispatch(deleteProduct(id)); // Gọi action để xóa
+                                showLoader();
+                                setTimeout(() => {
+                                    hideLoader();
+                                    Toast.show({
+                                        type: 'success',// success, error, info, or any
+                                        text1: 'Xóa thành công 👋',
+                                        position: 'top',
+                                    });
+                                    dispatch(deleteProductNull());
+                                    dispatch(fetchProductsStart());
+                                }, 1000);
+                            } catch (error) {
+                                console.error('Delete error:', error);
+                                hideLoader();
                                 Alert.alert(
                                     'Thông báo',
-                                    'Bạn xóa sản phẩm không thành công?',
-                                )
+                                    'Có lỗi xảy ra khi xóa bàn.',
+                                );
                             }
+
                         }
                     }
                 ]);
@@ -133,11 +143,6 @@ const ProductSreen = ({ navigation }: any) => {
     }
     return (
         <View style={styles.container}>
-            {
-                deleteSucess && (
-                    <Toast message="Xóa sản phẩm thành công!" isVisible={deleteSucess} />
-                )
-            }
             <View style={styles.boxTitle}>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={[styles.text, { color: COLORS.darkGreen }]}>{products.length}</Text>
@@ -202,7 +207,7 @@ const ProductSreen = ({ navigation }: any) => {
                     <IconIcons name='add' size={20} style={{ color: COLORS.color_white, padding: 15 }} />
                 </TouchableOpacity>
             </View>
-
+            <LoadingScreen ref={loaderRef} />
         </View >
     );
 };
@@ -264,6 +269,7 @@ const styles = StyleSheet.create({
         width: responsiveWidth(20),
     },
     deleteBox: {
+        height: '100%',
         padding: 10,
         marginRight: 2,
         alignItems: 'center',

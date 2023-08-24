@@ -15,16 +15,18 @@ import {
     CancellationScreenStack, ImportProductScreenStack, ReportScreenStack, RoomTableScreenStack, MailBoxScreenStack, ReturnImportGoodsStack, SellStack
 } from './ImportFile'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from '../redux_store/auth/authSlice';
 import { navigateToLogin } from '../redux_store/navigation/navigationSlice';
+import { RootState } from "../app/store";
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
     const dispatch = useDispatch();
+   const user = useSelector((state: RootState) => state.auth.auth.user);
     return (
         <View style={styles.sideMenuContainer}>
             <View style={styles.profileHeader}>
-                <Text style={styles.profileHeaderText}>Nguyễn Lê Thành</Text>
+                <Text style={styles.profileHeaderText}>{user.name}</Text>
                 <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2.2) }}>Chức vụ: Quản lý</Text>
             </View>
             <DrawerContentScrollView>
@@ -53,11 +55,13 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
                                 },
                                 {
                                     text: 'Confirm',
-                                    onPress: async () => {
+                                    onPress: () => {
+                                      setTimeout( async() => {
                                         await AsyncStorage.removeItem('accessToken');
                                         await AsyncStorage.removeItem('refreshToken');
                                         dispatch(logOut());
                                         dispatch(navigateToLogin())
+                                      },1000)
                                     },
                                 },
                             ],
@@ -148,16 +152,16 @@ const AdminRoute = () => {
                 component={ProductScreenStack}
             />
             <Drawer.Screen
-                name="AdminInventory"
+                name="AdminRoomTable"
                 options={{
                     drawerIcon: ({ focused, size }) => (
                         <Image
-                            source={!focused ? require('../assets/iconNav/inventory_black.png') : require('../assets/iconNav/inventory.png')}
+                            source={!focused ? require('../assets/iconNav/menu.png') : require('../assets/iconNav/visualization.png')}
                             style={{ width: size - 3, height: size - 3 }} />
                     ),
-                    drawerLabel: 'Kiểm kho',
+                    drawerLabel: 'Phòng/Bàn',
                 }}
-                component={InventoryScreenStack}
+                component={RoomTableScreenStack}
             />
             <Drawer.Screen
                 name="AdminBill"
@@ -170,6 +174,18 @@ const AdminRoute = () => {
                     drawerLabel: 'Hóa đơn',
                 }}
                 component={BillScreenStack}
+            />
+            <Drawer.Screen
+                name="AdminInventory"
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Image
+                            source={!focused ? require('../assets/iconNav/inventory_black.png') : require('../assets/iconNav/inventory.png')}
+                            style={{ width: size - 3, height: size - 3 }} />
+                    ),
+                    drawerLabel: 'Kiểm kho',
+                }}
+                component={InventoryScreenStack}
             />
             <Drawer.Screen
                 name="AdminExportProduct"
@@ -267,18 +283,7 @@ const AdminRoute = () => {
                 }}
                 component={ReportScreenStack}
             />
-            <Drawer.Screen
-                name="AdminRoomTable"
-                options={{
-                    drawerIcon: ({ focused, size }) => (
-                        <Image
-                            source={!focused ? require('../assets/iconNav/menu.png') : require('../assets/iconNav/visualization.png')}
-                            style={{ width: size - 3, height: size - 3 }} />
-                    ),
-                    drawerLabel: 'Phòng/Bàn',
-                }}
-                component={RoomTableScreenStack}
-            />
+
             <Drawer.Screen
                 name="AdminSell"
                 options={{
