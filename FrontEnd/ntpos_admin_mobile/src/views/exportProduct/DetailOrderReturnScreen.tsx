@@ -7,13 +7,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {  ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import {  editTableOrderRequest } from "../../redux_store/orders/ordersSilce";
-import { calculateQuality, calculateTotalPrice, formatDateFromNumber } from "../../utils/function";
 import { detailOrderReturn } from "../../redux_store/order_return/OrderReturnSlice";
 import SelectDropdown from "react-native-select-dropdown";
-import IconIcons from "react-native-vector-icons/Ionicons";
 import { OrderLineItem } from "../../models/order";
-import { fetchProductsNull, fetchProductsStart } from "../../redux_store/product/productSlice";
+import { formatDateFromNumber } from "../../utils/function";
 const DetailOrderReturnScreen = ({ navigation, route }: any) => {
   const { id } = route.params;
   const [number, setNumber] = useState('1');
@@ -176,9 +173,6 @@ const DetailOrderReturnScreen = ({ navigation, route }: any) => {
             </View>
             <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}></Text>
           </View>
-        </View>
-        <View style={{ alignItems: 'center', flex: 1, marginTop: 20, marginBottom: 30, }}>
-          <ButtonComponent title='Cập nhật' onPress={()=>{}} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen }} />
         </View>
       </ScrollView >
     </View >

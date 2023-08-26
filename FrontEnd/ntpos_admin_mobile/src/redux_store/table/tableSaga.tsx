@@ -1,5 +1,16 @@
 import { takeLatest, call, put, takeEvery } from 'redux-saga/effects';
-import { setData, setError, fetchTablesStart, createTableSuccess, createTableFailure, createTable, deleteTableSuccess, deleteTableFailure, deleteTable } from './tableSlice';
+import {
+  setData,
+  setError,
+  fetchTablesStart,
+  createTableSuccess,
+  createTableFailure,
+  createTable,
+  deleteTableSuccess,
+  deleteTableFailure,
+  deleteTable,
+  numberLengthTabled, numberLengthTabledSuccess, numberLengthTabledFailure, setDataTablesNone, fetchTablesNone1
+} from "./tableSlice";
 import { gql } from "@apollo/client";
 import { order } from '../../constants/graphql/apollo';
 export const fetchTableQuery = gql`
@@ -48,6 +59,74 @@ export const fetchDeleteTableQuery = gql`
     }
   }
 `;
+export const fetchTableLengthQuery = gql`
+  query FetchTableLengths{
+   findAllBusyTables{
+     tables{
+        id
+        name
+        status
+        note
+        groups{
+          id
+          name
+          status
+          note
+        }
+    }
+    currentPage
+    totalPage
+    totalItem
+  }
+}
+`;
+export const fetchAllEmptyTablesQuery = gql`
+  query FetchAllEmptyTables{
+   findAllEmptyTables{
+    tables{
+        id
+        name
+        status
+        note
+        groups{
+          id
+          name
+          status
+          note
+        }
+    }
+    currentPage
+    totalPage
+    totalItem
+  }
+}
+`;
+function* fetchEmptyTablesSaga() {
+  try {
+    const { data } = yield call(order.query, {
+      query: fetchAllEmptyTablesQuery,
+    });
+    yield put(setDataTablesNone(data.findAllEmptyTables.tables));
+  } catch (error: any) {
+    yield put(numberLengthTabledFailure(error.message));
+  }
+}
+export function * emptyTablesSaga() {
+  yield takeLatest(fetchTablesNone1.type, fetchEmptyTablesSaga);
+}
+function* fetchTableLengthSaga() {
+  try {
+    const { data } = yield call(order.query, {
+      query: fetchTableLengthQuery,
+    });
+    yield put(numberLengthTabledSuccess(data.findAllBusyTables.tables.length));
+  } catch (error: any) {
+    yield put(numberLengthTabledFailure(error.message));
+  }
+}
+export function* tableLengthSaga() {
+  yield takeLatest(numberLengthTabled.type, fetchTableLengthSaga);
+}
 function* fetchTableDataSaga() {
   try {
     const { data } = yield call(order.query, {

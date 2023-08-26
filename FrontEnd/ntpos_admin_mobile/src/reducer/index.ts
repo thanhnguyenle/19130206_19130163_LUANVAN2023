@@ -8,6 +8,7 @@ import orderSeviceReducer from './order';
 import tableSeviceReducer from './table';
 import orderReturnService from './orderReturn';
 import paymentReturnReducer from "./payment";
+import inventoryReducer from "./inventory";
 const rootReducer = combineReducers({
     navigation: navigationReducer,
     admiNavigation: adminReducer,
@@ -18,5 +19,6 @@ const rootReducer = combineReducers({
     table: tableSeviceReducer,
     orderReturn : orderReturnService,
     payment: paymentReturnReducer,
+    inventory: inventoryReducer,
 });
 export default rootReducer;

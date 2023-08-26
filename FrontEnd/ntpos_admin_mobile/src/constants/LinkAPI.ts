@@ -10,4 +10,5 @@ export const clientUri = context + '/user-service/graphql';
 export const productUri = context + '/product-service/graphql';
 export const orderUri = context + '/order-service/graphql';
 export const paymentUri = context + '/payment-service/graphql';
+export const inventoryUri = context + '/inventory-service/graphql';
 export const linkImage = 'https://4cb1-27-65-196-160.ngrok-free.app/api/image/';

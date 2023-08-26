@@ -10,6 +10,8 @@ const InventoryStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import { BottomSheet, ButtonSheetCom, RadioButtonCom } from '../components';
 import { RadioButton } from 'react-native-paper';
+import AddOrderReturnScreen1 from "../views/exportProduct/AddOrderReturnScreen";
+import AddInventoryScreen from "../views/inventory/AddInventoryScreen";
 const InventoryScreenStack = ({ navigation }: any) => {
     const [locDs, setLocDS] = useState('moinhat');
     const [thaoTac, setThaoTac] = useState('huyphieu');
@@ -31,7 +33,7 @@ const InventoryScreenStack = ({ navigation }: any) => {
                 name='Inventory'
                 component={InventoryScreen}
                 options={{
-                    title: 'Kiểm kho',
+                    title: 'Danh sách nguyên liệu',
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
                             navigation.openDrawer();
@@ -94,7 +96,7 @@ const InventoryScreenStack = ({ navigation }: any) => {
                 name="DetailInventoryScreen"
                 component={DetailInventoryScreen}
                 options={{
-                    title: 'Chi tiết phiếu kiểm',
+                    title: 'Chi tiết nguyên liệu',
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => {
                             navigation.pop();
@@ -116,7 +118,20 @@ const InventoryScreenStack = ({ navigation }: any) => {
                 }}
 
             />
-
+          <InventoryStack.Screen
+            name="AddInventoryScreen"
+            component={AddInventoryScreen}
+            options={{
+              title: 'Thêm nguyên liệu',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
 
         </ InventoryStack.Navigator >
     );
