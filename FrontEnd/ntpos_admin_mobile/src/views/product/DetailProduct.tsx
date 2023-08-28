@@ -5,13 +5,14 @@ import { responsiveFontSize } from 'react-native-responsive-dimensions'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { fetchProductRequest } from '../../redux_store/product/productSlice';
-import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 const DetailProductScreen = ({ route, navigation }: any) => {
     const { id } = route.params;
     const product = useSelector((state: RootState) => state.product.productsSevice.product);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchProductRequest(id));
+
     }, []);
     return (
         <View style={styles.container}>

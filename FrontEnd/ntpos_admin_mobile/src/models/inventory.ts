@@ -1,4 +1,5 @@
 export interface Inventory {
+  id: string,
   name: string;
   price: number;
   unit: string;
@@ -9,3 +10,24 @@ export interface Inventory {
   manufacturerDate: number; // Thời điểm sản xuất dưới dạng timestamp
   images: string[]; // Mảng chứa các URL hình ảnh
 }
+export interface MaterialReturn {
+  id: string,
+  materialID: string;
+  price: number;
+  unit: string;
+  quantity: number;
+  status: "ACTIVE" | "INACTIVE"; // Chỉ cho phép 2 giá trị: ACTIVE hoặc INACTIVE
+  description: string;
+  returnDate: number;
+}
+export interface Supplier {
+  id: string
+  name: string
+  address: string
+  phone: string
+  email: string
+  website: string
+  status: string
+  description: string
+}
+

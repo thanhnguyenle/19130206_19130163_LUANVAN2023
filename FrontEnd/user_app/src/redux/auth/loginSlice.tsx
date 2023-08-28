@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {User} from "../../model/user";
 
 interface LoginResponse {
     accessToken: string | null;
@@ -12,17 +13,31 @@ interface LoginState {
     loading: boolean;
     resetPass: boolean;
     error: string | null;
+    user: User;
 }
 interface LoginCredentials {
     email: string;
     password: string;
 }
+const userModel: User = {
+    id: '',
+    name: "",
+    address: '',
+    avatar: '',
+    email: '',
+    groups: [],
+    password: '',
+    phoneNumber: '',
+    registeredAt: '',
+    username: '',
+};
 const initialState: LoginState = {
     resetPass: false,
     loginResponse: null,
     loggedIn: false,
     loading: false,
     error: null,
+    user: userModel,
 };
 
 const loginSlice = createSlice({

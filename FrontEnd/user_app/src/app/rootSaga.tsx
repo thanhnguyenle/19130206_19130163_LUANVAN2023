@@ -1,9 +1,22 @@
 import { all } from 'redux-saga/effects';
 import { watchLogin } from '../redux/auth/loginSaga';
-import { ordersSaga } from '../redux/order/orderSaga';
+import {createOrderSaga, ordersSaga} from '../redux/order/orderSaga';
+import {watchCategorySaga} from "../redux/product/category/CategorySaga";
+import {detailProductSaga, watchProductsSaga} from "../redux/product/product1/ProductSaga";
+import {groupTableSaga} from "../redux/table/groupTableSaga";
+import {watchRegister} from "../redux/auth/registerSaga";
+import {createReceiptOrderSaga} from "../redux/payment/PaymentSaga";
 export default function* rootSaga() {
     yield all([
         watchLogin(),
         ordersSaga(),
+        watchRegister(),
+        watchCategorySaga(),
+        watchProductsSaga(),
+        groupTableSaga(),
+        detailProductSaga(),
+        ////////////
+        createReceiptOrderSaga(),
+        createOrderSaga(),
     ]);
 }

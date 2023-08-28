@@ -38,10 +38,10 @@ export const authenticateUser = async (credentials: LoginCredentials) => {
 
 function* loginWorker(action: PayloadAction<LoginCredentials>): Generator<any, any, any> {
     try {
+        yield call(AsyncStorage.removeItem, 'accessToken');
+        yield call(AsyncStorage.removeItem, 'refreshToken');
         const response = yield call(authenticateUser, action.payload);
-        console.log(response);
         if (response != null) {
-            console.log(3);
             yield put(loginSuccess(response));
             yield call(AsyncStorage.setItem, 'accessToken', response.accessToken);
             yield call(AsyncStorage.setItem, 'refreshToken', response.refreshToken);

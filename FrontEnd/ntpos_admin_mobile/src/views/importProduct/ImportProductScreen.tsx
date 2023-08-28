@@ -17,9 +17,6 @@ const ImportProductScreen = ({ navigation }: any) => {
             case 'homqua':
                 valueNew = 'Hôm qua'
                 break;
-            case 'toanthoigia':
-                valueNew = 'Toàn thời gian'
-                break;
             case 'tuannnay':
                 valueNew = 'Tuần này'
                 break;
@@ -70,7 +67,7 @@ const ImportProductScreen = ({ navigation }: any) => {
             </View>
             <View>
                 {
-                    listItems = phieuNHap.map((item) =>
+                    listItems = [].map((item) =>
                         <TouchableOpacity onPress={() => { navigation.push('DetailImportProduct') }}>
                             <View style={{
                                 flexDirection: 'row',

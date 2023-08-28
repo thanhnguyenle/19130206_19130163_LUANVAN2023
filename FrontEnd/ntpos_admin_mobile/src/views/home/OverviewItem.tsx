@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { COLORS } from '../../constants/common';
 import homeStore from '../../store/HomeStore';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { requestReadUser } from "../../redux_store/auth/authSlice";
+import { numberLengthTabled } from "../../redux_store/table/tableSlice";
+import { fetchUsersRequest } from "../../redux_store/client/clientSlice";
+import { fetchOrdersStart } from "../../redux_store/orders/ordersSilce";
+import { fetchPaySlipOrdersStart } from "../../redux_store/order_return/OrderReturnSlice";
 
 const OverviewItem = (props: any) => {
+    const dispatch = useDispatch();
+    const orders = useSelector((state: RootState) => state.order.orderSevice.orders);
+    const numberLength = useSelector((state: RootState) => state.table.tableSevice.numbersLengthTabled);
+    const paySlipOrders = useSelector((state: RootState) => state.orderReturn.orderReturnService.paySlipOrders);
+    const numberUser = useSelector((state: RootState) => state.client.users.users.length);
+    useEffect(() => {
+      dispatch(numberLengthTabled());
+      dispatch(fetchOrdersStart());
+      dispatch(fetchPaySlipOrdersStart());
+    }, []);
     homeStore.updateOverview();
     return (
         <View style={styles.overview}>
@@ -15,20 +33,20 @@ const OverviewItem = (props: any) => {
                 </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => {
-                props.navigation.push('Overview');
+                // props.navigation.push('Overview');
             }}>
                 <View style={styles.box1}>
                     <View style={styles.itemBox1}>
-                        <Text style={styles.text}>{homeStore.numberOrder} Hóa đơn</Text>
+                        <Text style={styles.text}>{orders.length} Hóa đơn</Text>
                     </View>
                     <View style={[styles.itemBox1, { backgroundColor: '#e6ff9950' }]}>
-                        <Text style={styles.text}>{homeStore.numberPaySlip} Phiếu trả</Text>
+                        <Text style={styles.text}>{paySlipOrders.length} Phiếu trả</Text>
                     </View>
                     <View style={[styles.itemBox1, { backgroundColor: '#e6ccff50' }]}>
-                        <Text style={styles.text}>{homeStore.numberUsing} Bàn sử dụng</Text>
+                        <Text style={styles.text}>{numberLength} Bàn sử dụng</Text>
                     </View>
                     <View style={[styles.itemBox1, { backgroundColor: '#ccffff50' }]}>
-                        <Text style={styles.text}> {homeStore.numberClient} Khách đang có</Text>
+                        <Text style={styles.text}> {numberUser} Khách đang có</Text>
                     </View>
                 </View>
             </TouchableOpacity>

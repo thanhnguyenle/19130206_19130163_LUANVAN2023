@@ -82,12 +82,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
+    padding:1,
+    textAlign:'center',
+    alignItems:'center'
   },
   avatarContainer: {
     alignItems: 'center',
-    marginLeft: 5,
     paddingTop: 10,
-    width: 40,
+    paddingHorizontal:10,
   },
   contentContainer: {
     flex: 1,
@@ -98,8 +100,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#EEE',
     borderRadius: 13,
-    width: 26,
-    height: 26,
+    width: 45,
+    height: 45,
+    padding:10,
   },
   text: {
     color: '#000',
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     backgroundColor: '#EEE',
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
   },
   textBoxRow: {
@@ -128,8 +131,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   right_textBox: {
-    backgroundColor: '#3CB371',
-    padding: 5,
+    backgroundColor: COLORS.color_primary,
+    padding: 10,
     borderRadius: 5,
   },
 });

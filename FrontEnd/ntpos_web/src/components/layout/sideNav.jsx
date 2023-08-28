@@ -117,11 +117,8 @@ export default function SideNav({ basicOpen, setBasicOpen, collapseSidebar, setC
               {collapseSidebar ? <MDBIcon fas icon="dice-d6" className="fa-fw me-1" /> : <><MDBIcon fas icon="dice-d6" className="fa-fw me-3" /> {t('goods')}</>}
             </MDBSideNavLink>
             <MDBSideNavCollapse show={goodsCollapse}>
-              <Link to="/category" className="sidenav-link" title={t('category')}>
-                {collapseSidebar ? <MDBIcon fas icon="th" className="fa-fw me-1" /> : <><MDBIcon fas icon="th" className="fa-fw me-3" /> {t('category')}</>}
-              </Link>
-              <Link className="sidenav-link" to="/price-setting" title={t('price_setting')}>
-                {collapseSidebar ? <MDBIcon fas icon="money-bill-wave" className="fa-fw me-1" /> : <><MDBIcon fas icon="money-bill-wave" className="fa-fw me-3" /> {t('price_setting')}</>}
+              <Link to="/category" className="sidenav-link" title={t('product')}>
+                {collapseSidebar ? <MDBIcon fas icon="th" className="fa-fw me-1" /> : <><MDBIcon fas icon="th" className="fa-fw me-3" /> {t('product')}</>}
               </Link>
               <Link className="sidenav-link" to="/inventory-control" title={t('inventory_control')}>
                 {collapseSidebar ? <MDBIcon fas icon="box-open" className="fa-fw me-1" /> : <><MDBIcon fas icon="box-open" className="fa-fw me-3" /> {t('inventory_control')}</>}
@@ -172,28 +169,6 @@ export default function SideNav({ basicOpen, setBasicOpen, collapseSidebar, setC
             <Link className="sidenav-link" to="/cask-book" title={t('cash_book')}>
               {collapseSidebar ? <MDBIcon fas icon="file-invoice-dollar" className="fa-fw me-1" /> : <><MDBIcon fas icon="file-invoice-dollar" className="fa-fw me-3" /> {t('cash_book')}</>}
             </Link>
-          </MDBSideNavItem>
-          <MDBSideNavItem>
-            <MDBSideNavLink icon="angle-down" onClick={handleStaffCollapse} title={t('staff')}>
-              {collapseSidebar ? <MDBIcon fas icon="user-friends" className="fa-fw me-1" /> : <><MDBIcon fas icon="user-friends" className="fa-fw me-3" /> {t('staff')}</>}
-            </MDBSideNavLink>
-            <MDBSideNavCollapse show={staffCollapse}>
-              <Link to="/chat-app" className="sidenav-link" title={t('staff')}>
-                {collapseSidebar ? <MDBIcon fas icon="user" className="fa-fw me-1" /> : <><MDBIcon fas icon="user" className="fa-fw me-3" /> {t('staff')}</>}
-              </Link>
-              <Link className="sidenav-link" to="/mailbox-app" title={t('timekeeping')}>
-                {collapseSidebar ? <MDBIcon fas icon="clock" className="fa-fw me-1" /> : <><MDBIcon fas icon="clock" className="fa-fw me-3" /> {t('timekeeping')}</>}
-              </Link>
-              <Link className="sidenav-link" to="/mailbox-app" title={t('payroll')}>
-                {collapseSidebar ? <MDBIcon fas icon="money-bill-wave" className="fa-fw me-1" /> : <><MDBIcon fas icon="money-bill-wave" className="fa-fw me-3" /> {t('payroll')}</>}
-              </Link>
-              <Link to="/chat-app" className="sidenav-link" title={t('rose_table')}>
-                {collapseSidebar ? <MDBIcon fas icon="hand-holding-usd" className="fa-fw me-1" /> : <><MDBIcon fas icon="hand-holding-usd" className="fa-fw me-3" /> {t('rose_table')}</>}
-              </Link>
-              <Link className="sidenav-link" to="/mailbox-app" title={t('general_settings')}>
-                {collapseSidebar ? <MDBIcon fas icon="cog" className="fa-fw me-1" /> : <><MDBIcon fas icon="cog" className="fa-fw me-3" /> {t('general_settings')}</>}
-              </Link>
-            </MDBSideNavCollapse>
           </MDBSideNavItem>
           <MDBSideNavItem>
             <MDBSideNavLink icon="angle-down" onClick={handleReportCollapse} title={t('report')}>

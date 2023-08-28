@@ -16,7 +16,13 @@ import {
     ordersSaga,
     watchDeleteOrder
 } from "../redux_store/orders/ordersSaga";
-import { tableSaga, watchCreateTable, watchDeleteTable } from '../redux_store/table/tableSaga';
+import {
+    emptyTablesSaga,
+    tableLengthSaga,
+    tableSaga,
+    watchCreateTable,
+    watchDeleteTable
+} from "../redux_store/table/tableSaga";
 import { groupTableSaga, watchCreateGroupTable, watchDeleteGroupTable } from '../redux_store/table/groupTableSaga';
 import {
     createOrderReturnSaga, createPaySlipOrderSaga, detailOrderReturnSaga,
@@ -29,6 +35,12 @@ import {
     receiptOrdersSaga,
     watchDeleteReceiptOrder
 } from "../redux_store/payment/PaymentSaga";
+import {
+    createInventorySaga,
+    detailDetailInventorySaga,
+    listInventorySaga, listMaterialReturnSaga, listSupplierSaga,
+    watchDeleteInventory
+} from "../redux_store/inventory/InventorySaga";
 
 export default function* rootSaga() {
     yield all([
@@ -81,6 +93,14 @@ export default function* rootSaga() {
         watchDeleteOrderReturn(),
         createPaySlipOrderSaga(),
         detailOrderReturnSaga(),
+        listInventorySaga(),
+        detailDetailInventorySaga(),
+        watchDeleteInventory(),
+        createInventorySaga(),
+        listMaterialReturnSaga(),
+        listSupplierSaga(),
+        tableLengthSaga(),
+        emptyTablesSaga(),
         // end OrderReturn
     ]);
 }

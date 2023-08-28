@@ -1,37 +1,63 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { COLORS } from "../../constants/common";
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
 import { CheckItemComponent } from "../../components";
-const DetailInventoryScreen = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { detailInventoryRequest } from "../../redux_store/inventory/InventorySlice";
+import { formatDateFromNumber } from "../../utils/function";
+import { ScrollView } from "react-native-gesture-handler";
+const DetailInventoryScreen = ({ navigation, route }: any) => {
+    const { id } = route.params;
+    const dispatch = useDispatch();
+    const inventoryDetail = useSelector((state: RootState) => state.inventory.inventoryService.detailMaterial);
+    useEffect(() => {
+        dispatch(detailInventoryRequest(id));
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.box}>
-                <Text>
-                    <Text style={styles.textGrey}>Người cân bằng: </Text>
-                    <Text style={styles.textBlack}>NguyenLeThanh</Text>
-                </Text>
-                <Text style={styles.textTime}>15/04/2023 23:47</Text>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tên nguyên liệu</Text>
+                </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.name}</Text>
             </View>
             <View style={styles.box}>
-                <Text>
-                    <Text style={styles.textGrey}>Người tạo: </Text>
-                    <Text style={styles.textBlack}>NguyenLeThanh</Text>
-                </Text>
-                <Text style={styles.textTime}>15/04/2023 23:47</Text>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Số lượng</Text>
+                </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.quantity+ '. ' +inventoryDetail.unit}</Text>
             </View>
-            <View style={styles.boxContent}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={[styles.text, { width: '50%' }]}>Hàng kiểm</Text>
-                    <Text style={[styles.text, { width: '22%' }]}>Tồn kho</Text>
-                    <Text style={[styles.text, { width: '16%' }]}>Thực tế</Text>
-                    <Text style={[styles.text, { width: '22%' }]}>Lệch</Text>
+            <View style={styles.box}>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Mô tả</Text>
                 </View>
-                <View>
-                    <CheckItemComponent
-                        product={{ idProduct: 'SP0001', name: 'Bia 333', inventoryNumber: 898, newInventoryNumber: 89 }}
-                        onPress={() => { }} />
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.description === '' ? '...' : inventoryDetail.description}</Text>
+            </View>
+            <View style={styles.box}>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Trạng thái</Text>
                 </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.status}</Text>
+            </View>
+            <View style={styles.box}>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Ngày nhập</Text>
+                </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumber(inventoryDetail.expiredDate)}</Text>
+            </View>
+            <View style={styles.box}>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Ngày hết hạn</Text>
+                </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumber(inventoryDetail.manufacturerDate)}</Text>
+            </View>
+            <View style={styles.box}>
+                <View style={styles.left}>
+                    <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tổng tiền</Text>
+                </View>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.price + ' đồng'}</Text>
             </View>
         </View >
     );
@@ -40,26 +66,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    textGrey: {
-        padding: 1,
-        color: COLORS.color_grey,
-        fontSize: responsiveFontSize(2),
-    },
-    textBlack: {
-        padding: 1,
-        color: COLORS.color_black,
-        fontSize: responsiveFontSize(2.2),
-        fontWeight: '500'
-    },
-    textTime: {
-        paddingTop: 4,
-        fontSize: responsiveFontSize(1.9),
-        color: COLORS.color_grey
-    },
-    text: {
-        color: COLORS.color_black
-    },
     box: {
+        flexDirection: 'row',
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 20,
@@ -67,14 +75,28 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.color_white,
         borderBottomWidth: 0.5,
         borderColor: COLORS.color_grey_seconds,
-
+        justifyContent: 'space-between',
     },
-    boxContent: {
-        backgroundColor: COLORS.color_white,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
-    }
+    text: {
+        color: COLORS.color_grey,
+        fontSize: responsiveFontSize(2),
+    },
+    left: {
+        flexDirection: 'row'
+    },
+    boxImage: {
+      marginTop: 10,
+      marginBottom: 10,
+      height: '20%',
+      alignItems: 'center',
+      flexDirection: 'row',
+      padding: 1,
+    },
+  content: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'lightblue',
+    marginHorizontal: 10,
+  },
 });
 export default DetailInventoryScreen;
