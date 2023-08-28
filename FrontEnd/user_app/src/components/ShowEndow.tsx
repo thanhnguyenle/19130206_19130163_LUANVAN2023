@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   View,
@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import ProductItem from './ProductItem';
 import TitleButton from './TitleButton';
+import {Product} from "../model/product";
 
 interface ShowEndowProps {
   title: string;
   onPressDeteil: () => void;
-  data: any[];
+  data: Product[];
   navigation: any;
 }
 

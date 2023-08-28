@@ -8,27 +8,39 @@ $color-green: green;
   margin-top: 80px;
   margin-left: 10px;
   margin-right: 10px;
-  .left{
-    width: 20%;
-  }
   .right{
-    width: 80%;
+    align-items: center;
+    margin-left: 20px;
+    padding: 5px;
+    width: 98%;
     .content{
-      margin-top: 15px;
+      margin-top: 12px;
+      input.form-control{
+        margin-bottom: 0;
+      }
+      button.btn.btn-primary{
+        background-color: #00b74a;
+        width: 120px;
+      }
+      .MDBDatatable input::placeholder {
+        color: #999;
+        font-style: italic;
+      }
     }
     .top{
+      width: 100%;
       .hideGroup{
         display: none;
       }
       .filterGroup{
         z-index: 1;
-       text-align: start;
-       display: grid;
-       column-gap: 50px;
-       grid-template-columns: auto auto;
-       position: absolute;
-       top: 100px;
-       right: 100px;
+        text-align: start;
+        display: grid;
+        column-gap: 50px;
+        grid-template-columns: auto;
+        position: absolute;
+        top: 100px;
+        right: 80px;
         .item{
           input[type="checkbox"]{
             margin-right: 10px;
@@ -41,12 +53,12 @@ $color-green: green;
       display: flex;
       .title{
         color: black;
-        width: 15%;
+        width: 30%;
         text-transform: uppercase;
       }
       .groupBtn{
         text-align: end;
-        width: 55%;
+        width: 70%;
         .btn-add{
           justify-content: center;
           i.fa-sort-down{
@@ -61,77 +73,27 @@ $color-green: green;
           }
         }
       }
-      .addGroup{
-        z-index: 1;
-        text-align: start;
-        position: absolute;
-        margin-top: -3px;
-        margin-left: 90px;
-        button {
-          border: none;
-          color: rgba(0, 0, 0, 0.8);
-          background: #ffffff;
-          font-size: 16px;
-          i{
-            margin-right: 5px;
-            color: grey;
-            font-size: 12px;
-          }
-        }:hover{
-           background: $color-grey;
-         }
-      }
-      .operation{
-        float: left;
-        width: 30%;
-        text-align: center;
-        align-items: center;
-        h6{
-          margin-top:10px;
-          font-size: 12px;
-          span{
-            color: #4bac4d;
-          }
-        }
-        button{
-          text-align: center;
-          border: none;
-        }
-        .btn{
-          padding: 10px;
-          span{
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-
-      }
-       .listOperation{
-         z-index: 1;
-         display: flex;
-         flex-direction: column;
-         width: auto;
-         position: absolute;
-         margin-top: 38px;
-         margin-left: 330px;
-         button{
-           text-align: start;
-           border: none;
-           background: white;
-           color: rgba(0, 0, 0, 0.8);
-           font-size: 16px;
-           i{
-             margin-right: 5px;
-             color: grey;
-             font-size: 12px;
-           }
-         }:hover{
-         background: $color-grey;
-                   }
-       }
-      .hide{
+    }
+  }
+  .item1{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .contentBody{
+    display: flex;
+    flex-direction: row;
+    .div1{
+      width: 20%;
+      margin-right: 10px;
+      border-right: 3px solid $color-grey;
+      padding-right: 10px;
+      .file-input {
         display: none;
       }
+    }
+    .div2{
+      width:80%;
+      margin-left: 20px;
     }
   }
 }

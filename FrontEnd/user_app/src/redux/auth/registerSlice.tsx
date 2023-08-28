@@ -5,15 +5,6 @@ interface RegisterState {
     id: string | null;
     error: string | null;
 }
-interface RegisterCredentials {
-    name: string;
-    username: string;
-    email: string;
-    phoneNumber: string | null;
-    address: string | null;
-    password: string;
-    avatar: 'https://i.imgur.com/ae2zhS0.png'
-}
 const initialState: RegisterState = {
     loading: false,
     id: null,
@@ -24,7 +15,16 @@ const registerSlice = createSlice({
     name: 'register',
     initialState,
     reducers: {
-        registerRequest: (state, action: PayloadAction<RegisterCredentials>) => {
+        registerRequest: (state, action: PayloadAction<{
+            name: string;
+            username: string;
+            email: string;
+            phoneNumber: string;
+            address: string;
+            password: string;
+            avatar: string
+        }>) => {
+            console.log(action.payload)
             state.loading = true;
             state.error = null;
         },

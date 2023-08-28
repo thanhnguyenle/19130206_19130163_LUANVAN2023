@@ -16,8 +16,6 @@ const getAccessToken = async () => {
 // Thêm accessToken vào headers sử dụng setContext
 const authLink = setContext(async (_, { headers }) => {
     const accessToken = await getAccessToken();
-    console.log('demo')
-    console.log(accessToken)
     return {
         headers: {
             ...headers,

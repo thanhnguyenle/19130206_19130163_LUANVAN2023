@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { COLORS } from '../../constants/common';
+import {color} from "react-native-elements/dist/helpers";
 
 interface ChatInputProps {
   onSubmit: (text: string) => void;
@@ -31,7 +32,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="position">
+    <KeyboardAvoidingView>
       <View style={styles.container}>
         <TextInput
           placeholder="Add a comment..."
@@ -61,11 +62,12 @@ const styles = StyleSheet.create({
     borderColor: '#EEE',
     alignItems: 'center',
     paddingLeft: 15,
+    padding:20,
   },
   input: {
     flex: 1,
     height: 40,
-    fontSize: 15,
+    fontSize: 18,
     color: '#000',
   },
   button: {
@@ -78,11 +80,11 @@ const styles = StyleSheet.create({
     color: '#CCC',
   },
   text: {
-    color: '#3F51B5',
+    color: COLORS.color_primary,
     fontWeight: 'bold',
     fontFamily: 'Avenir',
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 16,
   },
 });
 

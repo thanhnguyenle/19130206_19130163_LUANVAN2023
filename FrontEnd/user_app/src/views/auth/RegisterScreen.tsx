@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, ImageBackground, ImageStyle, Text, Animated, TouchableOpacity, Alert } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { COLORS } from '../../constants/common';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -15,14 +14,9 @@ type RootStackParamList = {
     Admin: undefined;
     Login: undefined;
 };
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
-interface LoginScreenProps {
-    navigation: LoginScreenNavigationProp;
-}
-
 declare const alert: (message?: string) => void;
 
-const RegisterScreen = ({ navigation }: LoginScreenProps) => {
+const RegisterScreen = ({ navigation }: any) => {
     const [name, setName] = useState('Minh Như');
     const [username, setUsername] = useState('minhnhu01');
     const [email, setEmail] = useState('19130163@st.hcmuaf.edu.vn');

@@ -35,9 +35,7 @@ export const registerUser = async (credentials: RegisterCredentials) => {
 function* registerWorker(action: PayloadAction<RegisterCredentials>): Generator<any, any, any> {
     try {
         const response = yield call(registerUser, action.payload);
-        console.log(response);
         if (response != null) {
-            console.log(3);
             yield put(registerSuccess(response));
             yield delay(500)
             yield put(navigateToLogin());

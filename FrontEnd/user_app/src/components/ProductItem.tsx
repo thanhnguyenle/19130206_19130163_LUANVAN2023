@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     View,
     Text,
@@ -10,10 +10,14 @@ import {
 } from 'react-native';
 import { COLORS } from '../constants/common';
 import Iconicons from 'react-native-vector-icons/Ionicons';
+import {Product} from "../model/product";
+import {requestListCategory} from "../redux/product/category/CategorySlice";
+import {fetchProductsStart} from "../redux/product/product1/ProductSlice";
+import {useDispatch} from "react-redux";
 
 interface ProductItemProps {
     navigation: any;
-    item: any;
+    item: Product;
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ navigation, item }) => {
@@ -21,11 +25,13 @@ const ProductItem: React.FC<ProductItemProps> = ({ navigation, item }) => {
         <View style={styles.productContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('ProductDetail', { product: item });
+                    navigation.push('DetailProductScreen', { id: item.id });
                 }}
             >
                 <View style={styles.containerImage}>
-                    <Image style={styles.image} source={{ uri: item.imgUrl }} />
+                    {
+                        item.images.length > 0 ? <Image style={styles.image} source={{uri: item.images[0].url}} /> : <Image style={styles.image} source={{ uri: item.images[0].url }} />
+                    }
                 </View>
                 <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.star}>

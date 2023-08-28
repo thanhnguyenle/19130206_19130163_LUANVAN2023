@@ -32,8 +32,8 @@ const InformationOrderScreen = ({ route, navigation }: any) => {
     const currentDateStart = new Date();
     const currentDateEnd = new Date(); // Tạo một bản sao của currentDateStart
     currentDateEnd.setHours(currentDateEnd.getHours() + 2);
-    const [timeStart, setTimeStart] = useState(formatDateTimeFromNumber(currentDateStart.getTime()));
-    const [timeEnd, setTimeEnd] = useState(formatDateTimeFromNumber(currentDateEnd.getTime()));
+    const [timeStart, setTimeStart] = useState(formatDateTimeFromNumber(currentDateStart.getTime()/1000));
+    const [timeEnd, setTimeEnd] = useState(formatDateTimeFromNumber(currentDateEnd.getTime()/1000));
     const [orderLineItems, setOrderLineItems] = useState<OrderLineItem[]>([]);
     const [note, setNote] = useState(order.note);
     const method = useSelector((state: RootState) => state.payment.paymentReturnService.method);

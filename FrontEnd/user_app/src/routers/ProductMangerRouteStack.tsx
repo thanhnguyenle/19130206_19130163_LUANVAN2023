@@ -1,14 +1,17 @@
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { COLORS } from '../constants/common'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const BlogStack = createNativeStackNavigator();
+const ProductMangerStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
-import BlogScreen from '../views/BlogScreen';
+import SearchScreen from '../views/SearchScreen';
+import HomeScreen from '../views/HomeScreen';
+import ProfileUser from '../views/ProfileUser';
+import ProductDetail from "../views/ProductDetail";
 
-const BlogScreenStack = ({ navigation }: any) => {
+const ProductMangerRouteStack = ({ navigation }: any) => {
     return (
-        <BlogStack.Navigator
-            initialRouteName='HomeBlog'
+        <ProductMangerStack.Navigator
+            initialRouteName='DetailProductScreen'
             screenOptions={{
                 headerStyle: {
                     backgroundColor: COLORS.color_white,
@@ -20,14 +23,14 @@ const BlogScreenStack = ({ navigation }: any) => {
                 headerShown: true,
             }}
         >
-            <BlogStack.Screen
-                name='HomeBlog'
-                component={BlogScreen}
+            <ProductMangerStack.Screen
+                name='DetailProductScreen'
+                component={ProductDetail}
                 options={{
-                    title: 'Tin tức/Sự kiện',
+                    title: 'Chi tiết sản phẩm',
                 }}
             />
-        </ BlogStack.Navigator>
+        </ ProductMangerStack.Navigator>
     );
 }
-export default BlogScreenStack;
+export default ProductMangerRouteStack;

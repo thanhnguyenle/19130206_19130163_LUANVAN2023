@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import SockJsClient from 'react-stomp';
 import {
-  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   View,
-  Platform,
 } from 'react-native';
 import ChatContent from './ChatContent';
 import ChatInput from './ChatInput';
@@ -48,7 +46,7 @@ const ListChat: React.FC = () => {
       {
         user_id: '1',
         content:
-          'hellhello hellohello hellohello hellohello hellohello hellohello hellohello hellohello hellohello hellohello helloo hello',
+          'hello',
       },
       {
         user_id: '2',
@@ -83,8 +81,7 @@ const ListChat: React.FC = () => {
         onMessage={(msg: any) => onMessageReceived(msg)}
         debug={false}
       />
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView
+        <ScrollView style={{flex:2}}
           ref={(scrollView) => {
             setScrollView(scrollView);
           }}
@@ -94,7 +91,6 @@ const ListChat: React.FC = () => {
           ))}
         </ScrollView>
         <ChatInput onSubmit={submitComment} />
-      </KeyboardAvoidingView>
     </View>
   );
 };
