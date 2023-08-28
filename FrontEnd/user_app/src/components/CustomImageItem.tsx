@@ -5,7 +5,7 @@ const { width, height } = Dimensions.get('window');
 const CustomImageItem = ({ item, index, total }: any) => {
     return (
         <View style={styles.cardView}>
-            <Image style={styles.image} source={{ uri: item.imgUrl }} />
+            <Image style={styles.image} source={{ uri: item.url }} />
         </View>
     );
 };

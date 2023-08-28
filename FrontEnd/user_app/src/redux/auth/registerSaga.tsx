@@ -10,10 +10,10 @@ interface RegisterCredentials {
     name: string;
     username: string;
     email: string;
-    phoneNumber: string | null;
-    address: string | null;
+    phoneNumber: string ;
+    address: string ;
     password: string;
-    avatar: 'https://i.imgur.com/ae2zhS0.png'
+    avatar: string
 }
 export const registerUser = async (credentials: RegisterCredentials) => {
     try {
@@ -34,10 +34,9 @@ export const registerUser = async (credentials: RegisterCredentials) => {
 };
 function* registerWorker(action: PayloadAction<RegisterCredentials>): Generator<any, any, any> {
     try {
+        console.log(action.payload);
         const response = yield call(registerUser, action.payload);
-        console.log(response);
         if (response != null) {
-            console.log(3);
             yield put(registerSuccess(response));
             yield delay(500)
             yield put(navigateToLogin());
@@ -46,7 +45,6 @@ function* registerWorker(action: PayloadAction<RegisterCredentials>): Generator<
             Alert.alert('Lỗi', 'Thông tin của bạn đã tồn tại!');
             yield put(registerFailure('Invalid credentials')); // set a generic error message
         }
-
     } catch (error: any) {
         Alert.alert('Lỗi', 'Thông tin của bạn đã tồn tại!');
         yield put(registerFailure(error.message)); // Set error state

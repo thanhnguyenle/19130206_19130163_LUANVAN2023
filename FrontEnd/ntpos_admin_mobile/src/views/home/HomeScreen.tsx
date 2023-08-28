@@ -30,7 +30,6 @@ const HomeScreen = ({ navigation }: any) => {
             <ScrollView>
                 <OverviewItem navigation={navigation} />
                 <MyPieChart />
-                <BestsellerItem />
                 <InventoryItem />
             </ScrollView >
         </View >

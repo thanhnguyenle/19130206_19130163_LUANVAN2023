@@ -121,7 +121,6 @@ export default function ClientPage() {
                                         const string = value.split(' in:').map((str: string) => str.trim());
                                         const phrase = string[0];
                                         let columns: string | string[] = string[1];
-
                                         if (columns) {
                                             columns = columns.split(',').map((str: string) => str.toLowerCase().trim());
                                         }

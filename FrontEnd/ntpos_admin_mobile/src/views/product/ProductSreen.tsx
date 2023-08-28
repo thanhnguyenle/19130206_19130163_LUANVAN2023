@@ -188,9 +188,9 @@ const ProductSreen = ({ navigation }: any) => {
                                                 <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{item.name}</Text>
                                             </View>
                                             <View style={styles.box3}>
-                                                <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{item.price}</Text>
+                                                <Text style={{ color: COLORS.darkGreen, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>`${item.price}`</Text>
                                                 <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{item.quantity}</Text>
-                                            </View>
+                                            </View>s
                                         </View>
                                     </TouchableOpacity>
                                 </View>

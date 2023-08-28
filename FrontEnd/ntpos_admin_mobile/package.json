@@ -28,6 +28,7 @@
     "graphql": "^16.6.0",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
+    "moment": "^2.29.4",
     "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-native": "0.71.6",

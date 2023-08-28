@@ -6,6 +6,9 @@ import { TouchableOpacity } from 'react-native'
 import SearchScreen from '../views/SearchScreen';
 import HomeScreen from '../views/HomeScreen';
 import ChatBox from '../views/ChatBox';
+import ProductMangerRouteStack from "./ProductMangerRouteStack";
+import ProductDetail from "../views/ProductDetail";
+import ListProductsScreen from "../views/ListProductScreen";
 const HomeScreenStack = ({ navigation }: any) => {
     return (
         <HomeStack.Navigator
@@ -42,6 +45,16 @@ const HomeScreenStack = ({ navigation }: any) => {
             name="Notification"
             component={ChatBox}
             options={{ headerShown: false }}
+            />
+            <HomeStack.Screen
+                name="DetailProductScreen"
+                component={ProductDetail}
+                options={{ headerShown: true }}
+            />
+            <HomeStack.Screen
+                name="ListProductsScreen"
+                component={ListProductsScreen}
+                options={{ headerShown: true }}
             />
 
         </ HomeStack.Navigator>

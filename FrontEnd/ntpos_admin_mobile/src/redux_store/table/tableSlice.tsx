@@ -5,20 +5,24 @@ import { GroupTable } from '../../models/groupTable';
 
 interface TableState {
     data: Table[];
+    dataTableNone: Table[];
     loading: boolean;
     error: string | null;
     selectedGroupTables: GroupTable[];
     isCreateTable: boolean | null;
     isDeleteSucess: null | boolean;
+    numbersLengthTabled: number,
 }
 
 const initialState: TableState = {
     data: [],
+    dataTableNone: [],
     loading: false,
     error: null,
     selectedGroupTables: [],
     isCreateTable: null,
     isDeleteSucess: null,
+    numbersLengthTabled:0,
 };
 
 const tableSlice = createSlice({
@@ -96,11 +100,43 @@ const tableSlice = createSlice({
         deleteTableNull: (state) => {
             state.isDeleteSucess = false;
         },
+        numberLengthTabled: (state) => {
+            state.loading = true;
+            state.error = '';
+        },
+        numberLengthTabledSuccess: (state, action: PayloadAction<number>) => {
+            state.numbersLengthTabled = action.payload;
+            state.loading = false;
+            state.error = null;
+        },
+        numberLengthTabledFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        fetchTablesNone1(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchTablesNoneFailure(state,action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        setDataTablesNone(state, action: PayloadAction<Table[]>) {
+            state.dataTableNone = action.payload;
+            state.loading = false;
+        },
+
     },
 
 });
 
 export const {
+    fetchTablesNoneFailure,
+  setDataTablesNone,
+  fetchTablesNone1,
+    numberLengthTabled,
+  numberLengthTabledSuccess,
+  numberLengthTabledFailure,
     deleteTable,
     deleteTableSuccess,
     deleteTableFailure,

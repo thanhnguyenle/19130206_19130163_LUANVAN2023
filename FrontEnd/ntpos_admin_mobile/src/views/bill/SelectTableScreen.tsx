@@ -7,16 +7,16 @@ import { RootState } from '../../app/store';
 import { Swipeable } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { fetchTablesStart } from '../../redux_store/table/tableSlice';
+import { fetchTablesNone1, fetchTablesStart } from "../../redux_store/table/tableSlice";
 import { dispatchTablesNull } from '../../redux_store/table/groupTableSlice';
 import { ButtonComponent } from "../../components";
 const SelectTableScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.table.tableSevice.loading);
     const error = useSelector((state: RootState) => state.table.tableSevice.error);
-    const data = useSelector((state: RootState) => state.table.tableSevice.data);
+    const data = useSelector((state: RootState) => state.table.tableSevice.dataTableNone);
     useEffect(() => {
-        dispatch(fetchTablesStart());
+        dispatch(fetchTablesNone1());
         dispatch(dispatchTablesNull());
     }, [dispatch]);
     return (

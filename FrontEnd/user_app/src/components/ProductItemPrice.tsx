@@ -10,10 +10,12 @@ import {
 } from 'react-native';
 import { COLORS } from '../constants/common';
 import Iconicons from 'react-native-vector-icons/Ionicons';
+import {Product} from "../model/product";
+import {formatPrice} from "../utils/function";
 
 interface ProductItemPriceProps {
     navigation: any;
-    item: any;
+    item: Product;
 }
 
 const ProductItemPrice: React.FC<ProductItemPriceProps> = ({
@@ -27,11 +29,13 @@ const ProductItemPrice: React.FC<ProductItemPriceProps> = ({
         <View style={styles.productContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('ProductDetail', { product: item });
+                    navigation.push('DetailProductScreen', { id: item.id });
                 }}
             >
                 <View style={styles.containerImage}>
-                    <Image style={styles.image} source={{ uri: item.imgUrl }} />
+                    {
+                        item.images.length > 0 ? <Image style={styles.image} source={{uri: item.images[0].url}} /> : <Image style={styles.image} source={{ uri: item.images[0].url }} />
+                    }
                 </View>
                 <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.star}>
@@ -46,7 +50,7 @@ const ProductItemPrice: React.FC<ProductItemPriceProps> = ({
                             fontWeight: '500',
                         }}
                     >
-                        {item.price}
+                        {formatPrice(item.price)}
                     </Text>
                     <Text
                         style={{
@@ -55,7 +59,6 @@ const ProductItemPrice: React.FC<ProductItemPriceProps> = ({
                             fontWeight: '500',
                         }}
                     >
-                        đ
                     </Text>
                 </View>
             </TouchableOpacity>

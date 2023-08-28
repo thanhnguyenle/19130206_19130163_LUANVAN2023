@@ -14,16 +14,31 @@ const { width, height } = Dimensions.get('window');
 interface ItemCategoryProps {
     item: {
         imageUrl: string;
-        title: string;
+        name: string;
     };
     onPress?: () => void;
 }
 
 const ItemCategory: React.FC<ItemCategoryProps> = ({ item, onPress }) => {
+    const data = [
+        {name: 'Đồ uống',   imageUrl: 'https://i.imgur.com/vL2IfKu.png',},
+        {name: 'Lẩu',   imageUrl: 'https://i.imgur.com/xHDFRUH.png',},
+        {name: 'Nướng',   imageUrl: 'https://i.imgur.com/SV7Sn1K.png',},
+        {name: 'Đồ uống nóng',   imageUrl: 'https://i.imgur.com/YxdPvzG.png',},
+        {name: 'Hải sản',   imageUrl: 'https://i.imgur.com/nSOCRh5.png',},
+        {name: 'Sinh tố',   imageUrl: 'https://i.imgur.com/fAYOgfy.png',},
+        {name: 'Soda',   imageUrl: 'https://i.imgur.com/fAYOgfy.png',},
+        {name: 'Trà sữa',   imageUrl: 'https://i.imgur.com/7CIrwjR.png',},
+    ];
+    const foundItem = data.find(dataItem => dataItem.name === item.name);
     return (
         <TouchableOpacity style={styles.cardView} onPress={onPress}>
-            <Image style={styles.image} source={{ uri: item.imageUrl }} />
-            <Text style={styles.itemTitle}>{item.title}</Text>
+            {foundItem ? (
+                <Image style={styles.image} source={{ uri: foundItem.imageUrl }} />
+            ) : (
+                <Image style={styles.image} source={{uri: 'https://i.imgur.com/SV7Sn1K.png'}} />
+            )}
+            <Text style={styles.itemTitle}>{item.name}</Text>
         </TouchableOpacity>
     );
 };
