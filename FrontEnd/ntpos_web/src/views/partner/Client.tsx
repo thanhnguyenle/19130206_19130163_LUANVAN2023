@@ -38,13 +38,13 @@ export default function ClientPage() {
 
     const clickableData = {
         columns: [
-            { label: 'Stt', field: 'stt' },
-            { label: 'Username', field: 'username' },
-            { label: 'Name', field: 'name' },
-            { label: 'Email', field: 'email' },
-            { label: 'PhoneNumber', field: 'phoneNumber' },
-            { label: 'Address', field: 'address' },
-            { label: 'Action', field: 'action', sort: false },
+            { label: t("STT"), field: 'stt' },
+            { label:  t("username"), field: 'username' },
+            { label:  t("Name"), field: 'name' },
+            { label:  t("email"), field: 'email' },
+            { label:  t("phoneNumber"), field: 'phoneNumber' },
+            { label:  t("address"), field: 'address' },
+            { label:  t("Action"), field: 'action', sort: false },
         ],
         rows: users.map((user, index) => ({
             stt: index + 1,

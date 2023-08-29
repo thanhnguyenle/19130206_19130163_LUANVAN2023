@@ -11,7 +11,7 @@ interface LoginState {
     loginResponse: LoginResponse | null;
     loggedIn: boolean,
     loading: boolean;
-    resetPass: boolean;
+    resetPass: string | null;
     error: string | null;
     user: User;
 }
@@ -32,7 +32,7 @@ const userModel: User = {
     username: '',
 };
 const initialState: LoginState = {
-    resetPass: false,
+    resetPass: null,
     loginResponse: null,
     loggedIn: false,
     loading: false,
@@ -64,11 +64,38 @@ const loginSlice = createSlice({
             state.loggedIn = false;
             state.loading = false;
         },
-        resetPassword: (state, action: PayloadAction<boolean>) => {
+        requestReadUser: (state, action: PayloadAction<string>) => {
+            state.loggedIn = true;
+        },
+        readUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+        },
+        readFailure: (state, action: PayloadAction<string>) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        resetPasswordRequest: (state, action: PayloadAction<string>) => {
+            state.loading = true;
+            state.error = null;
+        },
+        resetPasswordSuccess: (state, action: PayloadAction<string>) => {
+            state.loading = false;
             state.resetPass = action.payload;
+            state.error = null;
+        },
+        resetPasswordFailure: (state, action: PayloadAction<string>) => {
+            state.loading = false;
+            state.error = action.payload;
         },
     },
 });
 
-export const { loginRequest, logOut, loginSuccess, loginFailure, resetPassword, } = loginSlice.actions;
+export const {
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFailure,
+    loginRequest, logOut,
+    loginSuccess, loginFailure,
+    requestReadUser,readUser,
+    readFailure } = loginSlice.actions;
 export default loginSlice.reducer;

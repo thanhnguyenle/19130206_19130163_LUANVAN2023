@@ -179,10 +179,24 @@ const resources = {
             'district':'District',
             'provinces':'Provinces',
             'edit_client':'Edit client',
+            'STT' : 'STT',
+            'Name':'Name',
+            'NumberOfPeople':'NumberOfPeople',
+            'Note':'Note',
+            'Action':'Action',
+            'quantity':'Quantity',
+            'unit':'Unit'
         }
     },
     vi: {
         translation: {
+            'unit':'Đơn vị',
+            'quantity':'Số lượng',
+            'STT' : 'Số thứ tự',
+            'Name':'Tên',
+            'NumberOfPeople':'Số lượng người',
+            'Note':'Ghi chú',
+            'Action':'Thao tác',
             'support': 'Hỗ trợ',
             'language_E': 'Tiếng anh',
             'language_V': 'Tiếng việt',

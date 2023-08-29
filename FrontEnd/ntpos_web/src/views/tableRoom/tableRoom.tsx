@@ -1,38 +1,36 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useTranslation } from "react-i18next";
-import '../../assets/style/supplier.scss';
+import '../../assets/style/tableRoom.scss';
+import {MDBBtn, MDBDatatable, MDBIcon} from 'mdb-react-ui-kit';
 import {useDispatch, useSelector} from "react-redux";
-import {MDBBtn, MDBDatatable, MDBIcon} from "mdb-react-ui-kit";
-import {detailClientRequest, fetchUsersRequest} from "../../store/client/clientSlice";
 import {RootState} from "../../app/store";
-import {fetchSuppliersRequest} from "../../store/supplier/SupplierSlice";
+import {detailClientRequest, fetchUsersRequest} from "../../store/client/clientSlice";
+import {fetchTablesStart} from "../../store/table/tableSlice";
 
-export default function SupplierPage() {
+export default function TableRoomPage() {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const loading = useSelector((state: RootState) => state.inventory.supplier.loading);
-    const error = useSelector((state: RootState) => state.inventory.supplier.error);
-    const suppliers = useSelector((state: RootState) => state.inventory.supplier.suppliers);
+    const loading = useSelector((state: RootState) => state.order.table.loading);
+    const error = useSelector((state: RootState) => state.order.table.error);
+    const tables = useSelector((state: RootState) => state.order.table.data);
     const clickableData = {
         columns: [
             { label: t("STT"), field: 'stt' },
             { label: t("Name"), field: 'name' },
-            { label:t("email"), field: 'email' },
-            { label: t("phoneNumber"), field: 'phone' },
-            { label: t("address"), field: 'address' },
+            { label: t("NumberOfPeople"), field: 'numberOfPeople' },
+            { label: t("Note"), field: 'note' },
+            { label: t("status"), field: 'status' },
             { label: t("Action"), field: 'action', sort: false },
         ],
-        rows: suppliers.map((supplier, index) => ({
+        rows: tables.map((table, index) => ({
             stt: index + 1,
-            name: supplier.name,
-            email: supplier.email,
-            address: supplier.address,
-            phone: supplier.phone,
-            status: supplier.status,
+            name: table.name,
+            numberOfPeople: table.numberOfPeople+'',
+            note: table.note,
+            status: table.status,
             action:(
                 <>
                     <MDBBtn outline size='sm' floating className='delete-button' style={{color:'red', borderColor:'red'}} onClick={() => {
-
                     }
                     }>
                         <MDBIcon icon='trash-alt' />
@@ -50,21 +48,21 @@ export default function SupplierPage() {
         })),
     };
     useEffect(() => {
-        dispatch(fetchSuppliersRequest());
+        dispatch(fetchTablesStart());
     }, []);
     const handleReloadData = () => {
-        dispatch(fetchSuppliersRequest());
+        dispatch(fetchTablesStart());
     };
     return (
-        <div className='supplier-page row'>
+        <div className='table-room-page row'>
             <div className="right">
                 <div className="top">
-                    <h4 className="title">{t("supplier")}</h4>
+                    <h4 className="title">{t("rom_table")}</h4>
                     <div className="groupBtn">
-                        <MDBBtn className='btn-inventory' color='success' onClick={() => { }}>
+                        <MDBBtn className='btn-inventory' color='success' onClick={() => {  }}>
                             <>
                                 <MDBIcon fas icon="add" />
-                                <span>{t("supplier")}</span>
+                                <span>{t("rom_table")}</span>
                             </>
                         </MDBBtn>
                         <MDBBtn className='btn-import' color='success'>

@@ -24,12 +24,14 @@ const fetchOrdersQuery = gql`
              orderLineItems{
               productID
               quantity
+              name
               price
               discount
             }
             tables{
               tableID
               note
+              name
               status
               startTime
               endTime
@@ -81,7 +83,7 @@ function* createOrderFunction(action: any): Generator<any, any, any> {
         const { data } = yield call(order.mutate, {
             mutation: fetchCreateOrderQuery,
             variables: {
-                userID: 'c967a43e-d825-486a-bd0f-5dd60eef4b6a',
+                userID: userID,
                 group: group,
                 orderDate: 1,
                 status: status,

@@ -15,13 +15,13 @@ export default function CategoryPage() {
     const products = useSelector((state: RootState) => state.product.productsSevice.products);
     const clickableData = {
         columns: [
-            { label: 'Stt', field: 'stt' },
-            { label: 'Name', field: 'name' },
-            { label: 'Quantity', field: 'quantity' },
-            { label: 'Price', field: 'price' },
-            { label: 'Unit', field: 'unit' },
-            { label: 'Status', field: 'status' },
-            { label: 'Action', field: 'action', sort: false },
+            { label: t("STT"), field: 'stt' },
+            { label:  t("name"), field: 'name' },
+            { label: t("quantity"), field: 'quantity' },
+            { label: t("price"), field: 'price' },
+            { label:t("unit"), field: 'unit' },
+            { label: t("status"), field: 'status' },
+            { label:t("Action"), field: 'action', sort: false },
         ],
         rows: products.map((product, index) => ({
             stt: index + 1,

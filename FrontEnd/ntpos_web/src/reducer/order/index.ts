@@ -1,6 +1,8 @@
-// import { combineReducers } from '@reduxjs/toolkit';
-// const inventorySeviceReducer = combineReducers({
-//     supplier: supplierReducer,
-// });
-//
-// export default inventorySeviceReducer;
+import { combineReducers } from '@reduxjs/toolkit';
+import orderReducer from "../../store/order/orderSlice";
+import tableReducer from "../../store/table/tableSlice";
+const orderSeviceReducer = combineReducers({
+    order: orderReducer,
+    table: tableReducer,
+});
+export default orderSeviceReducer;

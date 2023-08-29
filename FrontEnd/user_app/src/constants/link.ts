@@ -4,3 +4,6 @@ export const linkRegister = context + '/auth-service/register';
 export const linkProduct = context + '/product-service/graphql';
 export const linkOrder = context + '/order-service/graphql';
 export const linkPayment = context + '/payment-service/graphql';
+export const linkMe = context + '/auth-service/me'
+export const XacThucNguoiDung = context + '/auth-service/verifyEmail'
+export const resetPassword = context + '/auth-service/resetPassword'

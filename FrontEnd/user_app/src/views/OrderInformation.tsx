@@ -23,6 +23,8 @@ import {RootState} from "../app/store";
 import {paymentMethodNull} from "../redux/payment/PaymentSlice";
 import {OrderLineItem, OrderTable} from "../model/order";
 import {createOrder} from "../redux/order/orderSlice";
+import {logOut} from "../redux/auth/loginSlice";
+import {navigateToLogin} from "../redux/navigation/navigationSlice";
 function formatDateTimeFromNumber(timestamp: number): string {
     const date = new Date(timestamp);
     const day = date.getDate().toString().padStart(2, '0');
@@ -37,6 +39,7 @@ function formatDateTimeFromNumber(timestamp: number): string {
 const OrderInformationScreen = ({ navigation ,route}: any) => {
     const { id,name,numberOfPeople } = route.params;
     const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.auth.login.user);
     const method = useSelector((state: RootState) => state.payment.paymentReturnService.method);
     const currentDateStart = new Date();
     const currentDateEnd = new Date(); // Tạo một bản sao của currentDateStart
@@ -54,14 +57,14 @@ const OrderInformationScreen = ({ navigation ,route}: any) => {
         quantity: item.quantity,
         discount:0,
     }));
-    const tablesFormat : OrderTable[]  = tables.map((item) => ({
-        tableID:item.tableID,
-        name:item.name,
-        note:item.note,
-        endTime:item.endTime,
-        status:item.status ,
-        startTime:item.startTime,
-    }));
+    // const tablesFormat : OrderTable[]  = tables.map((item) => ({
+    //     tableID:item.tableID,
+    //     name:item.name,
+    //     note:item.note,
+    //     endTime:item.endTime,
+    //     status:item.status ,
+    //     startTime:item.startTime,
+    // }));
     useEffect(() => {
         dispatch(paymentMethodNull());
         AsyncStorage.getItem('carts').then(orderData => {
@@ -76,17 +79,27 @@ const OrderInformationScreen = ({ navigation ,route}: any) => {
         const table = {tableID: id, name: name,  note: '',    status: '',startTime:   Math.floor(currentDateStart.getTime() / 1000),  endTime:   Math.floor(currentDateEnd.getTime() / 1000)};
         tables.push(table);
         setTable(tables);
-        console.log(tables)
+        const tablesFormat : OrderTable[]  = tables.map((item) => ({
+            tableID:item.tableID,
+            name:item.name,
+            note:item.note,
+            endTime:item.endTime,
+            status:item.status ,
+            startTime:item.startTime,
+        }));
         try {
             if (cartItems.length > 0) {
-                dispatch(createOrder({userID: 'userId',group: 'KHACHHANG',orderDate: Math.floor(currentDateStart.getTime() / 1000),note,status:'INCOMPLETE',orderLineItems,tables:tablesFormat}));
+                console.log(user.id)
+                setTimeout( async() => {
+                    dispatch(createOrder({userID: user.id,group: 'KHACHHANG',orderDate: Math.floor(currentDateStart.getTime() / 1000),note,status:'CREATED',orderLineItems,tables:tablesFormat}));
+                },1000)
                 Toast.show({
                     type: 'success',// success, error, info, or any
                     text1: 'Bạn đã đặt hàng thành công!',
                     position: 'top',
                 },);
                 console.log(tablesFormat);
-                // navigation.navigate('Home')
+                navigation.navigate('Home')
             }
             else {
                 Toast.show({

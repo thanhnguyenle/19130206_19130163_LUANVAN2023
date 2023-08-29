@@ -12,7 +12,7 @@ import { calculateQuality, calculateTotalPrice, formatDateFromNumber } from "../
 import { idOrderSuccess } from "../../redux_store/order_return/OrderReturnSlice";
 import SelectDropdown from "react-native-select-dropdown";
 import IconIcons from "react-native-vector-icons/Ionicons";
-import { OrderLineItem } from "../../models/order";
+import { OrderLineItem, OrderTable } from "../../models/order";
 import { fetchProductsNull, fetchProductsStart } from "../../redux_store/product/productSlice";
 const EditOrderScreen = ({ navigation }: any) => {
   const [number, setNumber] = useState('1');
@@ -58,17 +58,25 @@ const EditOrderScreen = ({ navigation }: any) => {
     setCartItems(updatedCartItems);
   };
   const handleEdit = () => {
+    const tablesFormat : OrderTable[]  = order.tables.map((item) => ({
+      tableID:item.tableID,
+      name:item.name,
+      note:item.note,
+      endTime:item.endTime,
+      status:item.status ,
+      startTime:item.startTime,
+    }));
     dispatch(editTableOrderRequest({
       id:order.id,
       userID:order.userID,
       group:order.group,
       orderDate:order.orderDate,
+      note:order.note,
       status:status,
-      note:'demo',
       orderLineItems:orderLineItems1,
-      tables:order.tables,
+      tables:tablesFormat,
     }));
-    console.log(order.orderLineItems)
+    console.log(tablesFormat)
     navigation.replace('Bill')
   }
   const listItems = order.orderLineItems.map((item) =>
@@ -149,7 +157,7 @@ const EditOrderScreen = ({ navigation }: any) => {
         </View>
         <View style={[styles.box, {alignItems:'center'}]}>
           <View style={styles.left}>
-            <FontAwesome name="clock-o" size={20} color={COLORS.color_grey} style={{ paddingLeft: 10, paddingRight: 10 }} />
+            <FontAwesome name="check-square-o" size={20} color={COLORS.color_grey} style={{ paddingLeft: 10, paddingRight: 10 }} />
             <Text style={styles.text}>Trạng thái</Text>
           </View>
           <View style={{flexDirection:'row', alignItems:'center'}}>

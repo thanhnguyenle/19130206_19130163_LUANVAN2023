@@ -6,6 +6,8 @@ import { MailboxScreen } from '../views/ImportFile';
 import NotificationScreenStack from './NotificationStack'
 const MailBoxStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
+import DetailChatScreen from "../views/mailbox/DetailChat";
+import React from "react";
 
 const MailBoxScreenStack = ({ navigation }: any) => {
     return (
@@ -34,21 +36,6 @@ const MailBoxScreenStack = ({ navigation }: any) => {
                             <Ionicons name='menu' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                         </TouchableOpacity>
                     ),
-                    headerRight: () => (
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity style={{ marginRight: 10 }} onPress={() => {
-                                // navigation.push('NotificationStack');
-                            }}>
-                                <Ionicons name='md-filter-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 2, }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                navigation.push('NotificationStack');
-                            }}>
-                                <Ionicons name='md-notifications-outline' size={25} color={COLORS.darkGreen} style={{ marginRight: 2, }} />
-                            </TouchableOpacity>
-                        </View>
-
-                    ),
                 }}
             />
             <MailBoxStack.Screen
@@ -56,7 +43,20 @@ const MailBoxScreenStack = ({ navigation }: any) => {
                 component={NotificationScreenStack}
                 options={{ headerShown: false }}
             />
-
+          <MailBoxStack.Screen
+            name="DetailChatScreen"
+            component={DetailChatScreen}
+            options={{
+              title: 'Chat với người dùng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
 
         </ MailBoxStack.Navigator>
     );

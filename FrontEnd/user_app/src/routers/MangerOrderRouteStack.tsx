@@ -24,7 +24,7 @@ const MangerOrderScreenStack = ({ navigation }: any) => {
                 name='HomeMangerOrder'
                 component={MangerOrder}
                 options={{
-                    title: 'Đơn hàng',
+                    title: 'Lịch sử đơn hàng',
                 }}
             />
         </ MangerOrderStack.Navigator>

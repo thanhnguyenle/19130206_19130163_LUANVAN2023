@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View, StyleSheet} from 'react-native';
-import { BottomSheet, Button, ListItem } from '@rneui/themed';
-import { COLORS } from '../constants/common';
 import ListChat from '../components/chat/ListChat';
 
 interface Props {
