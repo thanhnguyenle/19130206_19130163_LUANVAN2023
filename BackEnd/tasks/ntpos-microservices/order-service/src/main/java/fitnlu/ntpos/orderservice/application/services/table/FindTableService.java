@@ -13,7 +13,7 @@ import java.util.List;
 public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableAtTimeUseCase,
         IFindAllTableUseCase, IFindBusyTableAtTimeUseCase , IFindAllTableByOrderIDUseCase,
     IFindAllTableByGroupIDUseCase, IFindAllBusyTableUseCase, IFindAllEmptyTableUseCase
-,IFindTableNotInGroup{
+,IFindTableNotInGroup, ITableIsBusyUseCase{
     private final IReadTablePort readTablePort;
     @Override
     public List<Table> findAllTable() {
@@ -98,4 +98,9 @@ public class FindTableService implements IFindTableByIDUseCase, IFindEmptyTableA
     @Override
     public List<Table> findTableNotInGroup() {
        return readTablePort.findTableNotInGroup();    }
+
+    @Override
+    public boolean isBusyTable(String id, long startTime, long endTime) {
+        return readTablePort.isBusyTable( id, startTime, endTime);
+    }
 }

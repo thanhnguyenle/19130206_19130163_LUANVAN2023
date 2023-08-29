@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
+        </processorPath>
+        <module name="auth-microservice2.chat-service.test" />
+        <module name="auth-microservice2.notification-service.main" />
+        <module name="auth-microservice2.payment-service.test" />
+        <module name="auth-microservice2.auth-service.main" />
+        <module name="auth-microservice2.inventory-service.test" />
+        <module name="auth-microservice2.order-service.main" />
+        <module name="auth-microservice2.user-service.test" />
+        <module name="auth-microservice2.product-service.test" />
+        <module name="auth-microservice2.order-service.test" />
+        <module name="auth-microservice2.inventory-service.main" />
+        <module name="auth-microservice2.product-service.main" />
+        <module name="auth-microservice2.payment-service.main" />
+        <module name="auth-microservice2.user-service.main" />
+        <module name="auth-microservice2.auth-service.test" />
+        <module name="auth-microservice2.chat-service.main" />
+        <module name="auth-microservice2.notification-service.test" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+</project>

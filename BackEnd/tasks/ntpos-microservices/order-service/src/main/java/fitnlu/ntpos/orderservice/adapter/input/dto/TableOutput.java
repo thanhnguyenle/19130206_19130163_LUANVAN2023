@@ -16,5 +16,7 @@ public class TableOutput {
     private String status;
     private String note;
     @Setter
+    private boolean isBusy;
+    @Setter
     private List<GroupOutput> groups;
 }

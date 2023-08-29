@@ -1,0 +1,41 @@
+type Result{
+    message:String
+}
+
+type OrderPlacedEvent{
+    userID: String,
+    orderID: String,
+    status: String
+}
+
+type NotificationEvent{
+    userID: String,
+    description: String,
+    status: String,
+    timestamp: String
+}
+
+type PageNotificationEventInfo{
+    notifications: [NotificationEvent],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+type PageOrderPlacedEventInfo{
+    orderPlacedEvents: [OrderPlacedEvent],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
+
+type Query {
+#    orderPlacedEvents: PageOrderPlacedEventInfo
+#    getOrderPlacedEventsByUserID(pagingInput: Paging,userID: String): PageOrderPlacedEventInfo
+    notificationOfUser(userID: String): PageNotificationEventInfo
+}

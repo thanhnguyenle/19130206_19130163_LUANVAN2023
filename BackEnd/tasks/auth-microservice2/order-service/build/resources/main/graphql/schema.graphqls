@@ -1,0 +1,225 @@
+type Order{
+    id: String,
+    userID: String,
+    group: String,
+    orderDate: Int,
+    status: String,
+    note: String,
+    orderLineItems: [OrderProduct],
+    tables: [OrderTable]
+}
+
+type OrderReturn {
+    id: String,
+    userID: String,
+    group: String,
+    orderID: String,
+    orderReturnDate: Int,
+    orderLineItemsReturn: [OrderProduct]
+    tablesReturn: [OrderTable],
+    status: String,
+    note: String,
+}
+
+type OrderProduct {
+    orderID: String,
+    productID: String,
+    quantity: Int,
+    price: Float,
+    discount: Float,
+    name: String
+}
+type OrderTable {
+    orderID: String,
+    tableID: String,
+    note: String,
+    status: String
+    startTime: Int,
+    endTime: Int,
+    name: String
+}
+
+type Table {
+    id: String,
+    name: String,
+    numberOfPeople: Int,
+    status: String,
+    note: String,
+    groups: [GroupTable]
+}
+
+type GroupTable {
+    id: String,
+    name: String,
+    status: String,
+    note: String,
+    tables: [Table]
+}
+
+type ResultOutput{
+    success: Boolean,
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
+
+input ImageInput{
+    url: String,
+    description: String
+}
+
+type PageOrderInfo{
+    orders: [Order],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+type PageReturnOrderInfo{
+    ordersReturn: [OrderReturn],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+type PageTableInfo{
+    tables: [Table],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+type PageOrderProductInfo{
+    orderProducts: [OrderProduct],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+type PageOrderTableInfo{
+    orderTableOutputs: [OrderTable],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+enum TimeSearch{
+    TODAY
+    YESTERDAY
+    THIS_WEEK
+    LAST_WEEK
+    THIS_MONTH
+    LAST_MONTH
+    THIS_YEAR
+    LAST_YEAR
+    ALL_TIME
+}
+
+input OrderInput{
+    userID: String,
+    group: String,
+    status: String,
+    note: String,
+    orderLineItems: [OrderProductInput],
+    tables: [OrderTableInput]
+}
+input OrderReturnInput{
+    userID: String,
+    group: String,
+    orderID: String,
+    status: String,
+    note: String,
+    orderLineItemsReturn: [OrderProductInput],
+    tablesReturn: [OrderTableInput]
+}
+input OrderProductInput{
+    productID: String,
+    quantity: Int,
+    price: Float,
+    discount: Float,
+    name: String
+}
+input OrderTableInput{
+    tableID: String,
+    note: String,
+    status: String
+    startTime: Int,
+    endTime: Int,
+    name: String
+}
+input TableInput{
+    name: String,
+    numberOfPeople: Int,
+    status: String,
+    note: String,
+    groups: [String]
+}
+input GroupTableInput{
+    name: String,
+    status: String,
+    note: String,
+    tables: [String]
+}
+type Query {
+   #Order
+    orders: [Order]
+    order(id: String): Order
+    findOrdersByUserID(pagingInput: Paging, userID: String,timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderInfo
+    findAllOrderByUserID(userID: String): [Order]
+
+    #OrderProduct
+    findOrderLineItemsByOrderID(orderID: String): [OrderProduct]
+    filterOrderLineItemsByOrderID(pagingInput: Paging, orderID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageOrderProductInfo
+
+    #Table
+    findTableByID(id: String): Table
+    filterTables(pagingInput: Paging, searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    findAllTables: PageTableInfo
+    filterTablesByGroupID(pagingInput: Paging, groupID: String, searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    filterBusyTables(pagingInput: Paging, startTime:Int,endTime:Int , searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    filterEmptyTables(pagingInput: Paging, startTime:Int,endTime:Int , searchType: String, searchValue: String, sortType:String, sortValue: String): PageTableInfo
+    findAllBusyTables:PageTableInfo
+    findAllEmptyTables:PageTableInfo
+    #Order Table
+    orderTables: PageOrderTableInfo
+    orderTable(orderID: String, tableID: String): OrderTable
+    findOrderTableByOrderID(orderID: String): PageOrderTableInfo
+    findOrderTableByTableID(tableID: String): PageOrderTableInfo
+    #GroupTable
+    findGroup(id: String): GroupTable
+    findAllGroup: [GroupTable]
+    #OrderReturn
+    ordersReturn:[OrderReturn]
+    orderReturn(id: String): OrderReturn
+    filterOrdersReturn(pagingInput: Paging,  timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageReturnOrderInfo
+    findAllOrderReturnByOrderID(orderID: String): [OrderReturn]
+    findAllOrderReturnByUserID(userID: String): [OrderReturn]
+
+
+}
+
+type Mutation {
+    #Order
+    createOrder(orderInput: OrderInput): Order
+    updateOrder(id: String, orderInput: OrderInput): Order
+    deleteOrder(id: String): Order
+    addTableToOrder(orderID: String, orderTables: [OrderTableInput]): ResultOutput
+    deleteTableFromOrder(orderID: String, tableIDs: [String]): ResultOutput
+    addOrderLineItemToOrder(orderID: String, orderLineItems: [OrderProductInput]): ResultOutput
+    deleteOrderLineItemFromOrder(orderID: String, orderLineItemIDs: [String]): ResultOutput
+
+    #Order Return
+    createOrderReturn(orderReturnInput: OrderReturnInput): OrderReturn
+    updateOrderReturn(id: String, orderReturnInput: OrderReturnInput): OrderReturn
+    deleteOrderReturn(id: String): OrderReturn
+
+    #OrderProduct
+    updateOrderLineItem(orderID: String, orderLineItemInput: OrderProductInput): OrderProduct
+    #Table
+    createTable(tableInput: TableInput): Table
+    updateTable(id: String, tableInput: TableInput): Table
+    deleteTable(id: String): Table
+    #GroupTable
+    createGroup(groupInput: GroupTableInput): GroupTable
+    updateGroup(id: String, groupInput: GroupTableInput): GroupTable
+    deleteGroup(id: String): GroupTable
+}

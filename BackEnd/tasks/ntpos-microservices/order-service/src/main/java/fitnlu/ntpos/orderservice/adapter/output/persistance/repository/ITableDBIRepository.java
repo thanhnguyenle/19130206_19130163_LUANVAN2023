@@ -31,4 +31,6 @@ public interface ITableDBIRepository {
     List<TableEntities> findAllEmptyTable();
      boolean updateStatusTable(String id, String status);
     List<TableEntities> findTableNotInGroup();
+
+    boolean isBusyTable(String id, long startTime, long endTime);
 }

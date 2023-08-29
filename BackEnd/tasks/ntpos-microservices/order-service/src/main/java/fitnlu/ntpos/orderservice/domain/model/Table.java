@@ -17,5 +17,6 @@ public class Table {
     private int numberOfPeople;
     private String status;
     private String note;
+    private boolean isBusy;
     private List<GroupTable> groups;
 }

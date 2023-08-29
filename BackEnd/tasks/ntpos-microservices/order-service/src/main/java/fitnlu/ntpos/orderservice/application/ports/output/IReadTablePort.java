@@ -23,4 +23,6 @@ public interface IReadTablePort {
       List<Table> findAllBusyTable();
       List<Table> findAllEmptyTable();
       List<Table> findTableNotInGroup();
+
+    boolean isBusyTable(String id, long startTime, long endTime);
 }

@@ -24,6 +24,7 @@ public class ChangeTableEndpointAdapter implements IChangeTableEndpointPort {
     private final IDeleteAllGroupByTableIDUseCase deleteAllGroupByTableIDUseCase;
     private final IDeleteAllTableByGroupIDUseCase deleteAllTableByGroupIDUseCase;
     private final IDeleteAllTableFromOrderUseCase deleteAllOrderLineItemsFromOrderUseCase;
+    private final IUpdateStatusTable updateStatusTable;
     @Override
     public TableOutput createTable(TableInput tableInput) {
         TableOutput tableOutput = TableMapperInput.toDTO(createTableUseCase.createTable(TableMapperInput.toDomain(tableInput)));
@@ -56,6 +57,11 @@ public class ChangeTableEndpointAdapter implements IChangeTableEndpointPort {
     @Override
     public ResultOutput deleteAllTableFromOrder(String orderID) {
         return ResultOutput.builder().success(deleteAllOrderLineItemsFromOrderUseCase.deleteAllTableFromOrder(orderID)).build();
+    }
+
+    @Override
+    public ResultOutput updateTableStatus(String id, String status) {
+        return ResultOutput.builder().success(updateStatusTable.updateStatusTable(id, status)).build();
     }
 
 
