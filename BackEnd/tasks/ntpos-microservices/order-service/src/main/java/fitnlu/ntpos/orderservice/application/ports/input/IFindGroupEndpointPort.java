@@ -9,4 +9,5 @@ public interface IFindGroupEndpointPort {
 
     List<GroupOutput> findAllGroupTable();
     List<GroupOutput> findAllGroupTableByTableID(String tableID);
+
 }

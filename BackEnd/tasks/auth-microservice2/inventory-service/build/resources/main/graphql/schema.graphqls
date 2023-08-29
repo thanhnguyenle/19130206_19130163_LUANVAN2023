@@ -1,0 +1,189 @@
+type Material{
+    id: String,
+    name: String,
+    price: Float,
+    unit: String,
+    quantity: Int,
+    status: String,
+    description: String,
+    expiredDate: Int,
+    manufacturerDate: Int
+    materialImageOutputs: [Image]
+    materialSupplierOutputs: [MaterialSupplier]
+    materialProductOutputs: [MaterialReturn]
+}
+
+type MaterialProduct {
+    productID: String,
+    materialID: String,
+    unit: String,
+    quantity: Int,
+    status: String,
+    description: String,
+}
+
+type Image {
+    id: String,
+    url: String,
+    description: String
+}
+type Supplier {
+    id: String,
+    name: String,
+    address: String,
+    phone: String
+    email: String,
+    website: String,
+    status: String,
+    description: String
+}
+
+type MaterialSupplier {
+    materialID: String,
+    supplierID: String,
+    supplyDate: Int,
+    status: String,
+    description: String
+}
+
+type MaterialReturn {
+    id: String,
+    materialID: String,
+    price: Float,
+    unit: String,
+    quantity: Int,
+    status: String,
+    description: String,
+    returnDate: Int
+}
+
+type ResultOutput{
+    success: Boolean,
+}
+
+input Paging{
+    page: Int,
+    limit: Int
+}
+
+input ImageInput{
+    url: String,
+    description: String
+}
+input MaterialSupplierInput {
+    materialID: String,
+    supplyDate: Int,
+    status: String,
+    description: String
+}
+
+type PageMaterialInfo{
+    materialOutputs: [Material],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+type PageMaterialReturnInfo{
+    materialReturnOutputs: [MaterialReturn],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+type PageSupplierInfo{
+    supplierOutputs: [Supplier],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+type PageMaterialSupplierInfo{
+    materialSupplierOutputs: [MaterialSupplier],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
+
+enum TimeSearch{
+    TODAY
+    YESTERDAY
+    THIS_WEEK
+    LAST_WEEK
+    THIS_MONTH
+    LAST_MONTH
+    THIS_YEAR
+    LAST_YEAR
+    ALL_TIME
+}
+
+input MaterialInput{
+    name: String,
+    price: Float,
+    unit: String,
+    quantity: Int,
+    status: String,
+    description: String,
+    expiredDate: Int,
+    manufacturerDate: Int
+    images:[String]
+}
+input MaterialReturnInput{
+    materialID: String,
+    price: Float,
+    unit: String,
+    quantity: Int,
+    status: String,
+    description: String,
+    returnDate: Int
+}
+input SupplierInput{
+    name: String,
+    address: String,
+    phone: String
+    email: String,
+    website: String,
+    status: String,
+    description: String
+}
+
+type Query {
+   #Material
+    materials: PageMaterialInfo
+    material(id: String): Material
+    filterAllMaterial(pagingInput: Paging,timeSearch:TimeSearch, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
+    filterAllMaterialByProductID(pagingInput: Paging, productID: String, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
+    filterAllMaterialBySupplierID(pagingInput: Paging, supplierID: String, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
+
+    #MaterialReturn
+    materialReturns: PageMaterialReturnInfo
+    materialReturn(id: String): MaterialReturn
+    filterAllMaterialReturn(pagingInput: Paging, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialReturnInfo
+
+    #Supplier
+    suppliers: PageSupplierInfo
+    supplier(id: String): Supplier
+    filterALlSupplierByMaterialID(pagingInput: Paging, materialID: String, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialSupplierInfo
+}
+
+type Mutation {
+    #Material
+    createMaterial(materialInput: MaterialInput): Material
+    updateMaterial(id: String, materialInput: MaterialInput): Material
+    deleteMaterial(id: String): Material
+    createBatchMaterial(materialInputs: [MaterialInput]): ResultOutput
+    deleteBatchMaterial(materialIDs: [String]): ResultOutput
+    addBatchImageToMaterial(materialID: String, imageInputs: [ImageInput]): ResultOutput
+    deleteBatchImageFromMaterial(imageIDs: [String]): ResultOutput
+
+    #MaterialReturn
+    createMaterialReturn(materialReturnInput: MaterialReturnInput): MaterialReturn
+    updateMaterialReturn(id: String, materialReturnInput: MaterialReturnInput): MaterialReturn
+    deleteMaterialReturn(id: String): MaterialReturn
+
+    #Supplier
+    createSupplier(supplierInput: SupplierInput): Supplier
+    updateSupplier(id: String, supplierInput: SupplierInput): Supplier
+    deleteSupplier(id: String): Supplier
+    deleteMaterialFromSupplier(supplierID: String, materialIDs: [String]): ResultOutput
+    addMaterialToSupplier(supplierID: String, materialSupplierInputs: [MaterialSupplierInput]): ResultOutput
+}

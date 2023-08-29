@@ -11,4 +11,5 @@ public interface IChangeTableEndpointPort {
     TableOutput updateTable(String id, TableInput tableInput);
     ResultOutput deleteAllTableFromGroup(String groupID);
     ResultOutput deleteAllTableFromOrder(String orderID);
+    ResultOutput updateTableStatus(String id, String status);
 }
