@@ -4,6 +4,7 @@ import fitnlu.ntpos.inventoryservice.domain.model.MaterialSetupDefault;
 
 import java.util.List;
 
-public interface IFindAllMaterialDefault {
+public interface IFindAllMaterialDefaultUseCase {
     List<MaterialSetupDefault> findAllMaterialDefault();
+    MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID);
 }

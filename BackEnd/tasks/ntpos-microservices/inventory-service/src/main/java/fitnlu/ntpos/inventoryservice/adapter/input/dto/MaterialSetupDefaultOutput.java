@@ -1,15 +1,11 @@
-package fitnlu.ntpos.inventoryservice.domain.model;
+package fitnlu.ntpos.inventoryservice.adapter.input.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
-@Setter
 @Builder
-@ToString
-public class MaterialSetupDefault {
+public class MaterialSetupDefaultOutput {
     private String id;
     private String materialId;
     private String unit;
