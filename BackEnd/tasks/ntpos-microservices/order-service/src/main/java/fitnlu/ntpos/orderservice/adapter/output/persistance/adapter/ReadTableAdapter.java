@@ -99,4 +99,9 @@ public class ReadTableAdapter implements IReadTablePort {
     public List<Table> findTableNotInGroup() {
         return tableDBIRepository.findTableNotInGroup().stream().map(TableMapperOutput::toDomain).toList();
     }
+
+    @Override
+    public boolean isBusyTable(String id, long startTime, long endTime) {
+        return tableDBIRepository.isBusyTable(id, startTime, endTime);
+    }
 }

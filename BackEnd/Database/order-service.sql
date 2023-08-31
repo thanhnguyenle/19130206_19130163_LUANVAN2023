@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS `table` (
 		`note` MEDIUMTEXT,
 		PRIMARY KEY (`id`)
 	);
+	
+
 
 CREATE TABLE IF NOT EXISTS `group_table` (
 		`tableID` VARCHAR ( 36 ) NOT NULL,

@@ -8,7 +8,9 @@ import fitnlu.ntpos.orderservice.application.usecases.groupTable.IFindAllGroupTa
 import fitnlu.ntpos.orderservice.application.usecases.groupTable.IFindGroupTableUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.IFindAllTableByGroupIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.table.IFindAllTableUseCase;
+import fitnlu.ntpos.orderservice.application.usecases.table.ITableIsBusyUseCase;
 import fitnlu.ntpos.orderservice.domain.model.GroupTable;
+import fitnlu.ntpos.orderservice.domain.model.Table;
 import fitnlu.ntpos.orderservice.infracstructure.annotations.Adapter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +21,16 @@ public class FindGroupEndpointAdapter implements IFindGroupEndpointPort {
     private final IFindGroupTableUseCase findGroupTableUseCase;
     private final IFindAllGroupTableUseCase findAllGroupTableUseCase;
     private final IFindAllTableByGroupIDUseCase findAllTableByGroupIDUseCase;
+    private final ITableIsBusyUseCase tableIsBusyUseCase;
     @Override
     public GroupOutput findGroupTable(String groupTableID) {
         GroupTable groupTable = findGroupTableUseCase.findGroupTable(groupTableID);
-        groupTable.setTables(findAllTableByGroupIDUseCase.findAllTableByGroupID(groupTableID));
+        List<Table> listTable = findAllTableByGroupIDUseCase.findAllTableByGroupID(groupTableID).stream().toList();
+        listTable.forEach(table -> {
+            table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),System.currentTimeMillis()/1000,System.currentTimeMillis()/1000));
+        });
+        groupTable.setTables(listTable);
+
         return GroupTableMapperInput.toDTO(groupTable);
     }
 

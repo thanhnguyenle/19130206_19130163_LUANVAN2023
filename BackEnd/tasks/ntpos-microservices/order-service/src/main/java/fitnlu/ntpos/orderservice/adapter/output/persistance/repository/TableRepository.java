@@ -33,6 +33,7 @@ public class TableRepository implements ITableDBIRepository {
     private static final String GET_LIST_TABLE_BY_ALL_BUSY = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table`)";
     private static final String GET_LIST_TABLE_NOT_IN_GROUP = "SELECT * FROM `table` WHERE id NOT IN (SELECT tableID FROM `group_table`)";
     private static final String UPDATE_STATUS = "UPDATE `table` SET status =:status WHERE id =:id";
+    private static final String GET_TABLE_IS_BUSY = "SELECT * FROM `table` WHERE id IN (SELECT tableID FROM `order_table` WHERE :startTime BETWEEN startTime AND endTime OR :endTime BETWEEN startTime AND endTime) AND id = :id";
     @NonNull
     private final Jdbi jdbi;
 
@@ -289,6 +290,17 @@ public class TableRepository implements ITableDBIRepository {
     public List<TableEntities> findTableNotInGroup() {
         return jdbi.withHandle(handle -> handle.createQuery(GET_LIST_TABLE_NOT_IN_GROUP)
                 .mapToBean(TableEntities.class).list());
+    }
+
+    @Override
+    public boolean isBusyTable(String id, long startTime, long endTime) {
+        List<TableEntities> tableEntities = jdbi.withHandle(handle -> handle.createQuery(GET_TABLE_IS_BUSY)
+                .bind("startTime", startTime)
+                .bind("endTime", endTime)
+                .bind("id", id)
+                .mapToBean(TableEntities.class)
+                .list());
+        return tableEntities != null && !tableEntities.isEmpty();
     }
 
     @Override
