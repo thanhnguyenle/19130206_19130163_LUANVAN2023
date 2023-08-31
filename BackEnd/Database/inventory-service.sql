@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `material`  (
 );
 
 CREATE TABLE IF NOT EXISTS `material_default_setup`(
+		`id` VARCHAR ( 36 ) NOT NULL,
         `materialID` VARCHAR (36) NOT NULL,
         `unit` CHAR (10),
         `quantity` INT,
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `material_default_setup`(
 	    PRIMARY KEY (`materialID` ),
         FOREIGN KEY (`materialID`) REFERENCES `material`(`id`) ON DELETE CASCADE
 );
+
 
 CREATE TABLE IF NOT EXISTS `material_product`(
         `productID` VARCHAR ( 36) NOT NULL,
