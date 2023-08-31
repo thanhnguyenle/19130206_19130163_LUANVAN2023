@@ -72,7 +72,7 @@ public class ProductController {
     }
 
     @SchemaMapping(typeName = "Query", field = "productsFilterByTime")
-    public ListProductOutput productsFilterByTime(@Argument PagingInput paging, @Argument TimeSearch timeSearch){
+    public ListProductOutput productsFilterByTime(@Argument("paging") PagingInput paging, @Argument TimeSearch timeSearch){
         return findProductEndpointAdapter.filterProductByTime(paging,timeSearch);
     }
 }
