@@ -77,7 +77,26 @@ enum TimeSearch{
     LAST_YEAR
     ALL_TIME
 }
+
+type OrderProduct{
+    id: String,
+    name: String,
+    description: String,
+    quantity: Int,
+    price: Float,
+    unit: String,
+    status: String,
+    percent: Float,
+}
+type PageOrderProductInfo{
+    orderProductOutputs: [OrderProduct],
+    currentPage: Int,
+    totalPage: Int,
+    totalItem: Int
+}
 type Query {
+    # order product
+    orderProductByTime (paging: Paging, timeSearch: TimeSearch, sortType: String, sortValue: String): PageOrderProductInfo
     #product
     products: [Product],
     product(id: String): Product,

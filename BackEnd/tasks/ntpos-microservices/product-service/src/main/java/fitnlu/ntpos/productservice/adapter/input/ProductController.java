@@ -75,4 +75,9 @@ public class ProductController {
     public ListProductOutput productsFilterByTime(@Argument("paging") PagingInput paging, @Argument TimeSearch timeSearch){
         return findProductEndpointAdapter.filterProductByTime(paging,timeSearch);
     }
+
+    @SchemaMapping(typeName = "Query", field = "orderProductByTime")
+    public ListOrderProductOutput orderProductByTime(@Argument("paging") PagingInput paging, @Argument fitnlu.ntpos.grpcproto.TimeSearch timeSearch, @Argument String sortType,@Argument String sortValue){
+        return findProductEndpointAdapter.filterProductPercentByTime(paging,timeSearch, sortType, sortValue);
+    }
 }

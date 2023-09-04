@@ -34,6 +34,16 @@ public final class Schema {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_fitnlu_ntpos_grpcproto_ProductRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fitnlu_ntpos_grpcproto_OrderResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_fitnlu_ntpos_grpcproto_OrderResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fitnlu_ntpos_grpcproto_OrderRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_fitnlu_ntpos_grpcproto_OrderRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -48,13 +58,23 @@ public final class Schema {
       "fied\030\002 \001(\010\"\035\n\013UserRequest\022\016\n\006userID\030\001 \001(" +
       "\t\"$\n\017ProductResponse\022\021\n\tisSuccess\030\001 \001(\010\"" +
       "D\n\016ProductRequest\022\021\n\tproductID\030\001 \001(\t\022\r\n\005" +
-      "price\030\002 \001(\001\022\020\n\010quantity\030\003 \001(\0052e\n\013UserSer" +
-      "vice\022V\n\007getUser\022#.fitnlu.ntpos.grpcproto" +
-      ".UserRequest\032$.fitnlu.ntpos.grpcproto.Us" +
-      "erResponse\"\0002w\n\016ProductService\022e\n\016update" +
-      "Quantity\022&.fitnlu.ntpos.grpcproto.Produc" +
-      "tRequest\032\'.fitnlu.ntpos.grpcproto.Produc" +
-      "tResponse\"\000(\001B\002P\001b\006proto3"
+      "price\030\002 \001(\001\022\020\n\010quantity\030\003 \001(\005\"8\n\rOrderRe" +
+      "sponse\022\024\n\014percentOrder\030\001 \001(\001\022\021\n\tproductI" +
+      "D\030\002 \001(\t\"X\n\014OrderRequest\0225\n\ttimestamp\030\001 \001" +
+      "(\0162\".fitnlu.ntpos.grpcproto.TimeSearch\022\021" +
+      "\n\tproductID\030\002 \001(\t*\220\001\n\nTimeSearch\022\t\n\005TODA" +
+      "Y\020\000\022\r\n\tYESTERDAY\020\001\022\r\n\tTHIS_WEEK\020\002\022\r\n\tLAS" +
+      "T_WEEK\020\003\022\016\n\nTHIS_MONTH\020\004\022\016\n\nLAST_MONTH\020\005" +
+      "\022\r\n\tTHIS_YEAR\020\006\022\r\n\tLAST_YEAR\020\007\022\014\n\010ALL_TI" +
+      "ME\020\0102e\n\013UserService\022V\n\007getUser\022#.fitnlu." +
+      "ntpos.grpcproto.UserRequest\032$.fitnlu.ntp" +
+      "os.grpcproto.UserResponse\"\0002w\n\016ProductSe" +
+      "rvice\022e\n\016updateQuantity\022&.fitnlu.ntpos.g" +
+      "rpcproto.ProductRequest\032\'.fitnlu.ntpos.g" +
+      "rpcproto.ProductResponse\"\000(\0012t\n\014OrderSer" +
+      "vice\022d\n\017getPercentOrder\022$.fitnlu.ntpos.g" +
+      "rpcproto.OrderRequest\032%.fitnlu.ntpos.grp" +
+      "cproto.OrderResponse\"\000(\0010\001B\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -84,6 +104,18 @@ public final class Schema {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_fitnlu_ntpos_grpcproto_ProductRequest_descriptor,
         new java.lang.String[] { "ProductID", "Price", "Quantity", });
+    internal_static_fitnlu_ntpos_grpcproto_OrderResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_fitnlu_ntpos_grpcproto_OrderResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_fitnlu_ntpos_grpcproto_OrderResponse_descriptor,
+        new java.lang.String[] { "PercentOrder", "ProductID", });
+    internal_static_fitnlu_ntpos_grpcproto_OrderRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_fitnlu_ntpos_grpcproto_OrderRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_fitnlu_ntpos_grpcproto_OrderRequest_descriptor,
+        new java.lang.String[] { "Timestamp", "ProductID", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

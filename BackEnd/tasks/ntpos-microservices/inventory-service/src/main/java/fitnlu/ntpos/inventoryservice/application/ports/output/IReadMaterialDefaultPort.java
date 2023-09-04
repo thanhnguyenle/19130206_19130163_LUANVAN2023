@@ -8,4 +8,6 @@ public interface IReadMaterialDefaultPort {
     List<MaterialSetupDefault> findAllMaterialDefault();
 
     MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID);
+
+    List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat();
 }

@@ -1,5 +1,6 @@
 package fitnlu.ntpos.orderservice.application.services.orderLineItem;
 
+import fitnlu.ntpos.grpcproto.TimeSearch;
 import fitnlu.ntpos.orderservice.application.ports.output.IReadOrderLineItemPort;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IFindAllOrderLineItemByOrderIDUseCase;
 import fitnlu.ntpos.orderservice.application.usecases.orderLineItem.IFindOrderLineItemByIDUseCase;
@@ -26,6 +27,26 @@ public class FindOrderLineItemService implements IFindAllOrderLineItemByOrderIDU
     @Override
     public List<OrderProduct> filterAllOrderLineItemByOrderID(String orderID, String sortType, String sortValue, String searchType, String searchValue) {
         return readOrderLineItemPort.filterAllOrderLineItemByOrderID(orderID,sortType,sortValue,searchType,searchValue);
+    }
+
+    @Override
+    public List<OrderProduct> findAllOrderLineItemByProductID(String productID) {
+        return  readOrderLineItemPort.findAllOrderLineItemByProductID(productID);
+    }
+
+    @Override
+    public List<OrderProduct> findAllOrderLineItemByProductID(String productID, TimeSearch timeSearch) {
+        return  readOrderLineItemPort.findAllOrderLineItemByProductID(productID, timeSearch);
+    }
+
+    @Override
+    public int numberOfOrderProductComplete() {
+        return readOrderLineItemPort.numberOfOrderProductComplete();
+    }
+
+    @Override
+    public int numberOfOrderProductComplete(TimeSearch timeSearch) {
+        return readOrderLineItemPort.numberOfOrderProductComplete(timeSearch);
     }
 
     @Override

@@ -18,23 +18,6 @@ public class UserGrpcClientService{
     @GrpcClient("user-service")
     private UserServiceGrpc.UserServiceBlockingStub userBlockingStub;
 
-//    public UserResponse checkUserExisted(String userID) {
-//        boolean await = false;
-//       UserResponse user = null;
-//        try {
-//            final CountDownLatch countDownLatch = new CountDownLatch(1);
-//            System.out.println("Sending request to user-service");
-//            user = userBlockingStub.getUser(UserRequest.newBuilder().setUserID(userID).build());
-//            System.out.println("Sending request to user-service 2");
-//            System.out.println(user.getHaveUser()+" - "+user.getVerified());
-//            await =  countDownLatch.await(1, TimeUnit.NANOSECONDS);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            System.out.println("Error: "+e.getMessage());
-//            throw new RuntimeException(e);
-//        }
-//        return  await?user:UserResponse.newBuilder().build();
-//    }
 public UserResponse checkUserExisted(String userID) {
     System.out.println("Sending request to user-service");
     UserResponse user = userBlockingStub.getUser(UserRequest.newBuilder().setUserID(userID).build());

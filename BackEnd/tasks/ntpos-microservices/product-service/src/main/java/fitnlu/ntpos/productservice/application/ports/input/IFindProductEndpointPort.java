@@ -1,5 +1,6 @@
 package fitnlu.ntpos.productservice.application.ports.input;
 
+import fitnlu.ntpos.productservice.adapter.input.dto.ListOrderProductOutput;
 import fitnlu.ntpos.productservice.adapter.input.dto.ListProductOutput;
 import fitnlu.ntpos.productservice.adapter.input.dto.PagingInput;
 import fitnlu.ntpos.productservice.adapter.input.dto.ProductOutput;
@@ -15,5 +16,6 @@ public interface IFindProductEndpointPort {
      ProductOutput findProductById(String id) ;
      int getTotalItem();
     ListProductOutput filterProductByTime(PagingInput paging, TimeSearch timeSearch);
+    ListOrderProductOutput filterProductPercentByTime(PagingInput paging, fitnlu.ntpos.grpcproto.TimeSearch timeSearch, String sortType, String sortValue);
 
 }

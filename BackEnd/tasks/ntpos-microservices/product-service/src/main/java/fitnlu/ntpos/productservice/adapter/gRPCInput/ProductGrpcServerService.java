@@ -19,34 +19,35 @@ public class ProductGrpcServerService extends ProductServiceGrpc.ProductServiceI
 
     @Override
     public StreamObserver<ProductRequest> updateQuantity(StreamObserver<ProductResponse> responseObserver) {
-        return new StreamObserver<ProductRequest>() {
+        return new StreamObserver<>() {
+            boolean result = false;
+
             @Override
             public void onNext(ProductRequest productRequest) {
                 Product product = iFindProductUseCase.findProductById(productRequest.getProductID());
-                if(product.getQuantity() < productRequest.getQuantity()){
+
+                if (product.getQuantity() < productRequest.getQuantity()) {
                     log.error("Not enough quantity");
-                    ProductResponse productResponse = ProductResponse.newBuilder()
-                            .setIsSuccess(false)
-                            .build();
-                    responseObserver.onNext(productResponse);
-                }else {
+                    result = false;
+                } else {
                     product.setQuantity(product.getQuantity() - productRequest.getQuantity());
                     updateProductUseCase.updateProduct(product.getId(), product);
-                    ProductResponse productResponse = ProductResponse.newBuilder()
-                            .setIsSuccess(true)
-                            .build();
-                    responseObserver.onNext(productResponse);
+                    result = true;
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                log.error("Error: "+throwable.getMessage());
+                log.error("Error: " + throwable.getMessage());
                 responseObserver.onError(Status.INTERNAL.withDescription(throwable.getMessage()).asRuntimeException());
             }
 
             @Override
             public void onCompleted() {
+                ProductResponse productResponse = ProductResponse.newBuilder()
+                        .setIsSuccess(result)
+                        .build();
+                responseObserver.onNext(productResponse);
                 responseObserver.onCompleted();
             }
         };

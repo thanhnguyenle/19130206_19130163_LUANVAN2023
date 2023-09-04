@@ -27,7 +27,9 @@ public class FindGroupEndpointAdapter implements IFindGroupEndpointPort {
         GroupTable groupTable = findGroupTableUseCase.findGroupTable(groupTableID);
         List<Table> listTable = findAllTableByGroupIDUseCase.findAllTableByGroupID(groupTableID).stream().toList();
         listTable.forEach(table -> {
-            table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),System.currentTimeMillis()/1000,System.currentTimeMillis()/1000));
+            long startTime = System.currentTimeMillis()/1000;
+            System.out.println(startTime);
+            table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),startTime,startTime));
         });
         groupTable.setTables(listTable);
 
@@ -37,15 +39,38 @@ public class FindGroupEndpointAdapter implements IFindGroupEndpointPort {
     @Override
     public List<GroupOutput> findAllGroupTable() {
         return findAllGroupTableUseCase.findAllGroupTable().stream().map(group ->{
-            group.setTables(findAllTableByGroupIDUseCase.findAllTableByGroupID(group.getId()));
+            List<Table> listTable = findAllTableByGroupIDUseCase.findAllTableByGroupID(group.getId()).stream().toList();
+            listTable.forEach(table -> {
+                long startTime = System.currentTimeMillis()/1000;
+                table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),startTime,startTime));
+            });
+            group.setTables(listTable);
             return GroupTableMapperInput.toDTO(group);
         }).toList();
     }
 
     @Override
+    public List<GroupOutput> findAllGroupTableByTimeStamp(long startTime, long endTime) {
+        return findAllGroupTableUseCase.findAllGroupTable().stream().map(group ->{
+            List<Table> listTable = findAllTableByGroupIDUseCase.findAllTableByGroupID(group.getId()).stream().toList();
+            listTable.forEach(table -> {
+                table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),startTime,endTime));
+            });
+            group.setTables(listTable);
+            return GroupTableMapperInput.toDTO(group);
+        }).toList();
+    };
+
+    @Override
     public List<GroupOutput> findAllGroupTableByTableID(String tableID) {
         return findAllGroupTableUseCase.findAllGroupTableByTableID(tableID).stream().map(group->{
-            group.setTables(findAllTableByGroupIDUseCase.findAllTableByGroupID(group.getId()));
+            List<Table> listTable = findAllTableByGroupIDUseCase.findAllTableByGroupID(group.getId()).stream().toList();
+            listTable.forEach(table -> {
+                long startTime = System.currentTimeMillis()/1000;
+                System.out.println(startTime);
+                table.setBusy(tableIsBusyUseCase.isBusyTable(table.getId(),startTime,startTime));
+            });
+            group.setTables(listTable);
             return GroupTableMapperInput.toDTO(group);
         }).toList();
     }

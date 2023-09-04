@@ -26,7 +26,7 @@ public class MaterialSetupDefaultRepository implements IMaterialSetupDefaultDBIR
     private static final String CREATE = "INSERT INTO `material_default_setup` VALUES (:id, :materialID, :unit, :quantity, :status, :description)";
     private static final String DELETE = "DELETE FROM `material_default_setup` WHERE id = :id";
     private static final String DELETE_ALL = "DELETE FROM `material_default_setup`";
-    private static final String GET_ITEM_BYID = "SELECT * FROM `material_default_setup` WHERE id = :id";
+    private static final String GET_ITEM_BYMATERIALID = "SELECT * FROM `material_default_setup` WHERE materialID = :materialID";
     private static final String UPDATE = "UPDATE `material_default_setup` SET materialID=:materialID, unit=:unit, quantity=:quantity, status=:status,description=:description WHERE id=:id";
 
     @NonNull
@@ -41,15 +41,17 @@ public class MaterialSetupDefaultRepository implements IMaterialSetupDefaultDBIR
 
     @Override
     public boolean deleteMaterialDefault(String materialId) {
-        return jdbi.withHandle(handle -> handle.createUpdate(DELETE)
+        jdbi.withHandle(handle -> handle.createUpdate(DELETE)
                   .bind("id", materialId)
-                  .execute() > 0);
+                  .execute());
+        return true;
     }
 
     @Override
     public boolean deleteAllMaterialDefault() {
-        return jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL)
-                 .execute()>0);
+        jdbi.withHandle(handle -> handle.createUpdate(DELETE_ALL)
+                 .execute());
+        return true;
     }
 
     @Override
@@ -70,7 +72,9 @@ public class MaterialSetupDefaultRepository implements IMaterialSetupDefaultDBIR
         return jdbi.withHandle(handle -> {
             PreparedBatch preparedBatch = handle.prepareBatch(CREATE);
             materialSetupDefault.forEach(material -> {
+
                 String id = UUID.randomUUID().toString();
+                System.out.println("ID: "+id);
                 preparedBatch
                         .bind("id", id)
                         .bind("materialID", material.getMaterialId())
@@ -98,13 +102,14 @@ public class MaterialSetupDefaultRepository implements IMaterialSetupDefaultDBIR
 
     @Override
     public boolean updateBatchMaterialDefault(List<MaterialSetupDefault> materialSetupDefault) {
+        System.out.println("Hello");
         return false;
     }
 
     @Override
     public MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID) {
        return jdbi.withHandle(handle -> {
-           List<MaterialSetupDefault> result = handle.createQuery(GET_ITEM_BYID)
+           List<MaterialSetupDefault> result = handle.createQuery(GET_ITEM_BYMATERIALID)
                .bind("materialID",materialID)
                 .mapToBean(MaterialSetupDefault.class)
                 .list();
@@ -115,5 +120,10 @@ public class MaterialSetupDefaultRepository implements IMaterialSetupDefaultDBIR
            }
        }
        );
+    }
+
+    @Override
+    public List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat() {
+        return null;
     }
 }

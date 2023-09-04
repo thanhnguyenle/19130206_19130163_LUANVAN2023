@@ -19,7 +19,10 @@ import fitnlu.ntpos.inventoryservice.infracstructure.paging.IPaging;
 import fitnlu.ntpos.inventoryservice.infracstructure.paging.PageRequest;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Adapter
 @RequiredArgsConstructor
@@ -198,6 +201,37 @@ public class FindMaterialEndpointAdapter implements IFindMaterialEndpointPort {
                 .currentPage(1)
                 .totalPage(1)
                 .totalPage(materialOutputs.size())
+                .build();
+    }
+
+    @Override
+    public ListMaterialOutput findAllMaterialNotRepeat() {
+        Map<String,MaterialOutput> result = new LinkedHashMap<>();
+        findAllMaterialUseCase.findAllMaterial().stream().map(material -> {
+            MaterialOutput materialOutput = MaterialMapperInput.toDTO(material);
+            //material images
+            List<MaterialImageOutput> materialImageOutputs = findAllImageByMaterialIDUseCase.findAllImageByMaterialID(material.getId()).stream().map(ImageMapperInput::toDTO).toList();
+            materialOutput.setMaterialImageOutputs(materialImageOutputs);
+
+            //material supplier
+            List<MaterialSupplierOutput> supplierOutputs = findAllSupplierByMaterialIDUseCase.findALlSupplierByMaterialID(material.getId()).stream().map(MaterialSupplierMapperInput::toDTO).toList();
+            materialOutput.setMaterialSupplierOutputs(supplierOutputs);
+
+            //add to result
+            if(result.containsKey(materialOutput.getName())){
+                MaterialOutput materialOutput1 = result.get(materialOutput.getName());
+                materialOutput1.setQuantity(materialOutput1.getQuantity()+materialOutput.getQuantity());
+                result.put(materialOutput.getName(),materialOutput1);
+            }else{
+                result.put(materialOutput.getName(),materialOutput);
+            }
+            return materialOutput;
+        }).toList();
+        return ListMaterialOutput.builder()
+                .materialOutputs(result.values().stream().toList())
+                .currentPage(1)
+                .totalPage(1)
+                .totalPage(result.size())
                 .build();
     }
 

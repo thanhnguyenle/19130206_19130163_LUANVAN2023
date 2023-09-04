@@ -13,6 +13,7 @@ public class MaterialOutput{
     private String name;
     private double price;
     private String unit;
+    @Setter
     private int quantity;
     private String status;
     private String description;

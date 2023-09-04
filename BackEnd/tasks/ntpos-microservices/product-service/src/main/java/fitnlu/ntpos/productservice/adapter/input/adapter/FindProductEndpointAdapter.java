@@ -1,5 +1,7 @@
 package fitnlu.ntpos.productservice.adapter.input.adapter;
 
+import fitnlu.ntpos.grpcproto.OrderRequest;
+import fitnlu.ntpos.productservice.adapter.gRPCInput.OrderGrpcServerService;
 import fitnlu.ntpos.productservice.adapter.input.dto.*;
 import fitnlu.ntpos.productservice.adapter.input.mapper.CategoryMapperInput;
 import fitnlu.ntpos.productservice.adapter.input.mapper.ImageMapperInput;
@@ -17,6 +19,7 @@ import fitnlu.ntpos.productservice.infrastructure.paging.IPaging;
 import fitnlu.ntpos.productservice.infrastructure.paging.PageRequest;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Adapter
@@ -29,6 +32,7 @@ public class FindProductEndpointAdapter implements IFindProductEndpointPort {
     private final IFindImageByProductIDUseCase findImageByProductIDUseCase;
     private final IFindCategoryByProductIDUseCase findCategoryByProductIDUseCase;
     private final IFilterProductByTime iFilterProductByTime;
+    private final OrderGrpcServerService orderGrpcServerService;
 
 
     @Override
@@ -154,6 +158,49 @@ public class FindProductEndpointAdapter implements IFindProductEndpointPort {
                     .currentPage(1)
                     .totalPage(1)
                     .totalItem(products.size())
+                    .build();
+        }
+    }
+
+    @Override
+    public ListOrderProductOutput filterProductPercentByTime(PagingInput paging, fitnlu.ntpos.grpcproto.TimeSearch timeSearch, String sortType, String sortValue) {
+        List<Product> products = findAllProductUseCase.findAllProduct();
+        List<OrderProductOutput>  orderProductOutputs= null;
+        if(timeSearch==null){
+            orderProductOutputs =  orderGrpcServerService.getProductOrderPercent(products.stream().map(productOutput -> OrderRequest.newBuilder()
+                    .setTimestamp(fitnlu.ntpos.grpcproto.TimeSearch.ALL_TIME)
+                    .setProductID(productOutput.getId()).build()).toList()).stream().sorted((o1, o2) -> {
+                if(sortType!=null&&sortType.equals("ASC")){
+                    return (int)(o1.getPercent()-o2.getPercent());
+                }else {
+                    return (int)(o2.getPercent()-o1.getPercent());
+                }
+            }).toList();
+        }else
+            orderProductOutputs = orderGrpcServerService.getProductOrderPercent(products.stream().map(productOutput -> OrderRequest.newBuilder()
+                .setTimestamp(timeSearch)
+                .setProductID(productOutput.getId()).build()).toList()).stream().sorted((o1, o2) ->  {
+                if(sortType!=null&&sortType.equals("ASC")){
+                    return (int)(o1.getPercent()-o2.getPercent());
+                }else {
+                    return (int)(o2.getPercent()-o1.getPercent());
+                }}).toList();
+        IPaging ipaging = paging != null ? new PageRequest(paging.page(), paging.limit()) : null;
+        int totalItem = orderProductOutputs.size();
+        if (ipaging != null && ipaging.getPage() != null) {
+            int totalPage = totalItem % ipaging.getLimit() == 0 ? totalItem / ipaging.getLimit() : totalItem / ipaging.getLimit() + 1;
+            return ListOrderProductOutput.builder()
+                    .orderProductOutputs(orderProductOutputs.stream().skip(ipaging.getOffset()).limit(ipaging.getLimit()).toList())
+                    .currentPage(ipaging.getPage())
+                    .totalPage(totalPage <= 0 ? 1 : totalPage)
+                    .totalItem(totalItem)
+                    .build();
+        }else {
+            return ListOrderProductOutput.builder()
+                    .orderProductOutputs(orderProductOutputs.stream().toList())
+                    .currentPage(1)
+                    .totalPage(1)
+                    .totalItem(orderProductOutputs.size())
                     .build();
         }
     }

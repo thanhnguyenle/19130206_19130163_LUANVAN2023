@@ -30,4 +30,9 @@ public class MaterialSetupDefaultController {
     public List<MaterialSetupDefaultOutput> materialSetupDefault() {
         return findMaterialEndpointAdapter.findAllMaterialDefault();
     }
+
+    @QueryMapping("materialSetupDefaultNotRepeat")
+    public List<MaterialSetupDefaultOutput> materialSetupDefaultNotRepeat() {
+        return findMaterialEndpointAdapter.findAllMaterialDefaultNotRepeat();
+    }
 }

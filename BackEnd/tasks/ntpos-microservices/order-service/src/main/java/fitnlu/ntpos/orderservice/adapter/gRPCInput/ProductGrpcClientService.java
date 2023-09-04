@@ -18,12 +18,12 @@ public class ProductGrpcClientService {
     public boolean updateQuantity(List<ProductRequest> requests) {
       try {
           final CountDownLatch countDownLatch = new CountDownLatch(1);
-          StreamObserver<ProductRequest> responseObserver = userBlockingStub.updateQuantity(new StreamObserver<ProductResponse>() {
+          StreamObserver<ProductRequest> responseObserver = userBlockingStub.updateQuantity(new StreamObserver<>() {
               @Override
               public void onNext(ProductResponse value) {
                   System.out.println("Received response from product-service");
                   ProductGrpcClientService.checkError = value.getIsSuccess();
-                  if(!ProductGrpcClientService.checkError){
+                  if (!ProductGrpcClientService.checkError) {
                       throw new RuntimeException("Update quantity failed");
                   }
               }

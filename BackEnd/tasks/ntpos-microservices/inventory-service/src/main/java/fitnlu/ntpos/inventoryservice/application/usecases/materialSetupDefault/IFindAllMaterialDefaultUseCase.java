@@ -7,4 +7,5 @@ import java.util.List;
 public interface IFindAllMaterialDefaultUseCase {
     List<MaterialSetupDefault> findAllMaterialDefault();
     MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID);
+    List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat();
 }

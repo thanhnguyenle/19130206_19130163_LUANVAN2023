@@ -68,6 +68,7 @@ public class ChangeMaterialDefaultEndpointAdapter implements IWriteMaterialDefau
     @Override
     public ResultOutput updateBatchMaterialDefault(List<MaterialSetupDefaultInput> materialSetupDefault) {
         ResultOutput checkStep01 = deleteAllMaterialDefault();
+        System.out.println("Step 01: "+ checkStep01.isSuccess());
         return ResultOutput.builder()
                 .success(checkStep01.isSuccess() && addBatchMaterialDefault(materialSetupDefault).isSuccess())
                 .build();
