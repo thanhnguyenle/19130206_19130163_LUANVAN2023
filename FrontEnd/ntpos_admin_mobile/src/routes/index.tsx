@@ -183,7 +183,7 @@ const AdminRoute = () => {
                             source={!focused ? require('../assets/iconNav/delivery-service.png') : require('../assets/iconNav/delivery-service_green.png')}
                             style={{ width: size - 3, height: size - 3 }} />
                     ),
-                    drawerLabel: 'Trả hàng',
+                    drawerLabel: 'Trả đơn hàng',
                 }}
                 component={ExportProductScreenStack}
             />
@@ -199,18 +199,6 @@ const AdminRoute = () => {
             }}
             component={InventoryScreenStack}
           />
-            {/*<Drawer.Screen*/}
-            {/*    name="AdminImportProduct"*/}
-            {/*    options={{*/}
-            {/*        drawerIcon: ({ focused, size }) => (*/}
-            {/*            <Image*/}
-            {/*                source={!focused ? require('../assets/iconNav/delivery-truck.png') : require('../assets/iconNav/truck.png')}*/}
-            {/*                style={{ width: size - 3, height: size - 3 }} />*/}
-            {/*        ),*/}
-            {/*        drawerLabel: 'Nhập hàng',*/}
-            {/*    }}*/}
-            {/*    component={ImportProductScreenStack}*/}
-            {/*/>*/}
             <Drawer.Screen
                 name="AdminReturnImportGood"
                 options={{
@@ -223,18 +211,18 @@ const AdminRoute = () => {
                 }}
                 component={ReturnImportGoodsStack}
             />
-            {/*<Drawer.Screen*/}
-            {/*    name="AdminCancellation"*/}
-            {/*    options={{*/}
-            {/*        drawerIcon: ({ focused, size }) => (*/}
-            {/*            <Image*/}
-            {/*                source={!focused ? require('../assets/iconNav/money-transfer_black.png') : require('../assets/iconNav/money-transfer.png')}*/}
-            {/*                style={{ width: size - 3, height: size - 3 }} />*/}
-            {/*        ),*/}
-            {/*        drawerLabel: 'Xuất hủy',*/}
-            {/*    }}*/}
-            {/*    component={CancellationScreenStack}*/}
-            {/*/>*/}
+            <Drawer.Screen
+                name="AdminCancellation"
+                options={{
+                    drawerIcon: ({ focused, size }) => (
+                        <Image
+                            source={!focused ? require('../assets/iconNav/money-transfer_black.png') : require('../assets/iconNav/money-transfer.png')}
+                            style={{ width: size - 3, height: size - 3 }} />
+                    ),
+                    drawerLabel: 'Xuất hủy',
+                }}
+                component={CancellationScreenStack}
+            />
             <Drawer.Screen
                 name="AdminClient"
                 options={{

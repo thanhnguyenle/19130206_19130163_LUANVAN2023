@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const MangerOrderStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import MangerOrder from '../views/MangerOrderScreen';
+import OrderDetailScreen from "../views/OrderDetailScreen";
 
 const MangerOrderScreenStack = ({ navigation }: any) => {
     return (
@@ -25,6 +26,13 @@ const MangerOrderScreenStack = ({ navigation }: any) => {
                 component={MangerOrder}
                 options={{
                     title: 'Lịch sử đơn hàng',
+                }}
+            />
+            <MangerOrderStack.Screen
+                name='OrderDetailScreen'
+                component={OrderDetailScreen}
+                options={{
+                    title: 'Chi tiết đơn hàng',
                 }}
             />
         </ MangerOrderStack.Navigator>

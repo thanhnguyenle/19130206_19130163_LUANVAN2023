@@ -16,6 +16,7 @@ import { setTime } from '../../redux_store/product/fifterProductSlice';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Toast from 'react-native-toast-message';
 import LoadingScreen, { loaderRef, showLoader, hideLoader } from "../../components/LoadingScreen";
+import { formatPrice } from "../../utils/function";
 const ProductSreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.product.productsSevice.loading);
@@ -185,12 +186,12 @@ const ProductSreen = ({ navigation }: any) => {
                                                 }
                                             </View>
                                             <View style={styles.box2}>
-                                                <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{item.name}</Text>
+                                                <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>{item.name != '' ? item.name : ''}</Text>
                                             </View>
-                                            <View style={styles.box3}>
-                                                <Text style={{ color: COLORS.darkGreen, fontWeight: '400', fontSize: responsiveFontSize(2.4) }}>`${item.price}`</Text>
-                                                <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(2) }}>{item.quantity}</Text>
-                                            </View>s
+                                            <View style={[styles.box3,{alignItems:'flex-end'}]}>
+                                                <Text style={{ color: COLORS.darkGreen, fontWeight: '500', fontSize: responsiveFontSize(2.4) }}>{ formatPrice(parseInt(item.price))}</Text>
+                                                <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.6),marginTop:5  }}>Số lượng: {item.quantity}</Text>
+                                            </View>
                                         </View>
                                     </TouchableOpacity>
                                 </View>

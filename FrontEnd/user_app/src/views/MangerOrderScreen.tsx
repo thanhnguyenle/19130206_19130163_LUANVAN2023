@@ -7,7 +7,7 @@ import {
     ScrollView,
     TouchableOpacity,
     FlatList,
-    SafeAreaView, Image,
+    SafeAreaView, Image, Linking,
 } from 'react-native';
 import { BottomSheet, Button, ListItem } from '@rneui/themed';
 import { COLORS } from '../constants/common';
@@ -17,7 +17,13 @@ import ItemOrder from '../components/ItemOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { ordersRequest } from '../redux/order/orderSlice';
-import {colorStatus, formatDateFromNumber, shortenOrderID, stringStatus} from "../utils/function";
+import {
+    colorStatus,
+    formatDateFromNumber,
+    formatDateFromNumberHour,
+    shortenOrderID,
+    stringStatus
+} from "../utils/function";
 
 interface List {
     title: string;
@@ -80,6 +86,7 @@ const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <View style={{flexDirection:'row', alignItems:'center'}}>
                         <Text style={{ color: COLORS.color_black, fontSize:15 }}> Số lượng </Text>
                         <Text style={{ color: COLORS.darkGreen, fontSize:15, fontWeight:'600'  }}>{listOrders.length} </Text>
+                        <TouchableOpacity onPress={()=>{ dispatch(ordersRequest(user.id));}}><Text>Tải lại</Text></TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.listOrder}>
@@ -88,7 +95,7 @@ const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
                             key={item.id}
                             style={styles.itemOrder}
                             onPress={() => {
-                                navigation.navigate('OrderDetail', { order: item });
+                                navigation.navigate('OrderDetailScreen', { order: item });
                             }}
                         >
                             <View style={styles.imageView}>
@@ -100,7 +107,7 @@ const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={styles.information}>
                                 <Text style={styles.text}>ID: {shortenOrderID(item.id)}</Text>
                                 <Text style={styles.text}>Bàn: {item.tables.length > 0 ? item.tables[0].name:'...'}</Text>
-                                <Text style={styles.text}>Thời gian: {formatDateFromNumber(parseInt(item.orderDate))}</Text>
+                                <Text style={styles.text}>Thời gian: {formatDateFromNumberHour(item.orderDate)}</Text>
                                 <Text style={[styles.text, { color: colorStatus(item.status) }]}>
                                     Trạng thái: {stringStatus(item.status)}
                                 </Text>
@@ -112,14 +119,10 @@ const MangerOrder: React.FC<{ navigation: any }> = ({ navigation }) => {
                                     <Text style={{ color: COLORS.color_white }}>Hủy</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
+                                    onPress={()=>{Linking.openURL('tel:0365448301')}}
                                     style={[styles.buttonItem, { backgroundColor: '#097ebd' }]}
                                 >
                                     <Text style={{ color: COLORS.color_white }}>Liên hệ</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={[styles.buttonItem, { backgroundColor: '#04c70e' }]}
-                                >
-                                    <Text style={{ color: COLORS.color_white }}>Đặt lại</Text>
                                 </TouchableOpacity>
                             </View>
                         </TouchableOpacity>
@@ -136,6 +139,7 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:COLORS.color_white
     },
     listItem: {
         backgroundColor: 'red',

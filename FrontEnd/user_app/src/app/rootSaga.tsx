@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 import {watchLogin, watchReadUser} from '../redux/auth/loginSaga';
-import {createOrderSaga, ordersSaga} from '../redux/order/orderSaga';
+import {createOrderSaga, detailClientSaga, detailOrderSaga, ordersSaga} from '../redux/order/orderSaga';
 import {watchCategorySaga} from "../redux/product/category/CategorySaga";
 import {detailProductSaga, watchProductsSaga} from "../redux/product/product1/ProductSaga";
 import {groupTableSaga} from "../redux/table/groupTableSaga";
@@ -19,5 +19,7 @@ export default function* rootSaga() {
         ////////////
         createReceiptOrderSaga(),
         createOrderSaga(),
+        detailOrderSaga(),
+        detailClientSaga(),
     ]);
 }

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { detailReceiptOrderRequest } from "../../redux_store/payment/PaymentSlice";
 import { detailPaySlipOrder } from "../../redux_store/order_return/OrderReturnSlice";
-import { shortenOrderID } from "../../utils/function";
+import { formatPrice, shortenOrderID } from "../../utils/function";
 const DetailPaySlipOrderScreen = ({ navigation, route }: any) => {
   const { id } = route.params;
   const dispatch = useDispatch();
@@ -43,20 +43,20 @@ const DetailPaySlipOrderScreen = ({ navigation, route }: any) => {
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tổng tiền phải trả</Text>
             </View>
             <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>
-              {paySlipOrder.totalReturn}
+              {formatPrice(paySlipOrder.totalReturn)}
             </Text>
           </View>
           <View style={styles.box}>
             <View style={styles.left}>
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Khách hàng cần trả</Text>
             </View>
-            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{paySlipOrder.total}</Text>
+            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatPrice(paySlipOrder.total)}</Text>
           </View>
           <View style={styles.box}>
             <View style={styles.left}>
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Khách hàng đã trả</Text>
             </View>
-            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{paySlipOrder.totalReceive}</Text>
+            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatPrice(paySlipOrder.totalReceive)}</Text>
           </View>
         </View>
       </ScrollView >

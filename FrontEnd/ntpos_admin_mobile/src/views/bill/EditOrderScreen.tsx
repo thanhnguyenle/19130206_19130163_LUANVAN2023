@@ -8,7 +8,7 @@ import { FlatList, ScrollView, Swipeable } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { detailOrder, editTableOrderRequest } from "../../redux_store/orders/ordersSilce";
-import { calculateQuality, calculateTotalPrice, formatDateFromNumber } from "../../utils/function";
+import { calculateQuality, calculateTotalPrice, formatDateFromNumber, formatPrice } from "../../utils/function";
 import { idOrderSuccess } from "../../redux_store/order_return/OrderReturnSlice";
 import SelectDropdown from "react-native-select-dropdown";
 import IconIcons from "react-native-vector-icons/Ionicons";
@@ -92,12 +92,12 @@ const EditOrderScreen = ({ navigation }: any) => {
       <View>
         <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.1) }]}>{item.name}</Text>
         <Text style={styles.text}></Text>
-        <Text style={[styles.text, { color: COLORS.darkGreen, fontSize: responsiveFontSize(2) , fontWeight:'500'}]}>{item.price} x {item.quantity}</Text>
+        <Text style={[styles.text, { color: COLORS.darkGreen, fontSize: responsiveFontSize(2) , fontWeight:'500'}]}>{formatPrice(item.price)} x {item.quantity}</Text>
       </View>
       <View style={{ alignItems:'flex-end'}}>
         <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.0) }]}>Tổng tiền sản phẩm</Text>
         <Text style={styles.text}></Text>
-        <Text style={[styles.text, { color: COLORS.darkGreen, fontSize: responsiveFontSize(2.1), fontWeight:'500',}]}>{item.price * item.quantity}</Text>
+        <Text style={[styles.text, { color: COLORS.darkGreen, fontSize: responsiveFontSize(2.1), fontWeight:'500',}]}>{formatPrice(item.price * item.quantity)}</Text>
       </View>
     </View>
   );
@@ -217,20 +217,20 @@ const EditOrderScreen = ({ navigation }: any) => {
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tổng tiền phải trả</Text>
             </View>
             <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>
-              {calculateTotalPrice(order.orderLineItems)}
+              {formatPrice(calculateTotalPrice(order.orderLineItems))}
             </Text>
           </View>
           <View style={styles.box}>
             <View style={styles.left}>
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Khách hàng cần trả</Text>
             </View>
-            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{calculateTotalPrice(order.orderLineItems)}</Text>
+            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatPrice(calculateTotalPrice(order.orderLineItems))}</Text>
           </View>
           <View style={styles.box}>
             <View style={styles.left}>
               <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Khách hàng đã trả</Text>
             </View>
-            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{order.status === 'CREATED' ? 0 : calculateTotalPrice(order.orderLineItems)}</Text>
+            <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{order.status === 'CREATED' ? 0 : formatPrice(calculateTotalPrice(order.orderLineItems))}</Text>
           </View>
         </View>
         <View style={{ alignItems: 'center', flex: 1, marginTop: 20, marginBottom: 30, }}>

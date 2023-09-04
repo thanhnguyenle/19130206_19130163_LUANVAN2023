@@ -17,6 +17,7 @@ import TitleButton from "../components/TitleButton";
 import ProductItemPrice from "../components/ProductItemPrice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {requestReadUser} from "../redux/auth/loginSlice";
+import {COLORS} from "../constants/common";
 interface Props {
     navigation: any;
   }
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 2,
+        backgroundColor:COLORS.color_white
     },
     app: {
         marginHorizontal: 'auto',

@@ -8,14 +8,11 @@ import { RadioButton } from 'react-native-paper';
 import { FlatList, Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { setTime } from '../../redux_store/product/fifterProductSlice';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { deleteOrder, deleteOrderNull, fetchOrdersStart } from '../../redux_store/orders/ordersSilce';
-import { deleteGroupTable, deleteGroupTableNull, fetchGroupTablesStart } from '../../redux_store/table/groupTableSlice';
 import Toast from 'react-native-toast-message';
 import LoadingScreen, { hideLoader, loaderRef, showLoader } from '../../components/LoadingScreen';
-import ReceiptOrderOutput from "../../models/ReceiptOrderOutput";
-import { formatDateFromNumber, generateFourDigitCode, shortenOrderID } from "../../utils/function";
+import { formatDateFromNumber, formatPrice, generateFourDigitCode, shortenOrderID } from "../../utils/function";
 import {
     fetchDeleteReceiptOrdersNull,
     fetchDeleteReceiptOrdersStart,
@@ -225,7 +222,7 @@ const BillScreen = ({ navigation }: any) => {
                                               <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{shortenOrderID(item.orderID)}</Text>
                                           </View>
                                           <View style={styles.box3}>
-                                              <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{item.total}</Text>
+                                              <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{formatPrice(item.total)}</Text>
                                               <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.1) }}>{formatDateFromNumber(parseInt(item.createdAt))}</Text>
                                           </View>
                                       </View>

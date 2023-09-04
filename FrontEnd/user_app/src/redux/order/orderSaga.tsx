@@ -1,10 +1,15 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { gql } from "@apollo/client";
-import { order } from  "../../constants/apollo";
+import {client, order} from "../../constants/apollo";
 import {
     createOrder,
     createOrderFailure,
     createOrderSuccess,
+    detailOrder,
+    detailOrderFailure,
+    detailOrderSuccess, fetchDetailUserFailure,
+    fetchDetailUserRequest,
+    fetchDetailUserSuccess,
     ordersFailure,
     ordersRequest,
     ordersSuccess
@@ -103,4 +108,90 @@ function* createOrderFunction(action: any): Generator<any, any, any> {
 
 export function* createOrderSaga() {
     yield takeEvery(createOrder.type, createOrderFunction);
+}
+const fetchDetailOrderQuery = gql`
+  query FetchDetailOrder($id:String) {
+       order(id:$id){
+        id
+        userID
+        group
+        orderDate
+        status
+        note
+        orderLineItems{
+          productID
+          name
+          quantity
+          price
+          discount
+        }
+        tables{
+          tableID
+          name
+          note
+          status
+          startTime
+          endTime
+        }
+       }
+      }
+`;
+
+function* fetchDetailOrderSaga(action: ReturnType<typeof detailOrder>) {
+    try {
+        const { data } = yield call(order.query, {
+            query: fetchDetailOrderQuery,
+            variables: {
+                id: action.payload,
+            },
+        });
+        yield put(detailOrderSuccess(data.order));
+        console.log(data);
+    } catch (error: any) {
+        yield put(detailOrderFailure(error.message));
+    }
+}
+
+export function* detailOrderSaga() {
+    yield takeEvery(detailOrder.type, fetchDetailOrderSaga);
+}
+export const getClientById = gql`
+  query FetchUsersById($id:String) {
+    user(id: $id){
+      id
+      username
+      name
+      email
+      password
+      phoneNumber
+      address
+      avatar
+      registeredAt
+      roles{
+          roleName
+      }
+      groups{
+         id
+         name
+      }
+
+  }
+}
+`;
+function* fetchClientSaga(action: ReturnType<typeof fetchDetailUserRequest>) {
+    try {
+        const { data } = yield call(client.query, {
+            query: getClientById,
+            variables: {
+                id: action.payload,
+            },
+        });
+        yield put(fetchDetailUserSuccess(data.user));
+    } catch (error: any) {
+        yield put(fetchDetailUserFailure(error.message));
+    }
+}
+
+export function* detailClientSaga() {
+    yield takeEvery(fetchDetailUserRequest.type, fetchClientSaga);
 }

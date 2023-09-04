@@ -1,12 +1,8 @@
 import React, {useEffect} from 'react';
-import {View, FlatList, Dimensions, StyleSheet, ScrollView, ImageBackground, TouchableOpacity} from 'react-native';
-import {  Text } from 'react-native-paper';
-import {typeTable } from '../constants/data';
+import {View, FlatList, Dimensions, StyleSheet, Text, ImageBackground, TouchableOpacity} from 'react-native';
 import {COLORS} from "../constants/common";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../app/store";
-import {requestListCategory} from "../redux/product/category/CategorySlice";
-import {fetchProductsStart} from "../redux/product/product1/ProductSlice";
 import {fetchGroupTablesStart} from "../redux/table/groupTableSlice";
 const ListTableStore = ({ navigation }: any) => {
     const dispatch = useDispatch();
@@ -16,6 +12,7 @@ const ListTableStore = ({ navigation }: any) => {
     }, []);
     return (
         <View style={styles.container}>
+            <Text style={{color:COLORS.color_grey, marginTop:5}}>Thời gian</Text>
             <FlatList
                 nestedScrollEnabled
                 data={groupTable}
@@ -26,22 +23,28 @@ const ListTableStore = ({ navigation }: any) => {
                         </View>
                         <FlatList
                             data={item.tables}
-                            renderItem={({ item }) => (
+                            renderItem={({ item }:any) => (
                                 <View style={styles.itemTable}>
                                     <ImageBackground
                                         source={{
-                                            uri: 'https://noithattruongsa.com/wp-content/uploads/2019/12/ban-ghe-nha-hang-dep-8-min.jpg',
+                                            uri: item.isBusy === false ? 'https://noithattruongsa.com/wp-content/uploads/2019/12/ban-ghe-nha-hang-dep-8-min.jpg':'https://www.huongnghiepaau.com/wp-content/uploads/2022/12/quy-trinh-dat-ban-nha-hang.jpg',
                                         }}
                                         resizeMode="cover"
                                         style={styles.image}>
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                navigation.navigate('Reservation', { table: item });
-                                            }}
-                                            style={styles.button}>
-                                            <Text style={styles.subtitle}>{item.name}</Text>
-                                            <Text style={styles.subtitle1}>Số lượng người: {item.numberOfPeople}</Text>
-                                        </TouchableOpacity>
+                                        {
+                                            item.isBusy === false ?
+                                             <View
+                                                style={styles.button}>
+                                                <Text style={[styles.subtitle,{fontWeight: '800', color: COLORS.darkGreen}]}>{item.name}</Text>
+                                                <Text style={[styles.subtitle1,{fontWeight: '500'}]}>Số lượng: {item.numberOfPeople}</Text>
+                                            </View> :
+                                            <View
+                                                style={styles.buttonBusy}>
+                                                <Text style={[styles.subtitle1,{fontWeight: '900', color: COLORS.color_white}]}>{item.name}</Text>
+                                                <Text style={[styles.subtitle1,{fontWeight: '900', color: COLORS.color_white}]}>Bàn đã đặt</Text>
+                                            </View>
+                                        }
+
                                     </ImageBackground>
                                 </View>
                             )}
@@ -60,6 +63,7 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:COLORS.color_white
     },
     cardTitle: {
         flexDirection: 'row',
@@ -84,8 +88,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    buttonBusy: {
+        backgroundColor:'rgba(150,150,150,0.58)',
+        package: 10,
+        alignItems: 'center',
+        height: '50%',
+        justifyContent: 'center',
+        margin: 10,
+        borderRadius: 20,
+    },
     button: {
-        backgroundColor: '#ffffff',
+        backgroundColor: 'rgba(255,255,255,0.71)',
         package: 10,
         alignItems: 'center',
         height: '50%',
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     subtitle: {
-        fontSize: 20,
+        fontSize: 18,
         color: COLORS.darkGreen,
         fontWeight: '700',
         letterSpacing: 2,

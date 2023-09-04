@@ -6,7 +6,7 @@ import { CheckItemComponent } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { detailInventoryRequest } from "../../redux_store/inventory/InventorySlice";
-import { formatDateFromNumber } from "../../utils/function";
+import { formatDateFromNumber, formatDateFromNumberHour, formatPrice } from "../../utils/function";
 import { ScrollView } from "react-native-gesture-handler";
 const DetailInventoryScreen = ({ navigation, route }: any) => {
     const { id } = route.params;
@@ -45,19 +45,19 @@ const DetailInventoryScreen = ({ navigation, route }: any) => {
                 <View style={styles.left}>
                     <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Ngày nhập</Text>
                 </View>
-                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumber(inventoryDetail.expiredDate)}</Text>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumberHour(inventoryDetail.expiredDate)}</Text>
             </View>
             <View style={styles.box}>
                 <View style={styles.left}>
                     <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Ngày hết hạn</Text>
                 </View>
-                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumber(inventoryDetail.manufacturerDate)}</Text>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatDateFromNumberHour(inventoryDetail.manufacturerDate)}</Text>
             </View>
             <View style={styles.box}>
                 <View style={styles.left}>
                     <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.color_black }]}>Tổng tiền</Text>
                 </View>
-                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{inventoryDetail.price + ' đồng'}</Text>
+                <Text style={[styles.text, { fontSize: responsiveFontSize(2.2), color: COLORS.darkGreen, fontWeight: '500' }]}>{formatPrice(inventoryDetail.price )}</Text>
             </View>
         </View >
     );

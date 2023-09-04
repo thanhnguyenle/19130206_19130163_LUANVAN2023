@@ -1,7 +1,11 @@
 import {CartItem} from "../views/ProductDetail";
+import {OrderLineItem} from "../model/order";
 
 export const calculateTotalPrice = (cartItems: CartItem[]): number => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+};
+export const calculateTotal = (orderLineItem: OrderLineItem[]): number => {
+    return orderLineItem.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 export const calculateTotalQuantity = (cartItems: CartItem[]): number => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -15,6 +19,16 @@ export function formatDateFromNumber(timestamp: number): string {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
     return `${day}/${month}/${year}`;
+}
+export function formatDateFromNumberHour(timestamp: number): string {
+    const date = new Date(timestamp * 1000);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds} ${day}/${month}/${year} `;
 }
 export  function shortenOrderID(orderID: string): string {
     return orderID.substring(0, 6) + '...';

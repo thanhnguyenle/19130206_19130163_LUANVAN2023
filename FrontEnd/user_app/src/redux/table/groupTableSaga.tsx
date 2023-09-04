@@ -13,6 +13,8 @@ export const fetchGroupTableQuery = gql`
          id
          name
          numberOfPeople
+         isBusy
+         status
         }
     }
 }
