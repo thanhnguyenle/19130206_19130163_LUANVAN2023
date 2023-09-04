@@ -1,14 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, StyleSheet, ImageBackground, ScrollView, ImageStyle, Text, TouchableOpacity, Animated, Alert } from 'react-native';
 import { COLORS } from '../../constants/common';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { loginRequest } from '../../redux/auth/loginSlice';
+import {loginRequest, requestReadUser, resetPasswordRequest} from '../../redux/auth/loginSlice';
 import { navigateToRegister } from '../../redux/navigation/navigationSlice';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import InputComponent from '../../components/InputComponent';
 import ButtonComponent from '../../components/ButtonComponent';
+import {accuracyRequest} from "../../redux/auth/registerSlice";
+import {resetPassword} from "../../constants/link";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 type RootStackParamList = {
     Admin: undefined;
     Auth: undefined;
@@ -23,10 +26,10 @@ declare const alert: (message?: string) => void;
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
     const [email, setEmail] = useState('12@gmail.com');
+    const dispatch = useDispatch();
     const [password, setPassword] = useState('1234');
     const loading = useSelector((state: RootState) => state.auth.login.loading);
     const error = useSelector((state: RootState) => state.auth.login.error);
-    const dispatch = useDispatch();
     let scrollOffsetY = useRef(new Animated.Value(0)).current;
     const handleLogin = async () => {
         if (!email || !password) {
@@ -68,11 +71,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
                             style={[styles.input]}
                         />
                         <ButtonComponent title={!loading ? 'Đăng nhập' : 'Đang đăng nhập..'} onPress={handleLogin} containerStyle={styles.button} />
-                        <View style={styles.viewRegister}>
-                            <TouchableOpacity onPress={() => { Alert.alert('Quên mật khẩu') }}>
-                                <Text style={[styles.text, { marginLeft: 8, color: COLORS.darkGreen, fontWeight: '600' }]}>Quên mật khẩu?</Text>
-                            </TouchableOpacity>
-                        </View>
                         <View style={styles.viewRegister}>
                             <Text style={[styles.text, {}]}>Tạo tài khoản mới?</Text>
                             <TouchableOpacity onPress={() => { dispatch(navigateToRegister()) }}>

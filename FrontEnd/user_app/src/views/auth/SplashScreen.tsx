@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../../constants/common';
 import { useDispatch } from 'react-redux';
 import { navigateToUser, navigateToLogin } from '../../redux/navigation/navigationSlice';
+import {requestReadUser} from "../../redux/auth/loginSlice";
 
 const SplashScreen = () => {
     const [animating, setAnimating] = useState(true);
@@ -15,6 +16,17 @@ const SplashScreen = () => {
                 value === null ? dispatch(navigateToLogin()) : dispatch(navigateToUser())
             );
         }, 3000);
+    }, []);
+    useEffect(() => {
+        setTimeout(() => {
+                AsyncStorage.getItem('accessToken').then(value =>{
+                        if (value != null) {
+                            dispatch(requestReadUser(value));
+                        }
+                    }
+                );
+            }, 1000
+        );
     }, []);
     return (
         <View style={styles.container}>

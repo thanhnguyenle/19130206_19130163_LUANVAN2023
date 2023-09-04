@@ -41,6 +41,7 @@ import {
     listInventorySaga, listMaterialReturnSaga, listSupplierSaga,
     watchDeleteInventory
 } from "../redux_store/inventory/InventorySaga";
+import { listCancellationSaga } from "../redux_store/cancellation/CancellationSaga";
 
 export default function* rootSaga() {
     yield all([
@@ -102,5 +103,6 @@ export default function* rootSaga() {
         tableLengthSaga(),
         emptyTablesSaga(),
         // end OrderReturn
+        listCancellationSaga(),
     ]);
 }

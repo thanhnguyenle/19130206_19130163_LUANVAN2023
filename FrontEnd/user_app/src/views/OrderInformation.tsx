@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-    FlatList,
-    Image,
+    Alert,
+    Image, NativeModules,
     SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    Linking
 } from "react-native";
 import { responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,11 +19,26 @@ import Toast from "react-native-toast-message";
 import {COLORS} from "../constants/common";
 import ButtonComponent from "../components/ButtonComponent";
 import InputComponent from "../components/InputComponent";
-import {calculateTotalPrice, formatPrice} from "../utils/function";
+import {calculateTotal, calculateTotalPrice, formatPrice} from "../utils/function";
 import {RootState} from "../app/store";
-import {paymentMethodNull} from "../redux/payment/PaymentSlice";
+import {createReceiptOrderRequest, paymentMethodNull} from "../redux/payment/PaymentSlice";
 import {OrderLineItem, OrderTable} from "../model/order";
-import {createOrder} from "../redux/order/orderSlice";
+import {createOrder, detailOrder} from "../redux/order/orderSlice";
+import {logOut} from "../redux/auth/loginSlice";
+import {navigateToLogin} from "../redux/navigation/navigationSlice";
+import * as CryptoJS from 'crypto-js';
+import {delay} from "redux-saga/effects";
+interface OrderZalo {
+    app_id: number,
+    app_user: string,
+    app_time: number | null,
+    amount: number | null,
+    app_trans_id: string | null,
+    embed_data: string,
+    item: string,
+    description: string,
+    mac: string | null,
+}
 function formatDateTimeFromNumber(timestamp: number): string {
     const date = new Date(timestamp);
     const day = date.getDate().toString().padStart(2, '0');
@@ -37,6 +53,9 @@ function formatDateTimeFromNumber(timestamp: number): string {
 const OrderInformationScreen = ({ navigation ,route}: any) => {
     const { id,name,numberOfPeople } = route.params;
     const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.auth.login.user);
+    const order = useSelector((state: RootState) => state.order.orders.orderDetail);
+    const [orderId, setOrderId] = useState('');
     const method = useSelector((state: RootState) => state.payment.paymentReturnService.method);
     const currentDateStart = new Date();
     const currentDateEnd = new Date(); // Tạo một bản sao của currentDateStart
@@ -47,21 +66,98 @@ const OrderInformationScreen = ({ navigation ,route}: any) => {
     const [note, setNote] = useState('');
     const [tables, setTable] = useState<OrderTable[]>([]);
     const [total, setTotal] = useState(calculateTotalPrice(cartItems));
-    const orderLineItems : OrderLineItem[]  = cartItems.map((item) => ({
-        productID: item.id,
-        price: item.price,
-        name: item.name,
-        quantity: item.quantity,
-        discount:0,
-    }));
-    const tablesFormat : OrderTable[]  = tables.map((item) => ({
-        tableID:item.tableID,
-        name:item.name,
-        note:item.note,
-        endTime:item.endTime,
-        status:item.status ,
-        startTime:item.startTime,
-    }));
+    const [totalReturn, setTotalReturn] = useState(0);
+    const [totalReceive, setTotalReceive] = useState(0);
+    function getResultFromMethod(method:string) {
+        let result = '';
+        switch (method) {
+            case 'COD':
+                result = 'Thanh toán tiền mặt';
+                break;
+            case 'ZALOPAY':
+                result = 'Thanh toán ZaloPay';
+                break;
+            case 'PAYPAL':
+                result = 'Thanh toán PayPal';
+                break;
+            default:
+                result = 'Phương thức không được hỗ trợ';
+        }
+        return result;
+    }
+  // zalo pay
+    function getCurrentDateYYMMDD() {
+        var todayDate = new Date().toISOString().slice(2, 10);
+        return todayDate.split('-').join('');
+    }
+    const createOrderZalo = async (money:number) => {
+        let apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
+        let appid = 2554;
+        let amount = money;
+        let appuser = 'ZaloPayDemo';
+        let apptime = new Date().getTime();
+        let embeddata = '{}';
+        let item = '[]';
+        let description = 'Merchant description for order #' + apptransid;
+        let hmacInput =
+            appid +
+            '|' +
+            apptransid +
+            '|' +
+            appuser +
+            '|' +
+            amount +
+            '|' +
+            apptime +
+            '|' +
+            embeddata +
+            '|' +
+            item;
+        let mac = CryptoJS.HmacSHA256(
+            hmacInput,
+            'sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn',
+        );
+        var order : OrderZalo= {
+            app_id: appid,
+            app_user: appuser,
+            app_time: apptime,
+            amount: amount,
+            app_trans_id: apptransid,
+            embed_data: embeddata,
+            item: item,
+            description: description,
+            mac: mac+'',
+        };
+        // const data = order.app_id + "|" + order.app_trans_id + "|" + order.app_user + "|" + 20 + "|" + order.app_time + "|" + order.embed_data + "|" + order.item;
+        const formBody = Object.keys(order)
+            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(order[key])}`)
+            .join('&');
+        const response = await fetch('https://sb-openapi.zalopay.vn/v2/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            },
+            body: formBody,
+        });
+        if (response.ok) {
+            const resJson = await response.json();
+            const payZP = NativeModules.PayZaloBridge;
+            payZP.payOrder(resJson.zp_trans_token);
+        } else {
+            console.log('Response not OK:', response.status, response.statusText);
+        }
+    };
+    useEffect(() => {
+        setTotal(calculateTotal(order.orderLineItems));
+        AsyncStorage.getItem('orderID').then(orderID => {
+            if (orderID != null) {
+                setOrderId(orderID);
+                console.log(orderID);
+                dispatch(detailOrder(orderID));
+                console.log('Test')
+            }
+        });
+    }, [])
     useEffect(() => {
         dispatch(paymentMethodNull());
         AsyncStorage.getItem('carts').then(orderData => {
@@ -76,17 +172,73 @@ const OrderInformationScreen = ({ navigation ,route}: any) => {
         const table = {tableID: id, name: name,  note: '',    status: '',startTime:   Math.floor(currentDateStart.getTime() / 1000),  endTime:   Math.floor(currentDateEnd.getTime() / 1000)};
         tables.push(table);
         setTable(tables);
-        console.log(tables)
+        const tablesFormat : OrderTable[]  = tables.map((item) => ({
+            tableID:item.tableID,
+            name:item.name,
+            note:item.note,
+            endTime:item.endTime,
+            status:item.status ,
+            startTime:item.startTime,
+        }));
+        const orderLineItems : OrderLineItem[]  = cartItems.map((item) => ({
+            productID: item.id,
+            price: item.price,
+            name: item.name,
+            quantity: item.quantity,
+            discount:0,
+        }));
+        console.log('Demo')
+        console.log(orderLineItems)
         try {
             if (cartItems.length > 0) {
-                dispatch(createOrder({userID: 'userId',group: 'KHACHHANG',orderDate: Math.floor(currentDateStart.getTime() / 1000),note,status:'INCOMPLETE',orderLineItems,tables:tablesFormat}));
-                Toast.show({
-                    type: 'success',// success, error, info, or any
-                    text1: 'Bạn đã đặt hàng thành công!',
-                    position: 'top',
-                },);
-                console.log(tablesFormat);
-                // navigation.navigate('Home')
+                if (method === 'ZALOPAY') {
+                    createOrderZalo(calculateTotal(orderLineItems)).then(r => {
+                        dispatch(createOrder({userID: user.id,group: 'KHACHHANG',orderDate: Math.floor(currentDateStart.getTime() / 1000),note,status:'PAYMENT',orderLineItems,tables:tablesFormat}))
+                        dispatch(createReceiptOrderRequest(
+                            {
+                                orderID:orderId,
+                                total:calculateTotal(order.orderLineItems),
+                                totalReceive: calculateTotal(order.orderLineItems),
+                                totalReturn: 0,
+                                status: 'COMPLETED',
+                                description:'',
+                                paymentType:`${method}`,
+                                accountReceive:'',
+                                accountSend:''
+                            }
+                        ))
+                        Toast.show({
+                            type: 'success',// success, error, info, or any
+                            text1: 'Bạn đã đặt hàng thành công!',
+                            position: 'top',
+                        },);
+                        navigation.navigate('Home');
+                        Alert.alert('Bạn đã đặt món thành công!')
+                    } );
+                }
+                else {
+                    dispatch(createOrder({userID: user.id,group: 'KHACHHANG',orderDate: Math.floor(currentDateStart.getTime() / 1000),note,status:'CREATED',orderLineItems,tables:tablesFormat}))
+                    dispatch(createReceiptOrderRequest(
+                        {
+                            orderID:orderId,
+                            total:calculateTotal(order.orderLineItems),
+                            totalReceive: totalReceive,
+                            totalReturn: totalReturn,
+                            status: 'COMPLETED',
+                            description:'',
+                            paymentType:`${method}`,
+                            accountReceive:'',
+                            accountSend:''
+                        }
+                    ))
+                    Toast.show({
+                        type: 'success',// success, error, info, or any
+                        text1: 'Bạn đã đặt hàng thành công!',
+                        position: 'top',
+                    },);
+                    navigation.navigate('Home');
+                    Alert.alert('Bạn đã đặt món thành công!')
+                }
             }
             else {
                 Toast.show({
@@ -166,7 +318,7 @@ const OrderInformationScreen = ({ navigation ,route}: any) => {
                 </View>
                 <View style={[styles.boxContent, { flexDirection: 'row', justifyContent: 'flex-start',alignItems:'center'}]}>
                     <Text style={{ fontSize: 20, color: COLORS.color_black, fontWeight: '500', marginBottom: 2 }}>Thanh toán</Text>
-                    <TextInput style={[styles.textContent, { width: '60%',fontSize: 14 ,textAlign: 'center'},]} editable={false} placeholder='chọn phương thức thanh toán' aria-disabled>{method !== null ? method === 'COD'? 'Thanh toán tiền mặt': 'Thanh toán với Paypal':''}</TextInput>
+                    <TextInput style={[styles.textContent, { width: '60%',fontSize: 14 ,textAlign: 'center'},]} editable={false} placeholder='chọn phương thức thanh toán' aria-disabled>{ method !== null ? getResultFromMethod(method): ''}</TextInput>
                     <TouchableOpacity onPress={() => {navigation.push('SelectMethodPaymentScreen')}} style={{ width: '10%', }}>
                         <IconIocns name='chevron-forward-sharp' size={20} color={COLORS.color_grey} />
                     </TouchableOpacity>

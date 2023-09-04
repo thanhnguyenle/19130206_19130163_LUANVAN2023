@@ -1,5 +1,5 @@
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
-import {linkOrder, linkPayment, linkProduct} from './link';
+import {linkClient, linkOrder, linkPayment, linkProduct} from './link';
 import {setContext} from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const getAccessToken = async () => {
@@ -68,4 +68,19 @@ const payment = new ApolloClient({
         },
     },
 });
-export { order ,product,payment};
+const client = new ApolloClient({
+    uri:linkClient,
+    cache: new InMemoryCache(),
+    defaultOptions: {
+        watchQuery: {
+            fetchPolicy: 'no-cache',
+        },
+        query: {
+            fetchPolicy: 'no-cache',
+        },
+        mutate: {
+            fetchPolicy: 'no-cache',
+        },
+    },
+});
+export { order ,product,payment,client};

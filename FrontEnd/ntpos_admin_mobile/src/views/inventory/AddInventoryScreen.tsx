@@ -8,7 +8,7 @@ import { RootState } from '../../app/store';
 import SelectDropdown from 'react-native-select-dropdown';
 import LoadingScreen, { hideLoader, loaderRef, showLoader } from "../../components/LoadingScreen";
 import { convertDateToTimestampInSeconds, formatDateFromNumber, isValidDate } from "../../utils/function";
-import { createInventory } from "../../redux_store/inventory/InventorySlice";
+import { createInventory, requestInventors } from "../../redux_store/inventory/InventorySlice";
 import moment from "moment";
 const AddInventoryScreen = ({ navigation }: any) => {
   const statusTypePC = ["ACTIVE" ,"INACTIVE"];
@@ -54,6 +54,7 @@ const AddInventoryScreen = ({ navigation }: any) => {
      }
     ));
     hideLoader();
+    dispatch(requestInventors());
     navigation.replace('Inventory')
   }
   return (

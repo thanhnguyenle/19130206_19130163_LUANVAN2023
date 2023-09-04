@@ -107,7 +107,7 @@ const inventorySlice = createSlice({
     createInventoryNull: (state) => {
       state.isCreateMaterial = null;
     },
-    ////////////////////////////////
+    /////
     requestMaterialReturns: (state) => {
       console.log(2)
       state.loading = true;

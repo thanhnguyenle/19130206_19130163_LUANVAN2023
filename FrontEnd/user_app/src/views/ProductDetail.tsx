@@ -100,28 +100,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ navigation, route }) => {
             }
         }
     };
-    async function handleAddCart() {
-        try {
-            if (cartItems.length > 0) {
-                const order = {
-                    orderLineItems: orderLineItems,
-                };
-                const jsonString = JSON.stringify(order);
-                const key = 'orderLineItems';
-                await AsyncStorage.setItem(key, jsonString);
-                navigation.push('SelectTableScreen')
-            }
-            else {
-                Toast.show({
-                    type: 'error',// success, error, info, or any
-                    text1: 'Bạn cần chọn món 😞',
-                    position: 'top',
-                },);
-            }
-        } catch (error) {
-            console.error('Lỗi khi lưu đối tượng xuống AsyncStorage:', error);
-        }
-    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -142,7 +121,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ navigation, route }) => {
                         renderItem={({ item, index }) => {
                             return (
                                 <View style={styles.cardView}>
-                                    <Image style={styles.image} source={{ uri: item.url }} />
+                                    { product.images.length > 0? <Image style={styles.image} source={{ uri: item.url }} /> : <Text>No Image Available</Text>}
                                 </View>
                             );
                         }}

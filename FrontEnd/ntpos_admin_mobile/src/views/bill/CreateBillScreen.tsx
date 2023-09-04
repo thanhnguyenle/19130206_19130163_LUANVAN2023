@@ -16,7 +16,7 @@ import Toast from 'react-native-toast-message';
 import { createOrder } from '../../redux_store/orders/ordersSilce';
 import { OrderLineItem, OrderTable } from "../../models/order";
 import LoadingScreen, { loaderRef, showLoader } from "../../components/LoadingScreen";
-import { calculateTotalPrice } from "../../utils/function";
+import { calculateTotalPrice, formatPrice } from "../../utils/function";
 import IconIocns from "react-native-vector-icons/Ionicons";
 import { createReceiptOrderRequest, paymentMethodNull } from "../../redux_store/payment/PaymentSlice";
 function formatDateFromNumber(timestamp: number): string {
@@ -273,6 +273,64 @@ const AddOrderScreen = ({ navigation }: any) => {
 };
 const ProductItem = ({ item, number, setNumber, addToCart }: any) => {
     return (
+      item.quantity == 0 ?
+         <View style={[styles.container1,{backgroundColor: COLORS.color_grey_seconds, opacity:0.6}]}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={styles.box1}>
+                        {item.images.length > 0 ? (
+                          <Image
+                            source={{ uri: item.images[0].url }}
+                            style={{ width: '100%', height: '100%', borderRadius: 10 }}
+                          />
+                        ) : (
+                          <Image
+                            source={require('../../assets/imageDefauProduct.png')}
+                            style={{ width: '100%', height: '100%', borderRadius: 10 }}
+                          />
+                        )}
+                    </View>
+                    <View style={styles.box2}>
+                        <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 10 }}>
+                            {item.name}
+                        </Text>
+                        <Text style={{ color: COLORS.darkGreen, fontWeight: '600', fontSize: responsiveFontSize(2.1) }}>{formatPrice(item.price)}</Text>
+                    </View>
+                    <View style={styles.box3}>
+                        <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(1.6), marginBottom: 10 }}>Số lượng kho:{item.quantity}</Text>
+                        <InputComponent
+                          value={number + ''}
+                          onChangeText={setNumber}
+                          placeholder=''
+                          style={{
+                              paddingTop: 10,
+                              paddingBottom: 10,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textAlign: 'center',
+                              fontSize: 20,
+                              borderBottomColor: COLORS.bgGreen,
+                              backgroundColor: '#F5F5F5',
+                              width: 30,
+                          }}
+                        />
+                    </View>
+                    <View style={styles.box4}>
+                        <TouchableOpacity
+                          style={{ backgroundColor: COLORS.darkGreen, borderRadius: 30, width: '50%', alignItems: 'center' }}
+                          onPress={() => {
+                              Toast.show({
+                              type: 'error',// success, error, info, or any
+                              text1: `Số lượng hôm nay đã bán hết, vui lòng chọn món khác!`,
+                              position: 'top',
+                          },);}}
+                        >
+                            <IconIcons name='add' size={30} color={COLORS.color_white} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+            :
         <View style={styles.container1}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={styles.box1}>
@@ -292,10 +350,10 @@ const ProductItem = ({ item, number, setNumber, addToCart }: any) => {
                     <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 10 }}>
                         {item.name}
                     </Text>
-                    <Text style={{ color: COLORS.darkGreen, fontWeight: '600', fontSize: responsiveFontSize(2.1) }}>{item.price}đ</Text>
+                    <Text style={{ color: COLORS.darkGreen, fontWeight: '600', fontSize: responsiveFontSize(2.1) }}>{formatPrice(item.price)}</Text>
                 </View>
                 <View style={styles.box3}>
-                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(1.6), marginBottom: 10 }}>Số lượng</Text>
+                    <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(1.6), marginBottom: 10 }}>Số lượng kho:{item.quantity}</Text>
                     <InputComponent
                         value={number + ''}
                         onChangeText={setNumber}
@@ -339,7 +397,7 @@ const CartItem = ({ item, removeFromCart }: any) => {
                     <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 10 }}>
                         {item.name}
                     </Text>
-                    <Text style={{ color: COLORS.darkGreen, fontWeight: '600', fontSize: responsiveFontSize(2.1) }}>{item.price}đ</Text>
+                    <Text style={{ color: COLORS.darkGreen, fontWeight: '600', fontSize: responsiveFontSize(2.1) }}>{formatPrice(item.price)}</Text>
                 </View>
                 <View style={styles.box3}>
                     <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(1.6), marginBottom: 10 }}>Số lượng</Text>

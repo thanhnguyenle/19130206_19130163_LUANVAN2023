@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, StyleSheet, ImageBackground, ImageStyle, Text, Animated, TouchableOpacity, Alert } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { InputComponent, ButtonComponent } from '../../components/index'

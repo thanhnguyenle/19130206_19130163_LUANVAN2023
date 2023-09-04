@@ -15,12 +15,12 @@ export default function SupplierPage() {
     const suppliers = useSelector((state: RootState) => state.inventory.supplier.suppliers);
     const clickableData = {
         columns: [
-            { label: 'Stt', field: 'stt' },
-            { label: 'Name', field: 'name' },
-            { label: 'Email', field: 'email' },
-            { label: 'Phone', field: 'phone' },
-            { label: 'Address', field: 'address' },
-            { label: 'Action', field: 'action', sort: false },
+            { label: t("STT"), field: 'stt' },
+            { label: t("Name"), field: 'name' },
+            { label:t("email"), field: 'email' },
+            { label: t("phoneNumber"), field: 'phone' },
+            { label: t("address"), field: 'address' },
+            { label: t("Action"), field: 'action', sort: false },
         ],
         rows: suppliers.map((supplier, index) => ({
             stt: index + 1,

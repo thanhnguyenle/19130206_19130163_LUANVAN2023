@@ -73,10 +73,26 @@ const SelectMethodPaymentScreen = ({ navigation }: any) => {
         >
           <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
             <View style={styles.box1}>
-              <Image source={require('../assets/images/paymethod.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+              <Image source={require('../assets/images/paymethod.png')} style={{ width: '100%', height: '100%', borderRadius: 10,resizeMode:'center' }} />
             </View>
             <View style={styles.box2}>
               <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 4 }}>Thanh toán tiền mặt</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container1}>
+        <TouchableOpacity onPress={() => {
+          dispatch(paymentMethod('ZALOPAY'));
+          navigation.pop();
+        }}
+        >
+          <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
+            <View style={styles.box1}>
+              <Image source={require('../assets/images/ZaloPay-ngang.png')} style={{ width: '100%', height: '100%', borderRadius: 10,resizeMode:'center' }} />
+            </View>
+            <View style={styles.box2}>
+              <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 4 }}>Thanh toán ZaloPay</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -89,7 +105,7 @@ const SelectMethodPaymentScreen = ({ navigation }: any) => {
         >
           <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
             <View style={styles.box1}>
-              <Image source={require('../assets/images/paypad.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+              <Image source={require('../assets/images/paypad.png')} style={{ width: '100%', height: '100%', borderRadius: 10,resizeMode:'center' }} />
             </View>
             <View style={styles.box2}>
               <Text style={{ color: COLORS.color_black, fontWeight: '500', fontSize: responsiveFontSize(2.4), marginBottom: 4 }}>Thanh toán qua paypal </Text>

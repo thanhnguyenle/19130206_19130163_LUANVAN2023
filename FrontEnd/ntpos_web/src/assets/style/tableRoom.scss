@@ -8,13 +8,24 @@ $color-green: green;
   margin-top: 80px;
   margin-left: 10px;
   margin-right: 10px;
-  .left{
-    width: 20%;
-  }
   .right{
-    width: 80%;
+    align-items: center;
+    margin-left: 20px;
+    padding: 5px;
+    width: 98%;
     .content{
-      margin-top: 15px;
+      margin-top: 12px;
+      input.form-control{
+        margin-bottom: 0;
+      }
+      button.btn.btn-primary{
+        background-color: #00b74a;
+        width: 120px;
+      }
+      .MDBDatatable input::placeholder {
+        color: #999;
+        font-style: italic;
+      }
     }
     .top{
       width: 100%;
@@ -67,5 +78,22 @@ $color-green: green;
   .item1{
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  .contentBody{
+    display: flex;
+    flex-direction: row;
+    .div1{
+      width: 20%;
+      margin-right: 10px;
+      border-right: 3px solid $color-grey;
+      padding-right: 10px;
+      .file-input {
+        display: none;
+      }
+    }
+    .div2{
+      width:80%;
+      margin-left: 20px;
+    }
   }
 }

@@ -30,4 +30,30 @@ export interface Supplier {
   status: string
   description: string
 }
+export interface  MaterialSetup {
+  id: string
+  materialID: string
+  unit: string
+  quantity: number
+  status: string
+  description: string
+}
+export interface  MaterialAll {
+  id: string
+  name: string
+  unit: string
+  quantity: number
+  price: number
+  expiredDate: number
+  manufacturerDate: number
+  status: string
+  description: string
+}
+export interface  MaterialSetupDefault {
+  materialID: string
+  unit: string
+  quantity: number
+  status: string
+  description: string
+}
 

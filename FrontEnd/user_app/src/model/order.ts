@@ -2,7 +2,7 @@ export interface Order {
     id: string;
     userID: string;
     group: string;
-    orderDate: string;
+    orderDate: number;
     status: string;
     note: string;
     orderLineItems: OrderLineItem[];
@@ -12,6 +12,7 @@ export interface Order {
 export interface OrderLineItem {
     productID: string;
     quantity: number;
+    name: string,
     price: number;
     discount: number;
 }

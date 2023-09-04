@@ -1,10 +1,17 @@
-import { call, put, all, takeLatest, delay } from 'redux-saga/effects';
-import { registerFailure, registerRequest, registerSuccess } from './registerSlice';
+import {call, put, all, takeLatest, delay, takeEvery} from 'redux-saga/effects';
+import {
+    accuracyFailure,
+    accuracyRequest,
+    accuracySuccess,
+    registerFailure,
+    registerRequest,
+    registerSuccess
+} from './registerSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { navigateToLogin } from '../navigation/navigationSlice';
 import { Alert } from 'react-native'
-import { linkRegister } from '../../constants/link';
+import {linkRegister, XacThucNguoiDung} from '../../constants/link';
 
 interface RegisterCredentials {
     name: string;
@@ -51,6 +58,41 @@ function* registerWorker(action: PayloadAction<RegisterCredentials>): Generator<
     }
 }
 
+
+
+export const accuracyUser = async (id: string) => {
+    try {
+        const response = await axios.post(XacThucNguoiDung, JSON.stringify(id), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error: any) {
+        throw new Error('error');
+    }
+};
+function*  accuracyWorker(action: PayloadAction<string>): Generator<any, any, any> {
+    try {
+        console.log(action.payload)
+        const response = yield call(accuracyUser, action.payload);
+        if (response != null) {
+            Alert.alert('Success', 'Vui lòng xác thực qua hộp thư email của bạn!');
+            yield put(accuracySuccess(response));
+        }
+        else {
+            Alert.alert('Lỗi', 'Xác thực thông tin thất bại!');
+        }
+    } catch (error: any) {
+        yield put(accuracyFailure(error.message)); // Set error state
+    }
+}
 export function* watchRegister() {
-    yield takeLatest(registerRequest.type, registerWorker);
+    yield takeEvery(registerRequest.type, registerWorker);
+    yield takeEvery(accuracyRequest.type, accuracyWorker);
 }

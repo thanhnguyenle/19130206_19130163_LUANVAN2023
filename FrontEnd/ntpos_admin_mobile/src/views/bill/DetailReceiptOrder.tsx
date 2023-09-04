@@ -2,16 +2,11 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollViewBase, SafeAreaView } from "react-native";
 import { COLORS } from "../../constants/common";
 import { responsiveFontSize } from 'react-native-responsive-dimensions'
-import { CheckItemComponent } from "../../components";
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { products } from "../product/data";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { detailOrder } from "../../redux_store/orders/ordersSilce";
-import { calculateQuality, calculateTotalPrice, formatDateFromNumber, shortenOrderID } from "../../utils/function";
-import { idOrderSuccess } from "../../redux_store/order_return/OrderReturnSlice";
 import { detailReceiptOrderRequest } from "../../redux_store/payment/PaymentSlice";
+import { shortenOrderID } from "../../utils/function";
 const DetailReceiptOrderScreen = ({ navigation, route }: any) => {
   const { id } = route.params;
   const dispatch = useDispatch();

@@ -4,12 +4,13 @@ import { View, Text } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CancellationScreen, SearchCancellationScreen, } from '../views/ImportFile';
 import NotificationScreenStack from '../routes/NotificationStack'
-const CashBookStack = createNativeStackNavigator();
+const CancellationStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
+import EstablishScreen from "../views/cancellation/EstablishScreen";
 
 const CancellationScreenStack = ({ navigation }: any) => {
     return (
-        <CashBookStack.Navigator
+        <CancellationStack.Navigator
             initialRouteName='Cancellation'
             screenOptions={{
                 headerStyle: {
@@ -22,7 +23,7 @@ const CancellationScreenStack = ({ navigation }: any) => {
                 headerShown: true,
             }}
         >
-            <CashBookStack.Screen
+            <CancellationStack.Screen
                 name='Cancellation'
                 component={CancellationScreen}
                 options={{
@@ -56,12 +57,12 @@ const CancellationScreenStack = ({ navigation }: any) => {
                     ),
                 }}
             />
-            <CashBookStack.Screen
+            <CancellationStack.Screen
                 name="NotificationStack"
                 component={NotificationScreenStack}
                 options={{ headerShown: false }}
             />
-            <CashBookStack.Screen
+            <CancellationStack.Screen
                 name="SearchCashBook"
                 component={SearchCancellationScreen}
                 options={{
@@ -81,9 +82,22 @@ const CancellationScreenStack = ({ navigation }: any) => {
                     ),
                 }}
             />
+          <CancellationStack.Screen
+            name="EstablishScreen"
+            component={EstablishScreen}
+            options={{
+              title: 'Thiết lập mặc định',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
 
-
-        </ CashBookStack.Navigator>
+        </ CancellationStack.Navigator>
     );
 }
 export default CancellationScreenStack;

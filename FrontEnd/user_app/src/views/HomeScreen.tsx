@@ -16,6 +16,8 @@ import ProductItem from "../components/ProductItem";
 import TitleButton from "../components/TitleButton";
 import ProductItemPrice from "../components/ProductItemPrice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {requestReadUser} from "../redux/auth/loginSlice";
+import {COLORS} from "../constants/common";
 interface Props {
     navigation: any;
   }
@@ -26,7 +28,7 @@ interface Props {
       useEffect(() => {
       dispatch(requestListCategory());
       dispatch(fetchProductsStart());
-      // clearCart();
+      clearCart();
       }, []);
       const clearCart = async () => {
           try {
@@ -41,6 +43,17 @@ interface Props {
           headerRight: () => <HeaderRight navigation={navigation} />,
         });
       }, [navigation]);
+      useEffect(() => {
+          setTimeout(() => {
+                  AsyncStorage.getItem('accessToken').then(value =>{
+                          if (value != null) {
+                              dispatch(requestReadUser(value));
+                          }
+                      }
+                  );
+              }, 1000
+          );
+      }, []);
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -116,6 +129,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 2,
+        backgroundColor:COLORS.color_white
     },
     app: {
         marginHorizontal: 'auto',

@@ -30,19 +30,32 @@ const SelectTableScreen = ({ navigation }: any) => {
                                 <View style={styles.itemTable}>
                                     <ImageBackground
                                         source={{
-                                            uri: 'https://noithattruongsa.com/wp-content/uploads/2019/12/ban-ghe-nha-hang-dep-8-min.jpg',
+                                            uri: item.isBusy === false ? 'https://noithattruongsa.com/wp-content/uploads/2019/12/ban-ghe-nha-hang-dep-8-min.jpg':'https://www.huongnghiepaau.com/wp-content/uploads/2022/12/quy-trinh-dat-ban-nha-hang.jpg',
                                         }}
                                         resizeMode="cover"
                                         style={styles.image}>
+                                        {
+                                            item.isBusy === false ?
                                         <TouchableOpacity
                                             onPress={() => {
                                                 console.log(item.name)
                                                 navigation.push('OrderInformationScreen', { id: item.id, name: item.name, numberOfPeople:item.numberOfPeople });
                                             }}
                                             style={styles.button}>
-                                            <Text style={styles.subtitle}>{item.name}</Text>
-                                            <Text style={styles.subtitle1}>Số lượng người: {item.numberOfPeople}</Text>
+                                            <Text style={[styles.subtitle,{fontWeight: '800', color: COLORS.darkGreen}]}>{item.name}</Text>
+                                            <Text style={[styles.subtitle1,{fontWeight: '500'}]}>Số lượng: {item.numberOfPeople}</Text>
                                         </TouchableOpacity>
+                                                :
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                console.log(item.name)
+                                                navigation.push('OrderInformationScreen', { id: item.id, name: item.name, numberOfPeople:item.numberOfPeople });
+                                            }}
+                                            style={styles.buttonBusy}>
+                                            <Text style={[styles.subtitle1,{fontWeight: '900', color: COLORS.color_white}]}>{item.name}</Text>
+                                            <Text style={[styles.subtitle1,{fontWeight: '900', color: COLORS.color_white}]}>Bàn đã đặt</Text>
+                                        </TouchableOpacity>
+                                        }
                                     </ImageBackground>
                                 </View>
                             )}
@@ -107,6 +120,15 @@ const styles = StyleSheet.create({
         letterSpacing: 2,
         width:'90%',
         textAlign:'center'
+    },
+    buttonBusy: {
+        backgroundColor:'rgba(150,150,150,0.58)',
+        package: 10,
+        alignItems: 'center',
+        height: '50%',
+        justifyContent: 'center',
+        margin: 10,
+        borderRadius: 20,
     },
 });
 export default SelectTableScreen;

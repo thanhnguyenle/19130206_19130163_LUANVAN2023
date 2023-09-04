@@ -253,7 +253,6 @@ const BillScreenStack = ({ navigation }: any) => {
               ),
             }}
           />
-
             <BillStack.Screen
                 name="InformationOrderScreen"
                 component={InformationOrderScreen}

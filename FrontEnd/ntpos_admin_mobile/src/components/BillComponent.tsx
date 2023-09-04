@@ -4,7 +4,7 @@ import { responsiveHeight, responsiveFontSize, responsiveWidth } from 'react-nat
 import { COLORS } from '../constants/common';
 import { Order, OrderLineItem } from "../models/order";
 import navigation from "../reducer/navigation";
-import { generateFourDigitCode } from "../utils/function";
+import { formatPrice, generateFourDigitCode } from "../utils/function";
 interface BillComponentProps {
     billItem: Order;
     navigation : any;
@@ -40,7 +40,7 @@ const BillComponent: React.FC<BillComponentProps> = ({ billItem,navigation ,thut
                     <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{billItem.group}</Text>
                 </View>
                 <View style={styles.box3}>
-                    <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{totalPrice}</Text>
+                    <Text style={{ color: COLORS.darkGreen, fontWeight: '700', fontSize: responsiveFontSize(2.1) }}>{ formatPrice(totalPrice)}</Text>
                     <Text style={{ color: COLORS.color_black, fontWeight: '400', fontSize: responsiveFontSize(2.1) }}>{formattedDate}</Text>
                     <Text style={{ color: COLORS.color_grey, fontSize: responsiveFontSize(1.8) }}>{billItem.status}</Text>
                 </View>

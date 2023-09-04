@@ -107,8 +107,8 @@ function* fetchEmptyTablesSaga() {
       query: fetchAllEmptyTablesQuery,
     });
     yield put(setDataTablesNone(data.findAllEmptyTables.tables));
-  } catch (error: any) {
-    yield put(numberLengthTabledFailure(error.message));
+  } catch (error) {
+    yield put(numberLengthTabledFailure('error.message'));
   }
 }
 function* fetchTableLengthSaga() {
