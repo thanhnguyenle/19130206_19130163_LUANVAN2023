@@ -9,10 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupsResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
@@ -121,6 +123,18 @@ public class AuthService {
             throw new HandlerGraphQLError(java.lang.String.valueOf(401),"Update password fail");
         }
        }
+       public UserRepresentation searchUserByEmail(String email){
+           Keycloak keycloak = keycloakUtils.getKeycloakInstance() ;
+           UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
+           List<UserRepresentation> userRepresentation = usersResource.list();
+           assert userRepresentation != null;
+           userRepresentation = userRepresentation.stream().filter(user -> user.getEmail().contains(email)).toList();
+          if (userRepresentation.stream().findFirst().isPresent()){
+              return userRepresentation.stream().findFirst().get();
+          }else{
+                return null;
+          }
+       }
        public User me(ResetPasswordInput resetPasswordInput) {
            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
            UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
@@ -150,18 +164,19 @@ public class AuthService {
                    .avatar(avatar)
                    .build();
        }
-    public ResetPasswordOutput sendResetPassword(ResetPasswordInput resetPasswordInput){
+    public ForgetPasswordOutput sendResetPassword(ForgetPasswordInput resetPasswordInput){
         try {
             Keycloak keycloak = keycloakUtils.getKeycloakInstance();
             UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
-            usersResource.get(resetPasswordInput.getId())
+            UserRepresentation userRepresentation = searchUserByEmail(resetPasswordInput.getEmail());
+            usersResource.get(userRepresentation.getId())
                     .executeActionsEmail(List.of("UPDATE_PASSWORD"));
-            return ResetPasswordOutput.builder()
+            return ForgetPasswordOutput.builder()
                     .success(true)
                     .build();
         }catch (Exception e){
             log.error("Send reset password fail",e);
-            return ResetPasswordOutput.builder()
+            return ForgetPasswordOutput.builder()
                     .success(false)
                     .build();
         }

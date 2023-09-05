@@ -25,8 +25,11 @@ public class FindMaterialDefaultEndpointAdapter implements IReadMaterialDefaultE
         return findAllMaterialUseCase.findAllMaterial().stream().map(material -> {
             MaterialSetupDefault materialSetupDefault = findAllMaterialDefaultUseCase.findMaterialDefaultByMaterialID(material.getId());
             if(materialSetupDefault!=null){
+                materialSetupDefault.setMaterialId(material.getId());
                 return MaterialSetupDefaultMapperInput.toDTO(materialSetupDefault);
             }else {
+                materialSetupDefault.setMaterialId(material.getId());
+                material.setId(material.getId());
                 return MaterialSetupDefaultMapperInput.toMaterialSetup(material);
             }
         }).toList();

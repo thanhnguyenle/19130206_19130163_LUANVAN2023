@@ -1,9 +1,6 @@
 package fitnlu.ntpos.authservice.controller;
 
-import fitnlu.ntpos.authservice.dto.LoginInput;
-import fitnlu.ntpos.authservice.dto.RefreshTokenInput;
-import fitnlu.ntpos.authservice.dto.RegisterInput;
-import fitnlu.ntpos.authservice.dto.ResetPasswordInput;
+import fitnlu.ntpos.authservice.dto.*;
 import fitnlu.ntpos.authservice.jwt.JwtHandler;
 import fitnlu.ntpos.authservice.model.User;
 import fitnlu.ntpos.authservice.service.AuthService;
@@ -51,7 +48,7 @@ public class AuthController {
     @PostMapping(
             path = "/resetPassword",
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordInput resetPasswordInput) {
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid ForgetPasswordInput resetPasswordInput) {
         try {
             return ResponseEntity.ok(authService.sendResetPassword(resetPasswordInput));
         }catch (Exception e){
