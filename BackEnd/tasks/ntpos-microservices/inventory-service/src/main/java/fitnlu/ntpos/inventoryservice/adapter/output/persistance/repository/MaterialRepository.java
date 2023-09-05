@@ -30,6 +30,8 @@ public class MaterialRepository implements IMaterialDBIRepository {
     private static final String CREATE_IMAGE = "INSERT INTO `image` VALUES (:id,:url,:description,:materialID)";
     private static final String DELETE_IMAGE_BY_MATERIALID = "DELETE FROM `image` WHERE materialID = :materialID";
     private static final String DELETE_IMAGE_BY_ID = "DELETE FROM `image` WHERE id = :id";
+    private static final String UPDATE_QUANTITY = "UPDATE `material` SET quantity=:quantity WHERE id=:id";
+
     @NonNull
     private final Jdbi jdbi;
 
@@ -103,7 +105,7 @@ public class MaterialRepository implements IMaterialDBIRepository {
             }else{
                 query.append(" WHERE ");
             }
-            query.append(searchType).append(" LIKE %").append(searchValue).append("%");
+            query.append(searchType).append(" LIKE '%").append(searchValue).append("%'");
         }
         if(sortType != null && !sortType.isEmpty()){
             query.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
@@ -143,7 +145,7 @@ public class MaterialRepository implements IMaterialDBIRepository {
             }else{
                 query.append(" WHERE ");
             }
-           query.append(searchType).append(" LIKE %").append(searchValue).append("%");
+           query.append(searchType).append(" LIKE '%").append(searchValue).append("%'");
         }
         if(sortType != null && !sortType.isEmpty()){
             query.append(" ORDER BY ").append(sortType).append(" ").append(sortValue);
@@ -283,6 +285,17 @@ public class MaterialRepository implements IMaterialDBIRepository {
         return jdbi.withHandle(handle -> {
             handle.createUpdate(DELETE_IMAGE_BY_MATERIALID)
                     .bind("materialID", materialID)
+                    .execute();
+            return true;
+        });
+    }
+
+    @Override
+    public boolean updateQuantityMaterial(String id, int quantity) {
+        return jdbi.withHandle(handle -> {
+            handle.createUpdate(UPDATE_QUANTITY)
+                    .bind("id", id)
+                    .bind("quantity", quantity)
                     .execute();
             return true;
         });

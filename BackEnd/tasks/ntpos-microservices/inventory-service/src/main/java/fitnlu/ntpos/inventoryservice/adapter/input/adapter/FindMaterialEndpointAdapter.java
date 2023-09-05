@@ -297,4 +297,11 @@ public class FindMaterialEndpointAdapter implements IFindMaterialEndpointPort {
 
         return materialOutput;
     }
+
+    @Override
+    public List<MaterialOutput> findMaterialByName(String name) {
+        String name_temp = name == null ?  "":name;
+        System.out.println(name_temp+ " - "+name);
+        return filterAllMaterial(null,null, "name",name_temp, "quantity", "DESC").getMaterialOutputs();
+    }
 }

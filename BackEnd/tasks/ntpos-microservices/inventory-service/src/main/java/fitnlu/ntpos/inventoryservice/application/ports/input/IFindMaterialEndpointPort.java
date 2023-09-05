@@ -18,4 +18,5 @@ public interface IFindMaterialEndpointPort {
     ListMaterialOutput findAllMaterialNotRepeat() ;
     ListMaterialOutput filterAllMaterial(PagingInput pagingInput, TimeSearch timeSearch, String searchType, String searchValue, String sortType, String sortValue);
     MaterialOutput findMaterial(String materialID) ;
+    List<MaterialOutput> findMaterialByName(String name);
 }

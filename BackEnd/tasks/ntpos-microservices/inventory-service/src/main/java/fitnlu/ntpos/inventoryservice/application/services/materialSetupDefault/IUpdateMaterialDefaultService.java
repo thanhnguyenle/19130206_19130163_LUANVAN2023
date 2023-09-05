@@ -20,4 +20,6 @@ public class IUpdateMaterialDefaultService implements IUpdateMaterialDefaultUseC
     public boolean updateBatchMaterialDefault(List<MaterialSetupDefault> materialSetupDefault) {
         return writeMaterialDefaultPort.updateBatchMaterialDefault(materialSetupDefault);
     }
+
+
 }

@@ -16,6 +16,7 @@ public class MaterialSetupDefaultMapperInput {
                 .quantity(material.getQuantity())
                 .status(material.getStatus())
                 .unit(material.getUnit())
+                .name(material.getName())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class MaterialSetupDefaultMapperInput {
                 .quantity(0)
                 .status(material.getStatus())
                 .unit(material.getUnit())
+                .name(material.getName())
                 .build();
     }
     public static MaterialSetupDefaultOutput toMaterialSetup(MaterialOutput material) {
@@ -35,6 +37,7 @@ public class MaterialSetupDefaultMapperInput {
                 .quantity(0)
                 .status(material.getStatus())
                 .unit(material.getUnit())
+                .name(material.getName())
                 .build();
     }
 

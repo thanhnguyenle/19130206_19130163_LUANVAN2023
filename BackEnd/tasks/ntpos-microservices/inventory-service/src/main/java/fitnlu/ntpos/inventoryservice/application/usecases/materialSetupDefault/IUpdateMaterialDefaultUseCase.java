@@ -7,4 +7,5 @@ import java.util.List;
 public interface IUpdateMaterialDefaultUseCase {
     boolean updateMaterialDefault(String materialId, MaterialSetupDefault materialSetupDefault);
     boolean updateBatchMaterialDefault(List<MaterialSetupDefault> materialSetupDefault);
+
 }

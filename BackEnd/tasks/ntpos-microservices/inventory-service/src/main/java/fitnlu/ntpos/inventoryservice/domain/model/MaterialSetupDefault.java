@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MaterialSetupDefault {
     private String id;
+    private String name;
     private String materialId;
     private String unit;
     private int quantity;

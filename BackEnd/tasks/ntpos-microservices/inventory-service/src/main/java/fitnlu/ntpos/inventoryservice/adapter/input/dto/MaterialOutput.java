@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 public class MaterialOutput{
+    @Setter
     private String id;
     private String name;
     private double price;

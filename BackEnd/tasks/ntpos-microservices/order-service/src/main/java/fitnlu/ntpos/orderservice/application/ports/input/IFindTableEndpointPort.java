@@ -21,5 +21,6 @@ public interface IFindTableEndpointPort {
     ListTableOutput findAllTableByOrderID(PagingInput paging, String orderID, String sortType, String sortValue, String searchType, String searchValue);
     ListTableOutput findAllTableBusy();
     ListTableOutput findAllTableEmpty();
+    ListTableOutput findAllTableNotInGroup();
 }
 

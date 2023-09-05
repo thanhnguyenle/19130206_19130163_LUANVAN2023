@@ -148,11 +148,12 @@ input SupplierInput{
 
 type MaterialSetupDefault{
     id: String,
-    materialID: String,
+    materialId: String,
     unit: String,
     quantity: Int,
     status: String,
     description: String
+    name: String
 }
 input MaterialSetupDefaultInput{
     materialID: String,
@@ -195,6 +196,8 @@ type Mutation {
     deleteBatchMaterial(materialIDs: [String]): ResultOutput
     addBatchImageToMaterial(materialID: String, imageInputs: [ImageInput]): ResultOutput
     deleteBatchImageFromMaterial(imageIDs: [String]): ResultOutput
+    importToMaterial: ResultOutput
+    exportFromMaterial: ResultOutput
 
     #MaterialReturn
     createMaterialReturn(materialReturnInput: MaterialReturnInput): MaterialReturn

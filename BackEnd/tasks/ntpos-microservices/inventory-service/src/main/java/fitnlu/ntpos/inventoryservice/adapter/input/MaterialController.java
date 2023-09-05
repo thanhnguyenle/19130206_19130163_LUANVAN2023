@@ -46,6 +46,19 @@ public class MaterialController {
     public ResultOutput deleteBatchImageFromMaterial(@Argument List<String> imageIDs) {
         return changeMaterialEndpointAdapter.deleteBatchImageFromMaterial(imageIDs);
     }
+    @MutationMapping("importToMaterial")
+    public ResultOutput importToMaterial() {
+        return ResultOutput.builder()
+                .success( changeMaterialEndpointAdapter.importToMaterial())
+                .build();
+    }
+
+    @MutationMapping("exportFromMaterial")
+    public ResultOutput exportFromMaterial() {
+        return ResultOutput.builder()
+                .success(changeMaterialEndpointAdapter.exportFromMaterial())
+                .build();
+    }
 
     //Query
     @QueryMapping("materials")
