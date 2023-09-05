@@ -4,7 +4,7 @@ CREATE SCHEMA IF NOT EXISTS `inventory-service`;
 USE `inventory-service`;
 CREATE TABLE IF NOT EXISTS `material`  (
     `id` VARCHAR ( 36 ) NOT NULL,
-    `name` VARCHAR (100) NOT NULL,
+    `name` VARCHAR (100) CHARACTER SET 'utf8mb4' NOT NULL,
     `price` DECIMAL (19,4),
     `unit` CHAR (10) ,
     `quantity` INT,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `image`  (
 
 CREATE TABLE IF NOT EXISTS `supplier`(
         `id` VARCHAR ( 36) NOT NULL,
-        `name` VARCHAR (100) NOT NULL,
+        `name` VARCHAR (100) CHARACTER SET 'utf8mb4' NOT NULL,
         `address` TEXT,
         `phone` CHAR (11),
         `email` CHAR (50),
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `material_supplier`(
 
 CREATE TABLE IF NOT EXISTS `manufacturer` (
 		 `id` VARCHAR ( 36) NOT NULL,
-        `name` VARCHAR (100) NOT NULL,
+        `name` VARCHAR (100) CHARACTER SET 'utf8mb4' NOT NULL,
         `address` TEXT,
         `phone` CHAR (11),
         `email` CHAR (50),

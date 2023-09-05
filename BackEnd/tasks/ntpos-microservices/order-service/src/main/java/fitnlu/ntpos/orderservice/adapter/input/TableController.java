@@ -51,6 +51,10 @@ public class TableController {
     public ListTableOutput filterEmptyTables(@Argument PagingInput pagingInput, @Argument long startTime,@Argument long endTime, @Argument String searchType, @Argument String searchValue, @Argument String sortType, @Argument String sortValue) {
         return findTableEndpointAdapter.findEmptyTableAtTime(pagingInput,startTime,endTime,sortType,sortValue,searchType,searchValue);
     }
+    @QueryMapping("findTableNotInGroup")
+    public ListTableOutput findTableNotInGroup() {
+        return findTableEndpointAdapter.findAllTableNotInGroup();
+    }
     //Mutation
     @MutationMapping("createTable")
     public TableOutput createTable(@Argument TableInput tableInput) {

@@ -23,6 +23,11 @@ public class IUpdateMaterialService implements IUpdateMaterialUseCase,
     }
 
     @Override
+    public boolean updateQuantityMaterial(String id, int quantity) {
+        return writeMaterialPort.updateQuantityMaterial( id,  quantity);
+    }
+
+    @Override
     public boolean addBatchMaterial(List<Material> materials) {
         return writeMaterialPort.addBatchMaterial(materials);
     }

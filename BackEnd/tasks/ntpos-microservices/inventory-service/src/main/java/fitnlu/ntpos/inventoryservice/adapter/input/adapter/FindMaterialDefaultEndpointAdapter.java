@@ -28,7 +28,6 @@ public class FindMaterialDefaultEndpointAdapter implements IReadMaterialDefaultE
                 materialSetupDefault.setMaterialId(material.getId());
                 return MaterialSetupDefaultMapperInput.toDTO(materialSetupDefault);
             }else {
-                materialSetupDefault.setMaterialId(material.getId());
                 material.setId(material.getId());
                 return MaterialSetupDefaultMapperInput.toMaterialSetup(material);
             }
@@ -40,8 +39,11 @@ public class FindMaterialDefaultEndpointAdapter implements IReadMaterialDefaultE
         return findMaterialEndpointAdapter.findAllMaterialNotRepeat().getMaterialOutputs().stream().map(material -> {
             MaterialSetupDefault materialSetupDefault = findAllMaterialDefaultUseCase.findMaterialDefaultByMaterialID(material.getId());
             if(materialSetupDefault!=null){
+                materialSetupDefault.setMaterialId(material.getId());
+                materialSetupDefault.setName(material.getName());
                 return MaterialSetupDefaultMapperInput.toDTO(materialSetupDefault);
             }else {
+                material.setId(material.getId());
                 return MaterialSetupDefaultMapperInput.toMaterialSetup(material);
             }
         }).toList();

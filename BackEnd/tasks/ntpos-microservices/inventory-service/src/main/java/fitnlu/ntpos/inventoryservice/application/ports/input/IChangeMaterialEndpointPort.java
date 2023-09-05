@@ -18,4 +18,6 @@ public interface IChangeMaterialEndpointPort {
     ResultOutput addBatchImageToMaterial(String materialID, List<MaterialImageInput> imageInputs);
     ResultOutput deleteBatchImageFromMaterial(List<String> imageIDs);
     ResultOutput deleteAllImageByMaterialID(String materialID);
+    boolean importToMaterial();
+    boolean exportFromMaterial();
 }

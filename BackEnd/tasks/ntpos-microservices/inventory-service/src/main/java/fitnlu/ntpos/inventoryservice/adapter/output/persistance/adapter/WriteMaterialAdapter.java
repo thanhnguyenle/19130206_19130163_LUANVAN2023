@@ -52,4 +52,9 @@ public class WriteMaterialAdapter implements IWriteMaterialPort {
     public boolean deleteAllImageByMaterialID(String materialID) {
         return materialDBIRepository.deleteAllImageByMaterialID(materialID);
     }
+
+    @Override
+    public boolean updateQuantityMaterial(String id, int quantity) {
+        return materialDBIRepository.updateQuantityMaterial( id,  quantity);
+    }
 }

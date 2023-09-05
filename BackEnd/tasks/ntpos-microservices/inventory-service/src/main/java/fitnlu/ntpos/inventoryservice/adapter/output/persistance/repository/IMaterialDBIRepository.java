@@ -27,4 +27,6 @@ public interface IMaterialDBIRepository {
     boolean addBatchImageToMaterial(String materialID, List<MaterialImageEntities> imageEntities);
     boolean deleteBatchImageFromMaterial(List<String> imageIDs);
     boolean deleteAllImageByMaterialID(String materialID);
+
+    boolean updateQuantityMaterial(String id, int quantity);
 }

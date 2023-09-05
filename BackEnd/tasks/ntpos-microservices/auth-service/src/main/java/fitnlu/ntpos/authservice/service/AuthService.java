@@ -126,14 +126,15 @@ public class AuthService {
        public UserRepresentation searchUserByEmail(String email){
            Keycloak keycloak = keycloakUtils.getKeycloakInstance() ;
            UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
+           System.out.println("Hello 01");
            List<UserRepresentation> userRepresentation = usersResource.list();
            assert userRepresentation != null;
            userRepresentation = userRepresentation.stream().filter(user -> user.getEmail().contains(email)).toList();
-          if (userRepresentation.stream().findFirst().isPresent()){
-              return userRepresentation.stream().findFirst().get();
-          }else{
-                return null;
-          }
+           System.out.println("Hello 02");
+           Optional<UserRepresentation> userRep = userRepresentation.stream().findFirst();
+           System.out.println("Hello 03");
+           System.out.println(userRep.orElse(null));
+           return userRep.orElse(null);
        }
        public User me(ResetPasswordInput resetPasswordInput) {
            Keycloak keycloak = keycloakUtils.getKeycloakInstance();
@@ -169,8 +170,10 @@ public class AuthService {
             Keycloak keycloak = keycloakUtils.getKeycloakInstance();
             UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
             UserRepresentation userRepresentation = searchUserByEmail(resetPasswordInput.getEmail());
-            usersResource.get(userRepresentation.getId())
+            System.out.println(userRepresentation.getId());
+            usersResource.get(userRepresentation.getId().trim())
                     .executeActionsEmail(List.of("UPDATE_PASSWORD"));
+            System.out.println("Hello 04");
             return ForgetPasswordOutput.builder()
                     .success(true)
                     .build();

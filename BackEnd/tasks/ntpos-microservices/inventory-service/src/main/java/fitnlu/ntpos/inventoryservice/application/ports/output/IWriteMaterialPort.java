@@ -17,4 +17,5 @@ public interface IWriteMaterialPort {
     boolean deleteBatchImageFromMaterial(List<String> imageIDs);
     boolean deleteAllImageByMaterialID(String materialID);
 
+    boolean updateQuantityMaterial(String id, int quantity);
 }
