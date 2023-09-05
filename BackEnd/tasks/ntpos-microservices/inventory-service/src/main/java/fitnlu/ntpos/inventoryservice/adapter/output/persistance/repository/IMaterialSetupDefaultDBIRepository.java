@@ -14,4 +14,6 @@ public interface IMaterialSetupDefaultDBIRepository {
     boolean updateBatchMaterialDefault(List<MaterialSetupDefault> materialSetupDefault);
 
     MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID);
+
+    List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat();
 }

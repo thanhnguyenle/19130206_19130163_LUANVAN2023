@@ -20,6 +20,7 @@ public class TableMapperInput {
                 .status(table.getStatus())
                 .note(table.getNote())
                 .groups(groups)
+                .isBusy(table.isBusy())
                 .build();
     }
     public static String toTableID(Table table){

@@ -16,16 +16,15 @@ CREATE TABLE IF NOT EXISTS `material`  (
 );
 
 CREATE TABLE IF NOT EXISTS `material_default_setup`(
-		`id` VARCHAR ( 36 ) NOT NULL,
+		`id` VARCHAR (36) NOT NULL,
         `materialID` VARCHAR (36) NOT NULL,
-        `unit` CHAR (10),
+        `unit` CHAR (20),
         `quantity` INT,
         `status` CHAR (50),
         `description` TEXT,
-	    PRIMARY KEY (`materialID` ),
+	    PRIMARY KEY (`id` ),
         FOREIGN KEY (`materialID`) REFERENCES `material`(`id`) ON DELETE CASCADE
 );
-
 
 CREATE TABLE IF NOT EXISTS `material_product`(
         `productID` VARCHAR ( 36) NOT NULL,

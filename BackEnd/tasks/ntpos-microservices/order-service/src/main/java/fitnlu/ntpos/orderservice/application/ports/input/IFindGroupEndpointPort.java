@@ -8,6 +8,7 @@ public interface IFindGroupEndpointPort {
     GroupOutput findGroupTable(String groupTableID);
 
     List<GroupOutput> findAllGroupTable();
+    List<GroupOutput> findAllGroupTableByTimeStamp(long startTime, long endTime);
     List<GroupOutput> findAllGroupTableByTableID(String tableID);
 
 }

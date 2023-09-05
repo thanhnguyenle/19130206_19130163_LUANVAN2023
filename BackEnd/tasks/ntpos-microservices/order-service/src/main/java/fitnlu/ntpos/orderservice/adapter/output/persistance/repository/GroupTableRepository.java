@@ -16,7 +16,7 @@ import java.util.UUID;
 @Repository
 @Transactional
 @RequiredArgsConstructor
-public class GroupTableRepository implements IGroupTableDBIRepository {
+public class  GroupTableRepository implements IGroupTableDBIRepository {
     private static final String GET_LIST = "select * from `group`";
     private static final String CREATE = "INSERT INTO `group` VALUES (:id, :name,:status,:note)";
     private static final String DELETE = "DELETE FROM `group` WHERE id = :id";

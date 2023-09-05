@@ -30,6 +30,10 @@ public class GroupController {
         return findGroupEndpointAdapter.findAllGroupTable();
     }
 
+    @QueryMapping("findAllGroupTableByTimeStamp")
+    public List<GroupOutput> findAllGroupTableByTimeStamp(@Argument long startTime, @Argument long endTime) {
+        return findGroupEndpointAdapter.findAllGroupTableByTimeStamp(startTime,endTime);
+    }
     //Mutation
     @MutationMapping("createGroup")
     public GroupOutput createGroup(@Argument("groupInput")GroupInput groupInput) {

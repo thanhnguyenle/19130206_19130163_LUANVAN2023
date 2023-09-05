@@ -6,11 +6,12 @@ import fitnlu.ntpos.inventoryservice.domain.model.MaterialSetupDefault;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class IFindAllMaterialDefaultService implements IFindAllMaterialDefaultUseCase {
-    private IReadMaterialDefaultPort readMaterialDefaultPort;
+    private final IReadMaterialDefaultPort readMaterialDefaultPort;
     @Override
     public List<MaterialSetupDefault> findAllMaterialDefault() {
         return readMaterialDefaultPort.findAllMaterialDefault();
@@ -19,5 +20,11 @@ public class IFindAllMaterialDefaultService implements IFindAllMaterialDefaultUs
     @Override
     public MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID) {
         return readMaterialDefaultPort.findMaterialDefaultByMaterialID( materialID);
+    }
+
+    @Override
+    public List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat() {
+        return readMaterialDefaultPort.findAllMaterialDefaultNotRepeat();
+
     }
 }

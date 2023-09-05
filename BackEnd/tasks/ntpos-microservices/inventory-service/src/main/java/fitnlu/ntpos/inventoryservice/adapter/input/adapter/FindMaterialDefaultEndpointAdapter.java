@@ -19,9 +19,25 @@ import java.util.List;
 public class FindMaterialDefaultEndpointAdapter implements IReadMaterialDefaultEndpointPort {
     private final IFindAllMaterialDefaultUseCase findAllMaterialDefaultUseCase;
     private final IFindAllMaterialUseCase findAllMaterialUseCase;
+    private final FindMaterialEndpointAdapter findMaterialEndpointAdapter;
     @Override
     public List<MaterialSetupDefaultOutput> findAllMaterialDefault() {
         return findAllMaterialUseCase.findAllMaterial().stream().map(material -> {
+            MaterialSetupDefault materialSetupDefault = findAllMaterialDefaultUseCase.findMaterialDefaultByMaterialID(material.getId());
+            if(materialSetupDefault!=null){
+                materialSetupDefault.setMaterialId(material.getId());
+                return MaterialSetupDefaultMapperInput.toDTO(materialSetupDefault);
+            }else {
+                materialSetupDefault.setMaterialId(material.getId());
+                material.setId(material.getId());
+                return MaterialSetupDefaultMapperInput.toMaterialSetup(material);
+            }
+        }).toList();
+    }
+
+    @Override
+    public List<MaterialSetupDefaultOutput> findAllMaterialDefaultNotRepeat() {
+        return findMaterialEndpointAdapter.findAllMaterialNotRepeat().getMaterialOutputs().stream().map(material -> {
             MaterialSetupDefault materialSetupDefault = findAllMaterialDefaultUseCase.findMaterialDefaultByMaterialID(material.getId());
             if(materialSetupDefault!=null){
                 return MaterialSetupDefaultMapperInput.toDTO(materialSetupDefault);

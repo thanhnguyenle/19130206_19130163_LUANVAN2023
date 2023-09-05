@@ -31,3 +31,29 @@ message ProductRequest {
 service ProductService {
     rpc updateQuantity(stream ProductRequest) returns (ProductResponse) {}
 }
+
+enum TimeSearch{
+    TODAY = 0;
+    YESTERDAY = 1;
+    THIS_WEEK = 2;
+    LAST_WEEK = 3;
+    THIS_MONTH = 4;
+    LAST_MONTH = 5;
+    THIS_YEAR = 6;
+    LAST_YEAR = 7;
+    ALL_TIME = 8;
+}
+
+message OrderResponse {
+    double percentOrder = 1;
+    string productID = 2;
+}
+
+message OrderRequest {
+    TimeSearch timestamp = 1;
+    string productID = 2;
+}
+
+service OrderService {
+    rpc getPercentOrder(stream OrderRequest) returns (stream OrderResponse) {}
+}

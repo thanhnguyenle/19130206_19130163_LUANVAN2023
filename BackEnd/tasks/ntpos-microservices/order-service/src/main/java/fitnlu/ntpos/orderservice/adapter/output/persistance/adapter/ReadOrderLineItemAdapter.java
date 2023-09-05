@@ -1,5 +1,6 @@
 package fitnlu.ntpos.orderservice.adapter.output.persistance.adapter;
 
+import fitnlu.ntpos.grpcproto.TimeSearch;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.mapper.OrderLineItemMapperOutput;
 import fitnlu.ntpos.orderservice.adapter.output.persistance.repository.IOrderLineItemDBIRepository;
 import fitnlu.ntpos.orderservice.application.ports.output.IReadOrderLineItemPort;
@@ -32,5 +33,25 @@ public class ReadOrderLineItemAdapter implements IReadOrderLineItemPort {
     @Override
     public OrderProduct findOrderLineItemByID(String id) {
         return OrderLineItemMapperOutput.toDomain(iReadOrderLineItemPort.findOrderLineItemByID(id));
+    }
+
+    @Override
+    public List<OrderProduct> findAllOrderLineItemByProductID(String productID) {
+        return iReadOrderLineItemPort.findAllOrderLineItemByProductID(productID).stream().map(OrderLineItemMapperOutput::toDomain).toList();
+    }
+
+    @Override
+    public int numberOfOrderProductComplete() {
+        return iReadOrderLineItemPort.numberOfOrderProductComplete();
+    }
+
+    @Override
+    public int numberOfOrderProductComplete(TimeSearch timeSearch) {
+        return iReadOrderLineItemPort.numberOfOrderProductComplete(timeSearch);
+    }
+
+    @Override
+    public List<OrderProduct> findAllOrderLineItemByProductID(String productID, TimeSearch timeSearch) {
+        return iReadOrderLineItemPort.findAllOrderLineItemByProductID( productID,  timeSearch).stream().map(OrderLineItemMapperOutput::toDomain).toList();
     }
 }

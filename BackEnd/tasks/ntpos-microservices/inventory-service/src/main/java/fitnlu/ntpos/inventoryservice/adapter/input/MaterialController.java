@@ -52,6 +52,10 @@ public class MaterialController {
     public ListMaterialOutput materials(){
         return findMaterialEndpointAdapter.findAllMaterial();
     }
+    @QueryMapping("findAllMaterialNotRepeat")
+    public ListMaterialOutput findAllMaterialNotRepeat(){
+        return findMaterialEndpointAdapter.findAllMaterialNotRepeat();
+    }
     @QueryMapping("material")
     public MaterialOutput material(@Argument String id){
         return findMaterialEndpointAdapter.findMaterial(id);

@@ -28,6 +28,15 @@ public class MaterialSetupDefaultMapperInput {
                 .unit(material.getUnit())
                 .build();
     }
+    public static MaterialSetupDefaultOutput toMaterialSetup(MaterialOutput material) {
+        return MaterialSetupDefaultOutput.builder()
+                .materialId(material.getId())
+                .description(material.getDescription())
+                .quantity(0)
+                .status(material.getStatus())
+                .unit(material.getUnit())
+                .build();
+    }
 
     public static MaterialSetupDefault toDomain(MaterialSetupDefaultInput materialInput) {
         return MaterialSetupDefault.builder()

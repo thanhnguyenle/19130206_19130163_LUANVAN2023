@@ -21,4 +21,9 @@ public class ReadMaterialDefaultAdapter implements IReadMaterialDefaultPort {
     public MaterialSetupDefault findMaterialDefaultByMaterialID(String materialID) {
         return materialSetupDefaultDBIRepository.findMaterialDefaultByMaterialID(materialID);
     }
+
+    @Override
+    public List<MaterialSetupDefault> findAllMaterialDefaultNotRepeat() {
+        return materialSetupDefaultDBIRepository.findAllMaterialDefaultNotRepeat();
+    }
 }

@@ -169,6 +169,7 @@ type Query {
     filterAllMaterial(pagingInput: Paging,timeSearch:TimeSearch, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
     filterAllMaterialByProductID(pagingInput: Paging, productID: String, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
     filterAllMaterialBySupplierID(pagingInput: Paging, supplierID: String, searchType: String, searchValue: String, sortType: String, sortValue: String): PageMaterialInfo
+    findAllMaterialNotRepeat: PageMaterialInfo
 
     #MaterialReturn
     materialReturns: PageMaterialReturnInfo
@@ -182,6 +183,7 @@ type Query {
 
     #material setup default
     materialSetupDefault: [MaterialSetupDefault]
+    materialSetupDefaultNotRepeat: [MaterialSetupDefault]
 }
 
 type Mutation {

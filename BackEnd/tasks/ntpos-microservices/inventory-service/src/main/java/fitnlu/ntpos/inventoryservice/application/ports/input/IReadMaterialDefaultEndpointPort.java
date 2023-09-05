@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IReadMaterialDefaultEndpointPort {
     List<MaterialSetupDefaultOutput> findAllMaterialDefault();
+    List<MaterialSetupDefaultOutput> findAllMaterialDefaultNotRepeat();
 }

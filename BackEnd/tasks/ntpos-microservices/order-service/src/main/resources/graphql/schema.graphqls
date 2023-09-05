@@ -45,6 +45,7 @@ type Table {
     numberOfPeople: Int,
     status: String,
     note: String,
+    isBusy: Boolean,
     groups: [GroupTable]
 }
 
@@ -187,14 +188,13 @@ type Query {
     #GroupTable
     findGroup(id: String): GroupTable
     findAllGroup: [GroupTable]
+    findAllGroupTableByTimeStamp(startTime:Int,endTime:Int): [GroupTable]
     #OrderReturn
     ordersReturn:[OrderReturn]
     orderReturn(id: String): OrderReturn
     filterOrdersReturn(pagingInput: Paging,  timeSearch: TimeSearch, searchType: String, searchValue: String, sortType:String, sortValue: String): PageReturnOrderInfo
     findAllOrderReturnByOrderID(orderID: String): [OrderReturn]
     findAllOrderReturnByUserID(userID: String): [OrderReturn]
-
-
 }
 
 type Mutation {
