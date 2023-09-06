@@ -43,6 +43,7 @@ public class OrderGrpcServerService {
                             .status(product.getStatus())
                             .createdAt(product.getCreatedAt())
                             .percent(value.getPercentOrder())
+                            .cost(value.getCostOrder())
                             .build());
                 }
 

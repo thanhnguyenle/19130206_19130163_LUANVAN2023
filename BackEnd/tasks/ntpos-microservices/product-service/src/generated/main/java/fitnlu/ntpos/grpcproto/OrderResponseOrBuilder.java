@@ -24,4 +24,10 @@ public interface OrderResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getProductIDBytes();
+
+  /**
+   * <code>double costOrder = 3;</code>
+   * @return The costOrder.
+   */
+  double getCostOrder();
 }

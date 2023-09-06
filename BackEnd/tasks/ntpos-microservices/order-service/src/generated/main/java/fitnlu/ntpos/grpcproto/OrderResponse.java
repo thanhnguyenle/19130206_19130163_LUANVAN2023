@@ -60,6 +60,11 @@ private static final long serialVersionUID = 0L;
             productID_ = s;
             break;
           }
+          case 25: {
+
+            costOrder_ = input.readDouble();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -141,6 +146,17 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int COSTORDER_FIELD_NUMBER = 3;
+  private double costOrder_;
+  /**
+   * <code>double costOrder = 3;</code>
+   * @return The costOrder.
+   */
+  @java.lang.Override
+  public double getCostOrder() {
+    return costOrder_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -161,6 +177,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(productID_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, productID_);
     }
+    if (java.lang.Double.doubleToRawLongBits(costOrder_) != 0) {
+      output.writeDouble(3, costOrder_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -176,6 +195,10 @@ private static final long serialVersionUID = 0L;
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(productID_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, productID_);
+    }
+    if (java.lang.Double.doubleToRawLongBits(costOrder_) != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(3, costOrder_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -197,6 +220,9 @@ private static final long serialVersionUID = 0L;
             other.getPercentOrder())) return false;
     if (!getProductID()
         .equals(other.getProductID())) return false;
+    if (java.lang.Double.doubleToLongBits(getCostOrder())
+        != java.lang.Double.doubleToLongBits(
+            other.getCostOrder())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -213,6 +239,9 @@ private static final long serialVersionUID = 0L;
         java.lang.Double.doubleToLongBits(getPercentOrder()));
     hash = (37 * hash) + PRODUCTID_FIELD_NUMBER;
     hash = (53 * hash) + getProductID().hashCode();
+    hash = (37 * hash) + COSTORDER_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getCostOrder()));
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -350,6 +379,8 @@ private static final long serialVersionUID = 0L;
 
       productID_ = "";
 
+      costOrder_ = 0D;
+
       return this;
     }
 
@@ -378,6 +409,7 @@ private static final long serialVersionUID = 0L;
       fitnlu.ntpos.grpcproto.OrderResponse result = new fitnlu.ntpos.grpcproto.OrderResponse(this);
       result.percentOrder_ = percentOrder_;
       result.productID_ = productID_;
+      result.costOrder_ = costOrder_;
       onBuilt();
       return result;
     }
@@ -432,6 +464,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getProductID().isEmpty()) {
         productID_ = other.productID_;
         onChanged();
+      }
+      if (other.getCostOrder() != 0D) {
+        setCostOrder(other.getCostOrder());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -565,6 +600,37 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       productID_ = value;
+      onChanged();
+      return this;
+    }
+
+    private double costOrder_ ;
+    /**
+     * <code>double costOrder = 3;</code>
+     * @return The costOrder.
+     */
+    @java.lang.Override
+    public double getCostOrder() {
+      return costOrder_;
+    }
+    /**
+     * <code>double costOrder = 3;</code>
+     * @param value The costOrder to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCostOrder(double value) {
+      
+      costOrder_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>double costOrder = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearCostOrder() {
+      
+      costOrder_ = 0D;
       onChanged();
       return this;
     }

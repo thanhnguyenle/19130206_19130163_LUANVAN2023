@@ -73,3 +73,10 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaExec).configureEach {
+    systemProperties['file.encoding'] = 'UTF-8'
+}

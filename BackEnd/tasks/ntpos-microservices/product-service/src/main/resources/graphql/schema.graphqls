@@ -87,6 +87,7 @@ type OrderProduct{
     unit: String,
     status: String,
     percent: Float,
+    cost: Float
 }
 type PageOrderProductInfo{
     orderProductOutputs: [OrderProduct],

@@ -26,9 +26,11 @@ public class OrderGrpcServerService extends OrderServiceGrpc.OrderServiceImplBas
                 List<OrderProduct> orderProducts = findAllOrderLineItemByOrderIDUseCase.findAllOrderLineItemByProductID(value.getProductID(), value.getTimestamp());
                 double totalByProductID = orderProducts.stream().mapToDouble(OrderProduct::getQuantity).sum();
                 double total = findAllOrderLineItemByOrderIDUseCase.numberOfOrderProductComplete(value.getTimestamp());
+                double cost = orderProducts.stream().mapToDouble(value1 -> value1.getPrice()*value1.getQuantity() - value1.getDiscount()*value1.getPrice()*value1.getQuantity()).sum();
                 OrderResponse orderResponse = OrderResponse.newBuilder()
                         .setPercentOrder((int) (((totalByProductID * 1.0d) / (total * 1.0d)) * 10000) / 100.0)
                         .setProductID(value.getProductID())
+                        .setCostOrder(cost)
                         .build();
                 responseObserver.onNext(orderResponse);
             }

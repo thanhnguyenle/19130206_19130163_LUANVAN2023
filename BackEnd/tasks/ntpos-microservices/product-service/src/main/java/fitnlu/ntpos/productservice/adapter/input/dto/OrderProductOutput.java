@@ -18,4 +18,5 @@ public class OrderProductOutput {
     private String status;
     private long createdAt;
     private double percent;
+    private double cost;
 }

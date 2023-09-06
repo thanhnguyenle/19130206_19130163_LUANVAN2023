@@ -58,23 +58,24 @@ public final class Schema {
       "fied\030\002 \001(\010\"\035\n\013UserRequest\022\016\n\006userID\030\001 \001(" +
       "\t\"$\n\017ProductResponse\022\021\n\tisSuccess\030\001 \001(\010\"" +
       "D\n\016ProductRequest\022\021\n\tproductID\030\001 \001(\t\022\r\n\005" +
-      "price\030\002 \001(\001\022\020\n\010quantity\030\003 \001(\005\"8\n\rOrderRe" +
+      "price\030\002 \001(\001\022\020\n\010quantity\030\003 \001(\005\"K\n\rOrderRe" +
       "sponse\022\024\n\014percentOrder\030\001 \001(\001\022\021\n\tproductI" +
-      "D\030\002 \001(\t\"X\n\014OrderRequest\0225\n\ttimestamp\030\001 \001" +
-      "(\0162\".fitnlu.ntpos.grpcproto.TimeSearch\022\021" +
-      "\n\tproductID\030\002 \001(\t*\220\001\n\nTimeSearch\022\t\n\005TODA" +
-      "Y\020\000\022\r\n\tYESTERDAY\020\001\022\r\n\tTHIS_WEEK\020\002\022\r\n\tLAS" +
-      "T_WEEK\020\003\022\016\n\nTHIS_MONTH\020\004\022\016\n\nLAST_MONTH\020\005" +
-      "\022\r\n\tTHIS_YEAR\020\006\022\r\n\tLAST_YEAR\020\007\022\014\n\010ALL_TI" +
-      "ME\020\0102e\n\013UserService\022V\n\007getUser\022#.fitnlu." +
-      "ntpos.grpcproto.UserRequest\032$.fitnlu.ntp" +
-      "os.grpcproto.UserResponse\"\0002w\n\016ProductSe" +
-      "rvice\022e\n\016updateQuantity\022&.fitnlu.ntpos.g" +
-      "rpcproto.ProductRequest\032\'.fitnlu.ntpos.g" +
-      "rpcproto.ProductResponse\"\000(\0012t\n\014OrderSer" +
-      "vice\022d\n\017getPercentOrder\022$.fitnlu.ntpos.g" +
-      "rpcproto.OrderRequest\032%.fitnlu.ntpos.grp" +
-      "cproto.OrderResponse\"\000(\0010\001B\002P\001b\006proto3"
+      "D\030\002 \001(\t\022\021\n\tcostOrder\030\003 \001(\001\"X\n\014OrderReque" +
+      "st\0225\n\ttimestamp\030\001 \001(\0162\".fitnlu.ntpos.grp" +
+      "cproto.TimeSearch\022\021\n\tproductID\030\002 \001(\t*\220\001\n" +
+      "\nTimeSearch\022\t\n\005TODAY\020\000\022\r\n\tYESTERDAY\020\001\022\r\n" +
+      "\tTHIS_WEEK\020\002\022\r\n\tLAST_WEEK\020\003\022\016\n\nTHIS_MONT" +
+      "H\020\004\022\016\n\nLAST_MONTH\020\005\022\r\n\tTHIS_YEAR\020\006\022\r\n\tLA" +
+      "ST_YEAR\020\007\022\014\n\010ALL_TIME\020\0102e\n\013UserService\022V" +
+      "\n\007getUser\022#.fitnlu.ntpos.grpcproto.UserR" +
+      "equest\032$.fitnlu.ntpos.grpcproto.UserResp" +
+      "onse\"\0002w\n\016ProductService\022e\n\016updateQuanti" +
+      "ty\022&.fitnlu.ntpos.grpcproto.ProductReque" +
+      "st\032\'.fitnlu.ntpos.grpcproto.ProductRespo" +
+      "nse\"\000(\0012t\n\014OrderService\022d\n\017getPercentOrd" +
+      "er\022$.fitnlu.ntpos.grpcproto.OrderRequest" +
+      "\032%.fitnlu.ntpos.grpcproto.OrderResponse\"" +
+      "\000(\0010\001B\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -109,7 +110,7 @@ public final class Schema {
     internal_static_fitnlu_ntpos_grpcproto_OrderResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_fitnlu_ntpos_grpcproto_OrderResponse_descriptor,
-        new java.lang.String[] { "PercentOrder", "ProductID", });
+        new java.lang.String[] { "PercentOrder", "ProductID", "CostOrder", });
     internal_static_fitnlu_ntpos_grpcproto_OrderRequest_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_fitnlu_ntpos_grpcproto_OrderRequest_fieldAccessorTable = new
