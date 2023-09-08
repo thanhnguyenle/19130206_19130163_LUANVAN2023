@@ -11,3 +11,15 @@ export interface Product {
     unit: string;
     status: string,
 }
+export interface ProductBes {
+    id: string;
+    name: string;
+    percent: number;
+    description: string;
+    images: [url: string];
+    categories: Category[];
+    quantity: string;
+    price: string;
+    unit: string;
+    status: string,
+}

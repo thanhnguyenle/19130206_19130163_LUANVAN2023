@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, Button, TouchableOpacity, Image } from "react-native";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { COLORS } from '../../constants/common';
 import homeStore from '../../store/HomeStore';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { requestReadUser } from "../../redux_store/auth/authSlice";
+import { fetchProductsBestsellerStart } from "../../redux_store/product/productSlice";
 
 const BestsellerItem = () => {
-    homeStore.updateNameProductBestseller();
+    const productBestseller = useSelector((state: RootState) => state.product.productsSevice.productsBestseller);
+    const dispatch = useDispatch();
     return (
         <View style={styles.inventory}>
             <View style={styles.boxTitle}>
                 <Text style={styles.title}>Hàng bán chạy nhất</Text>
-                <TouchableOpacity onPress={() => { homeStore.updateInventory() }}>
+                <TouchableOpacity onPress={() => {  dispatch(fetchProductsBestsellerStart()) }}>
                     <Text>Cập nhật</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.box1}>
-                <View style={styles.itemBox1}>
-                    <Text style={styles.text}>Sản phẩm : {homeStore.name_product_bestseller}</Text>
-                    <Text style={styles.text}>Số lượng : {homeStore.number_product_bestseller}</Text>
-                </View>
+            {productBestseller.length > 0 ? productBestseller.slice(0, 2).map((item, index) => (
+                  <View style={styles.itemBox1}>
+                      <Text style={styles.text}>{item.name}</Text>
+                      <Text style={styles.text}>Phần trăm : {item.percent}</Text>
+              </View>
+            )) : <View></View>}
             </View>
         </View>
 

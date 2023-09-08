@@ -7,7 +7,7 @@ import NotificationScreenStack from '../routes/NotificationStack'
 const CashBookStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 
-const CashBookScreenStack = ({ navigation }: any) => {
+const CashBookScreenStack1 = ({ navigation }: any) => {
     return (
         <CashBookStack.Navigator
             initialRouteName='CashBook'
@@ -86,4 +86,4 @@ const CashBookScreenStack = ({ navigation }: any) => {
         </ CashBookStack.Navigator>
     );
 }
-export default CashBookScreenStack;
+export default CashBookScreenStack1;

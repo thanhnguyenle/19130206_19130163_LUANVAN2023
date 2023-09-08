@@ -151,12 +151,12 @@ const BillScreen = ({ navigation }: any) => {
             <View style={{ marginVertical: 10, }}>
                 <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'center' }}>
                     <View style={type == 'orderReturn' ? styles.bgButton : styles.bgButton1}>
-                        <TouchableOpacity onPress={() => { setType(TYPE.ORDER) }}>
+                        <TouchableOpacity onPress={() => { setType(TYPE.ORDER); dispatch(fetchOrdersStart()); }}>
                             <Text style={styles.textButton}>Hoán đơn</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={type == 'receiptOrders' ? styles.bgButton : styles.bgButton1}>
-                        <TouchableOpacity onPress={() => { setType(TYPE.RECEIPT_ORDERS) }}>
+                        <TouchableOpacity onPress={() => { setType(TYPE.RECEIPT_ORDERS); dispatch(fetchReceiptOrdersStart()); }}>
                             <Text style={styles.textButton}>Phiếu thu chi</Text>
                         </TouchableOpacity>
                     </View>

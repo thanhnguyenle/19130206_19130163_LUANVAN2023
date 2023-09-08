@@ -6,6 +6,7 @@ import { GroupTable } from '../../models/groupTable';
 interface TableState {
     data: Table[];
     dataTableNone: Table[];
+    dataTableIsArea: Table[];
     loading: boolean;
     error: string | null;
     selectedGroupTables: GroupTable[];
@@ -23,6 +24,7 @@ const initialState: TableState = {
     isCreateTable: null,
     isDeleteSucess: null,
     numbersLengthTabled:0,
+    dataTableIsArea:[]
 };
 
 const tableSlice = createSlice({
@@ -125,13 +127,27 @@ const tableSlice = createSlice({
             state.dataTableNone = action.payload;
             state.loading = false;
         },
-
+        fetchDataTableIsAreaRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchDataTableIsAreaFailure(state,action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        setDataTableIsAreaSuccess(state, action: PayloadAction<Table[]>) {
+            state.dataTableIsArea = action.payload;
+            state.loading = false;
+        },
     },
 
 });
 
 export const {
-    fetchTablesNoneFailure,
+  fetchDataTableIsAreaFailure,
+  setDataTableIsAreaSuccess,
+  fetchDataTableIsAreaRequest,
+  fetchTablesNoneFailure,
   setDataTablesNone,
   fetchTablesNone1,
     numberLengthTabled,

@@ -7,16 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { FlatList } from 'react-native-gesture-handler';
 import { deselectTable, dispatchTablesNull, selectTables } from '../../redux_store/table/groupTableSlice';
-import { fetchTablesStart } from '../../redux_store/table/tableSlice';
+import { fetchDataTableIsAreaRequest, fetchTablesStart } from "../../redux_store/table/tableSlice";
 import { Table } from '../../models/table';
 const SelectTableScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.table.tableSevice.loading);
     const error = useSelector((state: RootState) => state.table.tableSevice.error);
-    const data = useSelector((state: RootState) => state.table.tableSevice.data);
+    const data = useSelector((state: RootState) => state.table.tableSevice.dataTableIsArea);
     const selectedTables = useSelector((state: RootState) => state.table.groupTablesSevice.selectedTables);
     useEffect(() => {
-        dispatch(fetchTablesStart());
+        dispatch(fetchDataTableIsAreaRequest());
         dispatch(dispatchTablesNull());
     }, [dispatch]);
     const handleToggleRole = (table: Table) => {

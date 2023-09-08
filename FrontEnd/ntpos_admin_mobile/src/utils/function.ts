@@ -1,5 +1,7 @@
-import { OrderLineItem } from "../models/order";
+import { Order, OrderLineItem } from "../models/order";
 import moment from "moment";
+import { MaterialAll } from "../models/inventory";
+import { Product } from "../models/product";
 
 export function generateFourDigitCode(number: number): string {
   if (Number.isNaN(number) || number < 0 || number > 9999) {
@@ -75,3 +77,24 @@ export function isValidDate(dateString: string) {
 export const formatPrice = (price: number): string => {
   return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 };
+export const calculateTotalCost = (listMaterialAll: MaterialAll[])  =>  {
+  let totalCost = 0;
+  for (const material of listMaterialAll) {
+    totalCost += material.quantity * material.price;
+  }
+  return totalCost;
+}
+export const calculateTotalCostOrder = (listOrder: Order[])  =>  {
+  let totalCost = 0;
+  for (const order of listOrder) {
+    totalCost += calculateTotalPrice(order.orderLineItems);
+  }
+  return totalCost;
+}
+export const calculateTotalQuatiProducts = (listProduct: Product[])  =>  {
+  let totalQuatily = 0;
+  for (const product of listProduct) {
+    totalQuatily += +product.quantity;
+  }
+  return totalQuatily;
+}

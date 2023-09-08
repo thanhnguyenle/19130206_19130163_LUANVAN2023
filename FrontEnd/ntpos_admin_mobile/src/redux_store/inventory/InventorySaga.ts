@@ -4,7 +4,7 @@ import { inventory, payment } from "../../constants/graphql/apollo";
 import {
   createInventory, createInventoryFailure, createInventorySuccess,
   deleteInventory, deleteInventoryFailure, deleteInventorySuccess,
-  detailInventoryFailure, detailInventoryRequest,
+  detailInventoryFailure, detailInventoryNull, detailInventoryRequest,
   detailInventorySuccess,
   listInventors,
   listInventorsFailure, listMaterialReturnFailure, listMaterialReturns, listSuppliersFailure, listSuppliersSuccess,
@@ -60,6 +60,7 @@ const fetchDetailInventoryQuery = gql`
 `;
 function* fetchDetailInventorySaga(action: ReturnType<typeof detailInventoryRequest>) {
   try {
+    yield put(detailInventoryNull())
     const { data } = yield call(inventory.query, {
       query: fetchDetailInventoryQuery,
       variables: {

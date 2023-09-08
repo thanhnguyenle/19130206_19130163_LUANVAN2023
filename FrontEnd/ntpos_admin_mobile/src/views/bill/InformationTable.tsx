@@ -100,7 +100,7 @@ const InformationOrderScreen = ({ route, navigation }: any) => {
                  dispatch(createReceiptOrderRequest(
                    {
                        orderID:orderId,
-                       total:total,
+                       total:calculateTotalPrice(order.orderLineItems),
                        totalReceive: totalReceive,
                        totalReturn: totalReturn,
                        status: 'COMPLETED',

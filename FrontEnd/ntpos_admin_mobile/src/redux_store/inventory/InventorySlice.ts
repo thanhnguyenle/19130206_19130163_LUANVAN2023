@@ -65,6 +65,9 @@ const inventorySlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    detailInventoryNull: (state) => {
+      state.detailMaterial = inventoryModel;
+    },
     deleteInventory: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.error = '';
@@ -139,6 +142,7 @@ const inventorySlice = createSlice({
 });
 
 export const {
+  detailInventoryNull,
   listSuppliersFailure,
   requestSuppliers,
   listSuppliersSuccess,

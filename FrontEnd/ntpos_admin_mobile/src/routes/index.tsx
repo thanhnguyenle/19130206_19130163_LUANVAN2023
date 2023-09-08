@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut } from '../redux_store/auth/authSlice';
 import { navigateToLogin } from '../redux_store/navigation/navigationSlice';
 import { RootState } from "../app/store";
+import CashBookScreenStack1 from "./CaskbookStack";
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
     const dispatch = useDispatch();
@@ -257,7 +258,7 @@ const AdminRoute = () => {
                     ),
                     drawerLabel: 'Sổ quỹ',
                 }}
-                component={CashBookScreenStack}
+                component={CashBookScreenStack1}
             />
             <Drawer.Screen
                 name="AdminReport"

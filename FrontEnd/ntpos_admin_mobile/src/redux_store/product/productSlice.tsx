@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../../models/product';
+import { Product, ProductBes } from "../../models/product";
 
 
 interface ProductState {
     products: Product[];
+    productsBestseller: ProductBes[];
     loading: boolean;
     error: string | null;
     product: Product;
@@ -26,6 +27,7 @@ const initialState: ProductState = {
     products: [],
     loading: false,
     error: null,
+    productsBestseller:[],
     product: productModel,
     editSuccess: null,
     createSucess: null,
@@ -50,7 +52,25 @@ const productSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+        fetchProductsBestsellerStart(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        fetchProductsBestsellerNull(state) {
+            state.products = [];
+            state.loading = true;
+            state.error = null;
+        },
+        fetchProductsBestsellerSuccess(state, action: PayloadAction<ProductBes[]>) {
+            state.productsBestseller = action.payload;
+            state.loading = false;
+            state.error = null;
+        },
         fetchProductsFailure(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        fetchProductsBestsellerFailure(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
         },
@@ -155,6 +175,10 @@ const productSlice = createSlice({
 });
 
 export const {
+   fetchProductsBestsellerStart,
+   fetchProductsBestsellerSuccess,
+   fetchProductsBestsellerNull,
+   fetchProductsBestsellerFailure,
     deleteProductNull,
     deleteProduct,
     deleteProductSuccess,

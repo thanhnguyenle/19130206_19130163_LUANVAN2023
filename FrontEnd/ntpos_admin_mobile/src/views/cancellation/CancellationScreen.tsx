@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -13,77 +13,72 @@ import { formatDateFromNumber, formatPrice, generateFourDigitCode, shortenOrderI
 import { deleteOrder, deleteOrderNull, fetchOrdersStart } from "../../redux_store/orders/ordersSilce";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/AntDesign";
+import {
+  requestMaterialsAll,
+  requestMaterialsSetup,
+  requestXuatKho
+} from "../../redux_store/cancellation/CancellationSlice";
+import { detailInventoryNull, detailInventoryRequest } from "../../redux_store/inventory/InventorySlice";
+import { it } from "node:test";
 
 const CancellationScreen = ({navigation}:any) => {
   const dispatch = useDispatch();
-  const [locThoiGia, setLocThoiGian] = useState('homnay');
-  const loading = useSelector((state: RootState) => state.inventory.cancellationService.loading);
-  const error = useSelector((state: RootState) => state.inventory.cancellationService.error);
   const listMaterials = useSelector((state: RootState) => state.inventory.cancellationService.listMaterials);
-  function getNameTitle(value: string): string {
-    let valueNew = '';
-    switch (value) {
-      case 'homnay':
-        valueNew = 'Hôm nay'
-        break;
-      case 'homqua':
-        valueNew = 'Hôm qua'
-        break;
-      case 'toanthoigia':
-        valueNew = 'Toàn thời gian'
-        break;
-      case 'tuannnay':
-        valueNew = 'Tuần này'
-        break;
-      case 'tuantruoc':
-        valueNew = 'Tuần trước'
-        break;
-      case 'thangnay':
-        valueNew = 'Tháng này'
-        break;
-      case 'thangtruoc':
-        valueNew = 'Tháng trước'
-        break;
-      default:
-        break;
-    }
-    return valueNew;
-  }
+  useEffect(() => {
+    dispatch(requestMaterialsSetup());
+  }, []);
     return (
         <View style={styles.container}>
           <View style={styles.boxFifter}>
-            <TouchableOpacity onPress={()=>{navigation.push('EstablishScreen')}}>
+            <TouchableOpacity onPress={async ()=> { await dispatch(requestMaterialsSetup());}}>
+              <Text style={{fontSize:16, fontWeight:'500', color:COLORS.darkGreen}}>Tải</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.replace('EstablishScreen')}}>
               <Text style={{fontSize:16, fontWeight:'500', color:COLORS.darkGreen}}>Thiết lập</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
-            <FlatList
-              style={{ flex: 1, width: '100%', marginBottom: 20 }}
-              data={listMaterials}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item, index }) => {
-                return (
-                    <View style={styles.container1}>
-                      <Text>Demo</Text>
-                    </View>
-                )
-              }}
-              ItemSeparatorComponent={() => {
-                return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
-              }}
-            />
+          <View style={{ flex: 1, width: '100%', alignItems: 'center', paddingHorizontal:20 }}>
+            {listMaterials.length > 0 ? listMaterials.map((item, index) => (
+              <View key={item.unit+index} style={styles.itemMa}>
+                <View style={styles.box1}>
+                  <Image source={require('../../assets/nguyenlieu4.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+                </View>
+                <View style={styles.box2}>
+                  <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.3) }]}>{item.name +''}</Text>
+                </View>
+                <View style={styles.box3}>
+                  <Text style={[styles.text, { color: COLORS.darkGreen, fontWeight: '500', fontSize: responsiveFontSize(2.2) }]}>Mặc định</Text>
+                  <View style={{ justifyContent: 'flex-start' , flexDirection:'row'}}>
+                    <Text style={[styles.text, { color: COLORS.darkGreen, fontWeight: '500', fontSize: responsiveFontSize(2.2) }]}>{item.quantity +''}</Text>
+                    <Text> </Text>
+                    <Text style={[styles.text, { color: COLORS.color_grey, fontSize: responsiveFontSize(2) }]}>{item.unit +''}</Text>
+                  </View>
+                </View>
+              </View>
+            )) : <View></View>}
+          </View>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => { dispatch(requestXuatKho())}} style={styles.button1}>
+              <Text style={{padding:10, color:COLORS.color_white,fontWeight:'500'}}>Xuất</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.push('ExportMaterialScreen') }} style={styles.button1}>
+              <Text style={{padding:10, color:COLORS.color_white,fontWeight:'500'}}>Nhập</Text>
+            </TouchableOpacity>
           </View>
           <LoadingScreen ref={loaderRef} />
         </View>
     );
 };
 const styles = StyleSheet.create({
+  button1:{
+    backgroundColor:COLORS.darkGreen,
+    borderRadius: 40,
+  },
   button: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 40,
     right: 20,
-    backgroundColor: COLORS.darkGreen,
-    borderRadius: 40,
+    gap:10,
   },
   container: {
     flex: 1
@@ -92,7 +87,7 @@ const styles = StyleSheet.create({
     paddingTop: responsiveHeight(1),
     paddingLeft: responsiveWidth(2),
     paddingRight: responsiveWidth(2),
-    marginBottom: responsiveHeight(0),
+    marginBottom: responsiveHeight(1),
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
@@ -128,10 +123,10 @@ const styles = StyleSheet.create({
     height: responsiveWidth(20),
   },
   box2: {
-    width: responsiveWidth(40),
+    width: responsiveWidth(44),
   },
   box3: {
-    width: responsiveWidth(20),
+    width: responsiveWidth(30),
   },
   deleteBox: {
     height: '100%',
@@ -171,5 +166,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: 1,
   },
+  itemMa:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor:COLORS.color_white,
+    paddingHorizontal:10,
+    paddingVertical:4
+  }
 })
 export default CancellationScreen;

@@ -20,6 +20,7 @@ import InformationOrderScreen from "../views/bill/InformationTable";
 import SelectMethodPaymentScreen from "../views/bill/SelectMethodPayment";
 import EditOrderScreen from "../views/bill/EditOrderScreen";
 import DetailReceiptOrderScreen from "../views/bill/DetailReceiptOrder";
+import SelectOrderIDScreen from "../views/bill/SelectOrderIDScreen";
 
 const BillScreenStack = ({ navigation }: any) => {
     const idOrder = useSelector((state: RootState) => state.orderReturn.orderReturnService.idOrder);
@@ -272,6 +273,20 @@ const BillScreenStack = ({ navigation }: any) => {
             component={AddOrderReturnScreen}
             options={{
               title: 'Tạo trả hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.pop();
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+          <BillStack.Screen
+            name="SelectOrderIDScreen"
+            component={SelectOrderIDScreen}
+            options={{
+              title: 'Chọn hóa đơn',
               headerLeft: () => (
                 <TouchableOpacity onPress={() => {
                   navigation.pop();

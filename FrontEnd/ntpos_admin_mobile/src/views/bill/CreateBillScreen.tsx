@@ -16,7 +16,7 @@ import Toast from 'react-native-toast-message';
 import { createOrder } from '../../redux_store/orders/ordersSilce';
 import { OrderLineItem, OrderTable } from "../../models/order";
 import LoadingScreen, { loaderRef, showLoader } from "../../components/LoadingScreen";
-import { calculateTotalPrice, formatPrice } from "../../utils/function";
+import { calculateTotalPrice, formatPrice, shortenOrderID } from "../../utils/function";
 import IconIocns from "react-native-vector-icons/Ionicons";
 import { createReceiptOrderRequest, paymentMethodNull } from "../../redux_store/payment/PaymentSlice";
 function formatDateFromNumber(timestamp: number): string {
@@ -52,6 +52,8 @@ const AddOrderScreen = ({ navigation }: any) => {
     const [total, setTotal] = useState(0);
     const [description, setDescription] = useState('');
     const method = useSelector((state: RootState) => state.payment.paymentReturnService.method);
+    const selectedOrderId = useSelector((state: RootState) => state.order.orderSevice.selectedOrder);
+    const selectedOrderIdText = selectedOrderId.map((order) => order.id).join('');
     const orderLineItems : OrderLineItem[]  = cartItems.map((item) => ({
         productID: item.id,
         price: item.price,
@@ -89,7 +91,7 @@ const AddOrderScreen = ({ navigation }: any) => {
     async function handleCreate(){
         dispatch(createReceiptOrderRequest(
           {
-              orderID:'',
+              orderID:selectedOrderIdText,
               total:total,
               totalReceive: totalReceive,
               totalReturn: totalReturn,
@@ -210,6 +212,13 @@ const AddOrderScreen = ({ navigation }: any) => {
                   </ScrollView> :
                       <View style={styles.boxContent}>
                           <Text style={{ fontSize: 20, color: COLORS.color_black, fontWeight: '500' }}>Thông tin phiếu thu</Text>
+                          <View style={styles.itemContent}>
+                              <Text style={styles.textTitle}>Chọn hóa đơn</Text>
+                              <TextInput style={[styles.textContent, { width: '60%', }]} editable={false} placeholder='' aria-disabled>{shortenOrderID(selectedOrderIdText)}</TextInput>
+                              <TouchableOpacity onPress={() => { navigation.push('SelectOrderIDScreen') }} style={{ width: '10%', }}>
+                                  <IconIocns name='chevron-forward-sharp' size={20} color={COLORS.color_grey} />
+                              </TouchableOpacity>
+                          </View>
                           <View style={styles.itemContent}>
                               <Text style={styles.textTitle}>Tổng tiền</Text>
                               <InputComponent

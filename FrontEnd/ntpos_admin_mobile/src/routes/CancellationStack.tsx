@@ -7,8 +7,11 @@ import NotificationScreenStack from '../routes/NotificationStack'
 const CancellationStack = createNativeStackNavigator();
 import { TouchableOpacity } from 'react-native'
 import EstablishScreen from "../views/cancellation/EstablishScreen";
-
+import { requestMaterialsAll } from "../redux_store/cancellation/CancellationSlice";
+import { useDispatch } from "react-redux";
+import ExportMaterialScreen from "../views/cancellation/ExportMaterial";
 const CancellationScreenStack = ({ navigation }: any) => {
+  const dispatch = useDispatch();
     return (
         <CancellationStack.Navigator
             initialRouteName='Cancellation'
@@ -89,7 +92,21 @@ const CancellationScreenStack = ({ navigation }: any) => {
               title: 'Thiết lập mặc định',
               headerLeft: () => (
                 <TouchableOpacity onPress={() => {
-                  navigation.pop();
+                  navigation.replace('Cancellation');
+                }}>
+                  <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+          <CancellationStack.Screen
+            name="ExportMaterialScreen"
+            component={ExportMaterialScreen}
+            options={{
+              title: 'Nhập hàng',
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => {
+                  navigation.replace('Cancellation');
                 }}>
                   <Ionicons name='close' size={25} color={COLORS.darkGreen} style={{ marginRight: 10, }} />
                 </TouchableOpacity>

@@ -1,5 +1,22 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { createProduct, createProductFailure, createProductSuccess, deleteProduct, deleteProductFailure, deleteProductSuccess, editProductFailure, editProductRequest, editProductSuccess, fetchProductFailure, fetchProductRequest, fetchProductsDetail, fetchProductsFailure, fetchProductsStart, fetchProductsSuccess } from "./productSlice";
+import {
+    createProduct,
+    createProductFailure,
+    createProductSuccess,
+    deleteProduct,
+    deleteProductFailure,
+    deleteProductSuccess,
+    editProductFailure,
+    editProductRequest,
+    editProductSuccess,
+    fetchProductFailure,
+    fetchProductRequest, fetchProductsBestsellerFailure,
+    fetchProductsBestsellerStart, fetchProductsBestsellerSuccess,
+    fetchProductsDetail,
+    fetchProductsFailure,
+    fetchProductsStart,
+    fetchProductsSuccess
+} from "./productSlice";
 import { gql } from "@apollo/client";
 import { product } from "../../constants/graphql/apollo";
 const fetchProductsQuery = gql`
@@ -39,6 +56,22 @@ const fetchProductDetailQuery = gql`
     status
     }
   }
+`;
+export const fetchBestsellerQuery = gql`
+ query FetchBestseller{
+  orderProductByTime(timeSearch:TODAY, sortType:""){
+    orderProductOutputs{
+      id
+      name
+      description
+      quantity
+      price
+      unit
+      status
+      percent
+    }
+  }
+}
 `;
 const fetchCreateProductQuery = gql`
     mutation FetchCreateProduct(
@@ -116,6 +149,16 @@ function* fetchProductsSaga() {
 export function* watchProductSaga() {
     yield takeEvery(fetchProductsStart.type, fetchProductsSaga);
 }
+function* fetchBestsellerSaga() {
+    try {
+        const { data } = yield call(product.query, {
+            query: fetchBestsellerQuery,
+        });
+        yield put(fetchProductsBestsellerSuccess(data.orderProductByTime.orderProductOutputs));
+    } catch (error: any) {
+        yield put(fetchProductsBestsellerFailure(error.message));
+    }
+}
 
 function* fetchProductDetailSaga(action: ReturnType<typeof fetchProductRequest>) {
     try {
@@ -159,6 +202,7 @@ function* fetchEditProductSaga(action: any): Generator<any, any, any> {
 }
 export function* editProductSaga() {
     yield takeLatest(editProductRequest.type, fetchEditProductSaga);
+    yield takeLatest(fetchProductsBestsellerStart.type, fetchBestsellerSaga);
 }
 
 function* createProductFun(action: any): Generator<any, any, any> {

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Order, OrderLineItem, OrderTable } from "../../models/order";
 import { PaySlipOrderOutput } from "../../models/paySlipOrders";
+import { Table } from "../../models/table";
 
 interface OrdersState {
     orders: Order[];
@@ -10,6 +11,7 @@ interface OrdersState {
     createSucess: null | boolean;
     editSuccess : null | boolean;
     orderDetail : Order;
+    selectedOrder: Order[];
 }
 const orderModel : Order = {
     id:'',
@@ -29,6 +31,7 @@ const initialState: OrdersState = {
     createSucess: null,
     editSuccess: null,
     orderDetail: orderModel,
+    selectedOrder:[]
 };
 
 const ordersSlice = createSlice({
@@ -127,10 +130,29 @@ const ordersSlice = createSlice({
         detailOrderNull: (state) => {
             state.orderDetail = orderModel;
         },
+        dispatchSelectedOrdersNull(state) {
+            state.selectedOrder = [];
+        },
+        selectSelectedOrders: (state, action: PayloadAction<Order>) => {
+            const selectedOrders = action.payload;
+            const isGroupSelected = state.selectedOrder.some(
+              (selectedOrder) => selectedOrder.id === selectedOrders.id
+            );
+            if (!isGroupSelected) {
+                state.selectedOrder.push(selectedOrders);
+            }
+        },
+        deselectSelectedOrders: (state, action: PayloadAction<Order>) => {
+            const deselectedSelectedOrder = action.payload;
+            state.selectedOrder = state.selectedOrder.filter((selectedOrder) => selectedOrder.id !== deselectedSelectedOrder.id);
+        },
     },
 });
 
 export const {
+    dispatchSelectedOrdersNull,
+  deselectSelectedOrders,
+  selectSelectedOrders,
     detailOrder,
     detailOrderSuccess,
     detailOrderFailure,

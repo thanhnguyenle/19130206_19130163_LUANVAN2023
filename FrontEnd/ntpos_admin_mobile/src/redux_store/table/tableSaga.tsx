@@ -9,7 +9,12 @@ import {
   deleteTableSuccess,
   deleteTableFailure,
   deleteTable,
-  numberLengthTabled, numberLengthTabledSuccess, numberLengthTabledFailure, setDataTablesNone, fetchTablesNone1
+  numberLengthTabled,
+  numberLengthTabledSuccess,
+  numberLengthTabledFailure,
+  setDataTablesNone,
+  fetchTablesNone1,
+  fetchDataTableIsAreaRequest, setDataTableIsAreaSuccess, fetchTablesNoneFailure, fetchDataTableIsAreaFailure
 } from "./tableSlice";
 import { gql } from "@apollo/client";
 import { order } from '../../constants/graphql/apollo';
@@ -30,6 +35,21 @@ export const fetchTableQuery = gql`
         }
       }
     }
+}
+`;
+export const fetchDataTableIsArea = gql`
+  query FetchDataTableIsArea{
+   findTableNotInGroup{
+    tables{
+      id
+      name
+      numberOfPeople
+      status
+      note
+      isBusy
+    }
+  }
+
 }
 `;
 const fetchCreateTableQuery = gql`
@@ -108,11 +128,22 @@ function* fetchEmptyTablesSaga() {
     });
     yield put(setDataTablesNone(data.findAllEmptyTables.tables));
   } catch (error: any) {
-    yield put(numberLengthTabledFailure(error.message));
+    yield put(fetchTablesNoneFailure(error.message));
+  }
+}
+function* fetchDataTableIsAreaSaga() {
+  try {
+    const { data } = yield call(order.query, {
+      query: fetchDataTableIsArea,
+    });
+    yield put(setDataTableIsAreaSuccess(data.findTableNotInGroup.tables));
+  } catch (error: any) {
+    yield put(fetchDataTableIsAreaFailure(error.message));
   }
 }
 export function * emptyTablesSaga() {
   yield takeLatest(fetchTablesNone1.type, fetchEmptyTablesSaga);
+  yield takeLatest(fetchDataTableIsAreaRequest.type, fetchDataTableIsAreaSaga);
 }
 function* fetchTableLengthSaga() {
   try {

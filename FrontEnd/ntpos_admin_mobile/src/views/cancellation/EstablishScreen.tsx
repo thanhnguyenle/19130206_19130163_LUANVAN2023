@@ -2,41 +2,46 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, ScrollView, ImageBackground, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native';
 import { COLORS } from '../../constants/common';
 import IconIocns from 'react-native-vector-icons/Ionicons'
-import { responsiveFontSize } from 'react-native-responsive-dimensions'
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { ButtonComponent, InputComponent } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { addRequsetGroup } from '../../redux_store/client/group/groupSlice';
-import { requestMaterialsAll } from "../../redux_store/cancellation/CancellationSlice";
-import { deleteOrderNull, fetchOrdersStart } from "../../redux_store/orders/ordersSilce";
-import { fetchDeleteReceiptOrdersNull, fetchReceiptOrdersStart } from "../../redux_store/payment/PaymentSlice";
+import {
+  requestMaterialsAll,
+  requestMaterialsSetup,
+  requestSetDefault
+} from "../../redux_store/cancellation/CancellationSlice";
 import { FlatList } from "react-native-gesture-handler";
-import { OrderLineItem } from "../../models/order";
-import { MaterialSetupDefault } from "../../models/inventory";
+import { MaterialAll, MaterialSetupDefault } from "../../models/inventory";
 const EstablishScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const listMaterialsAll = useSelector((state: RootState) => state.inventory.cancellationService.listMaterialAll);
   const [listMaterialsAll1, setListMaterialsAll1] = useState(listMaterialsAll);
 
-  useEffect(() => {
+  useEffect( () =>  {
     dispatch(requestMaterialsAll());
-    setListMaterialsAll1(listMaterialsAll);
+    setListMaterialsAll1(listMaterialsAll)
   }, []);
-  const handleQuantityChange = (index : number, newQuantity: number)  => {
-    const updatedList = [...listMaterialsAll1];
-    updatedList[index].quantity = newQuantity;
-    setListMaterialsAll1(updatedList);
+  const handleQuantityChange = (index: number, newQuantity: number) => {
+    const updatedList: MaterialAll[] = [...listMaterialsAll1];
+    const itemToUpdate = updatedList[index];
+    console.log(itemToUpdate)
+    if(itemToUpdate != null){
+      itemToUpdate.quantity = newQuantity;
+      setListMaterialsAll1(updatedList);
+    }
   };
-  const materialSetupDefaultInput1 : MaterialSetupDefault[]  = listMaterialsAll1.map((item) => ({
-    materialID: item.id,
-    unit: item.unit,
-    quantity: item.quantity,
-    status:item.status,
-    description:item.description,
-  }));
-  const handleSetupDefault= () => {
-    console.log(materialSetupDefaultInput1)
+  const handleSetupDefault= async () => {
+    const materialSetupDefaultInput1 : MaterialSetupDefault[]  = listMaterialsAll1.map((item) => ({
+      materialID: item.id,
+      unit: item.unit,
+      quantity: item.quantity,
+      status:item.status,
+      description:item.description,
+    }));
+    await dispatch(requestSetDefault(materialSetupDefaultInput1));
   };
   return (
     <View style={styles.container}>
@@ -57,7 +62,9 @@ const EstablishScreen = ({ navigation }: any) => {
                 />
                 <InputComponent
                   value={quantity+''}
-                  onChangeText={(newQuantity) => handleQuantityChange(index, newQuantity)}
+                  onChangeText={(newQuantity) => {
+                      handleQuantityChange(index, newQuantity);
+                  }}
                   placeholder=''
                   style={styles.textContent1}
                 />
@@ -69,14 +76,26 @@ const EstablishScreen = ({ navigation }: any) => {
             return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
           }}
         />
-      <ButtonComponent title='Thêm' onPress={handleSetupDefault} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen, marginBottom:10 }} />
+      <View style={{alignItems:'center'}}>
+        <ButtonComponent title='Thêm' onPress={()=>{
+          handleSetupDefault().then(r=>navigation.replace('Cancellation'))
+        }} containerStyle={{ width: '50%', backgroundColor: COLORS.darkGreen, marginBottom:10 }} />
+      </View>
     </View >
   );
 };
 const styles = StyleSheet.create({
+  boxFifter: {
+    paddingTop: responsiveHeight(1),
+    paddingLeft: responsiveWidth(2),
+    paddingRight: responsiveWidth(2),
+    marginBottom: responsiveHeight(1),
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-end',
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   boxImage: {
     marginTop: 10,

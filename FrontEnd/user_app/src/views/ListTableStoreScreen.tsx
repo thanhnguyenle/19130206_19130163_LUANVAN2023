@@ -12,7 +12,6 @@ const ListTableStore = ({ navigation }: any) => {
     }, []);
     return (
         <View style={styles.container}>
-            <Text style={{color:COLORS.color_grey, marginTop:5}}>Thời gian</Text>
             <FlatList
                 nestedScrollEnabled
                 data={groupTable}

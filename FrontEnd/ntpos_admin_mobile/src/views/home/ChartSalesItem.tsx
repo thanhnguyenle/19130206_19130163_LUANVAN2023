@@ -34,7 +34,7 @@ const MyPieChart = () => {
     homeStore.updateRevenue();
     const initialData: Data[] = [
         {
-            name: 'Giá vốn',
+            name: 'Giá nguyên liệu',
             population: homeStore.cost_of_capital,
             color: '#FFCD5680',
             legendFontColor: '#000',
@@ -72,7 +72,6 @@ const MyPieChart = () => {
                 />
             </View>
         </View>
-
     );
 };
 const styles = StyleSheet.create({

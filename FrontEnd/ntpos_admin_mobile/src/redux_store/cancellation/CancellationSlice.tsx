@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MaterialAll, MaterialSetup, MaterialSetupDefault } from "../../models/inventory";
+import { MaterialAll, MaterialQuantityInput, MaterialSetup, MaterialSetupDefault } from "../../models/inventory";
 
 interface MaterialState {
   loading: boolean;
@@ -7,6 +7,8 @@ interface MaterialState {
   listMaterials: MaterialSetup[];
   listMaterialAll: MaterialAll[];
   isSetDefault : boolean | null;
+  xuatKho: boolean | null;
+  importToMaterial: boolean | null;
 }
 
 const initialState: MaterialState = {
@@ -15,7 +17,8 @@ const initialState: MaterialState = {
   listMaterials: [],
   listMaterialAll:[],
   isSetDefault: null,
-
+  xuatKho: null,
+  importToMaterial: null,
 };
 
 const cancellationSlice = createSlice({
@@ -58,10 +61,41 @@ const cancellationSlice = createSlice({
     setDefaultMaterialFailure: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
+    requestXuatKho: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    setXuatKho: (state, action: PayloadAction<boolean>) => {
+      state.loading = true;
+      state.error = null;
+      state.xuatKho = action.payload;
+    },
+    setXuatKhoFailure: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    requestImportToMaterial: (state, action: PayloadAction<MaterialQuantityInput[]>) => {
+      console.log(action.payload);
+      state.loading = true;
+      state.error = null;
+    },
+    setImportToMaterial: (state, action: PayloadAction<boolean>) => {
+      state.loading = true;
+      state.error = null;
+      state.xuatKho = action.payload;
+    },
+    setImportToMaterialFailure: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
 });
 
 export const {
+  requestImportToMaterial,
+  setImportToMaterialFailure,
+  setImportToMaterial,
+  setXuatKhoFailure,
+  requestXuatKho,
+  setXuatKho,
   requestSetDefault,
   setDefaultMaterialFailure,
   setDefaultMaterials,

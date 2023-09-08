@@ -15,13 +15,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { deleteInventory, deleteInventoryNull, requestInventors } from "../../redux_store/inventory/InventorySlice";
 import IconIcons from "react-native-vector-icons/Ionicons";
+import { requestMaterialsAll } from "../../redux_store/cancellation/CancellationSlice";
+const TYPE = {
+    ListMaterial: 'ListMaterial',
+    ListExportMaterial: 'ListExportMaterial',
+}
 const InventoryScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const loading = useSelector((state: RootState) => state.inventory.inventoryService.loading);
     const error = useSelector((state: RootState) => state.inventory.inventoryService.error);
     const listInventory = useSelector((state: RootState) => state.inventory.inventoryService.listInventors);
+    const listMaterialsAll = useSelector((state: RootState) => state.inventory.cancellationService.listMaterialAll);
+    const [type, setType] = useState(TYPE.ListMaterial);
     useEffect(() => {
         dispatch(requestInventors());
+        dispatch(requestMaterialsAll());
     }, [dispatch]);
     const [locThoiGia, setLocThoiGian] = useState('homnay');
     function getNameTitle(value: string): string {
@@ -93,6 +101,20 @@ const InventoryScreen = ({ navigation }: any) => {
     );
     return (
         <View style={styles.container}>
+            <View style={{ marginVertical: 10, }}>
+                <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'center' }}>
+                    <View style={type == 'ListMaterial' ? styles.bgButton : styles.bgButton1}>
+                        <TouchableOpacity onPress={() => { setType(TYPE.ListMaterial); dispatch(requestMaterialsAll());}}>
+                            <Text style={styles.textButton}>Nguyên liệu</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={type == 'ListExportMaterial' ? styles.bgButton : styles.bgButton1}>
+                        <TouchableOpacity onPress={() => { setType(TYPE.ListExportMaterial) ;dispatch(requestInventors());}}>
+                            <Text style={styles.textButton}>Phiếu nhập</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
             <View style={styles.boxFifter}>
                 <BottomSheet title={getNameTitle(locThoiGia)} fontSize={responsiveFontSize(2)}
                     icon={<Ionicons name='ios-calendar-sharp' size={18} color={COLORS.darkGreen} style={{ marginLeft: 8, }} />}
@@ -113,10 +135,41 @@ const InventoryScreen = ({ navigation }: any) => {
                         Tổng số phiếu
                     </Text>
                     <Text style={[styles.text, { marginLeft: 2, color: COLORS.darkGreen }]}>
-                        {listInventory.length}
+                        {type != 'ListMaterial'? listInventory.length : listMaterialsAll.length}
                     </Text>
                 </View>
             </View>
+            {
+              type == 'ListMaterial'?
+                <FlatList
+                  style={{ flex: 1, width: '100%', marginTop:10 }}
+                  data={listMaterialsAll}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item , index}) => {
+                      return (
+                            <View style={styles.container1}>
+                                <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
+                                    <View style={styles.box1}>
+                                        <Image source={require('../../assets/nguyenlieu4.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+                                    </View>
+                                    <View style={styles.box2}>
+                                        <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.3) }]}>{item.name +''} </Text>
+                                        <Text style={[styles.text, { color: COLORS.color_grey, fontSize: responsiveFontSize(2) }]}>NL{generateFourDigitCode(index+1)}</Text>
+                                    </View>
+                                    <View style={styles.box3}>
+                                        <View style={{ justifyContent: 'flex-end' }}>
+                                            <Text style={[styles.text, { color: COLORS.darkGreen, fontWeight: '500', fontSize: responsiveFontSize(2.2) }]}>Hạn: {formatDateFromNumber(item.manufacturerDate)}</Text>
+                                            <Text style={[styles.text, { color: COLORS.color_grey, fontSize: responsiveFontSize(2) }]}>Số lượng: {item.quantity +' '+ item.unit}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                      )
+                  }}
+                  ItemSeparatorComponent={() => {
+                      return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
+                  }}
+                /> :
                 <FlatList
                   style={{ flex: 1, width: '100%', marginTop:10 }}
                   data={listInventory}
@@ -128,10 +181,10 @@ const InventoryScreen = ({ navigation }: any) => {
                                 <TouchableOpacity onPress={() => { navigation.push('DetailInventoryScreen', { id: item.id }) }}>
                                     <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
                                         <View style={styles.box1}>
-                                            <Image source={require('../../assets/nguyenlieu4.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
+                                            <Image source={require('../../assets/phieuthuchi.png')} style={{ width: '100%', height: '100%', borderRadius: 10 }} />
                                         </View>
                                         <View style={styles.box2}>
-                                            <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.2) }]}>NL{generateFourDigitCode(index+1)}</Text>
+                                            <Text style={[styles.text, { color: COLORS.color_black, fontSize: responsiveFontSize(2.2) }]}>PN{generateFourDigitCode(index+1)}</Text>
                                             <Text style={[styles.text, { color: COLORS.color_grey, fontSize: responsiveFontSize(2) }]}>{item.name +''}</Text>
                                         </View>
                                         <View style={styles.box3}>
@@ -149,6 +202,7 @@ const InventoryScreen = ({ navigation }: any) => {
                       return <View style={{ height: 0.6, backgroundColor: COLORS.color_grey_seconds }}></View>
                   }}
                 />
+            }
             <View style={styles.button}>
                 <TouchableOpacity onPress={() => { navigation.push('AddInventoryScreen') }}>
                     <IconIcons name='add' size={20} style={{ color: COLORS.color_white, padding: 15 }} />
@@ -159,6 +213,36 @@ const InventoryScreen = ({ navigation }: any) => {
     );
 };
 const styles = StyleSheet.create({
+    bgButton: {
+        padding: 20,
+        backgroundColor: COLORS.color_white,
+        border: 1,
+        borderColor: COLORS.darkGreen,
+        marginHorizontal: 10,
+        width: '44%',
+        elevation: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        borderBottomColor: COLORS.darkGreen,
+        borderWidth: 1,
+    },
+    bgButton1: {
+        padding: 20,
+        backgroundColor: COLORS.color_white,
+        border: 1,
+        borderColor: COLORS.darkGreen,
+        width: '44%',
+        marginHorizontal: 10,
+        elevation: -1,
+        borderRadius: 10,
+        alignItems: 'center'
+    },
+    textButton: {
+        color: COLORS.darkGreen,
+        fontSize: 20,
+        fontWeight: '500',
+        letterSpacing: 1,
+    },
     button: {
         position: 'absolute',
         bottom: 20,
@@ -205,12 +289,15 @@ const styles = StyleSheet.create({
     box1: {
         width: responsiveWidth(20),
         height: responsiveWidth(20),
+        alignItems:'center',
     },
     box2: {
-        width: responsiveWidth(30),
+        width: responsiveWidth(25),
+        alignItems:'flex-start'
     },
     box3: {
-        width: responsiveWidth(30),
+        width: responsiveWidth(40),
+        alignItems:'center'
     },
     deleteBox: {
         height: '100%',
@@ -219,6 +306,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f04d4f',
-    }
+    },
 })
 export default InventoryScreen;

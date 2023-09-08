@@ -32,7 +32,8 @@ export interface Supplier {
 }
 export interface  MaterialSetup {
   id: string
-  materialID: string
+  materialId: string
+  name: string
   unit: string
   quantity: number
   status: string
@@ -50,10 +51,14 @@ export interface  MaterialAll {
   description: string
 }
 export interface  MaterialSetupDefault {
-  materialID: string
+  materialId: string
   unit: string
   quantity: number
   status: string
   description: string
+}
+export interface MaterialQuantityInput {
+  materialID : string,
+  quantity: number,
 }
 

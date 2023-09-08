@@ -40,8 +40,9 @@ export const fetchCreateOrderQuery = gql`
   }
 }
 `;
+
 export const fetchEditUpdateOrder = gql`
- mutation FetchEditUpdateOrder($id:String,$userID : String, $group: String , $status: String, $note: String, $orderLineItems:[OrderProductInput], $tables: [OrderTableInput]){
+ mutation fetchEditUpdateOrder($id:String,$userID : String, $group: String , $status: String, $note: String, $orderLineItems:[OrderProductInput], $tables: [OrderTableInput]){
   updateOrder(id: $id ,orderInput:{
     userID: $userID,
     group:$group,
