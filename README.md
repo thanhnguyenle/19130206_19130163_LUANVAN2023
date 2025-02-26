@@ -102,19 +102,20 @@ The system is designed following **Microservices Architecture**, divided into te
 ### **Installation Steps**
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo.git
-   cd ntpos-microservices
+   git clone git@github.com:thanhnguyenle/19130206_19130163_LUANVAN2023.git
+   cd Backend/ntpos-microservices
    ```
-2. **Start Services with Docker Compose:**
+3. **Build Docker image for each modules:**
+   ```bash
+   cd [name module]
+   mvn clean package
+   docker build -t [name_module] .
+   ```
+4. **Start Services with Docker Compose:**
    ```bash
    docker-compose up -d
    ```
-3. **Run Backend Services Manually:**
-   ```bash
-   mvn clean install
-   mvn spring-boot:run -pl api-gateway
-   ```
-4. **Start Frontend Applications:**
+5. **Start Frontend Applications:**
    ```bash
    cd ntpos_web && npm start
    cd ntpos_admin_mobile && npx react-native run-android
